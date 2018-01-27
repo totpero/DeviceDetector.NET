@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0DF4FD94-175A-412A-8E34-D8928673D773}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DeviceDetector.NET</RootNamespace>
+    <AssemblyName>DeviceDetector.NET</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="YamlDotNet, Version=4.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\YamlDotNet.4.3.0\lib\net45\YamlDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cache\DictionaryCache.cs" />
+    <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Class\Bot.cs" />
+    <Compile Include="Class\Client\Browser.cs" />
+    <Compile Include="Class\Client\BrowserEngine.cs" />
+    <Compile Include="Class\Client\Engine.cs" />
+    <Compile Include="Class\Client\FeedReader.cs" />
+    <Compile Include="Class\Client\IClientParseLibrary.cs" />
+    <Compile Include="Class\Client\Library.cs" />
+    <Compile Include="Class\Client\MediaPlayer.cs" />
+    <Compile Include="Class\Client\MobileApp.cs" />
+    <Compile Include="Class\Client\Pim.cs" />
+    <Compile Include="Class\Device\DeviceModel.cs" />
+    <Compile Include="Class\Device\IDeviceParseLibrary.cs" />
+    <Compile Include="Class\Device\Model.cs" />
+    <Compile Include="Class\IParseLibrary.cs" />
+    <Compile Include="Class\Os.cs" />
+    <Compile Include="Class\Producer.cs" />
+    <Compile Include="DeviceDetector.cs" />
+    <Compile Include="IEnumerableExtensions.cs" />
+    <Compile Include="Parser\BotParser.cs" />
+    <Compile Include="Parser\Client\BrowserParser.cs" />
+    <Compile Include="Parser\Client\Browser\EngineParser.cs" />
+    <Compile Include="Parser\Client\Browser\Engine\VersionParser.cs" />
+    <Compile Include="Parser\Client\ClientParserAbstract.cs" />
+    <Compile Include="Parser\Client\ClientType.cs" />
+    <Compile Include="Parser\Client\FactoryClient.cs" />
+    <Compile Include="Parser\Client\FeedReaderParser.cs" />
+    <Compile Include="Parser\Client\IClientParserAbstract.cs" />
+    <Compile Include="Parser\Client\LibraryParser.cs" />
+    <Compile Include="Parser\Client\MediaPlayerParser.cs" />
+    <Compile Include="Parser\Client\MobileAppParser.cs" />
+    <Compile Include="Parser\Client\PimParser.cs" />
+    <Compile Include="Parser\Device\CameraParser.cs" />
+    <Compile Include="Parser\Device\CarBrowserParser.cs" />
+    <Compile Include="Parser\Device\ConsoleParser.cs" />
+    <Compile Include="Parser\Device\DeviceParserAbstract.cs" />
+    <Compile Include="Parser\Device\DeviceType.cs" />
+    <Compile Include="Parser\Device\HbbTvParser.cs" />
+    <Compile Include="Parser\Device\IDeviceParserAbstract.cs" />
+    <Compile Include="Parser\Device\MobileParser.cs" />
+    <Compile Include="Parser\Device\PortableMediaPlayerParser.cs" />
+    <Compile Include="Parser\IParserAbstract.cs" />
+    <Compile Include="Parser\OperatingSystemParser.cs" />
+    <Compile Include="Parser\ParserAbstract.cs" />
+    <Compile Include="Parser\PlatformType.cs" />
+    <Compile Include="Parser\VendorFragmentParser.cs" />
+    <Compile Include="Parser\VersionTruncation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Results\BotMatchResult.cs" />
+    <Compile Include="Results\Client\BrowserMatchResult.cs" />
+    <Compile Include="Results\Client\ClientMatchResult.cs" />
+    <Compile Include="Results\Client\IClientMatchResult.cs" />
+    <Compile Include="Results\Client\UnknownClientMatchResult.cs" />
+    <Compile Include="Results\DeviceDetectorResult.cs" />
+    <Compile Include="Results\Device\DeviceMatchResult.cs" />
+    <Compile Include="Results\Device\IDeviceMatchResult.cs" />
+    <Compile Include="Results\IMatchResult.cs" />
+    <Compile Include="Results\MatchResult.cs" />
+    <Compile Include="Results\OsMatchResult.cs" />
+    <Compile Include="Results\ParseResult.cs" />
+    <Compile Include="Results\UnknownOsMatchResult.cs" />
+    <Compile Include="Results\VendorFragmentResult.cs" />
+    <Compile Include="Yaml\IParser.cs" />
+    <Compile Include="Yaml\YamlParser.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="regexes\bots.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\client\browsers.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\client\browser_engine.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\client\feed_readers.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\client\libraries.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\client\mediaplayers.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\client\mobile_apps.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\client\pim.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\device\cameras.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\device\car_browsers.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\device\consoles.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\device\mobiles.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\device\portable_media_player.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\device\televisions.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\oss.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="regexes\vendorfragments.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

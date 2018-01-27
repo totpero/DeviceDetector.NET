@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props" Condition="Exists('..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DD20AEC1-F60A-4CB8-B795-8872FCC6AF13}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DeviceDetector.NET.Tests</RootNamespace>
+    <AssemblyName>DeviceDetector.NET.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="FluentAssertions, Version=4.19.4.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentAssertions.Core, Version=4.19.4.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.4.19.4\lib\net45\FluentAssertions.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.abstractions.2.0.0\lib\net35\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.assert.2.1.0\lib\dotnet\xunit.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.core.2.1.0\lib\dotnet\xunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.1.0.3179, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.execution.2.1.0\lib\net45\xunit.execution.desktop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cache\DictionaryCacheTest.cs" />
+    <Compile Include="Class\BotFixture.cs" />
+    <Compile Include="Class\Client\BrowserFixture.cs" />
+    <Compile Include="Class\Client\ClientFixture.cs" />
+    <Compile Include="Class\DeviceDetectorFixture.cs" />
+    <Compile Include="Class\Device\CameraFixture.cs" />
+    <Compile Include="Class\Device\DeviceFixture.cs" />
+    <Compile Include="Class\Device\DeviceModelFixture.cs" />
+    <Compile Include="Class\OsFixture.cs" />
+    <Compile Include="Class\VendorFragmentFixture.cs" />
+    <Compile Include="DeviceDetectorTest.cs" />
+    <Compile Include="Parser\BotTest.cs" />
+    <Compile Include="Parser\Client\BrowserTest.cs" />
+    <Compile Include="Parser\Client\FeedReaderTest.cs" />
+    <Compile Include="Parser\Client\LibraryTest.cs" />
+    <Compile Include="Parser\Client\MediaPlayerTest.cs" />
+    <Compile Include="Parser\Client\MobileAppTest.cs" />
+    <Compile Include="Parser\Client\PimTest.cs" />
+    <Compile Include="Parser\Devices\CameraTest.cs" />
+    <Compile Include="Parser\Devices\CarBrowserTest.cs" />
+    <Compile Include="Parser\Devices\ConsoleTest.cs" />
+    <Compile Include="Parser\Devices\DevicesTest.cs" />
+    <Compile Include="Parser\Devices\HbbTvTest.cs" />
+    <Compile Include="Parser\OsTest.cs" />
+    <Compile Include="Parser\VendorFragmentTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fixtures\bots.yml" />
+    <None Include="fixtures\camera.yml" />
+    <None Include="fixtures\car_browser.yml" />
+    <None Include="fixtures\console.yml" />
+    <None Include="fixtures\desktop.yml" />
+    <None Include="fixtures\feature_phone.yml" />
+    <None Include="fixtures\feed_reader.yml" />
+    <None Include="fixtures\mediaplayer.yml" />
+    <None Include="fixtures\mobile_apps.yml" />
+    <None Include="fixtures\phablet.yml" />
+    <None Include="fixtures\portable_media_player.yml" />
+    <None Include="fixtures\smartphone-1.yml" />
+    <None Include="fixtures\smartphone-2.yml" />
+    <None Include="fixtures\smartphone-3.yml" />
+    <None Include="fixtures\smartphone-4.yml" />
+    <None Include="fixtures\smartphone-5.yml" />
+    <None Include="fixtures\smartphone.yml" />
+    <None Include="fixtures\smart_display.yml" />
+    <None Include="fixtures\tablet-1.yml" />
+    <None Include="fixtures\tablet-2.yml" />
+    <None Include="fixtures\tablet.yml" />
+    <None Include="fixtures\tv.yml" />
+    <None Include="fixtures\unknown.yml" />
+    <None Include="packages.config" />
+    <None Include="Parser\Client\fixtures\browser.yml" />
+    <None Include="Parser\Client\fixtures\feed_reader.yml" />
+    <None Include="Parser\Client\fixtures\library.yml" />
+    <None Include="Parser\Client\fixtures\mediaplayer.yml" />
+    <None Include="Parser\Client\fixtures\mobile_app.yml" />
+    <None Include="Parser\Client\fixtures\pim.yml" />
+    <None Include="Parser\Devices\fixtures\camera.yml" />
+    <None Include="Parser\Devices\fixtures\car_browser.yml" />
+    <None Include="Parser\Devices\fixtures\console.yml" />
+    <None Include="Parser\fixtures\oss.yml" />
+    <None Include="Parser\fixtures\vendorfragments.yml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\xunit.analyzers.0.8.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DeviceDetector.NET\DeviceDetector.NET.csproj">
+      <Project>{0df4fd94-175a-412a-8e34-d8928673d773}</Project>
+      <Name>DeviceDetector.NET</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\xunit.runner.visualstudio.2.3.1\build\net20\xunit.runner.visualstudio.props'))" />
+  </Target>
+</Project>
