@@ -1,6 +1,13 @@
 ﻿DeviceDetector.NET
 ==============
 
+
+## Code Status
+
+[![Coverage Status](https://coveralls.io/repos/github/totpero/DeviceDetector.NET/badge.svg)](https://coveralls.io/github/totpero/DeviceDetector.NET)
+[![Dependency Status](https://gemnasium.com/badges/github.com/totpero/DeviceDetector.NET.svg)](https://gemnasium.com/github.com/totpero/DeviceDetector.NET)
+
+
 ## Description
 
 The Universal Device Detection library for .NET that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, feed readers, media players, PIMs, ...), operating systems, brands and models.
