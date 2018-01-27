@@ -4,6 +4,7 @@
 
 ## Code Status
 
+[![Build status](https://ci.appveyor.com/api/projects/status/baf9r5iqnp4flwkm?svg=true)](https://ci.appveyor.com/project/totpero/devicedetector-net)
 [![Coverage Status](https://coveralls.io/repos/github/totpero/DeviceDetector.NET/badge.svg)](https://coveralls.io/github/totpero/DeviceDetector.NET)
 [![Dependency Status](https://gemnasium.com/badges/github.com/totpero/DeviceDetector.NET.svg)](https://gemnasium.com/github.com/totpero/DeviceDetector.NET)
 [![Code Health](https://landscape.io/github/totpero/DeviceDetector.NET/master/landscape.svg?style=flat)](https://landscape.io/github/totpero/DeviceDetector.NET/master)
