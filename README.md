@@ -6,7 +6,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/totpero/DeviceDetector.NET/badge.svg)](https://coveralls.io/github/totpero/DeviceDetector.NET)
 [![Dependency Status](https://gemnasium.com/badges/github.com/totpero/DeviceDetector.NET.svg)](https://gemnasium.com/github.com/totpero/DeviceDetector.NET)
-
+[![Code Health](https://landscape.io/github/totpero/DeviceDetector.NET/master/landscape.svg?style=flat)](https://landscape.io/github/totpero/DeviceDetector.NET/master)
 
 ## Description
 
@@ -35,7 +35,7 @@ dd = new DeviceDetector(userAgent);
 // To cache across requests use caching in files or memcache
 dd.SetCache(new DictionaryCache());
 
-// OPTIONAL: If called, getBot() will only return true if a bot was detected  (speeds up detection a bit)
+// OPTIONAL: If called, GetBot() will only return true if a bot was detected  (speeds up detection a bit)
 dd.DiscardBotInformation();
 
 // OPTIONAL: If called, bot detection will completely be skipped (bots will be detected as regular devices then)
@@ -65,7 +65,7 @@ using DeviceDetector.NET.Parser;
 var botParser = new BotParser();
 botParser.SetUserAgent(userAgent);
 
-// OPTIONAL: discard bot information. parse() will then return true instead of information
+// OPTIONAL: discard bot information. Parse() will then return true instead of information
 botParser.DiscardDetails = true;
 
 var result = botParser.Parse();
