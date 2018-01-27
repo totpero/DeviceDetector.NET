@@ -1,4 +1,4 @@
-DeviceDetector.Net
+DeviceDetector.NET
 ==============
 
 ## Description
