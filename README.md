@@ -1,6 +1,8 @@
 ﻿DeviceDetector.NET
 ==============
 
+[![Join the chat at https://gitter.im/totpero/DeviceDetector.NET](https://badges.gitter.im/totpero/DeviceDetector.NET.svg)](https://gitter.im/totpero/DeviceDetector.NET?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 
 ## Code Status
 
