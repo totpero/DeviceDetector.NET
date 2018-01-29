@@ -3,8 +3,8 @@
 
 [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/quozd/awesome-dotnet#misc) 
 [![Build status](https://ci.appveyor.com/api/projects/status/baf9r5iqnp4flwkm?svg=true)](https://ci.appveyor.com/project/totpero/devicedetector-net)
+[![NuGet](https://img.shields.io/nuget/v/DeviceDetector.NET.svg?style=flat-square)](https://www.nuget.org/packages/DeviceDetector.NET)
 [![Join the chat at https://gitter.im/totpero/DeviceDetector.NET](https://badges.gitter.im/totpero/DeviceDetector.NET.svg)](https://gitter.im/totpero/DeviceDetector.NET?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Coverage Status](https://coveralls.io/repos/github/totpero/DeviceDetector.NET/badge.svg)](https://coveralls.io/github/totpero/DeviceDetector.NET)
 [![Code Health](https://landscape.io/github/totpero/DeviceDetector.NET/master/landscape.svg?style=flat)](https://landscape.io/github/totpero/DeviceDetector.NET/master)
 [![Waffle.io - Columns and their card count](https://badge.waffle.io/totpero/DeviceDetector.NET.svg?columns=all)](https://waffle.io/totpero/DeviceDetector.NET)
 
@@ -19,9 +19,8 @@ This is a port of the popular PHP [device-detector](https://github.com/matomo-or
 Using DeviceDetector.NET with nuget is quite easy. Just add DeviceDetector.NET to your projects requirements. And use some code like this one:
 
 
-
 ```csharp
-using DeviceDetector.NET;
+using DeviceDetectorNET;
 
 // OPTIONAL: Set version truncation to none, so full versions will be returned
 // By default only minor versions will be returned (e.g. X.Y)
@@ -60,7 +59,7 @@ Instead of using the full power of DeviceDetector it might in some cases be bett
 If you aim to check if a given useragent is a bot and don't require any of the other information, you can directly use the bot parser.
 
 ```csharp
-using DeviceDetector.NET.Parser;
+using DeviceDetectorNET.Parser;
 
 var botParser = new BotParser();
 botParser.SetUserAgent(userAgent);
