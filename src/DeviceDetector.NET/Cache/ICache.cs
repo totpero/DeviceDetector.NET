@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Cache
+namespace DeviceDetectorNET.Cache
 {
     public interface ICache
     {

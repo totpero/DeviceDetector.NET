@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Parser
+namespace DeviceDetectorNET.Parser
 {
     public static class VersionTruncation
     {

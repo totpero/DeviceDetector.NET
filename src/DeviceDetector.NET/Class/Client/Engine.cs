@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
-namespace DeviceDetector.NET.Class.Client
+namespace DeviceDetectorNET.Class.Client
 {
     public class Engine
     {

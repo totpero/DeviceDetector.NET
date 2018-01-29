@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using DeviceDetector.NET.Class.Device;
-using DeviceDetector.NET.Parser.Device;
-using DeviceDetector.NET.Results;
+using DeviceDetectorNET.Class.Device;
+using DeviceDetectorNET.Parser.Device;
+using DeviceDetectorNET.Results;
 
-namespace DeviceDetector.NET.Parser
+namespace DeviceDetectorNET.Parser
 {
     public class VendorFragmentParser : ParserAbstract<Dictionary<string,string[]>, VendorFragmentResult>
     {

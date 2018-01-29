@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Class
+namespace DeviceDetectorNET.Class
 {
     public interface IParseLibrary
     {

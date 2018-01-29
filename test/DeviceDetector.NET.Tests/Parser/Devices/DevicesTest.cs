@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using System.Collections.Generic;
-using DeviceDetector.NET.Class.Device;
-using DeviceDetector.NET.Parser.Device;
-using DeviceDetector.NET.Results.Device;
+using DeviceDetectorNET.Class.Device;
+using DeviceDetectorNET.Parser.Device;
+using DeviceDetectorNET.Results.Device;
 using Xunit;
 
-namespace DeviceDetector.NET.Tests.Parser.Devices
+namespace DeviceDetectorNET.Tests.Parser.Devices
 {
     [Trait("Category", "DevicesTest")]
     public class DevicesTest

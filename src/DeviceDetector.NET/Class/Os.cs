@@ -1,6 +1,6 @@
 using YamlDotNet.Serialization;
 
-namespace DeviceDetector.NET.Class
+namespace DeviceDetectorNET.Class
 {
     public class Os : IParseLibrary
     {

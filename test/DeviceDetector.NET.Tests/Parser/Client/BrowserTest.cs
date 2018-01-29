@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
-using DeviceDetector.NET.Parser.Client;
-using DeviceDetector.NET.Tests.Class.Client;
-using DeviceDetector.NET.Yaml;
+using DeviceDetectorNET.Parser.Client;
+using DeviceDetectorNET.Tests.Class.Client;
+using DeviceDetectorNET.Yaml;
 using System.Linq;
 
-namespace DeviceDetector.NET.Tests.Parser.Client
+namespace DeviceDetectorNET.Tests.Parser.Client
 {
     [Trait("Category", "Browser")]
     public class BrowserTest

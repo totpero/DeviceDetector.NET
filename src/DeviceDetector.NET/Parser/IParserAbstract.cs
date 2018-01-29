@@ -1,6 +1,6 @@
-using DeviceDetector.NET.Cache;
+using DeviceDetectorNET.Cache;
 
-namespace DeviceDetector.NET.Parser
+namespace DeviceDetectorNET.Parser
 {
     public interface IParserAbstract
     {

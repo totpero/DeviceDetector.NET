@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Class.Device
+namespace DeviceDetectorNET.Class.Device
 {
     public interface IDeviceParseLibrary:IParseLibrary
     {

@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Xunit;
-using DeviceDetector.NET.Class;
-using DeviceDetector.NET.Parser;
+using DeviceDetectorNET.Class;
+using DeviceDetectorNET.Parser;
 
-namespace DeviceDetector.NET.Tests.Parser
+namespace DeviceDetectorNET.Tests.Parser
 {
     [Trait("Category","Bot")]
     public class BotTest

@@ -1,4 +1,4 @@
-﻿namespace DeviceDetector.NET.Tests.Class
+﻿namespace DeviceDetectorNET.Tests.Class
 {
     public class BotFixture
     {

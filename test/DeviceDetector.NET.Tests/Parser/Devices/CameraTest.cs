@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using DeviceDetector.NET.Parser.Device;
-using DeviceDetector.NET.Tests.Class.Client.Device;
-using DeviceDetector.NET.Yaml;
+using DeviceDetectorNET.Parser.Device;
+using DeviceDetectorNET.Tests.Class.Client.Device;
+using DeviceDetectorNET.Yaml;
 using Xunit;
 
-namespace DeviceDetector.NET.Tests.Parser.Devices
+namespace DeviceDetectorNET.Tests.Parser.Devices
 {
     [Trait("Category", "Camera")]
     public class CameraTest

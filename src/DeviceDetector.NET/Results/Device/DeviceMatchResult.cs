@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Results.Device
+namespace DeviceDetectorNET.Results.Device
 {
     public class DeviceMatchResult : IDeviceMatchResult
     {

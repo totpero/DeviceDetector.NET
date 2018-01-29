@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using DeviceDetector.NET.Cache;
-using DeviceDetector.NET.Class;
-using DeviceDetector.NET.Class.Device;
-using DeviceDetector.NET.Results;
-using DeviceDetector.NET.Yaml;
+using DeviceDetectorNET.Cache;
+using DeviceDetectorNET.Class;
+using DeviceDetectorNET.Class.Device;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Yaml;
 
-namespace DeviceDetector.NET.Parser
+namespace DeviceDetectorNET.Parser
 {
     public abstract class ParserAbstract<T, TResult>: IParserAbstract
         where T : class, IEnumerable

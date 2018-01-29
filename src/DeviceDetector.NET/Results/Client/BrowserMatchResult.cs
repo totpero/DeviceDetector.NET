@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Results.Client
+namespace DeviceDetectorNET.Results.Client
 {
     public class BrowserMatchResult : ClientMatchResult
     {

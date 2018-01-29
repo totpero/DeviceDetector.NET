@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using DeviceDetector.NET.Parser;
-using DeviceDetector.NET.Tests.Class.Client;
-using DeviceDetector.NET.Yaml;
+using DeviceDetectorNET.Parser;
+using DeviceDetectorNET.Tests.Class.Client;
+using DeviceDetectorNET.Yaml;
 using Xunit;
 
-namespace DeviceDetector.NET.Tests.Parser
+namespace DeviceDetectorNET.Tests.Parser
 {
     [Trait("Category","Os")]
 

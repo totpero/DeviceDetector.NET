@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using DeviceDetector.NET.Parser.Device;
+using DeviceDetectorNET.Parser.Device;
 using Xunit;
 
-namespace DeviceDetector.NET.Tests.Parser.Devices
+namespace DeviceDetectorNET.Tests.Parser.Devices
 {
     [Trait("Category", "HbbTvTest")]
     public class HbbTvTest

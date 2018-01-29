@@ -1,6 +1,6 @@
 using YamlDotNet.Serialization;
 
-namespace DeviceDetector.NET.Class.Device
+namespace DeviceDetectorNET.Class.Device
 {
     public class Model: IDeviceParseLibrary
     {

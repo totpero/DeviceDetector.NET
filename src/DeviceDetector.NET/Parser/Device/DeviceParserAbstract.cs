@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using DeviceDetector.NET.Class.Device;
-using DeviceDetector.NET.Results;
-using DeviceDetector.NET.Results.Device;
+using DeviceDetectorNET.Class.Device;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Device;
 
-namespace DeviceDetector.NET.Parser.Device
+namespace DeviceDetectorNET.Parser.Device
 {
     public abstract class DeviceParserAbstract<T, TResult> : ParserAbstract<T, TResult>, IDeviceParserAbstract
         where T : class, IDictionary<string, DeviceModel>

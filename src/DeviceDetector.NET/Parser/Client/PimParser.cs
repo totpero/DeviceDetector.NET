@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using DeviceDetector.NET.Class.Client;
-using DeviceDetector.NET.Results.Client;
+using DeviceDetectorNET.Class.Client;
+using DeviceDetectorNET.Results.Client;
 
-namespace DeviceDetector.NET.Parser.Client
+namespace DeviceDetectorNET.Parser.Client
 {
     public class PimParser : ClientParserAbstract<List<Pim>, ClientMatchResult>
     {

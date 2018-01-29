@@ -2,11 +2,11 @@
 using System.Linq;
 using FluentAssertions;
 using Xunit;
-using DeviceDetector.NET.Parser.Client;
-using DeviceDetector.NET.Tests.Class.Client;
-using DeviceDetector.NET.Yaml;
+using DeviceDetectorNET.Parser.Client;
+using DeviceDetectorNET.Tests.Class.Client;
+using DeviceDetectorNET.Yaml;
 
-namespace DeviceDetector.NET.Tests.Parser.Client
+namespace DeviceDetectorNET.Tests.Parser.Client
 {
     [Trait("Category", "Pim")]
     public class PimTest

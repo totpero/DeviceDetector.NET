@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DeviceDetector.NET.Class.Client;
-using DeviceDetector.NET.Parser.Client.Browser;
-using DeviceDetector.NET.Parser.Client.Browser.Engine;
-using DeviceDetector.NET.Results;
-using DeviceDetector.NET.Results.Client;
+using DeviceDetectorNET.Class.Client;
+using DeviceDetectorNET.Parser.Client.Browser;
+using DeviceDetectorNET.Parser.Client.Browser.Engine;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Client;
 
-namespace DeviceDetector.NET.Parser.Client
+namespace DeviceDetectorNET.Parser.Client
 {
     public class BrowserParser : ClientParserAbstract<List<Class.Client.Browser>, BrowserMatchResult>
     {

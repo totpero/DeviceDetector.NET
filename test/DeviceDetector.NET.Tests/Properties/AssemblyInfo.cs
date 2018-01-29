@@ -2,11 +2,11 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("DeviceDetector.NET.Tests")]
+[assembly: AssemblyTitle("DeviceDetectorNET.Tests")]
 [assembly: AssemblyDescription("TotPeRo")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DeviceDetector.NET.Tests")]
+[assembly: AssemblyProduct("DeviceDetectorNET.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

@@ -1,6 +1,6 @@
-using DeviceDetector.NET.Results.Device;
+using DeviceDetectorNET.Results.Device;
 
-namespace DeviceDetector.NET.Results
+namespace DeviceDetectorNET.Results
 {
     public class VendorFragmentResult : IDeviceMatchResult
     {

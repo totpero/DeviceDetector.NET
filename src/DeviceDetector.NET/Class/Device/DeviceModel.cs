@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
-namespace DeviceDetector.NET.Class.Device
+namespace DeviceDetectorNET.Class.Device
 {
     public class DeviceModel: Model
     {

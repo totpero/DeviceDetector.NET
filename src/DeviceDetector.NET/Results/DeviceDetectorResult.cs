@@ -1,6 +1,6 @@
-using DeviceDetector.NET.Results.Client;
+using DeviceDetectorNET.Results.Client;
 
-namespace DeviceDetector.NET.Results
+namespace DeviceDetectorNET.Results
 {
     public class DeviceDetectorResult
     {

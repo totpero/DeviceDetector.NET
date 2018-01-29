@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DeviceDetector.NET.Tests.Class
+namespace DeviceDetectorNET.Tests.Class
 {
     public class DeviceDetectorFixture
     {

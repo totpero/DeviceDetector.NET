@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Results
+namespace DeviceDetectorNET.Results
 {
     public class OsMatchResult:IMatchResult
     {

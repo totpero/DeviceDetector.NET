@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace DeviceDetector.NET.Yaml
+namespace DeviceDetectorNET.Yaml
 {
     public interface IParser<T>
         where T : IEnumerable //IParseLibrary

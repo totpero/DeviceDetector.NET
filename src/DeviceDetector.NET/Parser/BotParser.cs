@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using DeviceDetector.NET.Class;
-using DeviceDetector.NET.Results;
+using DeviceDetectorNET.Class;
+using DeviceDetectorNET.Results;
 
-namespace DeviceDetector.NET.Parser
+namespace DeviceDetectorNET.Parser
 {
     public class BotParser : ParserAbstract<List<Bot>, BotMatchResult>
     {

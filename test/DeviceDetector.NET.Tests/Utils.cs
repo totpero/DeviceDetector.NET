@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace DeviceDetector.NET.Tests
+namespace DeviceDetectorNET.Tests
 {
     public static class Utils
     {

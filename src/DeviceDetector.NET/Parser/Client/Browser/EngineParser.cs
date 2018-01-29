@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using DeviceDetector.NET.Class.Client;
-using DeviceDetector.NET.Results;
-using DeviceDetector.NET.Results.Client;
+using DeviceDetectorNET.Class.Client;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Client;
 
-namespace DeviceDetector.NET.Parser.Client.Browser
+namespace DeviceDetectorNET.Parser.Client.Browser
 {
     public class EngineParser : ClientParserAbstract<List<BrowserEngine>, ClientMatchResult>
     {

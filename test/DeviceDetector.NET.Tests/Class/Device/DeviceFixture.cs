@@ -1,4 +1,4 @@
-﻿namespace DeviceDetector.NET.Tests.Class.Client.Device
+﻿namespace DeviceDetectorNET.Tests.Class.Client.Device
 {
     public class DeviceFixture
     {

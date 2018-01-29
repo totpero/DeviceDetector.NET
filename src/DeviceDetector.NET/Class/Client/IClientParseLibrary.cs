@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Class.Client
+namespace DeviceDetectorNET.Class.Client
 {
     public interface IClientParseLibrary : IParseLibrary
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DeviceDetector.NET.Parser.Client
+namespace DeviceDetectorNET.Parser.Client
 {
     public class FactoryClient<T>
     {

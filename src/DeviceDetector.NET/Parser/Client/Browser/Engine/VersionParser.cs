@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using DeviceDetector.NET.Class.Client;
-using DeviceDetector.NET.Results;
-using DeviceDetector.NET.Results.Client;
+using DeviceDetectorNET.Class.Client;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Client;
 
-namespace DeviceDetector.NET.Parser.Client.Browser.Engine
+namespace DeviceDetectorNET.Parser.Client.Browser.Engine
 {
     public class VersionParser : ClientParserAbstract<List<IClientParseLibrary>, ClientMatchResult>
     {

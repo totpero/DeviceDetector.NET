@@ -1,4 +1,4 @@
-﻿namespace DeviceDetector.NET.Tests.Class.Client
+﻿namespace DeviceDetectorNET.Tests.Class.Client
 {
 
     public class BrowserFixture

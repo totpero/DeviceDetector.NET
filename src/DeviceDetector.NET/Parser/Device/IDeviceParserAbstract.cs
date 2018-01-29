@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Parser.Device
+namespace DeviceDetectorNET.Parser.Device
 {
     public interface IDeviceParserAbstract: IParserAbstract
     {

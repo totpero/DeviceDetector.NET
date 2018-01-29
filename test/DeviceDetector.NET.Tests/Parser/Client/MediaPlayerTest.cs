@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
 using System.Collections.Generic;
 using System.Linq;
-using DeviceDetector.NET.Parser.Client;
-using DeviceDetector.NET.Tests.Class.Client;
-using DeviceDetector.NET.Yaml;
+using DeviceDetectorNET.Parser.Client;
+using DeviceDetectorNET.Tests.Class.Client;
+using DeviceDetectorNET.Yaml;
 using Xunit;
 
-namespace DeviceDetector.NET.Tests.Parser.Client
+namespace DeviceDetectorNET.Tests.Parser.Client
 {
     [Trait("Category", "MediaPlayer")]
     public class MediaPlayerTest

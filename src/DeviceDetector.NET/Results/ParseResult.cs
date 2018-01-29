@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DeviceDetector.NET.Results
+namespace DeviceDetectorNET.Results
 {
     public class ParseResult<TMatch>
         where TMatch : class

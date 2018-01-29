@@ -1,5 +1,5 @@
 
-namespace DeviceDetector.NET.Parser.Client
+namespace DeviceDetectorNET.Parser.Client
 {
     public interface IClientParserAbstract : IParserAbstract
     {

@@ -4,7 +4,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Core.Events;
 using YamlDotNet.Serialization;
 
-namespace DeviceDetector.NET.Yaml
+namespace DeviceDetectorNET.Yaml
 {
     public class YamlParser<T> : IParser<T>
         where T : class, IEnumerable// IParseLibrary

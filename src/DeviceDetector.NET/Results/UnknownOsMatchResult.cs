@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Results
+namespace DeviceDetectorNET.Results
 {
     class UnknownOsMatchResult: OsMatchResult
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace DeviceDetector.NET.Cache
+namespace DeviceDetectorNET.Cache
 {
     public class DictionaryCache : ICache
     {

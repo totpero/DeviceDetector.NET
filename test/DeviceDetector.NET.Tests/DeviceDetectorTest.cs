@@ -1,16 +1,16 @@
 using System;
 using System.Collections.Generic;
 using FluentAssertions;
-using DeviceDetector.NET.Cache;
-using DeviceDetector.NET.Class;
-using DeviceDetector.NET.Parser;
-using DeviceDetector.NET.Results;
-using DeviceDetector.NET.Results.Device;
-using DeviceDetector.NET.Tests.Class;
-using DeviceDetector.NET.Yaml;
+using DeviceDetectorNET.Cache;
+using DeviceDetectorNET.Class;
+using DeviceDetectorNET.Parser;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Device;
+using DeviceDetectorNET.Tests.Class;
+using DeviceDetectorNET.Yaml;
 using Xunit;
 
-namespace DeviceDetector.NET.Tests
+namespace DeviceDetectorNET.Tests
 {
     [Trait("Category", "DeviceDetector")]
     public class DeviceDetectorTest

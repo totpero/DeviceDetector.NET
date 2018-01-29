@@ -1,6 +1,6 @@
-using DeviceDetector.NET.Results.Client;
+using DeviceDetectorNET.Results.Client;
 
-namespace DeviceDetector.NET.Parser.Client
+namespace DeviceDetectorNET.Parser.Client
 {
     public class ClientType
     {

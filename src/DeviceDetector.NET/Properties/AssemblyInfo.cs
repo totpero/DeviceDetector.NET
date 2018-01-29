@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DeviceDetector.NET")]
+[assembly: AssemblyTitle("DeviceDetectorNET")]
 [assembly: AssemblyDescription("The Universal Device Detection library that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, feed readers, media players, PIMs, ...), operating systems, brands and models.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TotPeRo")]
-[assembly: AssemblyProduct("DeviceDetector.NET")]
+[assembly: AssemblyProduct("DeviceDetectorNET")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

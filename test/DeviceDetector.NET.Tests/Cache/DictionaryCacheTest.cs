@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using DeviceDetector.NET.Cache;
+using DeviceDetectorNET.Cache;
 using Xunit;
 
-namespace DeviceDetector.NET.Tests.Cache
+namespace DeviceDetectorNET.Tests.Cache
 {
     [Trait("Category", "DictionaryCache")]
     public class DictionaryCacheTest

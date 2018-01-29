@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
-using DeviceDetector.NET.Class.Client;
-using DeviceDetector.NET.Results;
-using DeviceDetector.NET.Results.Client;
+using DeviceDetectorNET.Class.Client;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Client;
 
-namespace DeviceDetector.NET.Parser.Client
+namespace DeviceDetectorNET.Parser.Client
 {
     public abstract class ClientParserAbstract<T, TResult> : ParserAbstract<T, TResult>, IClientParserAbstract
         where T : class, IEnumerable<IClientParseLibrary>

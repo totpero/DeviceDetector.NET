@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using DeviceDetector.NET.Class.Device;
-using DeviceDetector.NET.Results;
-using DeviceDetector.NET.Results.Device;
+using DeviceDetectorNET.Class.Device;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Device;
 
-namespace DeviceDetector.NET.Parser.Device
+namespace DeviceDetectorNET.Parser.Device
 {
     public class CarBrowserParser : DeviceParserAbstract<IDictionary<string, DeviceModel>, DeviceMatchResult>
     {

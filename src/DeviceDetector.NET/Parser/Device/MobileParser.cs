@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using DeviceDetector.NET.Class.Device;
-using DeviceDetector.NET.Results.Device;
+using DeviceDetectorNET.Class.Device;
+using DeviceDetectorNET.Results.Device;
 
-namespace DeviceDetector.NET.Parser.Device
+namespace DeviceDetectorNET.Parser.Device
 {
     public class MobileParser : DeviceParserAbstract<IDictionary<string, DeviceModel>, DeviceMatchResult>
     {

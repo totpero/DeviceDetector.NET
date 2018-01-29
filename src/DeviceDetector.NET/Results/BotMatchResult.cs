@@ -1,6 +1,6 @@
-using DeviceDetector.NET.Class;
+using DeviceDetectorNET.Class;
 
-namespace DeviceDetector.NET.Results
+namespace DeviceDetectorNET.Results
 {
     public class BotMatchResult:IMatchResult
     {

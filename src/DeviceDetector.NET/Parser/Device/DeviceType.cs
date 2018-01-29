@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Parser.Device
+namespace DeviceDetectorNET.Parser.Device
 {
     public static class DeviceType
     {

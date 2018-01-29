@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using DeviceDetector.NET.Cache;
-using DeviceDetector.NET.Class.Device;
-using DeviceDetector.NET.Parser;
-using DeviceDetector.NET.Parser.Client;
-using DeviceDetector.NET.Parser.Device;
-using DeviceDetector.NET.Results;
-using DeviceDetector.NET.Results.Client;
-using DeviceDetector.NET.Results.Device;
+using DeviceDetectorNET.Cache;
+using DeviceDetectorNET.Class.Device;
+using DeviceDetectorNET.Parser;
+using DeviceDetectorNET.Parser.Client;
+using DeviceDetectorNET.Parser.Device;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Client;
+using DeviceDetectorNET.Results.Device;
 using YamlDotNet.Core;
 
-namespace DeviceDetector.NET
+namespace DeviceDetectorNET
 {
     public class DeviceDetector
     {

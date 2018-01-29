@@ -1,4 +1,4 @@
-namespace DeviceDetector.NET.Results.Client
+namespace DeviceDetectorNET.Results.Client
 {
     public interface IClientMatchResult : IMatchResult
     {

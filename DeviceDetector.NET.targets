@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+ <ItemGroup>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\bots.yml">
+     <Link>regexes\bots.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\oss.yml">
+     <Link>regexes\oss.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\vendorfragments.yml">
+     <Link>regexes\vendorfragments.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\client\browser_engine.yml">
+     <Link>regexes\client\browser_engine.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\client\browsers.yml">
+     <Link>regexes\client\browsers.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\client\feed_readers.yml">
+     <Link>regexes\client\feed_readers.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\client\libraries.yml">
+     <Link>regexes\client\libraries.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\client\mediaplayers.yml">
+     <Link>regexes\client\mediaplayers.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\client\mobile_apps.yml">
+     <Link>regexes\client\mobile_apps.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\client\pim.yml">
+     <Link>regexes\client\pim.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\device\cameras.yml">
+     <Link>regexes\device\cameras.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\device\car_browsers.yml">
+     <Link>regexes\device\car_browsers.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\device\consoles.yml">
+     <Link>regexes\device\consoles.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None> 
+    <None Include="$(MSBuildThisFileDirectory)..\regexes\device\mobiles.yml">
+     <Link>regexes\device\mobiles.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\device\portable_media_player.yml">
+     <Link>regexes\device\portable_media_player.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   <None Include="$(MSBuildThisFileDirectory)..\regexes\device\televisions.yml">
+     <Link>regexes\device\televisions.yml</Link>
+     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+   </None>
+   
+  </ItemGroup>
+</Project>

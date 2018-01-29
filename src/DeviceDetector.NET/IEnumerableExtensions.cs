@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace DeviceDetector.NET
+namespace DeviceDetectorNET
 {
     public static class IEnumerableExtensions
     {
