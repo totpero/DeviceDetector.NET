@@ -19,7 +19,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "3.9.1";
+        public const string VERSION = "3.9.2";
 
         /// <summary>
         /// Operating system families that are known as desktop only

@@ -83,6 +83,7 @@ namespace DeviceDetectorNET.Parser
             {"WTV","WebTV"},
             {"WIN","Windows"},
             {"WCE","Windows CE"},
+            {"WIO","Windows IoT"},
             {"WMO","Windows Mobile"},
             {"WPH","Windows Phone"},
             {"WRT","Windows RT"},
@@ -121,7 +122,7 @@ namespace DeviceDetectorNET.Parser
             {"Unix"                  , new []{"SOS", "AIX", "HPX", "BSD", "NBS", "OBS", "DFB", "SYL", "IRI", "T64", "INF"}},
             {"WebTV"                 , new []{"WTV"}},
             {"Windows"               , new []{"WIN"}},
-            {"Windows Mobile"        , new []{"WPH", "WMO", "WCE", "WRT"}},
+            {"Windows Mobile"        , new []{"WPH", "WMO", "WCE", "WRT", "WIO"}},
         };
 
         /// <summary>

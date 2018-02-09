@@ -62,9 +62,11 @@ namespace DeviceDetectorNET.Parser.Device
             {"AV", "Avvio"},
             {"AX", "Audiovox"},
             {"AY", "Axxion"},
+            {"AM", "Azumi Mobile"},
             {"BB", "BBK"},
             {"BE", "Becker"},
             {"BI", "Bird"},
+            {"BG", "BGH"},
             {"BL", "Beetel"},
             {"BP", "Blaupunkt"},
             {"BM", "Bmobile"},
@@ -127,6 +129,7 @@ namespace DeviceDetectorNET.Parser.Device
             {"EI", "Ezio"},
             {"EL", "Elephone"},
             {"EP", "Easypix"},
+            {"EK", "EKO"},
             {"E1", "Energy Sistem"},
             {"ER", "Ericy"},
             {"EN", "Eton"},
@@ -248,6 +251,7 @@ namespace DeviceDetectorNET.Parser.Device
             {"N1", "Noain"},
             {"NK", "Nokia"},
             {"NV", "Nvidia"},
+            {"NB", "Noblex"},
             {"NM", "Nomi"},
             {"NN", "Nikon"},
             {"NW", "Newgen"},
@@ -316,6 +320,7 @@ namespace DeviceDetectorNET.Parser.Device
             {"SR", "Smart"},
             {"S7", "Smartisan"},
             {"S4", "Star"},
+            {"S8", "STK"},
             {"ST", "Storex"},
             {"S2", "Stonex"},
             {"S3", "SunVan"},
@@ -356,6 +361,7 @@ namespace DeviceDetectorNET.Parser.Device
             {"VK", "VK Mobile"},
             {"VS", "ViewSonic"},
             {"VT", "Vestel"},
+            {"VL", "Verykool"},
             {"VV", "Vivo"},
             {"V1", "Voto"},
             {"VO", "Voxtel"},
@@ -481,7 +487,7 @@ namespace DeviceDetectorNET.Parser.Device
                 if (string.IsNullOrEmpty(localBrand))
                 {
                     // This Exception should never be thrown. If so a defined brand name is missing in DeviceBrands
-                    throw new Exception("The brand with name 'brand' should be listed in the deviceBrands array.");
+                    throw new Exception("The brand with name '"+ localDevice.Key + "' should be listed in the deviceBrands array.");
                 }
                 brand = localBrand;
             }
