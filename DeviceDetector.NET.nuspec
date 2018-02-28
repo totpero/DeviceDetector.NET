@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>DeviceDetector.NET</id>
-    <version>3.9.2.1</version>
+    <version>3.9.2.2</version>
     <title>DeviceDetector.NET</title>
     <authors>totpero</authors>
     <owners>totpero</owners>
@@ -15,7 +15,7 @@
     <tags>parse detection-library user-agent bot-detection mobile-detection desktop tablet mobile tv cars console</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
-        <dependency id="YamlDotNet" version="4.3.0" />
+        <dependency id="YamlDotNet.Signed" version="4.3.1" />
       </group>
     </dependencies>
   </metadata>
