@@ -1,4 +1,5 @@
 using System.Collections;
+using System.IO;
 
 namespace DeviceDetectorNET.Yaml
 {
@@ -6,5 +7,7 @@ namespace DeviceDetectorNET.Yaml
         where T : IEnumerable //IParseLibrary
     {
         T ParseFile(string file);
+
+        T ParseStream(Stream stream);
     }
 }

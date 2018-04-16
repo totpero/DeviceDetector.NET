@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
+    <!-- Needed due to old project and new project in same directory: https://github.com/NuGet/Home/issues/5126 -->
+    <BaseIntermediateOutputPath>obj_netfx\</BaseIntermediateOutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
@@ -122,54 +126,22 @@
   <ItemGroup>
     <None Include="DeviceDetector.NET.snk" />
     <None Include="packages.config" />
-    <None Include="regexes\bots.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\client\browsers.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\client\browser_engine.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\client\feed_readers.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\client\libraries.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\client\mediaplayers.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\client\mobile_apps.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\client\pim.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\device\cameras.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\device\car_browsers.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\device\consoles.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\device\mobiles.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\device\portable_media_player.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\device\televisions.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\oss.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="regexes\vendorfragments.yml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="regexes\bots.yml" />
+    <EmbeddedResource Include="regexes\client\browsers.yml" />
+    <EmbeddedResource Include="regexes\client\browser_engine.yml" />
+    <EmbeddedResource Include="regexes\client\feed_readers.yml" />
+    <EmbeddedResource Include="regexes\client\libraries.yml" />
+    <EmbeddedResource Include="regexes\client\mediaplayers.yml" />
+    <EmbeddedResource Include="regexes\client\mobile_apps.yml" />
+    <EmbeddedResource Include="regexes\client\pim.yml" />
+    <EmbeddedResource Include="regexes\device\cameras.yml" />
+    <EmbeddedResource Include="regexes\device\car_browsers.yml" />
+    <EmbeddedResource Include="regexes\device\consoles.yml" />
+    <EmbeddedResource Include="regexes\device\mobiles.yml" />
+    <EmbeddedResource Include="regexes\device\portable_media_player.yml" />
+    <EmbeddedResource Include="regexes\device\televisions.yml" />
+    <EmbeddedResource Include="regexes\oss.yml" />
+    <EmbeddedResource Include="regexes\vendorfragments.yml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

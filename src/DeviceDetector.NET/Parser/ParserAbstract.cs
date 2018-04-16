@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class;
@@ -150,9 +151,19 @@ namespace DeviceDetectorNET.Parser
             }
             if (regexList.Any()) return regexList;
 
-            regexList = GetYamlParser().ParseFile(
-                GetRegexesDirectory() + FixtureFile
-            );
+            var assembly = Assembly.GetAssembly(GetType());
+
+#if NETCOREAPP2_0
+            var resourcePrefix = assembly.GetName().Name;
+#else
+            var resourcePrefix = typeof(DeviceDetector).Namespace;
+#endif
+
+            var resourceName = resourcePrefix + "." + FixtureFile.Replace("/", ".");
+
+            using (var stream = assembly.GetManifestResourceStream(resourceName))
+                regexList = GetYamlParser().ParseStream(stream);
+
             GetCache().Save(cacheKey, regexList);
             return regexList;
         }

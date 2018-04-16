@@ -13,18 +13,31 @@ namespace DeviceDetectorNET.Yaml
         {
             using (var r = new StreamReader(file))
             {
-                var deserializer = new DeserializerBuilder().Build();
-                var parser = new YamlDotNet.Core.Parser(r);
+                return Parse(r);
+            }
+        }
 
-                // Consume the stream start event "manually"
-                parser.Expect<StreamStart>();
+        private static T Parse(StreamReader r)
+        {
+            var deserializer = new DeserializerBuilder().Build();
+            var parser = new YamlDotNet.Core.Parser(r);
 
-                while (parser.Accept<DocumentStart>())
-                    // Deserialize the document
-                {
-                    return deserializer.Deserialize<T>(parser);
-                }
-                return null;
+            // Consume the stream start event "manually"
+            parser.Expect<StreamStart>();
+
+            while (parser.Accept<DocumentStart>())
+                // Deserialize the document
+            {
+                return deserializer.Deserialize<T>(parser);
+            }
+            return null;
+        }
+
+        public T ParseStream(Stream stream)
+        {
+            using (var r = new StreamReader(stream))
+            {
+                return Parse(r);
             }
         }
     }

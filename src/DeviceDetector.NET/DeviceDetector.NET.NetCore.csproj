@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <PackageId>DeviceDetectorNET</PackageId>
+    <Version>3.9.2</Version>
+    <AssemblyVersion>3.9.2.1</AssemblyVersion>
+    <FileVersion>3.9.2.1</FileVersion>
+    <Description>The Universal Device Detection library that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, feed readers, media players, PIMs, ...), operating systems, brands and models.</Description>
+    <Authors>TotPeRo</Authors>
+    <Company>TotPeRo</Company>
+    <Product>DeviceDetectorNET</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="regexes\bots.yml" />
+    <None Remove="regexes\client\browsers.yml" />
+    <None Remove="regexes\client\browser_engine.yml" />
+    <None Remove="regexes\client\feed_readers.yml" />
+    <None Remove="regexes\client\libraries.yml" />
+    <None Remove="regexes\client\mediaplayers.yml" />
+    <None Remove="regexes\client\mobile_apps.yml" />
+    <None Remove="regexes\client\pim.yml" />
+    <None Remove="regexes\device\cameras.yml" />
+    <None Remove="regexes\device\car_browsers.yml" />
+    <None Remove="regexes\device\consoles.yml" />
+    <None Remove="regexes\device\mobiles.yml" />
+    <None Remove="regexes\device\portable_media_player.yml" />
+    <None Remove="regexes\device\televisions.yml" />
+    <None Remove="regexes\oss.yml" />
+    <None Remove="regexes\vendorfragments.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="regexes\bots.yml" />
+    <EmbeddedResource Include="regexes\client\browsers.yml" />
+    <EmbeddedResource Include="regexes\client\browser_engine.yml" />
+    <EmbeddedResource Include="regexes\client\feed_readers.yml" />
+    <EmbeddedResource Include="regexes\client\libraries.yml" />
+    <EmbeddedResource Include="regexes\client\mediaplayers.yml" />
+    <EmbeddedResource Include="regexes\client\mobile_apps.yml" />
+    <EmbeddedResource Include="regexes\client\pim.yml" />
+    <EmbeddedResource Include="regexes\device\cameras.yml" />
+    <EmbeddedResource Include="regexes\device\car_browsers.yml" />
+    <EmbeddedResource Include="regexes\device\consoles.yml" />
+    <EmbeddedResource Include="regexes\device\mobiles.yml" />
+    <EmbeddedResource Include="regexes\device\portable_media_player.yml" />
+    <EmbeddedResource Include="regexes\device\televisions.yml" />
+    <EmbeddedResource Include="regexes\oss.yml" />
+    <EmbeddedResource Include="regexes\vendorfragments.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet.NetCore" Version="1.0.0" />
+  </ItemGroup>
+
+</Project>
