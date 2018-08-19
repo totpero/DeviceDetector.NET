@@ -153,7 +153,7 @@ namespace DeviceDetectorNET.Parser
 
             var assembly = Assembly.GetAssembly(GetType());
 
-#if NETCOREAPP2_0
+#if NETCOREAPP
             var resourcePrefix = assembly.GetName().Name;
 #else
             var resourcePrefix = typeof(DeviceDetector).Namespace;

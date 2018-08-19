@@ -8,7 +8,7 @@ namespace DeviceDetectorNET.Tests
         {
             var directoryInfo = Directory.GetParent(Directory.GetCurrentDirectory()).Parent;
 
-#if NETCOREAPP2_0
+#if NETCOREAPP
             directoryInfo = directoryInfo.Parent;
 #endif
 
