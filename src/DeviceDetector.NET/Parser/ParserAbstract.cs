@@ -8,10 +8,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Hosting;
 
 namespace DeviceDetectorNET.Parser
 {
-    using System.Web.Hosting;
 
     public abstract class ParserAbstract<T, TResult> : IParserAbstract
         where T : class, IEnumerable
@@ -165,9 +165,10 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected string GetRegexesDirectory()
         {
-            if (HostingEnvironment.IsHosted)
-                return HostingEnvironment.MapPath("bin");
-            return "";
+            //Add System.Web reference to use HostingEnvironment.
+            return HostingEnvironment.IsHosted
+                       ? HostingEnvironment.MapPath("~/ bin")
+                       : "";
             //return "regexes/";
         }
 
