@@ -1,19 +1,21 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Class.Device;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Yaml;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Web.Hosting;
 
 namespace DeviceDetectorNET.Parser
 {
-    public abstract class ParserAbstract<T, TResult>: IParserAbstract
+
+    public abstract class ParserAbstract<T, TResult> : IParserAbstract
         where T : class, IEnumerable
-//, IParseLibrary
+        //, IParseLibrary
         where TResult : class, IMatchResult, new()
     {
         /// <summary>
@@ -163,7 +165,10 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected string GetRegexesDirectory()
         {
-            return "";
+            //Add System.Web reference to use HostingEnvironment.
+            return HostingEnvironment.IsHosted
+                       ? HostingEnvironment.MapPath("~/bin/")
+                       : "";
             //return "regexes/";
         }
 
@@ -183,7 +188,7 @@ namespace DeviceDetectorNET.Parser
         {
             // only match if useragent begins with given regex or there is no letter before it
             var match = Regex.Matches(UserAgent, FixUserAgentRegEx(regex), RegexOptions.IgnoreCase);
-            return match.Cast<Match>().SelectMany(m => m.Groups.Cast<Group>().Select(g=>g.Value)).ToArray();
+            return match.Cast<Match>().SelectMany(m => m.Groups.Cast<Group>().Select(g => g.Value)).ToArray();
         }
 
         private string FixUserAgentRegEx(string regex)
@@ -201,7 +206,7 @@ namespace DeviceDetectorNET.Parser
                 }
 
                 var replace = matches[nb] ?? "";
-                item = item.Replace("$"+nb, replace).Trim();
+                item = item.Replace("$" + nb, replace).Trim();
             }
             return item;
         }
@@ -248,7 +253,7 @@ namespace DeviceDetectorNET.Parser
             var regexListCache = GetCache().Fetch(cacheKey);
             string overAllMatch = regexListCache?.ToString() ?? "";
 
-            
+
             if (string.IsNullOrEmpty(overAllMatch))
             {
                 List<IParseLibrary> parses = new List<IParseLibrary>();

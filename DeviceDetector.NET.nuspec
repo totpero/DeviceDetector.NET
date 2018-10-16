@@ -1,18 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>DeviceDetector.NET</id>
-    <version>3.9.2.2</version>
-    <title>DeviceDetector.NET</title>
-    <authors>totpero</authors>
-    <owners>totpero</owners>
+    <id>DeviceDetector.NET.Web</id>
+    <version>3.10.0.0</version>
+    <title>DeviceDetector.NET.Web</title>
+    <authors>totpero, guibranco</authors>
+    <owners>totpero, guibranco</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <licenseUrl>https://github.com/totpero/DeviceDetector.NET/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/totpero/DeviceDetector.NET</projectUrl>
-    <description>The Universal Device Detection library for .NET that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, feed readers, media players, PIMs, ...), operating systems, brands and models. This is a port of the popular PHP device-detector library to C#. For the most part you can just follow the documentation for device-detector with no issue.</description>
-    <summary>The Universal Device Detection library will parse any User Agent and detect the browser, operating system, device used (desktop, tablet, mobile, tv, cars, console, etc.), brand and model.</summary>
-    <copyright>Copyright © www.totpe.ro</copyright>
-    <tags>parse detection-library user-agent bot-detection mobile-detection desktop tablet mobile tv cars console</tags>
+	<repository type="git" url="https://github.com/guibranco/DeviceDetector.NET.Web" />
+    <licenseUrl>https://github.com/guibranco/DeviceDetector.NET.Web/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/guibranco/DeviceDetector.NET.Web</projectUrl>
+    <description>(This one works within web projects) The Universal Device Detection library for .NET that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, feed readers, media players, PIMs, ...), operating systems, brands and models. This is a port of the popular PHP device-detector library to C#. For the most part you can just follow the documentation for device-detector with no issue.</description>
+    <summary>(This one works within web projects) The Universal Device Detection library will parse any User Agent and detect the browser, operating system, device used (desktop, tablet, mobile, tv, cars, console, etc.), brand and model.</summary>
+    <copyright>Copyright © www.totpe.ro, www.guilhermebranco.com.br</copyright>
+    <tags>parse detection-library user-agent bot-detection mobile-detection desktop tablet mobile tv cars console web project</tags>
     <dependencies>
       <group targetFramework=".NETFramework4.5">
         <dependency id="YamlDotNet.Signed" version="4.3.1" />
