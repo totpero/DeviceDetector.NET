@@ -167,7 +167,7 @@ namespace DeviceDetectorNET.Parser
         {
             //Add System.Web reference to use HostingEnvironment.
             return HostingEnvironment.IsHosted
-                       ? HostingEnvironment.MapPath("~/ bin")
+                       ? HostingEnvironment.MapPath("~/bin/")
                        : "";
             //return "regexes/";
         }
