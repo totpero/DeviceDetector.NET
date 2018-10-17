@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web.Hosting;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Class.Device;
@@ -163,7 +164,9 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected string GetRegexesDirectory()
         {
-            return "";
+            return HostingEnvironment.IsHosted
+                       ? HostingEnvironment.MapPath("~/bin/")
+                       : "";
             //return "regexes/";
         }
 
