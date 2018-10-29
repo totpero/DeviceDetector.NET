@@ -72,6 +72,7 @@
     <Compile Include="Class\Os.cs" />
     <Compile Include="Class\Producer.cs" />
     <Compile Include="DeviceDetector.cs" />
+    <Compile Include="DeviceDetectorSettings.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="Parser\BotParser.cs" />
     <Compile Include="Parser\Client\BrowserParser.cs" />
