@@ -163,6 +163,9 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected string GetRegexesDirectory()
         {
+            if (!string.IsNullOrWhiteSpace(DeviceDetectorSettings.RegexesDirectory))
+                return DeviceDetectorSettings.RegexesDirectory;
+
             return "";
             //return "regexes/";
         }
