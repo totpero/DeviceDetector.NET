@@ -78,7 +78,8 @@ if (result != null) {
 
 ```
 
-The default Regexes directory path can be changed lie this:
+
+##### The default regexes directory path can be changed like this:
 ```csharp
 DeviceDetectorSettings.RegexesDirectory = @"C:\YamlRegexsFiles\";
 ```
