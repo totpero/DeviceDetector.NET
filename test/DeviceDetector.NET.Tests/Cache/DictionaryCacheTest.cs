@@ -28,11 +28,11 @@ namespace DeviceDetectorNET.Tests.Cache
             var cache = new DictionaryCache();
             // add entry
             cache.Save("key", "value");
-            cache.Fetch("key").ShouldBeEquivalentTo("value");
+            cache.Fetch("key").Should().BeEquivalentTo("value");
 
             // change entry
             cache.Save("key", "value2");
-            cache.Fetch("key").ShouldBeEquivalentTo("value2");
+            cache.Fetch("key").Should().BeEquivalentTo("value2");
 
             // remove entry
             cache.Delete("key");

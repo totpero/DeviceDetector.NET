@@ -75,6 +75,7 @@
     <Compile Include="DeviceDetectorSettings.cs" />
     <Compile Include="IEnumerableExtensions.cs" />
     <Compile Include="Parser\BotParser.cs" />
+    <Compile Include="Parser\BotParserAbstract.cs" />
     <Compile Include="Parser\Client\BrowserParser.cs" />
     <Compile Include="Parser\Client\Browser\EngineParser.cs" />
     <Compile Include="Parser\Client\Browser\Engine\VersionParser.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Parser\Device\IDeviceParserAbstract.cs" />
     <Compile Include="Parser\Device\MobileParser.cs" />
     <Compile Include="Parser\Device\PortableMediaPlayerParser.cs" />
+    <Compile Include="Parser\IBotParserAbstract.cs" />
     <Compile Include="Parser\IParserAbstract.cs" />
     <Compile Include="Parser\OperatingSystemParser.cs" />
     <Compile Include="Parser\ParserAbstract.cs" />
@@ -111,6 +113,7 @@
     <Compile Include="Results\DeviceDetectorResult.cs" />
     <Compile Include="Results\Device\DeviceMatchResult.cs" />
     <Compile Include="Results\Device\IDeviceMatchResult.cs" />
+    <Compile Include="Results\IBotMatchResult.cs" />
     <Compile Include="Results\IMatchResult.cs" />
     <Compile Include="Results\MatchResult.cs" />
     <Compile Include="Results\OsMatchResult.cs" />

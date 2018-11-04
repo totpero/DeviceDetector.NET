@@ -33,6 +33,7 @@ namespace DeviceDetectorNET.Parser
             {"DFB","DragonFly"},
             {"FED","Fedora"},
             {"FOS","Firefox OS"},
+            {"FIR","Fire OS"},
             {"BSD","FreeBSD"},
             {"GNT","Gentoo"},
             {"GTV","Google TV"},
@@ -40,6 +41,7 @@ namespace DeviceDetectorNET.Parser
             {"HAI","Haiku OS"},
             {"IRI","IRIX"},
             {"INF","Inferno"},
+            {"KOS","KaiOS"},
             {"KNO","Knoppix"},
             {"KBT","Kubuntu"},
             {"LIN","GNU/Linux"},
@@ -100,14 +102,14 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected static Dictionary<string, string[]> OsFamilies = new Dictionary<string, string[]>
         {
-            {"Android"               , new []{"AND", "CYN", "REM", "RZD", "MLD", "MCD", "YNS"}},
+            {"Android"               , new []{"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS"}},
             {"AmigaOS"               , new []{"AMG", "MOR"}},
             {"Apple TV"              , new []{"ATV"}},
             {"BlackBerry"            , new []{"BLB", "QNX"}},
             {"Brew"                  , new []{"BMP"}},
             {"BeOS"                  , new []{"BEO", "HAI"}},
             {"Chrome OS"             , new []{"COS"}},
-            {"Firefox OS"            , new []{"FOS"}},
+            {"Firefox OS"            , new []{"FOS", "KOS"}},
             {"Gaming Console"        , new []{"WII", "PS3"}},
             {"Google TV"             , new []{"GTV"}},
             {"IBM"                   , new []{"OS2"}},

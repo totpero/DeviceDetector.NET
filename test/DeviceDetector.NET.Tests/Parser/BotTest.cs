@@ -27,7 +27,7 @@ namespace DeviceDetectorNET.Tests.Parser
             var botParser = new BotParser {DiscardDetails = false};
             botParser.SetUserAgent("Googlebot/2.1 (http://www.googlebot.com/bot.html)");
             var result = botParser.Parse();
-            result.Match.ShouldBeEquivalentTo(expected);
+            result.Match.Should().BeEquivalentTo(expected, config=>config.ExcludingMissingMembers());
         }
 
         [Fact]

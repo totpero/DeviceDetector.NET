@@ -39,9 +39,9 @@ namespace DeviceDetectorNET.Tests.Parser
                 var result = operatingSystemParser.Parse();
                 result.Success.Should().BeTrue("Match should be with success");
 
-                result.Match.Name.ShouldBeEquivalentTo(fixture.os.name, "Names should be equal");
-                result.Match.ShortName.ShouldBeEquivalentTo(fixture.os.short_name, "short_names should be equal");
-                result.Match.Version.ShouldBeEquivalentTo(fixture.os.version, "Versions should be equal");
+                result.Match.Name.Should().BeEquivalentTo(fixture.os.name, "Names should be equal");
+                result.Match.ShortName.Should().BeEquivalentTo(fixture.os.short_name, "short_names should be equal");
+                result.Match.Version.Should().BeEquivalentTo(fixture.os.version, "Versions should be equal");
             }
         }
 
@@ -87,7 +87,7 @@ namespace DeviceDetectorNET.Tests.Parser
         public void TestGetNameFromId(string os, string version, string expected)
         {
             var result = OperatingSystemParser.GetNameFromId(os, version);
-            result.ShouldBeEquivalentTo(expected);
+            result.Should().BeEquivalentTo(expected);
         }
     }
 }

@@ -23,7 +23,8 @@ namespace DeviceDetectorNET.Parser.Client.Browser
             "Gecko",
             "KHTML",
             "NetFront",
-            "Edge"
+            "Edge",
+            "NetSurf"
         };
 
         public EngineParser()

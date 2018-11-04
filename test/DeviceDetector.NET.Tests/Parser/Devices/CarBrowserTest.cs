@@ -38,9 +38,9 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
                 var result = carBrowserParser.Parse();
                 result.Success.Should().BeTrue("Match should be with success to " + fixture.device.model);
 
-                result.Match.Name.ShouldBeEquivalentTo(fixture.device.model, "Names should be equal");
-                result.Match.Brand.ShouldBeEquivalentTo(fixture.device.brand, "Brand should be equal");
-                result.Match.Type.ShouldBeEquivalentTo(fixture.device.type, "Types should be equal");
+                result.Match.Name.Should().BeEquivalentTo(fixture.device.model, "Names should be equal");
+                result.Match.Brand.Should().BeEquivalentTo(fixture.device.brand, "Brand should be equal");
+                result.Match.Type.Should().Be(fixture.device.type, "Types should be equal");
             }
 
         }

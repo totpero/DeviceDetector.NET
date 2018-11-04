@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using FluentAssertions;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Parser;
+using DeviceDetectorNET.Parser.Client;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Device;
 using DeviceDetectorNET.Tests.Class;
@@ -19,7 +21,7 @@ namespace DeviceDetectorNET.Tests
         public void TestAddClientParserInvalid()
         {
             var dd = new DeviceDetector();
-            dd.AddClientsParser();
+            dd.AddStandardClientsParser();
             dd.Should().NotBeNull();
         }
 
@@ -210,12 +212,12 @@ namespace DeviceDetectorNET.Tests
                 var botData = dd.GetBot();
                 botData.Success.Should().BeTrue("Match should be with success");
                  
-                botData.Match.Name.ShouldBeEquivalentTo(fixture.bot.name, "Names should be equal");
-                botData.Match.Category.ShouldBeEquivalentTo(fixture.bot.category, "Categories should be equal");
-                botData.Match.Url.ShouldBeEquivalentTo(fixture.bot.url, "URLs should be equal");
+                botData.Match.Name.Should().BeEquivalentTo(fixture.bot.name, "Names should be equal");
+                botData.Match.Category.Should().BeEquivalentTo(fixture.bot.category, "Categories should be equal");
+                botData.Match.Url.Should().BeEquivalentTo(fixture.bot.url, "URLs should be equal");
                 if (botData.Match.Producer != null && fixture.bot.producer != null)
                 {
-                    botData.Match.Producer.Name.ShouldBeEquivalentTo(fixture.bot.producer.name, "Producers name should be equal");
+                    botData.Match.Producer.Name.Should().BeEquivalentTo(fixture.bot.producer.name, "Producers name should be equal");
                 }
 
                 // client and os will always be unknown for bots
@@ -247,17 +249,27 @@ namespace DeviceDetectorNET.Tests
 
             var dd = DeviceDetector.GetInfoFromUserAgent(expected.UserAgent);
             dd.Success.Should().BeTrue();
-            dd.Match.Bot.ShouldBeEquivalentTo(expected.Bot);
+            dd.Match.Bot.Should().BeEquivalentTo(expected.Bot);
         }
 
-        //[Fact(Skip = "Not Implemented")]
-        //public void TestMagicMMethods()
-        //{
-        //    var ua = "Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36";
-        //    var dd = new DeviceDetector(ua);
-        //    dd.Parse();
-        //    dd.Is(ClientType.Browser);
-        //}
+        [Fact]
+        public void TestParseNoDetails()
+        {
+           var user_agent = "Googlebot/2.1 (http://www.googlebot.com/bot.html)";
+            var dd = new DeviceDetector(user_agent);
+            dd.DiscardBotInformation();
+            dd.Parse();
+            dd.IsBot().Should().BeTrue();
+        }
+
+        [Fact(Skip = "Not Implemented")]
+        public void TestMagicMMethods()
+        {
+            var ua = "Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36";
+            var dd = new DeviceDetector(ua);
+            dd.Parse();
+            dd.Is(ClientType.Browser);
+        }
 
         [Fact]
         public void TestInvalidMagicMethod()

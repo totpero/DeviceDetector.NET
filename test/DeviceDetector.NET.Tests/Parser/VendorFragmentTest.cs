@@ -38,7 +38,7 @@ namespace DeviceDetectorNET.Tests.Parser
                 var result = vendorFragmentParser.Parse();
                 result.Success.Should().BeTrue("Match should be with success");
 
-                result.Match.Brand.ShouldBeEquivalentTo(fixture.vendor, "Brands should be equal");
+                result.Match.Brand.Should().BeEquivalentTo(fixture.vendor, "Brands should be equal");
             }
         }
     }

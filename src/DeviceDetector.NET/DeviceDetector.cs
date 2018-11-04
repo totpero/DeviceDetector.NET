@@ -19,7 +19,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "3.9.2";
+        public const string VERSION = "3.11.2";
 
         /// <summary>
         /// Operating system families that are known as desktop only
@@ -98,6 +98,8 @@ namespace DeviceDetectorNET
 
         protected List<IDeviceParserAbstract> deviceParsers = new List<IDeviceParserAbstract>();
 
+        protected List<IBotParserAbstract> botParsers = new List<IBotParserAbstract>();
+
         protected bool parsed;
 
         /// <summary>
@@ -111,8 +113,10 @@ namespace DeviceDetectorNET
                 SetUserAgent(userAgent);
             }
 
-            AddClientsParser();
-            AddDevicesParser();
+            AddStandardClientsParser();
+            AddStandardDevicesParser();
+
+            botParsers.Add(new BotParser());
         }
 
         //@todo:need implemented
@@ -145,7 +149,7 @@ namespace DeviceDetectorNET
         }
 
 
-        public void AddClientsParser()
+        public void AddStandardClientsParser()
         {
             clientParsers.Add(ClientType.FeedReader.Client);
             clientParsers.Add(ClientType.MobileApp.Client);
@@ -155,7 +159,18 @@ namespace DeviceDetectorNET
             clientParsers.Add(ClientType.Library.Client);
         }
 
-        private void AddDevicesParser()
+        public void AddClientParser(IClientParserAbstract parser)
+        {
+            clientParsers.Add(parser);
+        }
+
+        public IEnumerable<IClientParserAbstract> GetClientsParsers()
+        {
+            return clientParsers.AsEnumerable();
+        }
+
+
+        public void AddStandardDevicesParser()
         {
             deviceParsers.Add(new HbbTvParser());
             deviceParsers.Add(new ConsoleParser());
@@ -165,7 +180,17 @@ namespace DeviceDetectorNET
             deviceParsers.Add(new MobileParser());
         }
 
+        public void AddDeviceParser(IDeviceParserAbstract parser)
+        {
+            deviceParsers.Add(parser);
+        }
 
+        public IEnumerable<IDeviceParserAbstract> GetDeviceParsers()
+        {
+           return deviceParsers.AsEnumerable();
+        }
+
+       
         /// <summary>
         /// Sets whether to discard additional bot information
         /// If information is discarded it's only possible check whether UA was detected as bot or not.
@@ -324,6 +349,7 @@ namespace DeviceDetectorNET
             }
             return client;
         }
+
         /// <summary>
         /// 
         /// </summary>
@@ -436,11 +462,20 @@ namespace DeviceDetectorNET
                 bot = new ParseResult<BotMatchResult>();
                 return;
             }
-            var botParser = new BotParser();
-            botParser.SetUserAgent(userAgent);
-            botParser.SetCache(cache);
-            botParser.DiscardDetails = discardBotInformation;
-            bot = botParser.Parse();
+
+            foreach (var botParser in botParsers)
+            {
+                //@todo: need to be changed
+                var parser = (BotParser) botParser;
+                    
+                parser.SetUserAgent(userAgent);
+                parser.SetCache(cache);
+                parser.DiscardDetails = discardBotInformation;
+                var botParseResult = parser.Parse();
+                if (!botParseResult.Success) continue;
+                bot = botParseResult;
+                return;
+            }
         }
 
         /// <summary>
@@ -647,6 +682,12 @@ namespace DeviceDetectorNET
             client = GetClient();
             var clientName = client.Success ? client.Match.Name : "";
 
+
+            //Assume all devices running iOS / Mac OS are from Apple
+            if (string.IsNullOrEmpty(brand) && new [] { "ATV", "IOS", "MAC" }.Contains(osShortName))
+            {
+                brand = "AP";
+            }
 
             //Chrome on Android passes the device type based on the keyword 'Mobile'
             //If it is present the device should be a smartphone, otherwise it's a tablet

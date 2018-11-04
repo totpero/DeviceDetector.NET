@@ -49,12 +49,12 @@ namespace DeviceDetectorNET.Tests.Parser.Client
                 var result = browsers.Parse();
               
                 result.Success.Should().BeTrue("Match should be with success");
-                result.Match.Engine.ShouldBeEquivalentTo(fixture.client.engine, "Engine should be equal " + fixture.user_agent);
-                result.Match.EngineVersion.ShouldBeEquivalentTo(fixture.client.engine_version, "EngineVersion should be equal");
-                result.Match.Name.ShouldBeEquivalentTo(fixture.client.name, "Names should be equal");
-                result.Match.ShortName.ShouldBeEquivalentTo(fixture.client.short_name, "Short Names should be equal");
-                result.Match.Type.ShouldBeEquivalentTo(fixture.client.type, "Type should be equal");
-                result.Match.Version.ShouldBeEquivalentTo(fixture.client.version, "Version should be equal");
+                result.Match.Engine.Should().BeEquivalentTo(fixture.client.engine, "Engine should be equal " + fixture.user_agent);
+                result.Match.EngineVersion.Should().BeEquivalentTo(fixture.client.engine_version.ToString(), "EngineVersion should be equal");
+                result.Match.Name.Should().BeEquivalentTo(fixture.client.name, "Names should be equal");
+                result.Match.ShortName.Should().BeEquivalentTo(fixture.client.short_name, "Short Names should be equal");
+                result.Match.Type.Should().BeEquivalentTo(fixture.client.type, "Type should be equal");
+                result.Match.Version.Should().BeEquivalentTo(fixture.client.version, "Version should be equal");
 
             }
         }
