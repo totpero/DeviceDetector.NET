@@ -83,7 +83,7 @@ namespace DeviceDetectorNET.Tests
         [InlineData("unknown")]
         public void TestParse(string fileNme)
         {
-
+            //DeviceDetectorSettings.RegexesDirectory = @"D:\WorkSpaces\GitHubVisualStudio\DeviceDetector.Net\src\DeviceDetector.NET\";
             var parser = new YamlParser<List<DeviceDetectorFixture>>();
             var _fixtureData = parser.ParseFile($"{Utils.CurrentDirectory()}\\fixtures\\{fileNme}.yml");
 
