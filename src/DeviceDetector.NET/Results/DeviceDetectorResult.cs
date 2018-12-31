@@ -1,4 +1,5 @@
 using DeviceDetectorNET.Results.Client;
+using System;
 
 namespace DeviceDetectorNET.Results
 {
@@ -18,5 +19,22 @@ namespace DeviceDetectorNET.Results
         public string DeviceModel { get; set; }
         public string OsFamily { get; set; }
         public string BrowserFamily { get; set; }
+
+        public override string ToString() =>
+        $"UserAgent: {UserAgent}; " +
+        $"{Environment.NewLine} " +
+        $"DeviceType: {DeviceType}" +
+        $"{Environment.NewLine} " +
+        $"DeviceBrand: {DeviceBrand}" +
+        $"{Environment.NewLine} " +
+        $"DeviceModel: {DeviceModel}" +
+        $"{Environment.NewLine} " +
+        $"BrowserFamily: {BrowserFamily}" +
+        $"{Environment.NewLine} " +
+        $"Bot: {Bot}" +
+        $"{Environment.NewLine} " +
+        $"Os: {Os}" +
+        $"{Environment.NewLine} " +
+        $"Client: {Client}";
     }
 }

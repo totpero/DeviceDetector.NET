@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27323.2
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET", "src\DeviceDetector.NET\DeviceDetector.NET.csproj", "{0DF4FD94-175A-412A-8E34-D8928673D773}"
 EndProject
@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Web", "DeviceDetector.NET.Web\DeviceDetector.NET.Web.csproj", "{2D721B7D-29F9-4041-B11D-A8879FEE153F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{DD20AEC1-F60A-4CB8-B795-8872FCC6AF13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD20AEC1-F60A-4CB8-B795-8872FCC6AF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD20AEC1-F60A-4CB8-B795-8872FCC6AF13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D721B7D-29F9-4041-B11D-A8879FEE153F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D721B7D-29F9-4041-B11D-A8879FEE153F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D721B7D-29F9-4041-B11D-A8879FEE153F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D721B7D-29F9-4041-B11D-A8879FEE153F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

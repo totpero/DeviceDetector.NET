@@ -116,7 +116,6 @@
     <Compile Include="Results\Device\IDeviceMatchResult.cs" />
     <Compile Include="Results\IBotMatchResult.cs" />
     <Compile Include="Results\IMatchResult.cs" />
-    <Compile Include="Results\MatchResult.cs" />
     <Compile Include="Results\OsMatchResult.cs" />
     <Compile Include="Results\ParseResult.cs" />
     <Compile Include="Results\UnknownOsMatchResult.cs" />

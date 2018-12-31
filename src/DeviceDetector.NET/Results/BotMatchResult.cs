@@ -1,4 +1,5 @@
 using DeviceDetectorNET.Class;
+using System;
 
 namespace DeviceDetectorNET.Results
 {
@@ -9,5 +10,13 @@ namespace DeviceDetectorNET.Results
         public string Url { get; set; }
         public Producer Producer { get; set; }
 
+        public override string ToString() =>
+        $"Category: {Category}; " +
+        $"{Environment.NewLine} " +
+        $"Name: {Name};" +
+        $"{Environment.NewLine} " +
+        $"Url: {Url};" +
+        $"{Environment.NewLine} " +
+        $"Producer: {Producer?.Name};";
     }
 }

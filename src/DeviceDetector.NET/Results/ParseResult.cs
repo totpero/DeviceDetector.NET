@@ -36,5 +36,7 @@ namespace DeviceDetectorNET.Results
             Success = true;
             return this;
         }
+
+        public override string ToString() => Success ? Match.ToString() : "No matches!";
     }
 }
