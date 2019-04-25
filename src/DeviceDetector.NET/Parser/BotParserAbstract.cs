@@ -5,6 +5,11 @@ using DeviceDetectorNET.Results;
 
 namespace DeviceDetectorNET.Parser
 {
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TResult"></typeparam>
     public abstract class BotParserAbstract<T, TResult> : ParserAbstract<T, TResult>, IBotParserAbstract
         where T : class, IEnumerable<Bot>
         where TResult : class, IBotMatchResult, new()

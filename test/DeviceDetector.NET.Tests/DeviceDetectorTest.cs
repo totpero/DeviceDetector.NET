@@ -39,7 +39,11 @@ namespace DeviceDetectorNET.Tests
         {
             var dd = new DeviceDetector();
             dd.Parse();
+            dd.IsParsed().Should().BeTrue();
             dd.Parse(); // call second time complete code coverage
+            dd.IsParsed().Should().BeTrue();
+            var client = dd.GetClient();
+            client.Success.Should().BeFalse();
         }
 
         [Fact]
@@ -47,6 +51,9 @@ namespace DeviceDetectorNET.Tests
         {
             var dd = new DeviceDetector("12345");
             dd.Parse();
+            dd.IsParsed().Should().BeTrue();
+            var client = dd.GetClient();
+            client.Success.Should().BeFalse();
         }
 
         [Fact]
@@ -263,7 +270,7 @@ namespace DeviceDetectorNET.Tests
         }
 
         [Fact(Skip = "Not Implemented")]
-        public void TestMagicMMethods()
+        public void TestMagicMethods()
         {
             var ua = "Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36";
             var dd = new DeviceDetector(ua);

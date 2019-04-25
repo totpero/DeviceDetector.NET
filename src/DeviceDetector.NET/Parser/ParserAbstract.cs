@@ -93,6 +93,7 @@ namespace DeviceDetectorNET.Parser
 
         protected ParserAbstract(string ua = "")
         {
+            if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
             UserAgent = ua;
             //regexList = new List<T>();
         }
@@ -122,6 +123,7 @@ namespace DeviceDetectorNET.Parser
         /// <param name="ua"></param>
         public virtual void SetUserAgent(string ua)
         {
+            if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
             UserAgent = ua;
         }
 

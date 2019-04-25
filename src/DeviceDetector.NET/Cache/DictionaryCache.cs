@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 
 namespace DeviceDetectorNET.Cache
 {
     public class DictionaryCache : ICache
     {
-        private static Dictionary<string,object> _staticCache = new Dictionary<string, object>();
+        private static ConcurrentDictionary<string,object> _staticCache = new ConcurrentDictionary<string, object>();
         public bool Contains(string id)
         {
             return _staticCache !=null && _staticCache.Keys.Count > 0 && _staticCache.ContainsKey(id);
@@ -12,8 +12,12 @@ namespace DeviceDetectorNET.Cache
 
         public bool Delete(string id)
         {
-            _staticCache.Remove(id);
-            return true;
+            if (Contains(id))
+            {
+                _staticCache.TryRemove(id, out _);
+                return true;
+            }
+            return false;
         }
 
         public object Fetch(string id)
@@ -23,7 +27,7 @@ namespace DeviceDetectorNET.Cache
 
         public bool FlushAll()
         {
-            _staticCache = new Dictionary<string, object>();
+            _staticCache = new ConcurrentDictionary<string, object>();
             return true;
         }
 
@@ -35,7 +39,7 @@ namespace DeviceDetectorNET.Cache
             }
             else
             {
-                _staticCache.Add(id, data);
+                _staticCache.TryAdd(id, data);
             }
             return true;
         }

@@ -40,8 +40,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FluentAssertions, Version=5.5.3.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\FluentAssertions.5.5.3\lib\net45\FluentAssertions.dll</HintPath>
+    <Reference Include="FluentAssertions, Version=5.6.0.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentAssertions.5.6.0\lib\net45\FluentAssertions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -113,16 +113,20 @@
     <None Include="fixtures\phablet.yml" />
     <None Include="fixtures\portable_media_player.yml" />
     <None Include="fixtures\smartphone-1.yml" />
+    <None Include="fixtures\smartphone-10.yml" />
     <None Include="fixtures\smartphone-2.yml" />
     <None Include="fixtures\smartphone-3.yml" />
     <None Include="fixtures\smartphone-4.yml" />
     <None Include="fixtures\smartphone-5.yml" />
     <None Include="fixtures\smartphone-6.yml" />
     <None Include="fixtures\smartphone-7.yml" />
+    <None Include="fixtures\smartphone-8.yml" />
+    <None Include="fixtures\smartphone-9.yml" />
     <None Include="fixtures\smartphone.yml" />
     <None Include="fixtures\smart_display.yml" />
     <None Include="fixtures\tablet-1.yml" />
     <None Include="fixtures\tablet-2.yml" />
+    <None Include="fixtures\tablet-3.yml" />
     <None Include="fixtures\tablet.yml" />
     <None Include="fixtures\tv.yml" />
     <None Include="fixtures\unknown.yml" />

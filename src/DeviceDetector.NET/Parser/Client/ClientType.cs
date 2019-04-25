@@ -1,5 +1,3 @@
-using DeviceDetectorNET.Results.Client;
-
 namespace DeviceDetectorNET.Parser.Client
 {
     public class ClientType

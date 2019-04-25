@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("TotPeRo")]
 [assembly: AssemblyProduct("DeviceDetectorNET")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -31,6 +31,6 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.9.2.1")]
-[assembly: AssemblyFileVersion("3.9.2.1")]
+[assembly: AssemblyVersion("3.11.6.0")]
+[assembly: AssemblyFileVersion("3.11.6.0")]
 [assembly: AssemblyKeyFile(@"DeviceDetector.NET.snk")]

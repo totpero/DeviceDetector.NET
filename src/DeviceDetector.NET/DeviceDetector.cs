@@ -19,7 +19,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "3.11.4";
+        public const string VERSION = "3.11.6";
 
         /// <summary>
         /// Operating system families that are known as desktop only
@@ -260,6 +260,11 @@ namespace DeviceDetectorNET
             var match = client.Match;
             return match.Type == ClientType.Browser.Name &&
                    BrowserParser.IsMobileOnlyBrowser(((BrowserMatchResult) match).ShortName);
+        }
+
+        public bool IsTablet()
+        {
+            return device.HasValue && device.Value == DeviceType.DEVICE_TYPE_TABLET;
         }
 
         public bool IsMobile()
