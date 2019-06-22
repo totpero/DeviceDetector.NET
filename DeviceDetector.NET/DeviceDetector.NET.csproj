@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>DeviceDetectorNET</RootNamespace>
+    <Version>4.0.0</Version>
+    <Authors>totpero</Authors>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Copyright>Copyright © www.totpe.ro</Copyright>
+    <Description>The Universal Device Detection library for .NET that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, feed readers, media players, PIMs, ...), operating systems, brands and models. This is a port of the popular PHP device-detector library to C#. For the most part you can just follow the documentation for device-detector with no issue.</Description>
+    <PackageTags>parse detection-library user-agent bot-detection mobile-detection desktop tablet mobile tv cars console standard</PackageTags>
+    <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="regexes\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="regexes\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="YamlDotNet.NetCore" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>
