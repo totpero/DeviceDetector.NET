@@ -6,7 +6,6 @@
 [![NuGet](https://img.shields.io/nuget/v/DeviceDetector.NET.svg?style=flat-square)](https://www.nuget.org/packages/DeviceDetector.NET)
 [![Join the chat at https://gitter.im/totpero/DeviceDetector.NET](https://badges.gitter.im/totpero/DeviceDetector.NET.svg)](https://gitter.im/totpero/DeviceDetector.NET?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Code Health](https://landscape.io/github/totpero/DeviceDetector.NET/master/landscape.svg?style=flat)](https://landscape.io/github/totpero/DeviceDetector.NET/master)
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/totpero/DeviceDetector.NET.svg?columns=all)](https://waffle.io/totpero/DeviceDetector.NET)
 
 ## Description
 
