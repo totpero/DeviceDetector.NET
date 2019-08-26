@@ -797,15 +797,10 @@ namespace DeviceDetectorNET
         /// </summary>
         /// <param name="ua">UserAgent to parse</param>
         /// <returns></returns>
-        public static ParseResult<DeviceDetectorResult> GetInfoFromUserAgent(string ua, IRegexEngine regexEngine=null)
+        public static ParseResult<DeviceDetectorResult> GetInfoFromUserAgent(string ua)
         {
             var result = new ParseResult<DeviceDetectorResult>();
             var deviceDetector = new DeviceDetector(ua);
-
-            if (regexEngine != null)
-            {
-               deviceDetector.SetRegexEngine(regexEngine);
-            }
 
             deviceDetector.Parse();
 
