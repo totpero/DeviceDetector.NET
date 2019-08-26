@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Results;
 
@@ -44,8 +43,8 @@ namespace DeviceDetectorNET.Parser
             {
                 foreach (var bot in regexList)
                 {
-                    var match = Regex.Match(UserAgent, bot.Regex, RegexOptions.IgnoreCase);
-                    if (!match.Success) continue;
+                    var match = GetRegexEngine().Match(UserAgent, bot.Regex);
+                    if (!match) continue;
                     if (DiscardDetails)
                     {
                         result.Add(new TResult());

@@ -319,7 +319,7 @@ namespace DeviceDetectorNET.Parser.Client
 
         protected string BuildEngine(Engine engineData, string browserVersion)
         {
-            var engine = "";
+            var engine = string.Empty;
             // if an engine is set as default
             if (!string.IsNullOrEmpty(engineData.Default))
             {
@@ -365,7 +365,7 @@ namespace DeviceDetectorNET.Parser.Client
         {
             var engineVersion = new VersionParser(UserAgent,engine);
             var result = engineVersion.Parse();
-            return result.Success? result.Match.Name : "";
+            return result.Success? result.Match.Name : string.Empty;
         }
     }
 }

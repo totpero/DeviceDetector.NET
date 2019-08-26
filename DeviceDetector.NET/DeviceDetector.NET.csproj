@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
-    <Version>4.0.0</Version>
+    <Version>4.1.0</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression></PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
@@ -12,6 +12,8 @@
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

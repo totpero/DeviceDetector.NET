@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET", "DeviceDetector.NET\DeviceDetector.NET.csproj", "{9D04EA3B-96FC-4B15-AA5E-8F6E6AD31E9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Tests", "DeviceDetector.NET.Tests\DeviceDetector.NET.Tests.csproj", "{24AF45AC-9BF3-46FB-85A3-2FA3C6EDB44A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.Tests", "DeviceDetector.NET.Tests\DeviceDetector.NET.Tests.csproj", "{24AF45AC-9BF3-46FB-85A3-2FA3C6EDB44A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Web", "DeviceDetector.NET.Web\DeviceDetector.NET.Web.csproj", "{1F1A33AF-57D9-48C8-B159-E5A50A8F2C77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.Web", "DeviceDetector.NET.Web\DeviceDetector.NET.Web.csproj", "{1F1A33AF-57D9-48C8-B159-E5A50A8F2C77}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{999E1778-7E91-4F62-AD53-6BE530E59B7C}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,6 +16,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.RegexEngine.PCRE", "DeviceDetector.NET.RegexEngine.PCRE\DeviceDetector.NET.RegexEngine.PCRE.csproj", "{94B4F635-61AC-40E4-87CC-DDA4217A0999}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{1F1A33AF-57D9-48C8-B159-E5A50A8F2C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F1A33AF-57D9-48C8-B159-E5A50A8F2C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F1A33AF-57D9-48C8-B159-E5A50A8F2C77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{94B4F635-61AC-40E4-87CC-DDA4217A0999}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94B4F635-61AC-40E4-87CC-DDA4217A0999}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94B4F635-61AC-40E4-87CC-DDA4217A0999}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94B4F635-61AC-40E4-87CC-DDA4217A0999}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

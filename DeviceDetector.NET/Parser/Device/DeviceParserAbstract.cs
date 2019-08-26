@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using DeviceDetectorNET.Class.Device;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Device;
@@ -571,8 +570,8 @@ namespace DeviceDetectorNET.Parser.Device
         public static string  GetFullName(string brandId)
         {
             if (string.IsNullOrEmpty(brandId))
-                return "";
-            return DeviceBrands.ContainsKey(brandId) ? DeviceBrands[brandId] : "";
+                return string.Empty;
+            return DeviceBrands.ContainsKey(brandId) ? DeviceBrands[brandId] : string.Empty;
         }
 
         /// <inheritdoc />
@@ -620,7 +619,7 @@ namespace DeviceDetectorNET.Parser.Device
                 DeviceTypes.TryGetValue(localDevice.Value.Device, out var localDeviceType);
                 deviceType = localDeviceType;
             }
-            model = "";
+            model = string.Empty;
             if (!string.IsNullOrEmpty(localDevice.Value.Name))
             {
                 model = BuildModel(localDevice.Value.Name, localMatches);
@@ -644,7 +643,7 @@ namespace DeviceDetectorNET.Parser.Device
                 if (localModelMatches == null) {
                     result.Add(new TResult { Name = model, Brand = brand, Type = deviceType });
                     return result;
-                 }
+                }
 
                 model = BuildModel(localModel.Name, localModelMatches)?.Trim();
 
@@ -672,7 +671,7 @@ namespace DeviceDetectorNET.Parser.Device
             model = BuildByMatch(model, matches);
 
             model = model.Replace('_', ' ');
-            model = Regex.Replace(model, " TD$", "", RegexOptions.IgnoreCase);
+            model = GetRegexEngine().Replace(model, " TD$", string.Empty);
 
             return model == "Build" ? null : model;
         }

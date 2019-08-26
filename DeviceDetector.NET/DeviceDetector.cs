@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class.Device;
 using DeviceDetectorNET.Parser;
 using DeviceDetectorNET.Parser.Client;
 using DeviceDetectorNET.Parser.Device;
+using DeviceDetectorNET.RegexEngine;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
 using DeviceDetectorNET.Results.Device;
@@ -64,12 +64,12 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Holds the device brand data after parsing the UA
         /// </summary>
-        protected string brand = "";
+        protected string brand = string.Empty;
 
         /// <summary>
         /// Holds the device model data after parsing the UA
         /// </summary>
-        protected string model = "";
+        protected string model = string.Empty;
 
         /// <summary>
         /// Holds bot information if parsing the UA results in a bot
@@ -91,6 +91,7 @@ namespace DeviceDetectorNET
         /// Holds the cache class used for caching the parsed yml-Files
         /// </summary>
         protected ICache cache;
+        protected IRegexEngine regexEngine;
 
         protected IParser yamlParser;
 
@@ -143,8 +144,8 @@ namespace DeviceDetectorNET
            client = new ParseResult<ClientMatchResult>();
            device =  null;
            os = new ParseResult<OsMatchResult>();
-           brand = "";
-           model = "";
+           brand = string.Empty;
+           model = string.Empty;
            parsed = false;
         }
 
@@ -300,7 +301,7 @@ namespace DeviceDetectorNET
                 return true;
             }
 
-            var osShort = os.Success ? os.Match.ShortName : "";
+            var osShort = os.Success ? os.Match.ShortName : string.Empty;
             if (string.IsNullOrEmpty(osShort) || UNKNOWN == osShort) {
                 return false;
             }
@@ -315,7 +316,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool IsDesktop()
         {
-            var osShort = os.Success ? os.Match.ShortName : "";
+            var osShort = os.Success ? os.Match.ShortName : string.Empty;
             if (string.IsNullOrEmpty(osShort) || UNKNOWN == osShort)
             {
                 return false;
@@ -435,7 +436,7 @@ namespace DeviceDetectorNET
             parsed = true;
 
             // skip parsing for empty useragents or those not containing any letter
-            if (string.IsNullOrEmpty(userAgent) || !Regex.Match(userAgent, "([a-z])", RegexOptions.IgnoreCase).Success)
+            if (string.IsNullOrEmpty(userAgent) || !GetRegexEngine().Match(userAgent, "([a-z])"))
             {
                 return;
             }
@@ -670,9 +671,9 @@ namespace DeviceDetectorNET
             }
             os = GetOs();
 
-            var osShortName = "";
-            var osFamily = "";
-            var osVersion = "";
+            var osShortName = string.Empty;
+            var osFamily = string.Empty;
+            var osVersion = string.Empty;
             if (os.Success)
             {
                 osShortName = os.Match.ShortName;
@@ -685,7 +686,7 @@ namespace DeviceDetectorNET
             }
 
             client = GetClient();
-            var clientName = client.Success ? client.Match.Name : "";
+            var clientName = client.Success ? client.Match.Name : string.Empty;
 
 
             //Assume all devices running iOS / Mac OS are from Apple
@@ -727,7 +728,7 @@ namespace DeviceDetectorNET
             //
             //So were are expecting that all devices running Android < 2 are smartphones
             // Devices running Android 3.X are tablets.Device type of Android 2.X and 4.X + are unknown
-            if (!device.HasValue && osShortName == "AND" && osVersion != "")
+            if (!device.HasValue && osShortName == "AND" && osVersion != string.Empty)
             {
                 if (System.Version.TryParse(osVersion, out _) && new System.Version(osVersion).CompareTo(new System.Version("2.0")) == -1)
                 {
@@ -796,10 +797,16 @@ namespace DeviceDetectorNET
         /// </summary>
         /// <param name="ua">UserAgent to parse</param>
         /// <returns></returns>
-        public static ParseResult<DeviceDetectorResult> GetInfoFromUserAgent(string ua)
+        public static ParseResult<DeviceDetectorResult> GetInfoFromUserAgent(string ua, IRegexEngine regexEngine=null)
         {
             var result = new ParseResult<DeviceDetectorResult>();
             var deviceDetector = new DeviceDetector(ua);
+
+            if (regexEngine != null)
+            {
+               deviceDetector.SetRegexEngine(regexEngine);
+            }
+
             deviceDetector.Parse();
 
             var match = new DeviceDetectorResult { UserAgent = deviceDetector.userAgent };
@@ -842,19 +849,29 @@ namespace DeviceDetectorNET
             return cache ?? new DictionaryCache();
         }
 
+        public void SetRegexEngine(IRegexEngine regexEng)
+        {
+            regexEngine = regexEng ?? throw new ArgumentNullException(nameof(regexEng));
+        }
+
+        public IRegexEngine GetRegexEngine()
+        {
+            return regexEngine ?? new MsRegexEngine();
+        }
+
         //@todo: duplicate in parserabstract
         private bool IsMatchUserAgent(string regex)
         {
             // only match if useragent begins with given regex or there is no letter before it
-            var match = Regex.Match(userAgent, FixUserAgentRegEx(regex), RegexOptions.IgnoreCase);
-            return match.Success;
+            var match = GetRegexEngine().Match(userAgent, FixUserAgentRegEx(regex));
+            return match;
         }
 
         protected string[] MatchUserAgent(string regex)
         {
             // only match if useragent begins with given regex or there is no letter before it
-            var match = Regex.Matches(userAgent, FixUserAgentRegEx(regex), RegexOptions.IgnoreCase);
-            return match.Cast<Match>().SelectMany(m => m.Groups.Cast<Group>().Select(g => g.Value)).ToArray();
+            var match = regexEngine.Matches(userAgent, FixUserAgentRegEx(regex));
+            return match.ToArray();
         }
 
         private static string FixUserAgentRegEx(string regex)

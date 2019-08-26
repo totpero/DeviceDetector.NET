@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
+using System.Linq;
 using DeviceDetectorNET.Class.Client;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
@@ -21,17 +21,12 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
             {
                 return result;
             }
-            var matches = Regex.Matches(UserAgent,_engine + @"\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))", RegexOptions.IgnoreCase);
-            if (matches.Count <= 0) return result;
-            foreach (Match match in matches)
+            var matches = GetRegexEngine().MatchesUniq(UserAgent,_engine + @"\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))").ToArray();
+            if (matches.Length <= 0) return result;
+            foreach (var match in matches)
             {
-                foreach (Group group in match.Groups)
-                {
-                    if (!match.Value.Equals(group.Value))
-                    {
-                        result.Add(new ClientMatchResult { Name = group.Value });
-                    }
-                }
+                result.Add(new ClientMatchResult { Name = match });
+                
             }
             return result;
             //return base.Parse();

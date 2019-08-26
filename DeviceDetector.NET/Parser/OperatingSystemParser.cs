@@ -242,7 +242,7 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         public static string GetNameFromId(string os, string ver = "")
         {
-            if (!OperatingSystems.ContainsKey(os)) return "";
+            if (!OperatingSystems.ContainsKey(os)) return string.Empty;
             var osFullName = OperatingSystems[os];
             return (osFullName + " " + ver).Trim();
         }

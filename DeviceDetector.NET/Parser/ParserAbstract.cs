@@ -1,14 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Class.Device;
+using DeviceDetectorNET.RegexEngine;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Yaml;
 
@@ -84,6 +83,8 @@ namespace DeviceDetectorNET.Parser
 
         protected IParser<T> YamlParser;
 
+        protected IRegexEngine RegexEngine;
+
         public virtual ParseResult<TResult> Parse()
         {
             throw new NotImplementedException();
@@ -147,7 +148,8 @@ namespace DeviceDetectorNET.Parser
         {
             if (regexList.Any()) return regexList;
             var cacheKey = "DeviceDetector-" + DeviceDetector.VERSION + "regexes-" + GetName();
-            cacheKey = Regex.Replace(cacheKey, "/([^a-z0-9_-]+)/i", "");
+            //@todo:option none
+            cacheKey = GetRegexEngine().Replace(cacheKey, "/([^a-z0-9_-]+)/i", string.Empty);
             var regexListCache = GetCache().Fetch(cacheKey);
             if (regexListCache != null)
             {
@@ -196,15 +198,15 @@ namespace DeviceDetectorNET.Parser
         protected bool IsMatchUserAgent(string regex)
         {
             // only match if useragent begins with given regex or there is no letter before it
-            var match = Regex.Match(UserAgent, FixUserAgentRegEx(regex), RegexOptions.IgnoreCase);
-            return match.Success;
+            var match = GetRegexEngine().Match(UserAgent, FixUserAgentRegEx(regex));
+            return match;
         }
 
         protected string[] MatchUserAgent(string regex)
         {
             // only match if useragent begins with given regex or there is no letter before it
-            var match = Regex.Matches(UserAgent, FixUserAgentRegEx(regex), RegexOptions.IgnoreCase);
-            return match.Cast<Match>().SelectMany(m => m.Groups.Cast<Group>().Select(g=>g.Value)).ToArray();
+            var match = GetRegexEngine().Matches(UserAgent, FixUserAgentRegEx(regex)).ToArray();
+            return match;
         }
 
         private string FixUserAgentRegEx(string regex)
@@ -221,7 +223,7 @@ namespace DeviceDetectorNET.Parser
                     continue;
                 }
 
-                var replace = matches[nb] ?? "";
+                var replace = matches[nb] ?? string.Empty;
                 item = item.Replace("$"+nb, replace).Trim();
             }
             return item;
@@ -238,7 +240,7 @@ namespace DeviceDetectorNET.Parser
         /// <param name="matches"></param>
         protected string BuildVersion(string versionString, string[] matches)
         {
-            versionString = BuildByMatch(versionString ?? "", matches);
+            versionString = BuildByMatch(versionString ?? string.Empty, matches);
             versionString = versionString.Replace("_", ".").TrimEnd('.');
 
             var versionParts = versionString.Split('.');
@@ -264,10 +266,11 @@ namespace DeviceDetectorNET.Parser
             var regexes = GetRegexes();
 
             var cacheKey = ParserName + DeviceDetector.VERSION + "-all";
-            cacheKey = Regex.Replace(cacheKey, "/([^a-z0-9_-]+)/i", "");
+            //@todo: default none
+            cacheKey = GetRegexEngine().Replace(cacheKey, "/([^a-z0-9_-]+)/i", string.Empty);
 
             var regexListCache = GetCache().Fetch(cacheKey);
-            string overAllMatch = regexListCache?.ToString() ?? "";
+            string overAllMatch = regexListCache?.ToString() ?? string.Empty;
 
 
             if (string.IsNullOrEmpty(overAllMatch))
@@ -332,5 +335,14 @@ namespace DeviceDetectorNET.Parser
             return YamlParser ?? new YamlParser<T>();
         }
 
+        public void SetRegexEngine(IRegexEngine regexEngine)
+        {
+            RegexEngine = regexEngine ?? throw new ArgumentNullException(nameof(regexEngine));
+        }
+
+        public IRegexEngine GetRegexEngine()
+        {
+            return RegexEngine ?? new MsRegexEngine();
+        }
     }
 }

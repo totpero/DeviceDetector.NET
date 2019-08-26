@@ -27,7 +27,7 @@ namespace DeviceDetectorNET.Parser.Device
             result = base.Parse();
             if (!result.Success)
             {
-                result.Add(new DeviceMatchResult { Brand = "", Name = "", Type = deviceType.Value });
+                result.Add(new DeviceMatchResult { Brand = string.Empty, Name = string.Empty, Type = deviceType.Value });
             }
             return result;
         }
