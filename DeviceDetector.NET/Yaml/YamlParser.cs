@@ -31,9 +31,9 @@ namespace DeviceDetectorNET.Yaml
             var parser = new YamlDotNet.Core.Parser(streamReader);
 
             // Consume the stream start event "manually"
-            parser.Expect<StreamStart>();
+            parser.TryConsume<StreamStart>(out _);
 
-            while (parser.Accept<DocumentStart>())
+            while (parser.TryConsume<DocumentStart>(out _))
             // Deserialize the document
             {
                 return deserializer.Deserialize<T>(parser);
