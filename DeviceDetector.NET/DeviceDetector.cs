@@ -19,7 +19,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "3.11.6";
+        public const string VERSION = "3.12.6";
 
         /// <summary>
         /// Operating system families that are known as desktop only
@@ -698,7 +698,9 @@ namespace DeviceDetectorNET
             //Chrome on Android passes the device type based on the keyword 'Mobile'
             //If it is present the device should be a smartphone, otherwise it's a tablet
             //See https://developer.chrome.com/multidevice/user-agent#chrome_for_android_user_agent
-            if (!device.HasValue && osFamily == "Android" && (clientName == "Chrome" || clientName == "Chrome Mobile"))
+            //Note: We do not check for browser (family) here, as there might be mobile apps using Chrome, that won't have
+            //a detected browser, but can still be detected. So we check the useragent for Chrome instead.
+            if (!device.HasValue && osFamily == "Android" && IsMatchUserAgent(@"Chrome/[\.0-9]*"))
             {
                 if (IsMatchUserAgent(@"Chrome/[\.0-9]* Mobile"))
                 {

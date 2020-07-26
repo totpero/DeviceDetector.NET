@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="PCRE.NET" Version="0.10.1" />
+    <PackageReference Include="PCRE.NET" Version="0.13.0" />
   </ItemGroup>
 
   <ItemGroup>

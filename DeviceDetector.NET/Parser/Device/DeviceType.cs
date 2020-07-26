@@ -13,5 +13,7 @@ namespace DeviceDetectorNET.Parser.Device
         public const int DEVICE_TYPE_CAMERA = 8;
         public const int DEVICE_TYPE_PORTABLE_MEDIA_PAYER = 9;
         public const int DEVICE_TYPE_PHABLET = 10;
+        public const int DEVICE_TYPE_SMART_SPEAKER = 11;
+        public const int DEVICE_TYPE_WEARABLE = 12; // including set watches, headsets
     }
 }

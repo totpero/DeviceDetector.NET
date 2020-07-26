@@ -24,7 +24,9 @@ namespace DeviceDetectorNET.Parser.Client.Browser
             "KHTML",
             "NetFront",
             "Edge",
-            "NetSurf"
+            "NetSurf",
+            "Servo",
+            "Goanna"
         };
 
         public EngineParser()
@@ -71,7 +73,7 @@ namespace DeviceDetectorNET.Parser.Client.Browser
             }
             return result;
             // This Exception should never be thrown. If so a defined browser name is missing in $availableEngines
-            throw new Exception("Detected browser engine was not found in AvailableEngines");
+            throw new Exception("Detected browser engine was not found in AvailableEngines. Tried to parse user agent:"+ UserAgent);
 
         }
     }

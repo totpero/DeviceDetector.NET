@@ -17,7 +17,7 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
                 .DeviceTypes
                 .Count
                 .Should()
-                .Be(11);
+                .Be(13);
         }
 
         [Fact]
@@ -27,7 +27,7 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
                 .DeviceBrands
                 .Count
                 .Should()
-                .Be(470);
+                .Be(659);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using FluentAssertions;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class;
@@ -24,6 +25,72 @@ namespace DeviceDetectorNET.Tests
             dd.AddStandardClientsParser();
             dd.Should().NotBeNull();
         }
+
+        /// <summary>
+        /// check the regular expression for the vertical line closing the group
+        /// </summary>
+        private bool CheckRegexVerticalLineClosingGroup(string regex)
+        {
+            if (!regex.Contains('|')) return true;
+            const string pattern = @"#(?<!\\\)(\|\))#is";
+            return !Regex.IsMatch(regex, pattern);
+        }
+
+        //public function testDevicesYmlFiles()
+        //{
+        //$fixtureFiles = glob(realpath(dirname(__FILE__)). '/../regexes/device/*.yml');
+        //    foreach ($fixtureFiles AS $file) {
+        //    $ymlData = \Spyc::YAMLLoad($file);
+        //        foreach ($ymlData AS $brand => $regex) {
+        //        $this->assertArrayHasKey('regex', $regex);
+        //        $this->assertTrue(strpos($regex['regex'], '||') === false, sprintf(
+        //            "Detect `||` in regex, file %s, brand %s, common regex %s",
+        //            $file,
+        //            $brand,
+        //            $regex['regex']
+        //        ));
+        //        $this->assertTrue($this->checkRegexVerticalLineClosingGroup($regex['regex']), sprintf(
+        //            "Detect `|)` in regex, file %s, brand %s, common regex %s",
+        //            $file,
+        //            $brand,
+        //            $regex['regex']
+        //        ));
+
+        //            if (array_key_exists('models', $regex))
+        //            {
+        //            $this->assertInternalType('array', $regex['models']);
+        //                foreach ($regex['models'] AS $model) {
+        //                $this->assertArrayHasKey('regex', $model);
+        //                $this->assertArrayHasKey('model', $model, sprintf(
+        //                    "Key model not exist, file %s, brand %s, model regex %s",
+        //                    $file,
+        //                    $brand,
+        //                    $model['regex']
+        //                ));
+        //                $this->assertTrue(strpos($model['regex'], '||') === false, sprintf(
+        //                    "Detect `||` in regex, file %s, brand %s, model regex %s",
+        //                    $file,
+        //                    $brand,
+        //                    $model['regex']
+        //                ));
+
+        //                $this->assertTrue($this->checkRegexVerticalLineClosingGroup($model['regex']), sprintf(
+        //                    "Detect `|)` in regex, file %s, brand %s, model regex %s",
+        //                    $file,
+        //                    $brand,
+        //                    $model['regex']
+        //                ));
+        //                }
+        //            }
+        //            else
+        //            {
+        //            $this->assertArrayHasKey('device', $regex);
+        //            $this->assertArrayHasKey('model', $regex);
+        //            $this->assertInternalType('string', $regex['model']);
+        //            }
+        //        }
+        //    }
+        //}
 
         [Fact]
         public void TestCacheSetAndGet()
@@ -66,6 +133,7 @@ namespace DeviceDetectorNET.Tests
         }
 
         [Theory]
+        //[InlineData("bots")]
         [InlineData("camera")]
         [InlineData("car_browser")]
         [InlineData("console")]
@@ -77,17 +145,31 @@ namespace DeviceDetectorNET.Tests
         [InlineData("phablet")]
         [InlineData("portable_media_player")]
         [InlineData("smart_display")]
+        [InlineData("smart_speaker")]
         [InlineData("smartphone")]
         [InlineData("smartphone-1")]
         [InlineData("smartphone-2")]
         [InlineData("smartphone-3")]
         [InlineData("smartphone-4")]
         [InlineData("smartphone-5")]
+        [InlineData("smartphone-6")]
+        [InlineData("smartphone-7")]
+        [InlineData("smartphone-8")]
+        [InlineData("smartphone-9")]
+        [InlineData("smartphone-10")]
+        [InlineData("smartphone-11")]
+        [InlineData("smartphone-12")]
+        [InlineData("smartphone-13")]
+        [InlineData("smartphone-14")]
+        [InlineData("smartphone-15")]
         [InlineData("tablet")]
         [InlineData("tablet-1")]
         [InlineData("tablet-2")]
+        [InlineData("tablet-3")]
+        [InlineData("tablet-4")]
         [InlineData("tv")]
         [InlineData("unknown")]
+        [InlineData("wearable")]
         public void TestParse(string fileNme)
         {
             //DeviceDetectorSettings.RegexesDirectory = @"D:\WorkSpaces\GitHubVisualStudio\DeviceDetector.Net\src\DeviceDetector.NET\";
