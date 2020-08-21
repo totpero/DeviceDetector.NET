@@ -1,8 +1,11 @@
 using DeviceDetectorNET.Results.Client;
 using System;
+using System.Runtime.Serialization;
 
 namespace DeviceDetectorNET.Results
 {
+    [Serializable]
+    [DataContract]
     public class DeviceDetectorResult
     {
         public DeviceDetectorResult()
@@ -10,14 +13,23 @@ namespace DeviceDetectorNET.Results
             OsFamily = "Unknown";
             BrowserFamily = "Unknown";
         }
+        [DataMember]
         public string UserAgent { get; set; }
+        [DataMember]
         public BotMatchResult Bot { get; set; }
+        [DataMember]
         public OsMatchResult Os { get; set; }
+        [DataMember]
         public ClientMatchResult Client { get; set; }
+        [DataMember]
         public string DeviceType { get; set; }
+        [DataMember]
         public string DeviceBrand { get; set; }
+        [DataMember]
         public string DeviceModel { get; set; }
+        [DataMember]
         public string OsFamily { get; set; }
+        [DataMember]
         public string BrowserFamily { get; set; }
 
         public override string ToString() =>

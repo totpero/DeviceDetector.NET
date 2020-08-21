@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace DeviceDetectorNET.Results
 {
+    [Serializable]
+    [DataContract]
     public class ParseResult<TMatch>
         where TMatch : class
     {
@@ -19,8 +23,11 @@ namespace DeviceDetectorNET.Results
             Success = success;
         }
 
+
+        [DataMember]
         public bool Success { get; private set; }
         public TMatch Match => Success ? Matches.FirstOrDefault() : null;
+        [DataMember] 
         public List<TMatch> Matches { get; set; }
 
         public ParseResult<TMatch> Add(TMatch match)

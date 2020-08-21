@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class.Device;
 using DeviceDetectorNET.Parser;
@@ -10,6 +11,9 @@ using DeviceDetectorNET.RegexEngine;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
 using DeviceDetectorNET.Results.Device;
+using MonkeyCache;
+using MonkeyCache.LiteDB;
+using Newtonsoft.Json;
 using YamlDotNet.Core;
 
 namespace DeviceDetectorNET
@@ -35,6 +39,16 @@ namespace DeviceDetectorNET
             "BeOS",
             "Chrome OS"
         };
+
+        /// <summary>
+        /// To improve performance, we can cache the parsed DeviceDetector results.
+        /// ExpirationForDeviceDetectorResults defaults to TimeSpan.Zero, which disables the cache
+        /// One might consider setting this to a value like TimeSpan.FromDays(365) to improve performance
+        /// </summary>
+        // Note - in benchmarking, the unit tests required 12 minutes. Running them again, after enabling the cache,
+        // the unit tests required 16 seconds
+        public static TimeSpan ExpirationForDeviceDetectorResults = TimeSpan.Zero;
+        //public static TimeSpan ExpirationForDeviceDetectorResults = TimeSpan.FromDays(365);
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -132,7 +146,8 @@ namespace DeviceDetectorNET
         /// <param name="userAgent"></param>
         public void SetUserAgent(string userAgent)
         {
-            if (this.userAgent != userAgent) {
+            if (this.userAgent != userAgent)
+            {
                 Reset();
             }
             this.userAgent = userAgent;
@@ -140,13 +155,13 @@ namespace DeviceDetectorNET
 
         private void Reset()
         {
-           bot = new ParseResult<BotMatchResult>();
-           client = new ParseResult<ClientMatchResult>();
-           device =  null;
-           os = new ParseResult<OsMatchResult>();
-           brand = string.Empty;
-           model = string.Empty;
-           parsed = false;
+            bot = new ParseResult<BotMatchResult>();
+            client = new ParseResult<ClientMatchResult>();
+            device = null;
+            os = new ParseResult<OsMatchResult>();
+            brand = string.Empty;
+            model = string.Empty;
+            parsed = false;
         }
 
 
@@ -188,10 +203,10 @@ namespace DeviceDetectorNET
 
         public IEnumerable<IDeviceParserAbstract> GetDeviceParsers()
         {
-           return deviceParsers.AsEnumerable();
+            return deviceParsers.AsEnumerable();
         }
 
-       
+
         /// <summary>
         /// Sets whether to discard additional bot information
         /// If information is discarded it's only possible check whether UA was detected as bot or not.
@@ -260,7 +275,7 @@ namespace DeviceDetectorNET
             if (!client.Success) return false;
             var match = client.Match;
             return match.Type == ClientType.Browser.Name &&
-                   BrowserParser.IsMobileOnlyBrowser(((BrowserMatchResult) match).ShortName);
+                   BrowserParser.IsMobileOnlyBrowser(((BrowserMatchResult)match).ShortName);
         }
 
         public bool IsTablet()
@@ -297,12 +312,14 @@ namespace DeviceDetectorNET
             }
 
             // Check for browsers available for mobile devices only
-            if (UsesMobileBrowser()) {
+            if (UsesMobileBrowser())
+            {
                 return true;
             }
 
             var osShort = os.Success ? os.Match.ShortName : string.Empty;
-            if (string.IsNullOrEmpty(osShort) || UNKNOWN == osShort) {
+            if (string.IsNullOrEmpty(osShort) || UNKNOWN == osShort)
+            {
                 return false;
             }
 
@@ -328,9 +345,9 @@ namespace DeviceDetectorNET
                 return false;
             }
 
-            OperatingSystemParser.GetOsFamily(osShort,out string decodedFamily);
+            OperatingSystemParser.GetOsFamily(osShort, out string decodedFamily);
 
-            return Array.IndexOf(desktopOsArray,decodedFamily) > -1;
+            return Array.IndexOf(desktopOsArray, decodedFamily) > -1;
         }
 
         /// <summary>
@@ -423,6 +440,21 @@ namespace DeviceDetectorNET
             return parsed;
         }
 
+        private static readonly IBarrel barrel;
+        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
+        {
+            ContractResolver = null,
+            TypeNameHandling = TypeNameHandling.Auto
+        };
+
+        static DeviceDetector()
+        {
+            Barrel.ApplicationId = "DeviceDetector.NET";
+            var dir = DeviceDetectorSettings.RegexesDirectory ?? "";
+            barrel = Barrel.Create(dir);
+            barrel.EmptyExpired();
+        }
+
         /// <summary>
         /// Triggers the parsing of the current user agent
         /// </summary>
@@ -441,21 +473,55 @@ namespace DeviceDetectorNET
                 return;
             }
 
-            ParseBot();
-            if (IsBot()) {
-                return;
+            string key = null;
+            var useCache = ExpirationForDeviceDetectorResults != TimeSpan.Zero;
+            if (useCache)
+            {
+                key = $"{userAgent}_{skipBotDetection}_{discardBotInformation}_{_versionTruncation}";
+
+                var cachedData = barrel.Get<DeviceDetectorCachedData>(key, jsonSettings);
+                if (cachedData != null)
+                {
+                    device = cachedData.Device;
+                    brand = cachedData.Brand;
+                    parsed = cachedData.Parsed;
+                    model = cachedData.Model;
+                    bot = cachedData.Bot;
+                    client = cachedData.Client;
+                    os = cachedData.Os;
+                    return;
+                }
             }
 
-            ParseOs();
+            ParseBot();
+            if (!IsBot())
+            {
+                ParseOs();
 
-            /**
-             * Parse Clients
-             * Clients might be browsers, Feed Readers, Mobile Apps, Media Players or
-             * any other application accessing with an parseable UA
-             */
-            ParseClient();
+                /**
+                 * Parse Clients
+                 * Clients might be browsers, Feed Readers, Mobile Apps, Media Players or
+                 * any other application accessing with an parseable UA
+                 */
+                ParseClient();
 
-            ParseDevice();
+                ParseDevice();
+            }
+
+            if (useCache)
+            {
+                var cachedData = new DeviceDetectorCachedData()
+                {
+                    Device = device,
+                    Brand = brand,
+                    Parsed = parsed,
+                    Model = model,
+                    Bot = bot,
+                    Client = client,
+                    Os = os
+                };
+                barrel.Add(key: key, data: cachedData, expireIn: ExpirationForDeviceDetectorResults, jsonSerializationSettings: jsonSettings);
+            }
         }
 
         /// <summary>
@@ -472,8 +538,8 @@ namespace DeviceDetectorNET
             foreach (var botParser in botParsers)
             {
                 //@todo: need to be changed
-                var parser = (BotParser) botParser;
-                    
+                var parser = (BotParser)botParser;
+
                 parser.SetUserAgent(userAgent);
                 parser.SetCache(cache);
                 parser.DiscardDetails = discardBotInformation;
@@ -556,7 +622,7 @@ namespace DeviceDetectorNET
 
                 if (clientParser.ParserName == ClientType.Browser.Name)
                 {
-                   var parser = (BrowserParser)clientParser;
+                    var parser = (BrowserParser)clientParser;
                     var result = parser.Parse();
                     if (result.Success)
                     {
@@ -690,7 +756,7 @@ namespace DeviceDetectorNET
 
 
             //Assume all devices running iOS / Mac OS are from Apple
-            if (string.IsNullOrEmpty(brand) && new [] { "ATV", "IOS", "MAC" }.Contains(osShortName))
+            if (string.IsNullOrEmpty(brand) && new[] { "ATV", "IOS", "MAC" }.Contains(osShortName))
             {
                 brand = "AP";
             }
@@ -736,7 +802,7 @@ namespace DeviceDetectorNET
                 {
                     device = DeviceType.DEVICE_TYPE_SMARTPHONE;
                 }
-                else if (System.Version.TryParse(osVersion, out _) && new System.Version(osVersion).CompareTo(new System.Version("3.0")) >=0 && new System.Version(osVersion).CompareTo(new System.Version("4.0")) == -1)
+                else if (System.Version.TryParse(osVersion, out _) && new System.Version(osVersion).CompareTo(new System.Version("3.0")) >= 0 && new System.Version(osVersion).CompareTo(new System.Version("4.0")) == -1)
                 {
                     device = DeviceType.DEVICE_TYPE_TABLET;
                 }
@@ -876,8 +942,11 @@ namespace DeviceDetectorNET
             return @"(?:^|[^A-Z_-])(?:" + regex.Replace("/", @"\/").Replace("++", "+") + ")";
         }
 
+        private static int _versionTruncation = ParserAbstract<List<Class.Bot>, ClientMatchResult>.VERSION_TRUNCATION_NONE;
+
         public static void SetVersionTruncation(int versionTruncation)
         {
+            _versionTruncation = versionTruncation;
             ParserAbstract<List<Class.Bot>, BotMatchResult>.SetVersionTruncation(versionTruncation);
             ParserAbstract<List<Class.Os>, OsMatchResult>.SetVersionTruncation(versionTruncation);
             ParserAbstract<Dictionary<string, string[]>, VendorFragmentResult>.SetVersionTruncation(versionTruncation);
@@ -891,5 +960,25 @@ namespace DeviceDetectorNET
 
             ParserAbstract<IDictionary<string, DeviceModel>, DeviceMatchResult>.SetVersionTruncation(versionTruncation);
         }
+    }
+
+    [Serializable]
+    [DataContract]
+    public class DeviceDetectorCachedData
+    {
+        [DataMember]
+        public ParseResult<BotMatchResult> Bot;
+        [DataMember]
+        public ParseResult<ClientMatchResult> Client;
+        [DataMember]
+        public int? Device;
+        [DataMember]
+        public ParseResult<OsMatchResult> Os;
+        [DataMember]
+        public string Brand;
+        [DataMember]
+        public string Model;
+        [DataMember]
+        public bool Parsed;
     }
 }

@@ -18,6 +18,12 @@ namespace DeviceDetectorNET.Tests
     [Trait("Category", "DeviceDetector")]
     public class DeviceDetectorTest
     {
+        public DeviceDetectorTest()
+        {
+            // cache results data for 1 year
+            DeviceDetector.ExpirationForDeviceDetectorResults = TimeSpan.FromDays(365);
+        }
+
         [Fact]
         public void TestAddClientParserInvalid()
         {

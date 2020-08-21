@@ -1,11 +1,17 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace DeviceDetectorNET.Results.Client
 {
+    [Serializable]
+    [DataContract]
     public class BrowserMatchResult : ClientMatchResult
     {
+        [DataMember]
         public string ShortName { get; set; }
+        [DataMember]
         public string Engine { get; set; }
+        [DataMember]
         public string EngineVersion { get; set; }
 
         public override string ToString() => 

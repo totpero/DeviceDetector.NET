@@ -27,6 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="MonkeyCache" Version="1.3.0" />
+    <PackageReference Include="MonkeyCache.LiteDB" Version="1.3.0" />
     <PackageReference Include="YamlDotNet" Version="8.1.2" />
   </ItemGroup>
 
