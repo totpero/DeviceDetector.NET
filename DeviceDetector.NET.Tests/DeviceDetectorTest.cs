@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using FluentAssertions;
 using DeviceDetectorNET.Cache;
@@ -18,11 +17,11 @@ namespace DeviceDetectorNET.Tests
     [Trait("Category", "DeviceDetector")]
     public class DeviceDetectorTest
     {
-        public DeviceDetectorTest()
-        {
-            // cache results data for 1 year
-            DeviceDetector.ExpirationForDeviceDetectorResults = TimeSpan.FromDays(365);
-        }
+        // Uncomment below to test the cache during the xUnit tests
+        // public DeviceDetectorTest()
+        //{
+        //    DeviceDetectorSettings.ParseCacheDBExpiration = TimeSpan.FromDays(365);
+        //}
 
         [Fact]
         public void TestAddClientParserInvalid()
@@ -401,6 +400,19 @@ namespace DeviceDetectorNET.Tests
                 dd.IsMobile().Should().Be(item.Item3);
                 dd.IsDesktop().Should().Be(item.Item4);
             }
+        }
+        [Fact]
+        public void TestLRUCache()
+        {
+            var dd = LRUCachedDeviceDetector.GetDeviceDetector("Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
+            dd.IsParsed().Should().BeTrue();
+            var os = dd.GetOs();
+            os.Success.Should().BeTrue();
+            os = dd.GetOs();
+            os.Match.Name.Should().BeEquivalentTo("Windows");
+            os.Match.ShortName.Should().BeEquivalentTo("WIN");
+            os.Match.Version.Should().BeEquivalentTo("7");
+            os.Match.Platform.Should().BeEquivalentTo(PlatformType.X64);
         }
 
         [Fact]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using DeviceDetectorNET.Cache;
@@ -11,8 +12,7 @@ using DeviceDetectorNET.RegexEngine;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
 using DeviceDetectorNET.Results.Device;
-using MonkeyCache;
-using MonkeyCache.LiteDB;
+using LiteDB;
 using Newtonsoft.Json;
 using YamlDotNet.Core;
 
@@ -39,16 +39,6 @@ namespace DeviceDetectorNET
             "BeOS",
             "Chrome OS"
         };
-
-        /// <summary>
-        /// To improve performance, we can cache the parsed DeviceDetector results.
-        /// ExpirationForDeviceDetectorResults defaults to TimeSpan.Zero, which disables the cache
-        /// One might consider setting this to a value like TimeSpan.FromDays(365) to improve performance
-        /// </summary>
-        // Note - in benchmarking, the unit tests required 12 minutes. Running them again, after enabling the cache,
-        // the unit tests required 16 seconds
-        public static TimeSpan ExpirationForDeviceDetectorResults = TimeSpan.Zero;
-        //public static TimeSpan ExpirationForDeviceDetectorResults = TimeSpan.FromDays(365);
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -440,7 +430,8 @@ namespace DeviceDetectorNET
             return parsed;
         }
 
-        private static readonly IBarrel barrel;
+        private static readonly LiteDatabase db;
+        private static readonly LiteCollection<CachedDataHolder> col;
         private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
         {
             ContractResolver = null,
@@ -449,10 +440,39 @@ namespace DeviceDetectorNET
 
         static DeviceDetector()
         {
-            Barrel.ApplicationId = "DeviceDetector.NET";
-            var dir = DeviceDetectorSettings.RegexesDirectory ?? "";
-            barrel = Barrel.Create(dir);
-            barrel.EmptyExpired();
+            var dir = DeviceDetectorSettings.ParseCacheDBDirectory ?? "";
+            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+            {
+                try
+                {
+                    Directory.CreateDirectory(dir);
+                }
+                catch (Exception)
+                {
+                    // for now, swallow this error so we do not accidentally impact an unknown use case
+                    ;
+                    //throw new DirectoryNotFoundException($"Directory {dir} was not found and could not create it");
+                }
+            }
+            var filename = DeviceDetectorSettings.ParseCacheDBFilename ?? "DeviceDetectorNET.db";
+            var path = dir + filename;
+            var connectionString = new ConnectionString($"filename={path}");
+            db = new LiteDatabase(connectionString);
+            col = db.GetCollection<CachedDataHolder>();
+            EmptyExpired(col);
+        }
+
+        private static bool IsExpired(CachedDataHolder ent)
+        {
+            if (ent == null)
+                return false;
+            return DateTime.UtcNow > ent.ExpirationDate.ToUniversalTime();
+        }
+
+        private static void EmptyExpired(LiteCollection<CachedDataHolder> c)
+        {
+            c.Delete(b => b.ExpirationDate < DateTime.UtcNow);
+            //c.DeleteMany(b => b.ExpirationDate < DateTime.UtcNow);
         }
 
         /// <summary>
@@ -473,26 +493,62 @@ namespace DeviceDetectorNET
                 return;
             }
 
-            string key = null;
-            var useCache = ExpirationForDeviceDetectorResults != TimeSpan.Zero;
+            var useCache = DeviceDetectorSettings.ParseCacheDBExpiration != TimeSpan.Zero;
+
             if (useCache)
             {
-                key = $"{userAgent}_{skipBotDetection}_{discardBotInformation}_{_versionTruncation}";
+                var key = $"{userAgent}_{skipBotDetection}_{discardBotInformation}_{_versionTruncation}";
 
-                var cachedData = barrel.Get<DeviceDetectorCachedData>(key, jsonSettings);
-                if (cachedData != null)
+                var cachedData = col.FindById(key);
+                if (IsExpired(cachedData))
                 {
-                    device = cachedData.Device;
-                    brand = cachedData.Brand;
-                    parsed = cachedData.Parsed;
-                    model = cachedData.Model;
-                    bot = cachedData.Bot;
-                    client = cachedData.Client;
-                    os = cachedData.Os;
+                    col.Delete(key);
+                    cachedData = null;
+                }
+
+                if (!string.IsNullOrEmpty(cachedData?.Json))
+                {
+                    var data = JsonConvert.DeserializeObject<DeviceDetectorCachedData>(cachedData.Json, jsonSettings);
+                    device = data.Device;
+                    brand = data.Brand;
+                    parsed = data.Parsed;
+                    model = data.Model;
+                    bot = data.Bot;
+                    client = data.Client;
+                    os = data.Os;
                     return;
                 }
-            }
 
+                ParseBase();
+
+                var ent = new DeviceDetectorCachedData()
+                {
+                    Device = device,
+                    Brand = brand,
+                    Parsed = parsed,
+                    Model = model,
+                    Bot = bot,
+                    Client = client,
+                    Os = os
+                };
+
+                cachedData = new CachedDataHolder()
+                {
+                    Id = key,
+                    Json = JsonConvert.SerializeObject(ent, jsonSettings),
+                    ExpirationDate = useCache ? DateTime.UtcNow.Add(DeviceDetectorSettings.ParseCacheDBExpiration) : DateTime.MaxValue
+                };
+
+                col.Upsert(cachedData);
+            }
+            else
+            {
+                ParseBase();
+            }
+        }
+
+        private void ParseBase()
+        {
             ParseBot();
             if (!IsBot())
             {
@@ -506,21 +562,6 @@ namespace DeviceDetectorNET
                 ParseClient();
 
                 ParseDevice();
-            }
-
-            if (useCache)
-            {
-                var cachedData = new DeviceDetectorCachedData()
-                {
-                    Device = device,
-                    Brand = brand,
-                    Parsed = parsed,
-                    Model = model,
-                    Bot = bot,
-                    Client = client,
-                    Os = os
-                };
-                barrel.Add(key: key, data: cachedData, expireIn: ExpirationForDeviceDetectorResults, jsonSerializationSettings: jsonSettings);
             }
         }
 
@@ -964,21 +1005,39 @@ namespace DeviceDetectorNET
 
     [Serializable]
     [DataContract]
+    public class CachedDataHolder
+    {
+        [DataMember]
+        [BsonId]
+        public string Id { get; set; }
+
+        [DataMember]
+        public string Json { get; set; }
+
+        [DataMember]
+        public DateTime ExpirationDate { get; set; }
+    }
+
+    /// <summary>
+    /// Expiration data of the object, stored in UTC
+    /// </summary>
+    [Serializable]
+    [DataContract]
     public class DeviceDetectorCachedData
     {
         [DataMember]
-        public ParseResult<BotMatchResult> Bot;
+        public ParseResult<BotMatchResult> Bot { get; set; }
         [DataMember]
-        public ParseResult<ClientMatchResult> Client;
+        public ParseResult<ClientMatchResult> Client { get; set; }
         [DataMember]
-        public int? Device;
+        public int? Device { get; set; }
         [DataMember]
-        public ParseResult<OsMatchResult> Os;
+        public ParseResult<OsMatchResult> Os { get; set; }
         [DataMember]
-        public string Brand;
+        public string Brand { get; set; }
         [DataMember]
-        public string Model;
+        public string Model { get; set; }
         [DataMember]
-        public bool Parsed;
+        public bool Parsed { get; set; }
     }
 }
