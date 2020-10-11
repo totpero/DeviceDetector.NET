@@ -1,12 +1,19 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace DeviceDetectorNET.Results
 {
+    [Serializable]
+    [DataContract]
     public class OsMatchResult:IMatchResult
     {
+        [DataMember]
         public virtual string Name { get; set; }
+        [DataMember]
         public virtual string ShortName { get; set; }
+        [DataMember]
         public string Version { get; set; }
+        [DataMember]
         public string Platform { get; set; }
 
         public override string ToString() =>
