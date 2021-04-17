@@ -397,8 +397,10 @@ namespace DeviceDetectorNET.Parser.Client
                 {
                     if (string.Equals(name, availableBrowser.Value, StringComparison.CurrentCultureIgnoreCase))
                     {
+                        if (localBrowser.Engine == null)
+                            localBrowser.Engine = new Engine();
                         var version = BuildVersion(localBrowser.Version, localMatches);
-                        var engine = BuildEngine(localBrowser.Engine ?? new Engine(), version);
+                        var engine = BuildEngine(localBrowser.Engine, version);
                         var engineVersion = BuildEngineVersion(engine);
                         result.Add(new BrowserMatchResult
                         {
