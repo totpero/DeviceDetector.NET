@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -950,7 +950,9 @@ namespace DeviceDetectorNET
 
         public ICache GetCache()
         {
-            return cache ?? new DictionaryCache();
+            if (cache == null)
+                cache = new DictionaryCache();
+            return cache;
         }
 
         public void SetRegexEngine(IRegexEngine regexEng)
@@ -960,7 +962,9 @@ namespace DeviceDetectorNET
 
         public IRegexEngine GetRegexEngine()
         {
-            return regexEngine ?? new MsRegexEngine();
+            if (regexEngine == null) 
+                regexEngine = new MSRegexCompiledEngine();
+            return regexEngine;
         }
 
         //@todo: duplicate in parserabstract
