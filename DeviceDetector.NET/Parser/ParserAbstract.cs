@@ -332,7 +332,9 @@ namespace DeviceDetectorNET.Parser
 
         public IParser<T> GetYamlParser()
         {
-            return YamlParser ?? new YamlParser<T>();
+            if(YamlParser==null)
+                YamlParser = new YamlParser<T>();
+            return YamlParser;
         }
 
         public void SetRegexEngine(IRegexEngine regexEngine)
@@ -342,7 +344,10 @@ namespace DeviceDetectorNET.Parser
 
         public IRegexEngine GetRegexEngine()
         {
-            return RegexEngine ?? new MsRegexEngine();
+            if (RegexEngine == null)
+                RegexEngine = new MSRegexCompiledEngine();
+
+            return RegexEngine;
         }
     }
 }
