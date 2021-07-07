@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;Net46</TargetFrameworks>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
     <Version>4.2.0</Version>
     <Authors>totpero</Authors>
