@@ -4,7 +4,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public class FeedReaderParser : ClientParserAbstract<List<FeedReader>, ClientMatchResult>
+    public class FeedReaderParser : ClientParserAbstract<List<FeedReader>>
     {
         public FeedReaderParser()
         {

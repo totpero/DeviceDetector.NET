@@ -5,7 +5,7 @@ using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public class CarBrowserParser : DeviceParserAbstract<IDictionary<string, DeviceModel>, DeviceMatchResult>
+    public class CarBrowserParser : DeviceParserAbstract<IDictionary<string, DeviceModel>>
     {
         public CarBrowserParser()
         {

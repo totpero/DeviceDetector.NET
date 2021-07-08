@@ -99,11 +99,30 @@ namespace DeviceDetectorNET
 
         protected IParser yamlParser;
 
-        protected List<IClientParserAbstract> clientParsers = new List<IClientParserAbstract>();
+        protected List<IClientParserAbstract> clientParsers = new List<IClientParserAbstract>
+        {
+            ClientType.FeedReader.Client,
+            ClientType.MobileApp.Client,
+            ClientType.MediaPlayer.Client,
+            ClientType.PIM.Client,
+            ClientType.Browser.Client,
+            ClientType.Library.Client
+        };
 
-        protected List<IDeviceParserAbstract> deviceParsers = new List<IDeviceParserAbstract>();
+        protected List<IDeviceParserAbstract> deviceParsers = new List<IDeviceParserAbstract>
+        {
+            new HbbTvParser(),
+            new ConsoleParser(),
+            new CarBrowserParser(),
+            new CameraParser(),
+            new PortableMediaPlayerParser(),
+            new MobileParser()
+        };
 
-        protected List<IBotParserAbstract> botParsers = new List<IBotParserAbstract>();
+        protected List<IBotParserAbstract> botParsers = new List<IBotParserAbstract>
+        {
+            new BotParser()
+        };
 
         protected bool parsed;
 
@@ -117,11 +136,6 @@ namespace DeviceDetectorNET
             {
                 SetUserAgent(userAgent);
             }
-
-            AddStandardClientsParser();
-            AddStandardDevicesParser();
-
-            botParsers.Add(new BotParser());
         }
 
         //@todo:need implemented
@@ -154,17 +168,6 @@ namespace DeviceDetectorNET
             parsed = false;
         }
 
-
-        public void AddStandardClientsParser()
-        {
-            clientParsers.Add(ClientType.FeedReader.Client);
-            clientParsers.Add(ClientType.MobileApp.Client);
-            clientParsers.Add(ClientType.MediaPlayer.Client);
-            clientParsers.Add(ClientType.PIM.Client);
-            clientParsers.Add(ClientType.Browser.Client);
-            clientParsers.Add(ClientType.Library.Client);
-        }
-
         public void AddClientParser(IClientParserAbstract parser)
         {
             clientParsers.Add(parser);
@@ -173,17 +176,6 @@ namespace DeviceDetectorNET
         public IEnumerable<IClientParserAbstract> GetClientsParsers()
         {
             return clientParsers.AsEnumerable();
-        }
-
-
-        public void AddStandardDevicesParser()
-        {
-            deviceParsers.Add(new HbbTvParser());
-            deviceParsers.Add(new ConsoleParser());
-            deviceParsers.Add(new CarBrowserParser());
-            deviceParsers.Add(new CameraParser());
-            deviceParsers.Add(new PortableMediaPlayerParser());
-            deviceParsers.Add(new MobileParser());
         }
 
         public void AddDeviceParser(IDeviceParserAbstract parser)
@@ -195,7 +187,6 @@ namespace DeviceDetectorNET
         {
             return deviceParsers.AsEnumerable();
         }
-
 
         /// <summary>
         /// Sets whether to discard additional bot information
@@ -275,26 +266,12 @@ namespace DeviceDetectorNET
 
         public bool IsMobile()
         {
-            var mobileDeviceTypes = new List<int>
-            {
-                DeviceType.DEVICE_TYPE_FEATURE_PHONE,
-                DeviceType.DEVICE_TYPE_SMARTPHONE,
-                DeviceType.DEVICE_TYPE_TABLET,
-                DeviceType.DEVICE_TYPE_PHABLET,
-                DeviceType.DEVICE_TYPE_CAMERA,
-                DeviceType.DEVICE_TYPE_PORTABLE_MEDIA_PAYER,
-            };
             // Mobile device types
             if (device.HasValue && mobileDeviceTypes.Contains(device.Value))
             {
                 return true;
             }
-            var nonMobileDeviceTypes = new List<int>
-            {
-                DeviceType.DEVICE_TYPE_TV,
-                DeviceType.DEVICE_TYPE_SMART_DISPLAY,
-                DeviceType.DEVICE_TYPE_CONSOLE,
-            };
+
             // non mobile device types
             if (device.HasValue && nonMobileDeviceTypes.Contains(device.Value))
             {
@@ -387,7 +364,7 @@ namespace DeviceDetectorNET
         public string GetDeviceName()
         {
             return device.HasValue
-                ? DeviceParserAbstract<Dictionary<string, DeviceModel>, DeviceMatchResult>.GetDeviceName(device.Value).Key
+                ? DeviceParserAbstract<Dictionary<string, DeviceModel>>.GetDeviceName(device.Value).Key
                 : null;
         }
 
@@ -403,7 +380,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public string GetBrandName()
         {
-            return DeviceParserAbstract<Dictionary<string, DeviceModel>, DeviceMatchResult>
+            return DeviceParserAbstract<Dictionary<string, DeviceModel>>
                 .GetFullName(brand);
         }
 
@@ -436,6 +413,23 @@ namespace DeviceDetectorNET
         {
             ContractResolver = null,
             TypeNameHandling = TypeNameHandling.Auto
+        };
+
+        private static readonly List<int> mobileDeviceTypes = new List<int>
+        {
+            DeviceType.DEVICE_TYPE_FEATURE_PHONE,
+            DeviceType.DEVICE_TYPE_SMARTPHONE,
+            DeviceType.DEVICE_TYPE_TABLET,
+            DeviceType.DEVICE_TYPE_PHABLET,
+            DeviceType.DEVICE_TYPE_CAMERA,
+            DeviceType.DEVICE_TYPE_PORTABLE_MEDIA_PAYER,
+        };
+
+        private static readonly List<int> nonMobileDeviceTypes = new List<int>
+        {
+            DeviceType.DEVICE_TYPE_TV,
+            DeviceType.DEVICE_TYPE_SMART_DISPLAY,
+            DeviceType.DEVICE_TYPE_CONSOLE,
         };
 
         static DeviceDetector()
@@ -536,7 +530,7 @@ namespace DeviceDetectorNET
                 {
                     Id = key,
                     Json = JsonConvert.SerializeObject(ent, jsonSettings),
-                    ExpirationDate = useCache ? DateTime.UtcNow.Add(DeviceDetectorSettings.ParseCacheDBExpiration) : DateTime.MaxValue
+                    ExpirationDate = DateTime.UtcNow.Add(DeviceDetectorSettings.ParseCacheDBExpiration)
                 };
 
                 col.Upsert(cachedData);
@@ -592,7 +586,6 @@ namespace DeviceDetectorNET
         }
 
         /// <summary>
-        /// @todo: refactory
         /// </summary>
         protected void ParseClient()
         {
@@ -601,79 +594,12 @@ namespace DeviceDetectorNET
                 clientParser.SetCache(cache);
                 clientParser.SetUserAgent(userAgent);
 
-                if (clientParser.ParserName == ClientType.FeedReader.Name)
-                {
-                    var parser = (FeedReaderParser)clientParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        client = new ParseResult<ClientMatchResult>();
-                        client.AddRange(result.Matches);
-                        return;
-                    }
-                }
+                var result = clientParser.Parse();
+                if (!result.Success) continue;
 
-                if (clientParser.ParserName == ClientType.MobileApp.Name)
-                {
-                    var parser = (MobileAppParser)clientParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        client = new ParseResult<ClientMatchResult>();
-                        client.AddRange(result.Matches);
-                        return;
-                    }
-                }
-
-                if (clientParser.ParserName == ClientType.MediaPlayer.Name)
-                {
-                    var parser = (MediaPlayerParser)clientParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        client = new ParseResult<ClientMatchResult>();
-                        client.AddRange(result.Matches);
-                        return;
-                    }
-                }
-
-                if (clientParser.ParserName == ClientType.PIM.Name)
-                {
-                    var parser = (PimParser)clientParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        client = new ParseResult<ClientMatchResult>();
-                        client.AddRange(result.Matches);
-                        return;
-                    }
-                }
-
-                if (clientParser.ParserName == ClientType.Library.Name)
-                {
-                    var parser = (LibraryParser)clientParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        client = new ParseResult<ClientMatchResult>();
-                        client.AddRange(result.Matches);
-                        return;
-                    }
-                }
-
-                if (clientParser.ParserName == ClientType.Browser.Name)
-                {
-                    var parser = (BrowserParser)clientParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        client = new ParseResult<ClientMatchResult>();
-                        client.AddRange(result.Matches);
-                        return;
-                    }
-                }
-
-
+                client = new ParseResult<ClientMatchResult>();
+                client.AddRange(result.Matches);
+                return;
             }
         }
 
@@ -687,79 +613,13 @@ namespace DeviceDetectorNET
                 deviceParser.SetCache(cache);
                 deviceParser.SetUserAgent(userAgent);
 
-                if (deviceParser.ParserName == "tv")
-                {
-                    var parser = (HbbTvParser)deviceParser;
+                var result = deviceParser.Parse();
+                if (!result.Success) continue;
 
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        device = result.Match.Type;
-                        model = result.Match.Name;
-                        brand = result.Match.Brand;
-                        break;
-                    }
-                }
-                if (deviceParser.ParserName == "consoles")
-                {
-                    var parser = (ConsoleParser)deviceParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        device = result.Match.Type;
-                        model = result.Match.Name;
-                        brand = result.Match.Brand;
-                        break;
-                    }
-                }
-                if (deviceParser.ParserName == "car browser")
-                {
-                    var parser = (CarBrowserParser)deviceParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        device = result.Match.Type;
-                        model = result.Match.Name;
-                        brand = result.Match.Brand;
-                        break;
-                    }
-                }
-                if (deviceParser.ParserName == "camera")
-                {
-                    var parser = (CameraParser)deviceParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        device = result.Match.Type;
-                        model = result.Match.Name;
-                        brand = result.Match.Brand;
-                        break;
-                    }
-                }
-                if (deviceParser.ParserName == "portablemediaplayer")
-                {
-                    var parser = (PortableMediaPlayerParser)deviceParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        device = result.Match.Type;
-                        model = result.Match.Name;
-                        brand = result.Match.Brand;
-                        break;
-                    }
-                }
-                if (deviceParser.ParserName == "mobiles")
-                {
-                    var parser = (MobileParser)deviceParser;
-                    var result = parser.Parse();
-                    if (result.Success)
-                    {
-                        device = result.Match.Type;
-                        model = result.Match.Name;
-                        brand = result.Match.Brand;
-                        break;
-                    }
-                }
+                device = result.Match.Type;
+                model = result.Match.Name;
+                brand = result.Match.Brand;
+                break;
             }
 
             //If no brand has been assigned try to match by known vendor fragments
@@ -774,8 +634,8 @@ namespace DeviceDetectorNET
                 {
                     brand = result.Match.Brand;
                 }
-
             }
+
             os = GetOs();
 
             var osShortName = string.Empty;
@@ -1000,7 +860,7 @@ namespace DeviceDetectorNET
             ParserAbstract<List<Class.Client.MobileApp>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
             ParserAbstract<List<Class.Client.MediaPlayer>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
             ParserAbstract<List<Class.Client.Pim>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
-            ParserAbstract<List<Class.Client.Browser>, BrowserMatchResult>.SetVersionTruncation(versionTruncation);
+            ParserAbstract<List<Class.Client.Browser>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
             ParserAbstract<List<Class.Client.Library>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
 
             ParserAbstract<IDictionary<string, DeviceModel>, DeviceMatchResult>.SetVersionTruncation(versionTruncation);

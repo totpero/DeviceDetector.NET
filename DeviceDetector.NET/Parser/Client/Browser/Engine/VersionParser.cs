@@ -6,7 +6,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client.Browser.Engine
 {
-    public class VersionParser : ClientParserAbstract<List<IClientParseLibrary>, ClientMatchResult>
+    public class VersionParser : ClientParserAbstract<List<IClientParseLibrary>>
     {
         private readonly string _engine;
         public VersionParser(string ua, string engine):base(ua)

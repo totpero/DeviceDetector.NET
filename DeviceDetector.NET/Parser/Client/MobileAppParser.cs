@@ -4,7 +4,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public class MobileAppParser : ClientParserAbstract<List<MobileApp>, ClientMatchResult>
+    public class MobileAppParser : ClientParserAbstract<List<MobileApp>>
     {
         public MobileAppParser()
         {

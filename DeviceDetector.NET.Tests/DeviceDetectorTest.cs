@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using FluentAssertions;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class;
@@ -27,7 +28,6 @@ namespace DeviceDetectorNET.Tests
         public void TestAddClientParserInvalid()
         {
             var dd = new DeviceDetector();
-            dd.AddStandardClientsParser();
             dd.Should().NotBeNull();
         }
 
@@ -181,7 +181,7 @@ namespace DeviceDetectorNET.Tests
             var parser = new YamlParser<List<DeviceDetectorFixture>>();
             var _fixtureData = parser.ParseFile($"{Utils.CurrentDirectory()}\\fixtures\\{fileNme}.yml");
 
-            foreach (var expected in _fixtureData)
+            Parallel.ForEach(_fixtureData, expected =>
             {
                 var dd = DeviceDetector.GetInfoFromUserAgent(expected.user_agent);
                 dd.Success.Should().BeTrue();
@@ -218,7 +218,7 @@ namespace DeviceDetectorNET.Tests
                     dd.Match.DeviceBrand?.Should().BeEquivalentTo((expected.device.brand ?? ""));
                     dd.Match.DeviceModel?.Should().BeEquivalentTo((expected.device.model ?? ""));
                 }
-            }
+            });
         }
 
         [Fact]
@@ -268,11 +268,11 @@ namespace DeviceDetectorNET.Tests
         public void TestVersionTruncation()
         {
             var versionTruncationFixtures = new List<Tuple<string, int, string, string>> {
-                new Tuple<string, int, string, string>("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_NONE,  "4.2.2", "34.0.1847.114"),
-                new Tuple<string, int, string, string>("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_BUILD, "4.2.2", "34.0.1847.114"),
-                new Tuple<string, int, string, string>("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_PATCH, "4.2.2", "34.0.1847"),
-                new Tuple<string, int, string, string>("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_MINOR, "4.2", "34.0"),
-                new Tuple<string, int, string, string>("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_MAJOR, "4", "34"),
+                new ("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_NONE,  "4.2.2", "34.0.1847.114"),
+                new ("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_BUILD, "4.2.2", "34.0.1847.114"),
+                new ("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_PATCH, "4.2.2", "34.0.1847"),
+                new ("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_MINOR, "4.2", "34.0"),
+                new ("Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36", VersionTruncation.VERSION_TRUNCATION_MAJOR, "4", "34"),
             };
 
             foreach (var item in versionTruncationFixtures)
