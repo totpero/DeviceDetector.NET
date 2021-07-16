@@ -2,8 +2,7 @@
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using NLog;
-
+using Microsoft.Extensions.Logging;
 namespace DeviceDetectorNET.Cache
 {
     internal class ParseCache
@@ -24,7 +23,8 @@ namespace DeviceDetectorNET.Cache
         private static ParseCache InitializeCache()
         {
             var cache = new ParseCache();
-            var dir = DeviceDetectorSettings.ParseCacheDBDirectory ?? "";
+            var dir = DeviceDetectorSettings.ParseCacheDBDirectory ?? string.Empty;
+
             if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
             {
                 try
@@ -33,7 +33,7 @@ namespace DeviceDetectorNET.Cache
                 }
                 catch (Exception exception)
                 {
-                    Logger?.Warn("Unable to create directory {0} due to {1}", dir, exception);
+                    Logger?.LogWarning("Unable to create directory {0} due to {1}", dir, exception);
                     // for now, swallow this error so we do not accidentally impact an unknown use case
                     ;
                     //throw new DirectoryNotFoundException($"Directory {dir} was not found and could not create it");

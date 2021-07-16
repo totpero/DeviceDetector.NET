@@ -1,5 +1,5 @@
 ﻿using System;
-using NLog;
+using Microsoft.Extensions.Logging;
 
 namespace DeviceDetectorNET
 {
