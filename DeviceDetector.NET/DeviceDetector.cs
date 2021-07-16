@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class.Device;
 using DeviceDetectorNET.Parser;
@@ -12,8 +7,11 @@ using DeviceDetectorNET.RegexEngine;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
 using DeviceDetectorNET.Results.Device;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using LiteDB;
-using Newtonsoft.Json;
 using YamlDotNet.Core;
 
 namespace DeviceDetectorNET
@@ -28,7 +26,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Operating system families that are known as desktop only
         /// </summary>
-        protected string[] desktopOsArray =
+        protected static readonly string[] desktopOsArray =
         {
             "AmigaOS",
             "IBM",
@@ -202,7 +200,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Sets whether to skip bot detection.
         /// It is needed if we want bots to be processed as a simple clients. So we can detect if it is mobile client,
-        /// or desktop, or enything else. By default all this information is not retrieved for the bots.
+        /// or desktop, or anything else. By default all this information is not retrieved for the bots.
         /// </summary>
         /// <param name="skip"></param>
         public void SkipBotDetection(bool skip = true)
@@ -407,14 +405,6 @@ namespace DeviceDetectorNET
             return parsed;
         }
 
-        private static readonly LiteDatabase db;
-        private static readonly LiteCollection<CachedDataHolder> col;
-        private static readonly JsonSerializerSettings jsonSettings = new JsonSerializerSettings
-        {
-            ContractResolver = null,
-            TypeNameHandling = TypeNameHandling.Auto
-        };
-
         private static readonly List<int> mobileDeviceTypes = new List<int>
         {
             DeviceType.DEVICE_TYPE_FEATURE_PHONE,
@@ -431,43 +421,6 @@ namespace DeviceDetectorNET
             DeviceType.DEVICE_TYPE_SMART_DISPLAY,
             DeviceType.DEVICE_TYPE_CONSOLE,
         };
-
-        static DeviceDetector()
-        {
-            var dir = DeviceDetectorSettings.ParseCacheDBDirectory ?? "";
-            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
-            {
-                try
-                {
-                    Directory.CreateDirectory(dir);
-                }
-                catch (Exception)
-                {
-                    // for now, swallow this error so we do not accidentally impact an unknown use case
-                    ;
-                    //throw new DirectoryNotFoundException($"Directory {dir} was not found and could not create it");
-                }
-            }
-            var filename = DeviceDetectorSettings.ParseCacheDBFilename ?? "DeviceDetectorNET.db";
-            var path = dir + filename;
-            var connectionString = new ConnectionString($"filename={path}");
-            db = new LiteDatabase(connectionString);
-            col = db.GetCollection<CachedDataHolder>();
-            EmptyExpired(col);
-        }
-
-        private static bool IsExpired(CachedDataHolder ent)
-        {
-            if (ent == null)
-                return false;
-            return DateTime.UtcNow > ent.ExpirationDate.ToUniversalTime();
-        }
-
-        private static void EmptyExpired(LiteCollection<CachedDataHolder> c)
-        {
-            c.Delete(b => b.ExpirationDate < DateTime.UtcNow);
-            //c.DeleteMany(b => b.ExpirationDate < DateTime.UtcNow);
-        }
 
         /// <summary>
         /// Triggers the parsing of the current user agent
@@ -493,52 +446,48 @@ namespace DeviceDetectorNET
             {
                 var key = $"{userAgent}_{skipBotDetection}_{discardBotInformation}_{_versionTruncation}";
 
-                var cachedData = col.FindById(key);
-                if (IsExpired(cachedData))
-                {
-                    col.Delete(key);
-                    cachedData = null;
-                }
-
-                if (!string.IsNullOrEmpty(cachedData?.Json))
-                {
-                    var data = JsonConvert.DeserializeObject<DeviceDetectorCachedData>(cachedData.Json, jsonSettings);
-                    device = data.Device;
-                    brand = data.Brand;
-                    parsed = data.Parsed;
-                    model = data.Model;
-                    bot = data.Bot;
-                    client = data.Client;
-                    os = data.Os;
-                    return;
-                }
+                if (LoadCacheData(key)) return;
 
                 ParseBase();
 
-                var ent = new DeviceDetectorCachedData()
-                {
-                    Device = device,
-                    Brand = brand,
-                    Parsed = parsed,
-                    Model = model,
-                    Bot = bot,
-                    Client = client,
-                    Os = os
-                };
-
-                cachedData = new CachedDataHolder()
-                {
-                    Id = key,
-                    Json = JsonConvert.SerializeObject(ent, jsonSettings),
-                    ExpirationDate = DateTime.UtcNow.Add(DeviceDetectorSettings.ParseCacheDBExpiration)
-                };
-
-                col.Upsert(cachedData);
+                SaveCacheData(key);
             }
             else
             {
                 ParseBase();
             }
+        }
+        
+        private bool LoadCacheData(string key)
+        {
+            var data = ParseCache.Instance.FindById(key);
+
+            if (data == null) return false;
+
+            device = data.Device;
+            brand = data.Brand;
+            parsed = data.Parsed;
+            model = data.Model;
+            bot = data.Bot;
+            client = data.Client;
+            os = data.Os;
+            return true;
+        }
+
+        private void SaveCacheData(string key)
+        {
+            var ent = new DeviceDetectorCachedData()
+            {
+                Device = device,
+                Brand = brand,
+                Parsed = parsed,
+                Model = model,
+                Bot = bot,
+                Client = client,
+                Os = os
+            };
+
+            ParseCache.Instance.Upsert(key, ent);
         }
 
         private void ParseBase()
@@ -580,6 +529,7 @@ namespace DeviceDetectorNET
                 parser.DiscardDetails = discardBotInformation;
                 var botParseResult = parser.Parse();
                 if (!botParseResult.Success) continue;
+
                 bot = botParseResult;
                 return;
             }
