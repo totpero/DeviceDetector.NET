@@ -9,7 +9,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public class BrowserParser : ClientParserAbstract<List<Class.Client.Browser>, BrowserMatchResult>
+    public class BrowserParser : ClientParserAbstract<List<Class.Client.Browser>>
     {
         /// <summary>
         /// Known browsers mapped to their internal short codes
@@ -374,9 +374,9 @@ namespace DeviceDetectorNET.Parser.Client
             return MobileOnlyBrowsers.Contains(browser) || (AvailableBrowsers.ContainsKey(browser) && MobileOnlyBrowsers.Contains(AvailableBrowsers[browser]));
         }
 
-        public override ParseResult<BrowserMatchResult> Parse()
+        public override ParseResult<ClientMatchResult> Parse()
         {
-            var result = new ParseResult<BrowserMatchResult>();
+            var result = new ParseResult<ClientMatchResult>();
             Class.Client.Browser localBrowser = null;
             string[] localMatches = null;
             foreach (var browser in regexList)

@@ -4,7 +4,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public class LibraryParser : ClientParserAbstract<List<Library>, ClientMatchResult>
+    public class LibraryParser : ClientParserAbstract<List<Library>>
     {
         public LibraryParser()
         {

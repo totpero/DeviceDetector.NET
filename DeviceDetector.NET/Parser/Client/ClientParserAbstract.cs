@@ -6,9 +6,9 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public abstract class ClientParserAbstract<T, TResult> : ParserAbstract<T, TResult>, IClientParserAbstract
+    public abstract class ClientParserAbstract<T> : ParserAbstract<T, ClientMatchResult>, IClientParserAbstract
         where T : class, IEnumerable<IClientParseLibrary>
-        where TResult : class, IClientMatchResult, new()
+        // where TResult : class, IClientMatchResult, new()
 
     {
         protected ClientParserAbstract()
@@ -21,9 +21,9 @@ namespace DeviceDetectorNET.Parser.Client
 
         }
 
-        public new virtual ParseResult<TResult> Parse()
+        public new virtual ParseResult<ClientMatchResult> Parse()
         {
-            var result = new ParseResult<TResult>();
+            var result = new ParseResult<ClientMatchResult>();
             if (!PreMatchOverall()) return result;
 
             foreach (var regex in regexList)
@@ -32,7 +32,7 @@ namespace DeviceDetectorNET.Parser.Client
 
                 if (matches.Length > 0)
                 {
-                    var match = new TResult
+                    var match = new ClientMatchResult
                     {
                         Type = ParserName,
                         Name = BuildByMatch(regex.Name, matches),

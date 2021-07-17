@@ -13,7 +13,7 @@ using DeviceDetectorNET.Yaml;
 
 namespace DeviceDetectorNET.Parser
 {
-    public abstract class ParserAbstract<T, TResult>: IParserAbstract
+    public abstract class ParserAbstract<T, TResult>: IParserAbstract<TResult>
         where T : class, IEnumerable
 //, IParseLibrary
         where TResult : class, IMatchResult, new()

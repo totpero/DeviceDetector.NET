@@ -1,23 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>net5.0</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <RootNamespace>DeviceDetectorNET.Web</RootNamespace>
   </PropertyGroup>
 
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.NET.Sdk.Razor" Version="3.1.6" />
-  </ItemGroup>
-
-
   <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
-
 
   <ItemGroup>
     <ProjectReference Include="..\DeviceDetector.NET\DeviceDetector.NET.csproj" />

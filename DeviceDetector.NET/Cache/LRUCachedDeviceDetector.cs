@@ -4,17 +4,11 @@ namespace DeviceDetectorNET.Cache
 {
     public static class LRUCachedDeviceDetector
     {
-        private static readonly DictionaryCache deviceCache;
-        private static readonly GenericLRUCache<string, DeviceDetector> lruDeviceDetector;
-
-        static LRUCachedDeviceDetector()
-        {
-            deviceCache = new DictionaryCache();
-
-            lruDeviceDetector = new GenericLRUCache<string, DeviceDetector>(maxSize: DeviceDetectorSettings.LRUCacheMaxSize,
+        private static readonly DictionaryCache deviceCache = new DictionaryCache();
+        private static readonly GenericLRUCache<string, DeviceDetector> lruDeviceDetector = 
+            new GenericLRUCache<string, DeviceDetector>(maxSize: DeviceDetectorSettings.LRUCacheMaxSize,
                 cleanPercentage: DeviceDetectorSettings.LRUCacheCleanPercentage,
                 maxDuration: DeviceDetectorSettings.LRUCacheMaxDuration);
-        }
 
         /// <summary>
         /// LRU cached version of GetDeviceDetector

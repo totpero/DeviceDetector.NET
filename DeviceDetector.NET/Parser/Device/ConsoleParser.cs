@@ -5,7 +5,7 @@ using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public class ConsoleParser : DeviceParserAbstract<IDictionary<string, DeviceModel>, DeviceMatchResult>
+    public class ConsoleParser : DeviceParserAbstract<IDictionary<string, DeviceModel>>
     {
         public ConsoleParser()
         {

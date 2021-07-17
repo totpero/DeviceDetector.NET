@@ -13,7 +13,7 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
         [Fact]
         public void DeviceTypesTest()
         {
-            DeviceParserAbstract<Dictionary<string, DeviceModel>, DeviceMatchResult>
+            DeviceParserAbstract<Dictionary<string, DeviceModel>>
                 .DeviceTypes
                 .Count
                 .Should()
@@ -23,7 +23,7 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
         [Fact]
         public void DeviceBrandsTest()
         {
-            DeviceParserAbstract<Dictionary<string, DeviceModel>, DeviceMatchResult>
+            DeviceParserAbstract<Dictionary<string, DeviceModel>>
                 .DeviceBrands
                 .Count
                 .Should()
