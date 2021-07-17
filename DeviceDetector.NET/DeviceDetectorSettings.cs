@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.Extensions.Logging;
 
 namespace DeviceDetectorNET
 {
@@ -57,5 +58,6 @@ namespace DeviceDetectorNET
         /// </summary>
         public static TimeSpan LRUCacheMaxDuration { get; set; }
 
+        public static ILogger Logger { get; set; }
     }
 }

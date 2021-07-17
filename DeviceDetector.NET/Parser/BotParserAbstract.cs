@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser
 {
@@ -9,9 +10,8 @@ namespace DeviceDetectorNET.Parser
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TResult"></typeparam>
-    public abstract class BotParserAbstract<T, TResult> : ParserAbstract<T, TResult>, IBotParserAbstract
+    public abstract class BotParserAbstract<T> : ParserAbstract<T, BotMatchResult>, IBotParserAbstract
         where T : class, IEnumerable<Bot>
-        where TResult : class, IBotMatchResult, new()
     {
         /// <summary>
         /// Enables information discarding
@@ -36,9 +36,9 @@ namespace DeviceDetectorNET.Parser
         /// NOTE: Doing the big match before matching every single regex speeds up the detection
         /// </summary>
         /// <returns></returns>
-        public override ParseResult<TResult> Parse()
+        public override ParseResult<BotMatchResult> Parse()
         {
-            var result = new ParseResult<TResult>();
+            var result = new ParseResult<BotMatchResult>();
             if (PreMatchOverall())
             {
                 foreach (var bot in regexList)
@@ -47,11 +47,11 @@ namespace DeviceDetectorNET.Parser
                     if (!match) continue;
                     if (DiscardDetails)
                     {
-                        result.Add(new TResult());
+                        result.Add(new BotMatchResult());
                         return result;
                     }
 
-                    result.Add(new TResult
+                    result.Add(new BotMatchResult()
                     {
                         Name = bot.Name,
                         Category = bot.Category,

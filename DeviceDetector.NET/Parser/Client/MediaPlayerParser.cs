@@ -4,7 +4,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public class MediaPlayerParser : ClientParserAbstract<List<MediaPlayer>, ClientMatchResult>
+    public class MediaPlayerParser : ClientParserAbstract<List<MediaPlayer>>
     {
         public MediaPlayerParser()
         {

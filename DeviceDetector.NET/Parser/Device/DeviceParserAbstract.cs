@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using DeviceDetectorNET.Class.Device;
 using DeviceDetectorNET.Results;
+using DeviceDetectorNET.Results.Client;
 using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public abstract class DeviceParserAbstract<T, TResult> : ParserAbstract<T, TResult>, IDeviceParserAbstract
+    public abstract class DeviceParserAbstract<T> : ParserAbstract<T, DeviceMatchResult>, IDeviceParserAbstract
         where T : class, IDictionary<string, DeviceModel>
-        where TResult : class, IDeviceMatchResult, new()
     {
 
         protected string model;
@@ -772,9 +772,9 @@ namespace DeviceDetectorNET.Parser.Device
             base.SetUserAgent(ua);
         }
 
-        public override ParseResult<TResult> Parse()
+        public override ParseResult<DeviceMatchResult> Parse()
         {
-            var result = new ParseResult<TResult>();
+            var result = new ParseResult<DeviceMatchResult>();
             var regexes = regexList.Cast<KeyValuePair<string, DeviceModel>>();
 
             if (!regexes.Any()) return result;
@@ -832,7 +832,7 @@ namespace DeviceDetectorNET.Parser.Device
                 }
 
                 if (localModelMatches == null) {
-                    result.Add(new TResult { Name = model, Brand = brand, Type = deviceType });
+                    result.Add(new DeviceMatchResult { Name = model, Brand = brand, Type = deviceType });
                     return result;
                 }
 
@@ -852,7 +852,7 @@ namespace DeviceDetectorNET.Parser.Device
                     deviceType = localDeviceType;
                 }
             }
-            result.Add(new TResult { Name = model, Brand = brand, Type = deviceType });
+            result.Add(new DeviceMatchResult { Name = model, Brand = brand, Type = deviceType });
 
             return result;
         }

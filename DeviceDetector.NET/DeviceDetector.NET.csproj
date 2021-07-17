@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;Net461</TargetFrameworks>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
-    <Version>4.2.0</Version>
+    <Version>4.3.0</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression></PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
@@ -12,10 +12,10 @@
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.3.0.0</AssemblyVersion>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
     <SignAssembly>false</SignAssembly>
-    <FileVersion>4.2.0.0</FileVersion>
+    <FileVersion>4.3.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,6 +30,7 @@
     <PackageReference Include="LiteDB" Version="4.1.4" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="YamlDotNet" Version="8.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0"/>
   </ItemGroup>
 
   <ItemGroup>
