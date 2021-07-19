@@ -159,7 +159,7 @@ namespace DeviceDetectorNET.Parser
 
             var regexesDir = GetRegexesDirectory();
 
-            if (regexesDir == string.Empty)
+            if (string.IsNullOrWhiteSpace(regexesDir))
             {
                 var assembly = typeof(DeviceDetector).GetTypeInfo().Assembly;
                 var filePath = FixtureFile.Replace("/", ".");

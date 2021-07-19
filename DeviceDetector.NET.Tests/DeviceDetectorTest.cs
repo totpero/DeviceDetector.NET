@@ -481,5 +481,27 @@ namespace DeviceDetectorNET.Tests
             dd.IsBot().Should().BeFalse();
 
         }
+
+        [Fact]
+        public void TestManySegmentedVersion()
+        {
+            // https://github.com/totpero/DeviceDetector.NET/issues/31
+            const string userAgent = "Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3983.280.0.3987.132 Safari/537.36";
+
+            var detector = new DeviceDetector(userAgent);
+            detector.Parse();
+            detector.IsDesktop().Should().BeTrue();
+        }
+
+        [Fact]
+        public void TestIntOverflowVersion()
+        {
+            // https://github.com/totpero/DeviceDetector.NET/issues/5
+            const string userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2227.1529614902747 Safari/537.36";
+
+            var detector = new DeviceDetector(userAgent);
+            detector.Parse();
+            detector.IsDesktop().Should().BeTrue();
+        }
     }
 }

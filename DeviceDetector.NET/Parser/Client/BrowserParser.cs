@@ -6,6 +6,7 @@ using DeviceDetectorNET.Parser.Client.Browser;
 using DeviceDetectorNET.Parser.Client.Browser.Engine;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
+using Semver;
 
 namespace DeviceDetectorNET.Parser.Client
 {
@@ -310,6 +311,8 @@ namespace DeviceDetectorNET.Parser.Client
         /// </summary>
         protected static string[] MobileOnlyBrowsers = { "36", "OC", "PU", "SK", "MF", "OI", "OM", "DD", "DB", "ST", "BL", "IV", "FM", "C1", "AL", "SA", "SB", "FR", "WP", "HA", "NX", "HU", "VV", "RE", "CB", "MZ", "UM", "FK", "FX", "WI", "MN", "M1", "AH", "SU", "EU", "EZ", "UT", "DT", "S0", "QU", "YN" };
 
+        private const int MaxVersionParts = 5;
+
         public BrowserParser()
         {
             FixtureFile = "regexes/client/browsers.yml";
@@ -441,8 +444,8 @@ namespace DeviceDetectorNET.Parser.Client
                         browserVersion = browserVersion.TrimEnd('.');
 
                     browserVersion = !browserVersion.Contains(".") ? browserVersion + ".0" : browserVersion;
-
-                    if (new Version(browserVersion).CompareTo(new Version(ver)) >= 0)
+          
+                    if (ConvertToVersion(browserVersion).CompareTo(ConvertToVersion(ver)) >= 0)
                     {
                         engine = version.Value;
                     }
@@ -461,6 +464,17 @@ namespace DeviceDetectorNET.Parser.Client
             }
            
             return engine;
+        }
+
+        protected SemVersion ConvertToVersion(string versionString)
+        {
+            if (string.IsNullOrWhiteSpace(versionString)) return new SemVersion(0);
+            if (versionString.Count(c => c == '.') > MaxVersionParts)
+            {
+                versionString = string.Join(".", versionString.Split('.').Take(MaxVersionParts));
+            }
+
+            return SemVersion.TryParse(versionString, out var version) ? version : new SemVersion(0);
         }
 
         protected string BuildEngineVersion(string engine)
