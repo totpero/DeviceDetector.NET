@@ -1,16 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using FluentAssertions;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Parser;
 using DeviceDetectorNET.Parser.Client;
+using DeviceDetectorNET.Parser.Device;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Device;
 using DeviceDetectorNET.Tests.Class;
 using DeviceDetectorNET.Yaml;
+using FluentAssertions;
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DeviceDetectorNET.Tests
@@ -138,7 +139,7 @@ namespace DeviceDetectorNET.Tests
         }
 
         [Theory]
-        //[InlineData("bots")]
+        // [InlineData("bots")]
         [InlineData("camera")]
         [InlineData("car_browser")]
         [InlineData("console")]
@@ -167,21 +168,34 @@ namespace DeviceDetectorNET.Tests
         [InlineData("smartphone-13")]
         [InlineData("smartphone-14")]
         [InlineData("smartphone-15")]
+        [InlineData("smartphone-16")]
+        [InlineData("smartphone-17")]
+        [InlineData("smartphone-18")]
+        [InlineData("smartphone-19")]
+        [InlineData("smartphone-20")]
+        [InlineData("smartphone-21")]
+        [InlineData("smartphone-22")]
+        [InlineData("smartphone-23")]
+        [InlineData("smartphone-24")]
+        [InlineData("smartphone-25")]
         [InlineData("tablet")]
         [InlineData("tablet-1")]
         [InlineData("tablet-2")]
         [InlineData("tablet-3")]
         [InlineData("tablet-4")]
+        [InlineData("tablet-5")]
         [InlineData("tv")]
+        [InlineData("tv-1")]
         [InlineData("unknown")]
         [InlineData("wearable")]
         public void TestParse(string fileNme)
         {
             //DeviceDetectorSettings.RegexesDirectory = @"D:\WorkSpaces\GitHubVisualStudio\DeviceDetector.Net\src\DeviceDetector.NET\";
             var parser = new YamlParser<List<DeviceDetectorFixture>>();
-            var _fixtureData = parser.ParseFile($"{Utils.CurrentDirectory()}\\fixtures\\{fileNme}.yml");
+            var fixtureData = parser.ParseFile($"{Utils.CurrentDirectory()}\\fixtures\\{fileNme}.yml");
 
-            Parallel.ForEach(_fixtureData, expected =>
+            Parallel.ForEach(fixtureData, expected =>
+            // fixtureData.ForEach(expected =>
             {
                 var dd = DeviceDetector.GetInfoFromUserAgent(expected.user_agent);
                 dd.Success.Should().BeTrue();
@@ -189,21 +203,18 @@ namespace DeviceDetectorNET.Tests
                 dd.Match.BrowserFamily.Should().BeEquivalentTo(expected.browser_family);
                 if (expected.os != null)
                 {
-                    if (expected.os is Dictionary<object, object> dicOs && dicOs.Count > 0)
+                    switch (expected.os)
                     {
-                        var osName = dicOs["name"];
-                        dd.Match.Os.Name.Should().BeEquivalentTo(osName.ToString());
-
-                    }
-                    else
-                    {
-                        if (expected.os is List<object> listOs && listOs.Count > 0)
-                        {
-                            throw new Exception();
+                        case Dictionary<object, object> { Count: > 0 } dicOs:
+                            {
+                                var osName = dicOs["name"];
+                                dd.Match.Os.Name.Should().BeEquivalentTo(osName.ToString());
+                                break;
+                            }
+                        case List<object> { Count: > 0 }:
+                            throw new Exception("ExpectedOS is a list rather than a dictionary.");
                             //var osName = dicOs["name"];
                             //dd.Match.Os.Name.Should().BeEquivalentTo(osName.ToString());
-
-                        }
                     }
                 }
 
@@ -212,12 +223,13 @@ namespace DeviceDetectorNET.Tests
                     dd.Match.Client.Type.Should().BeEquivalentTo(expected.client.type);
                     dd.Match.Client.Name.Should().BeEquivalentTo(expected.client.name);
                 }
-                if (expected.device != null)
-                {
-                    dd.Match.DeviceType?.Should().BeEquivalentTo(expected.device.type);
-                    dd.Match.DeviceBrand?.Should().BeEquivalentTo((expected.device.brand ?? ""));
-                    dd.Match.DeviceModel?.Should().BeEquivalentTo((expected.device.model ?? ""));
-                }
+
+                if (expected.device == null) return;
+
+                dd.Match.DeviceType?.Should().BeEquivalentTo(expected.device.type);
+                // dd.Match.DeviceBrand.Should().BeEquivalentTo((expected.device.brand ?? ""));
+                Devices.GetFullName(dd.Match.DeviceBrand).Should().BeEquivalentTo((expected.device.brand ?? ""));
+                dd.Match.DeviceModel?.Should().BeEquivalentTo((expected.device.model ?? ""));
             });
         }
 
@@ -239,7 +251,7 @@ namespace DeviceDetectorNET.Tests
                     new DeviceMatchResult
                     {
                         Brand = "Vestel",
-                        Name = "MB95"
+                        Name = ""
                     }
                 },
                 {
@@ -256,6 +268,12 @@ namespace DeviceDetectorNET.Tests
 
             foreach (var userAgent in userAgents) {
                 deviceDetector.SetUserAgent(userAgent.Key);
+
+                // quick sanity check of Reset()
+                deviceDetector.IsParsed().Should().BeFalse();
+                deviceDetector.GetBrand().Should().BeNullOrEmpty();
+                deviceDetector.GetModel().Should().BeNullOrEmpty();
+
                 deviceDetector.Parse();
                 deviceDetector.GetBrandName().Should().BeEquivalentTo(userAgent.Value.Brand);
                 deviceDetector.GetModel().Should().BeEquivalentTo(userAgent.Value.Name);
@@ -377,18 +395,18 @@ namespace DeviceDetectorNET.Tests
         public void TestTypeMethods()
         {
             var userAgents = new List<Tuple<string, bool, bool, bool>> {
-                new Tuple<string, bool, bool, bool>("Googlebot/2.1 (http://www.googlebot.com/bot.html)", true, false, false),
-                new Tuple<string, bool, bool, bool>("Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36", false, true, false),
-                new Tuple<string, bool, bool, bool>("Mozilla/5.0 (Linux; Android 4.4.3; Build/KTU84L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.117 Mobile Safari/537.36", false, true, false),
-                new Tuple<string, bool, bool, bool>("Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)", false, false, true),
-                new Tuple<string, bool, bool, bool>("Mozilla/3.01 (compatible;)", false, false, false),
+                new("Googlebot/2.1 (http://www.googlebot.com/bot.html)", true, false, false),
+                new("Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36", false, true, false),
+                new("Mozilla/5.0 (Linux; Android 4.4.3; Build/KTU84L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.117 Mobile Safari/537.36", false, true, false),
+                new("Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)", false, false, true),
+                new("Mozilla/3.01 (compatible;)", false, false, false),
                 // Mobile only browsers:
-                new Tuple<string, bool, bool, bool>("Opera/9.80 (J2ME/MIDP; Opera Mini/9.5/37.8069; U; en) Presto/2.12.423 Version/12.16", false, true, false),
-                new Tuple<string, bool, bool, bool>("Mozilla/5.0 (X11; U; Linux i686; th-TH@calendar=gregorian) AppleWebKit/534.12 (KHTML, like Gecko) Puffin/1.3.2665MS Safari/534.12", false, true, false),
-                new Tuple<string, bool, bool, bool>("Mozilla/5.0 (Linux; Android 4.4.4; MX4 Pro Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36; 360 Aphone Browser (6.9.7)", false, true, false),
-                new Tuple<string, bool, bool, bool>("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_7; xx) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Safari/530.17 Skyfire/6DE", false, true, false),
+                new("Opera/9.80 (J2ME/MIDP; Opera Mini/9.5/37.8069; U; en) Presto/2.12.423 Version/12.16", false, true, false),
+                new("Mozilla/5.0 (X11; U; Linux i686; th-TH@calendar=gregorian) AppleWebKit/534.12 (KHTML, like Gecko) Puffin/1.3.2665MS Safari/534.12", false, true, false),
+                new("Mozilla/5.0 (Linux; Android 4.4.4; MX4 Pro Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36; 360 Aphone Browser (6.9.7)", false, true, false),
+                new("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_7; xx) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Safari/530.17 Skyfire/6DE", false, true, false),
                 // useragent containing non unicode chars
-                new Tuple<string, bool, bool, bool>("Mozilla/5.0 (Linux; U; Android 4.1.2; ru-ru; PMP7380D3G Build/JZO54K) AppleWebKit/534.30 (KHTML, ÃÂºÃÂ°ÃÂº Gecko) Version/4.0 Safari/534.30", false, true, false),
+                new("Mozilla/5.0 (Linux; U; Android 4.1.2; ru-ru; PMP7380D3G Build/JZO54K) AppleWebKit/534.30 (KHTML, ÃÂºÃÂ°ÃÂº Gecko) Version/4.0 Safari/534.30", false, true, false),
             };
 
             foreach (var item in userAgents)

@@ -15,12 +15,13 @@ namespace DeviceDetectorNET.Parser.Client
         /// <summary>
         /// Known browsers mapped to their internal short codes
         /// </summary>
-        protected static Dictionary<string, string> AvailableBrowsers = new Dictionary<string, string>
+        protected static readonly Dictionary<string, string> AvailableBrowsers = new Dictionary<string, string>
         {
             {"1B", "115 Browser"},
             {"2B", "2345 Browser"},
             {"36", "360 Phone Browser"},
             {"3B", "360 Browser"},
+            {"7B", "7654 Browser"},
             {"AA", "Avant Browser"},
             {"AB", "ABrowse"},
             {"AF", "ANT Fresco"},
@@ -36,10 +37,13 @@ namespace DeviceDetectorNET.Parser.Client
             {"AX", "Arctic Fox"},
             {"AV", "Amiga Voyager"},
             {"AW", "Amiga Aweb"},
+            {"AI", "Arvin"},
             {"A0", "Atom"},
             {"AT", "Atomic Web Browser"},
             {"AS", "Avast Secure Browser"},
             {"VG", "AVG Secure Browser"},
+            {"AC", "Avira Scout"},
+            {"A1", "AwoX"},
             {"BA", "Beaker Browser"},
             {"BM", "Beamrise"},
             {"BB", "BlackBerry Browser"},
@@ -51,13 +55,19 @@ namespace DeviceDetectorNET.Parser.Client
             {"BJ", "Bunjalloo"},
             {"BL", "B-Line"},
             {"BU", "Blue Browser"},
+            {"BN", "Borealis Navigator"},
             {"BR", "Brave"},
             {"BK", "BriskBard"},
             {"BX", "BrowseX"},
+            {"BZ", "Browzar"},
+            {"BY", "Biyubi"},
+            {"BF", "Byffox"},
             {"CA", "Camino"},
             {"CL", "CCleaner"},
+            {"C6", "Chedot"},
             {"C0", "Centaury"},
             {"CC", "Coc Coc"},
+            {"C4", "CoolBrowser"},
             {"C2", "Colibri"},
             {"CD", "Comodo Dragon"},
             {"C1", "Coast"},
@@ -72,22 +82,32 @@ namespace DeviceDetectorNET.Parser.Client
             {"CN", "CoolNovo"},
             {"CO", "CometBird"},
             {"CB", "COS Browser"},
+            {"CW", "Cornowser"},
+            {"C3", "Chim Lac"},
             {"CP", "ChromePlus"},
             {"CR", "Chromium"},
+            {"C5", "Chromium GOST"},
             {"CY", "Cyberfox"},
             {"CS", "Cheshire"},
             {"CT", "Crusta"},
+            {"CG", "Craving Explorer"},
+            {"CZ", "Crazy Browser"},
             {"CU", "Cunaguaro"},
             {"CV", "Chrome Webview"},
             {"DB", "dbrowser"},
             {"DE", "Deepnet Explorer"},
+            {"DG", "deg-degan"},
+            {"DA", "Deledao"},
             {"DT", "Delta Browser"},
+            {"DS", "DeskBrowse"},
             {"DF", "Dolphin"},
             {"DO", "Dorado"},
+            {"DR", "Dot Browser"},
             {"DL", "Dooble"},
             {"DI", "Dillo"},
             {"DD", "DuckDuckGo Privacy Browser"},
             {"EC", "Ecosia"},
+            {"EW", "Edge WebView"},
             {"EI", "Epic"},
             {"EL", "Elinks"},
             {"EB", "Element Browser"},
@@ -107,14 +127,21 @@ namespace DeviceDetectorNET.Parser.Client
             {"FY", "Firefox Reality"},
             {"FR", "Firefox Rocket"},
             {"FL", "Flock"},
+            {"FO", "Flow"},
             {"FM", "Firefox Mobile"},
             {"FW", "Fireweb"},
             {"FN", "Fireweb Navigator"},
+            {"FS", "Flast"},
             {"FU", "FreeU"},
             {"GA", "Galeon"},
+            {"GH", "Ghostery Privacy Browser"},
+            {"GI", "GinxDroid Browser"},
             {"GB", "Glass Browser"},
             {"GE", "Google Earth"},
+            {"GO", "GOG Galaxy"},
+            {"HS", "HasBrowser"},
             {"HA", "Hawk Turbo Browser"},
+            {"HE", "Helio"},
             {"HO", "hola! Browser"},
             {"HJ", "HotJava"},
             {"HU", "Huawei Browser"},
@@ -130,7 +157,9 @@ namespace DeviceDetectorNET.Parser.Client
             {"IE", "Internet Explorer"},
             {"IM", "IE Mobile"},
             {"IR", "Iron"},
+            {"JB", "Japan Browser"},
             {"JS", "Jasmine"},
+            {"JA", "JavaFX"},
             {"JI", "Jig Browser"},
             {"JP", "Jig Browser Plus"},
             {"JO", "Jio Browser"},
@@ -141,6 +170,7 @@ namespace DeviceDetectorNET.Parser.Client
             {"KP", "Kapiko"},
             {"KN", "Kinza"},
             {"KW", "Kiwi"},
+            {"KD", "Kode Browser"},
             {"KY", "Kylo"},
             {"KZ", "Kazehakase"},
             {"LB", "Cheetah Browser"},
@@ -148,12 +178,14 @@ namespace DeviceDetectorNET.Parser.Client
             {"LG", "LG Browser"},
             {"LH", "Light"},
             {"LI", "Links"},
+            {"IF", "Lolifox"},
             {"LO", "Lovense Browser"},
             {"LU", "LuaKit"},
             {"LL", "Lulumi"},
             {"LS", "Lunascape"},
             {"LN", "Lunascape Lite"},
             {"LX", "Lynx"},
+            {"MD", "Mandarin"},
             {"M1", "mCent"},
             {"MB", "MicroB"},
             {"MC", "NCSA Mosaic"},
@@ -167,7 +199,13 @@ namespace DeviceDetectorNET.Parser.Client
             {"MN", "Minimo"},
             {"MT", "Mint Browser"},
             {"MX", "Maxthon"},
+            {"MA", "Maelstrom"},
+            {"NM", "MxNitro"},
             {"MY", "Mypal"},
+            {"MR", "Monument Browser"},
+            {"MW", "MAUI WAP Browser"},
+            {"NW", "Navigateur Web"},
+            {"NR", "NFS Browser"},
             {"NB", "Nokia Browser"},
             {"NO", "Nokia OSS Browser"},
             {"NV", "Nokia Ovi Browser"},
@@ -181,6 +219,8 @@ namespace DeviceDetectorNET.Parser.Client
             {"OC", "Oculus Browser"},
             {"O1", "Opera Mini iOS"},
             {"OB", "Obigo"},
+            {"O2", "Odin"},
+            {"H2", "OceanHero"},
             {"OD", "Odyssey Web Browser"},
             {"OF", "Off By One"},
             {"HH", "OhHai Browser"},
@@ -193,11 +233,13 @@ namespace DeviceDetectorNET.Parser.Client
             {"OP", "Opera"},
             {"ON", "Opera Next"},
             {"OO", "Opera Touch"},
+            {"OA", "Orca"},
             {"OS", "Ordissimo"},
             {"OR", "Oregano"},
             {"O0", "Origin In-Game Overlay"},
             {"OY", "Origyn Web Browser"},
             {"OV", "Openwave Mobile Browser"},
+            {"O3", "OpenFin"},
             {"OW", "OmniWeb"},
             {"OT", "Otter Browser"},
             {"PL", "Palm Blazer"},
@@ -208,10 +250,18 @@ namespace DeviceDetectorNET.Parser.Client
             {"PU", "Puffin"},
             {"PW", "Palm WebPro"},
             {"PA", "Palmscape"},
+            {"PE", "Perfect Browser"},
+            {"PH", "Phantom Browser"},
             {"PX", "Phoenix"},
+            {"PB", "Phoenix Browser"},
+            {"PF", "PlayFree Browser"},
             {"PO", "Polaris"},
             {"PT", "Polarity"},
+            {"LY", "PolyBrowser"},
+            {"PI", "PrivacyWall"},
             {"PS", "Microsoft Edge"},
+            {"QA", "Qazweb"},
+            {"Q2", "QQ Browser Lite"},
             {"Q1", "QQ Browser Mini"},
             {"QQ", "QQ Browser"},
             {"QT", "Qutebrowser"},
@@ -224,17 +274,24 @@ namespace DeviceDetectorNET.Parser.Client
             {"RM", "RockMelt"},
             {"SB", "Samsung Browser"},
             {"SA", "Sailfish Browser"},
+            {"S8", "Seewo Browser"},
             {"SC", "SEMC-Browser"},
             {"SE", "Sogou Explorer"},
             {"SF", "Safari"},
             {"S5", "Safe Exam Browser"},
             {"SW", "SalamWeb"},
+            {"SV", "SFive"},
             {"SH", "Shiira"},
             {"S1", "SimpleBrowser"},
             {"SY", "Sizzy"},
             {"SK", "Skyfire"},
             {"SS", "Seraphic Sraf"},
             {"SL", "Sleipnir"},
+            {"S6", "Slimjet"},
+            {"S7", "SP Browser"},
+            {"7S", "7Star"},
+            {"LE", "Smart Lenovo Browser"},
+            {"OZ", "Smooz"},
             {"SN", "Snowshoe"},
             {"SO", "Sogou Mobile Browser"},
             {"S2", "Splash"},
@@ -243,11 +300,13 @@ namespace DeviceDetectorNET.Parser.Client
             {"SP", "SuperBird"},
             {"SU", "Super Fast Browser"},
             {"S3", "surf"},
+            {"SG", "Stargon"},
             {"S0", "START Internet Browser"},
             {"S4", "Steam In-Game Overlay"},
             {"ST", "Streamy"},
             {"SX", "Swiftfox"},
             {"SZ", "Seznam Browser"},
+            {"TR", "T-Browser"},
             {"TO", "t-online.de Browser"},
             {"TA", "Tao Browser"},
             {"TF", "TenFourFox"},
@@ -259,9 +318,12 @@ namespace DeviceDetectorNET.Parser.Client
             {"TV", "TV Bro"},
             {"UB", "UBrowser"},
             {"UC", "UC Browser"},
+            {"UH", "UC Browser HD"},
             {"UM", "UC Browser Mini"},
             {"UT", "UC Browser Turbo"},
+            {"UR", "UR Browser"},
             {"UZ", "Uzbl"},
+            {"VE", "Venus Browser"},
             {"VI", "Vivaldi"},
             {"VV", "vivo Browser"},
             {"VB", "Vision Mobile Browser"},
@@ -277,8 +339,11 @@ namespace DeviceDetectorNET.Parser.Client
             {"YA", "Yandex Browser"},
             {"YL", "Yandex Browser Lite"},
             {"YN", "Yaani Browser"},
+            {"YB", "Yolo Browser"},
+            {"XS", "xStand"},
             {"XI", "Xiino"},
             {"XV", "Xvast"},
+            {"ZE", "Zetakey"},
             {"ZV", "Zvu"},
 
             // detected browsers in older versions
@@ -289,27 +354,48 @@ namespace DeviceDetectorNET.Parser.Client
         /// <summary>
         /// Browser families mapped to the short codes of the associated browsers
         /// </summary>
-        protected static Dictionary<string, string[]> BrowserFamilies = new Dictionary<string, string[]>
+        protected static readonly Dictionary<string, string[]> BrowserFamilies = new Dictionary<string, string[]>
         {
             {"Android Browser"    , new []{"AN", "MU"}},
             {"BlackBerry Browser" , new []{"BB"}},
             {"Baidu"              , new []{"BD", "BS"}},
             {"Amiga"              , new []{"AV", "AW"}},
-            {"Chrome"             , new []{"CH", "BA", "BR", "CC", "CD", "CM", "CI", "CF", "CN", "CR", "CP", "DD", "IR", "RM", "AO", "TS", "VI", "PT", "AS", "TB", "AD", "SB", "WP", "I3", "CV", "WH", "SZ", "QW", "LF", "KW", "2B", "CE", "EC", "MT", "MS", "HA", "OC", "MZ", "BM", "KN", "SW", "M1", "FA", "TA", "AH", "CL", "SU", "EU", "UB", "LO", "VG", "TV", "A0", "1B", "S4", "EE", "AE", "VM", "O0", "TG", "GB", "SY", "HH", "YJ", "LL", "TU", "XV", "C2", "QU", "YN"}},
-            {"Firefox"            , new []{"FF", "FE", "FM", "SX", "FB", "PX", "MB", "EI", "WF", "CU", "TF", "QM", "FR", "I4", "GZ", "MO", "F1", "BI", "MN", "BH", "TO", "OS", "MY", "FY", "AX", "C0", "LH", "S5", "ZV''FF", "FE", "FM", "SX", "FB", "PX", "MB", "EI", "WF", "CU", "TF", "QM", "FR", "I4", "GZ", "MO", "F1", "BI", "MN", "BH", "TO", "OS", "MY", "FY", "AX", "C0", "LH", "S5", "ZV"}},
-            {"Internet Explorer"  , new []{"IE", "IM", "PS"}},
+            {"Chrome"             , new []{"CH", "BA", "BR", "CC", "CD", "CM", "CI", "CF", "CN",
+                                            "CR", "CP", "DD", "IR", "RM", "AO", "TS", "VI", "PT",
+                                            "AS", "TB", "AD", "SB", "WP", "I3", "CV", "WH", "SZ",
+                                            "QW", "LF", "KW", "2B", "CE", "EC", "MT", "MS", "HA",
+                                            "OC", "MZ", "BM", "KN", "SW", "M1", "FA", "TA", "AH",
+                                            "CL", "SU", "EU", "UB", "LO", "VG", "TV", "A0", "1B",
+                                            "S4", "EE", "AE", "VM", "O0", "TG", "GB", "SY", "HH",
+                                            "YJ", "LL", "TU", "XV", "C2", "QU", "YN", "JB", "MR",
+                                            "S6", "7S", "NM", "PB", "UR", "NR", "SG", "S8", "C3",
+                                            "SS", "O2", "SV", "TR", "CW", "GI", "VE", "AC", "FS",
+                                            "CG", "DR", "C4", "HS", "DA", "C5", "C6", "DG", "HE",
+                                            "H2", "MA", "MD", "O3", "EW", "AI"}},
+            {"Firefox"            , new []{"FF", "FE", "FM", "SX", "FB", "PX", "MB", "EI", "WF",
+                                            "CU", "TF", "QM", "FR", "I4", "GZ", "MO", "F1", "BI",
+                                            "MN", "BH", "TO", "OS", "MY", "FY", "AX", "C0", "LH",
+                                            "S5", "ZV", "IW", "PI", "BN", "OA", "LY", "IF", "BF",
+                                            "QA"}},
+            {"Internet Explorer"  , new []{"IE", "IM", "PS", "CZ", "BZ"}},
             {"Konqueror"          , new []{"KO"}},
             {"NetFront"           , new []{"NF"}},
+            {"NetSurf"            , new []{"NE"}},
             {"Nokia Browser"      , new []{"NB", "NO", "NV", "DO"}},
-            {"Opera"              , new []{"OP", "OM", "OI", "ON", "OO","OG", "OH", "O1", "OX"}},
-            {"Safari"             , new []{"SF", "MF","SO"}},
-            {"Sailfish Browser"   , new []{"SA"}}
+            {"Opera"              , new []{"OP", "OM", "OI", "ON", "OO", "OG", "OH", "O1", "OX"}},
+            {"Safari"             , new []{"SF", "MF", "SO", "S7"}},
+            {"Sailfish Browser"   , new []{"SA"}},
         };
 
         /// <summary>
         /// Browsers that are available for mobile devices only
         /// </summary>
-        protected static string[] MobileOnlyBrowsers = { "36", "OC", "PU", "SK", "MF", "OI", "OM", "DD", "DB", "ST", "BL", "IV", "FM", "C1", "AL", "SA", "SB", "FR", "WP", "HA", "NX", "HU", "VV", "RE", "CB", "MZ", "UM", "FK", "FX", "WI", "MN", "M1", "AH", "SU", "EU", "EZ", "UT", "DT", "S0", "QU", "YN" };
+        protected static readonly string[] MobileOnlyBrowsers = {"36", "OC", "PU", "SK", "MF", "OI", "OM", "DD", "DB",
+                                                        "ST", "BL", "IV", "FM", "C1", "C4", "SA", "SB", "FR",
+                                                        "WP", "HA", "NX", "HU", "VV", "RE", "CB", "MZ", "UM",
+                                                        "FK", "FX", "WI", "MN", "M1", "AH", "SU", "EU", "EZ",
+                                                        "UT", "DT", "S0", "QU", "YN", "JB", "GH", "PI", "SG",
+                                                        "KD", "PE", "UH", "S7", "CW", "OZ", "GI", "VE", "AI"};
 
         private const int MaxVersionParts = 5;
 
@@ -324,11 +410,6 @@ namespace DeviceDetectorNET.Parser.Client
             //    return r;
             //}).ToList();
         }
-
-        //public BrowserParser(string ua): base(ua)
-        //{
-
-        //}
 
         /// <summary>
         /// Returns list of all available browsers
@@ -353,7 +434,7 @@ namespace DeviceDetectorNET.Parser.Client
         ///  <param name="browserLabel"></param>
         /// <param name="name"></param>
         /// <returns>bool|string If false, "Unknown"</returns>
-        public static bool GetBrowserFamily(string browserLabel , out string name) //TryGetBrowserFamily
+        public static bool GetBrowserFamily(string browserLabel, out string name) //TryGetBrowserFamily
         {
             foreach (var family in BrowserFamilies)
             {
@@ -419,7 +500,7 @@ namespace DeviceDetectorNET.Parser.Client
             }
 
             return result;
-            throw new Exception("Detected browser name was not found in AvailableBrowsers. Tried to parse user agent: "+UserAgent);
+            throw new Exception("Detected browser name was not found in AvailableBrowsers. Tried to parse user agent: " + UserAgent);
         }
 
         protected string BuildEngine(Engine engineData, string browserVersion)
@@ -444,7 +525,7 @@ namespace DeviceDetectorNET.Parser.Client
                         browserVersion = browserVersion.TrimEnd('.');
 
                     browserVersion = !browserVersion.Contains(".") ? browserVersion + ".0" : browserVersion;
-          
+
                     if (ConvertToVersion(browserVersion).CompareTo(ConvertToVersion(ver)) >= 0)
                     {
                         engine = version.Value;
@@ -462,26 +543,27 @@ namespace DeviceDetectorNET.Parser.Client
                     engine = engineResult.Match.Name;
                 }
             }
-           
+
             return engine;
         }
 
-        protected SemVersion ConvertToVersion(string versionString)
+        protected Version ConvertToVersion(string versionString)
         {
-            if (string.IsNullOrWhiteSpace(versionString)) return new SemVersion(0);
+            if (string.IsNullOrWhiteSpace(versionString)) return new Version(0, 0);
             if (versionString.Count(c => c == '.') > MaxVersionParts)
             {
                 versionString = string.Join(".", versionString.Split('.').Take(MaxVersionParts));
             }
 
-            return SemVersion.TryParse(versionString, out var version) ? version : new SemVersion(0);
+            return Version.TryParse(versionString, out var version) ? version : new Version(0, 0);
+            // return SemVersion.TryParse(versionString, out var version) ? version : new SemVersion(0);
         }
 
         protected string BuildEngineVersion(string engine)
         {
-            var engineVersion = new VersionParser(UserAgent,engine);
+            var engineVersion = new VersionParser(UserAgent, engine);
             var result = engineVersion.Parse();
-            return result.Success? result.Match.Name : string.Empty;
+            return result.Success ? result.Match.Name : string.Empty;
         }
     }
 }

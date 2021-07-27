@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
@@ -39,26 +40,24 @@ namespace DeviceDetectorNET.Parser
         public override ParseResult<BotMatchResult> Parse()
         {
             var result = new ParseResult<BotMatchResult>();
-            if (PreMatchOverall())
-            {
-                foreach (var bot in regexList)
-                {
-                    var match = GetRegexEngine().Match(UserAgent, bot.Regex);
-                    if (!match) continue;
-                    if (DiscardDetails)
-                    {
-                        result.Add(new BotMatchResult());
-                        return result;
-                    }
+            if (!PreMatchOverall()) return result;
 
-                    result.Add(new BotMatchResult()
-                    {
-                        Name = bot.Name,
-                        Category = bot.Category,
-                        Url = bot.Url,
-                        Producer = bot.Producer
-                    });
+            foreach (var bot in regexList)
+            {
+                if (!IsMatchUserAgent(bot.Regex)) continue;
+                if (DiscardDetails)
+                {
+                    result.Add(new BotMatchResult());
+                    return result;
                 }
+
+                result.Add(new BotMatchResult()
+                {
+                    Name = bot.Name,
+                    Category = bot.Category,
+                    Url = bot.Url,
+                    Producer = bot.Producer
+                });
             }
 
             return result;

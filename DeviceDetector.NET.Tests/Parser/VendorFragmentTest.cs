@@ -38,7 +38,8 @@ namespace DeviceDetectorNET.Tests.Parser
                 var result = vendorFragmentParser.Parse();
                 result.Success.Should().BeTrue("Match should be with success");
 
-                result.Match.Brand.Should().BeEquivalentTo(fixture.vendor, "Brands should be equal");
+                DeviceDetectorNET.Parser.Device.Devices.GetFullName(result.Match.Brand).Should()
+                                 .BeEquivalentTo(fixture.vendor, "Brands should be equal");
             }
         }
     }

@@ -5,6 +5,7 @@ using DeviceDetectorNET.Parser.Client;
 using DeviceDetectorNET.Tests.Class.Client;
 using DeviceDetectorNET.Yaml;
 using System.Linq;
+using System.Threading.Tasks;
 using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Tests.Parser.Client
@@ -12,7 +13,7 @@ namespace DeviceDetectorNET.Tests.Parser.Client
     [Trait("Category", "Browser")]
     public class BrowserTest
     {
-        private List<BrowserFixture> _fixtureData;
+        private readonly List<BrowserFixture> _fixtureData;
 
         public BrowserTest()
         {
@@ -24,9 +25,9 @@ namespace DeviceDetectorNET.Tests.Parser.Client
             //replace null
             _fixtureData = _fixtureData.Select(f =>
             {
-                f.client.version = f.client.version ?? "";
-                f.client.engine = f.client.engine ?? "";
-                f.client.engine_version = f.client.engine_version ?? "";
+                f.client.version ??= string.Empty;
+                f.client.engine ??= string.Empty;
+                f.client.engine_version ??= string.Empty;
                 return f;
             }).ToList();
         }
@@ -41,28 +42,29 @@ namespace DeviceDetectorNET.Tests.Parser.Client
         [Fact]
         public void TestAllBrowsersTested()
         {
-            var browsers = new BrowserParser();
             BrowserParser.SetVersionTruncation(BrowserParser.VERSION_TRUNCATION_NONE);
 
-            foreach (var fixture in _fixtureData)
+            Parallel.ForEach(_fixtureData, fixture =>
             {
+                var browsers = new BrowserParser();
                 browsers.SetUserAgent(fixture.user_agent);
                 var result = browsers.Parse();
-              
+
                 result.Success.Should().BeTrue("Match should be with success");
                 var browserResult = result.Match as BrowserMatchResult;
 
                 browserResult.Should().NotBeNull("Match should be of type BrowserMatchResult");
 
-                if (browserResult == null) break;
+                if (browserResult == null) return;
 
-                browserResult.Engine.Should().BeEquivalentTo(fixture.client.engine, "Engine should be equal " + fixture.user_agent);
-                browserResult.EngineVersion.Should().BeEquivalentTo(fixture.client.engine_version.ToString(), "EngineVersion should be equal");
+                browserResult.Engine.Should()
+                             .BeEquivalentTo(fixture.client.engine, "Engine should be equal " + fixture.user_agent);
+                browserResult.EngineVersion.Should().BeEquivalentTo(fixture.client.engine_version.ToString(),
+                    "EngineVersion should be equal");
                 browserResult.Name.Should().BeEquivalentTo(fixture.client.name, "Names should be equal");
-                browserResult.ShortName.Should().BeEquivalentTo(fixture.client.short_name, "Short Names should be equal");
                 browserResult.Type.Should().BeEquivalentTo(fixture.client.type, "Type should be equal");
                 browserResult.Version.Should().BeEquivalentTo(fixture.client.version, "Version should be equal");
-            }
+            });
         }
 
         [Fact]

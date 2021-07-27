@@ -39,8 +39,10 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
                 result.Success.Should().BeTrue("Match should be with success to " + fixture.device.model);
 
                 result.Match.Name.Should().BeEquivalentTo(fixture.device.model, "Names should be equal");
-                result.Match.Brand.Should().BeEquivalentTo(fixture.device.brand, "Brand should be equal");
-                result.Match.Type.Should().Be(fixture.device.type, "Types should be equal");
+                DeviceDetectorNET.Parser.Device.Devices.GetFullName(result.Match.Brand).Should()
+                                 .BeEquivalentTo(fixture.device.brand, "Brand should be equal");
+                result.Match.Type.Should().Be(DeviceDetectorNET.Parser.Device.Devices.DeviceTypes[fixture.device.type],
+                    "Types should be equal");
             }
         }
 
@@ -50,7 +52,7 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
             var ua = @"Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36";
             var consoleParser = new ConsoleParser();
             consoleParser.SetUserAgent(ua);
-            var result = consoleParser.Parse();
+            consoleParser.Parse();
         }
     }
 }
