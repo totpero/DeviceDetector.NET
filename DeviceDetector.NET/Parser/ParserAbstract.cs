@@ -159,7 +159,7 @@ namespace DeviceDetectorNET.Parser
 
             var regexesDir = GetRegexesDirectory();
 
-            if (regexesDir == string.Empty)
+            if (string.IsNullOrWhiteSpace(regexesDir))
             {
                 var assembly = typeof(DeviceDetector).GetTypeInfo().Assembly;
                 var filePath = FixtureFile.Replace("/", ".");
@@ -211,12 +211,15 @@ namespace DeviceDetectorNET.Parser
 
         private string FixUserAgentRegEx(string regex)
         {
-            return @"(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-)(?:" + regex.Replace("/", @"\/").Replace("++", "+").Replace(@"\_", "_") + ")";
+            var cleanedRegex = regex.Replace("/", @"\/").Replace("++", "+").Replace(@"\_", "_").Replace(@"\_", @"\\_");
+            var result = $@"(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-)(?:{cleanedRegex})";
+            return result;
         }
 
         protected string BuildByMatch(string item, string[] matches)
         {
-            for (var nb = 1; nb <= 3; nb++)
+            var maxMatches = Math.Min(3, matches.Count() - 1);
+            for (var nb = 1; nb <= maxMatches; nb++)
             {
                 if (!item.Contains("$" + nb))
                 {

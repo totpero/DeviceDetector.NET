@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using FluentAssertions;
 using DeviceDetectorNET.Parser;
 using DeviceDetectorNET.Tests.Class.Client;
@@ -24,7 +25,7 @@ namespace DeviceDetectorNET.Tests.Parser
             //replace null
             _fixtureData = _fixtureData.Select(f =>
             {
-                f.os.version = f.os.version ?? "";
+                f.os.version ??= string.Empty;
                 return f;
             }).ToList();
         }
@@ -32,9 +33,9 @@ namespace DeviceDetectorNET.Tests.Parser
         [Fact]
         public void OsTestParse()
         {
-            var operatingSystemParser = new OperatingSystemParser();
-            foreach (var fixture in _fixtureData)
+            Parallel.ForEach(_fixtureData, fixture =>
             {
+                var operatingSystemParser = new OperatingSystemParser();
                 operatingSystemParser.SetUserAgent(fixture.user_agent);
                 var result = operatingSystemParser.Parse();
                 result.Success.Should().BeTrue("Match should be with success");
@@ -42,7 +43,7 @@ namespace DeviceDetectorNET.Tests.Parser
                 result.Match.Name.Should().BeEquivalentTo(fixture.os.name, "Names should be equal");
                 result.Match.ShortName.Should().BeEquivalentTo(fixture.os.short_name, "short_names should be equal");
                 result.Match.Version.Should().BeEquivalentTo(fixture.os.version, "Versions should be equal");
-            }
+            });
         }
 
         [Fact]
@@ -55,11 +56,9 @@ namespace DeviceDetectorNET.Tests.Parser
                 var contains = false;
                 foreach (var familyOs in familiesOs.Values)
                 {
-                    if (familyOs.Contains(os))
-                    {
-                        contains = true;
-                        return;
-                    }
+                    if (!familyOs.Contains(os)) continue;
+                    contains = true;
+                    break;
                 }
                 contains.Should().BeTrue();
             }
@@ -68,20 +67,20 @@ namespace DeviceDetectorNET.Tests.Parser
         [Fact]
         public void TestGetAvailableOperatingSystems()
         {
-            var cout = OperatingSystemParser.GetAvailableOperatingSystems().Count;
-            cout.Should().BeGreaterThan(70);
+            var count = OperatingSystemParser.GetAvailableOperatingSystems().Count;
+            count.Should().BeGreaterThan(70);
         }
 
         [Fact]
-        public void TestGetAvailabsleOperatingSystemFamilies()
+        public void TestGetAvailableOperatingSystemFamilies()
         {
-            var cout = OperatingSystemParser.GetAvailableOperatingSystemFamilies().Count;
-            cout.Should().Be(23);
+            var count = OperatingSystemParser.GetAvailableOperatingSystemFamilies().Count;
+            count.Should().Be(24);
         }
 
         [Theory]
         [InlineData("DEB", "4.5", "Debian 4.5")]
-        [InlineData("WRT","", "Windows RT")]
+        [InlineData("WRT", "", "Windows RT")]
         [InlineData("WIN", "98", "Windows 98")]
         [InlineData("XXX", "4.5", "")]
         public void TestGetNameFromId(string os, string version, string expected)

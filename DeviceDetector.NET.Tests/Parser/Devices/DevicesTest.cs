@@ -1,8 +1,4 @@
 ﻿using FluentAssertions;
-using System.Collections.Generic;
-using DeviceDetectorNET.Class.Device;
-using DeviceDetectorNET.Parser.Device;
-using DeviceDetectorNET.Results.Device;
 using Xunit;
 
 namespace DeviceDetectorNET.Tests.Parser.Devices
@@ -13,21 +9,21 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
         [Fact]
         public void DeviceTypesTest()
         {
-            DeviceParserAbstract<Dictionary<string, DeviceModel>>
-                .DeviceTypes
-                .Count
-                .Should()
-                .Be(13);
+            DeviceDetectorNET.Parser.Device.Devices
+                             .DeviceTypes
+                             .Count
+                             .Should()
+                             .Be(14);
         }
 
         [Fact]
         public void DeviceBrandsTest()
         {
-            DeviceParserAbstract<Dictionary<string, DeviceModel>>
-                .DeviceBrands
-                .Count
-                .Should()
-                .Be(659);
+            DeviceDetectorNET.Parser.Device.Devices
+                             .DeviceBrands
+                             .Count
+                             .Should()
+                             .Be(1057);
         }
     }
 }

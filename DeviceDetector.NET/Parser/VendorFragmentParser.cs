@@ -27,7 +27,7 @@ namespace DeviceDetectorNET.Parser
                         result.Add(new VendorFragmentResult
                         {
                             Name = brands.Key,
-                            Brand = DeviceParserAbstract<IDictionary<string, DeviceModel>>.DeviceBrands
+                            Brand = Devices.DeviceBrands
                                 .FirstOrDefault(d => d.Value.Equals(brands.Key)).Key
                         });
                     }

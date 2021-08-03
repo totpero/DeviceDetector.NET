@@ -22,7 +22,7 @@
   version: ''
   url: 'http://lincgeek.org/bashpodder/'
   type: 'Feed Reader'
-  
+
 - regex: 'Breaker/v([\d\.]+)'
   name: 'Breaker'
   version: '$1'
@@ -50,7 +50,7 @@
 - regex: 'QuiteRSS(?:[/ ](\d+[\.\d]+))?'
   name: 'QuiteRSS'
   version: '$1'
-  url: https://quiterss.org
+  url: 'https://quiterss.org'
   type: 'Feed Reader App'
 
 - regex: 'gPodder/([\d\.]+)'
@@ -71,7 +71,7 @@
   url: 'http://liferea.sf.net/'
   type: 'Feed Reader'
 
-- regex: 'NetNewsWire(?:[/ ](\d+[\.\d]+))?'
+- regex: '(?:NetNewsWire|Evergreen.+MacOS)(?:[/ ](\d+[\.\d]+))?'
   name: 'NetNewsWire'
   version: '$1'
   url: 'http://netnewswireapp.com/'
@@ -113,7 +113,7 @@
   url: 'http://readkitapp.com/'
   type: 'Feed Reader App'
 
-- regex: 'Reeder(?:[/ ](\d+[\.\d]+))?'
+- regex: 'Reeder[/ ](\d+[\.\d]+)'
   name: 'Reeder'
   version: '$1'
   url: 'http://reederapp.com/'

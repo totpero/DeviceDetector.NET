@@ -110,6 +110,8 @@ namespace DeviceDetectorNET
         protected List<IDeviceParserAbstract> deviceParsers = new List<IDeviceParserAbstract>
         {
             new HbbTvParser(),
+            new ShellTvParser(),
+            new NotebookParser(),
             new ConsoleParser(),
             new CarBrowserParser(),
             new CameraParser(),
@@ -225,8 +227,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool IsTouchEnabled()
         {
-            const string regex = "Touch";
-            return IsMatchUserAgent(regex);
+            return IsMatchUserAgent("Touch");
         }
 
         /// <summary>
@@ -235,8 +236,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool HasAndroidTableFragment()
         {
-            const string regex = @"Android( [\.0-9]+)?; Tablet;";
-            return IsMatchUserAgent(regex);
+            return IsMatchUserAgent(@"Android( [\.0-9]+)?; Tablet;");
         }
 
         /// <summary>
@@ -245,8 +245,16 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool HasAndroidMobileFragment()
         {
-            const string regex = @"Android( [\.0-9]+)?; Mobile;";
-            return IsMatchUserAgent(regex);
+            return IsMatchUserAgent(@"Android( [\.0-9]+)?; Mobile;");
+        }
+
+        /// <summary> 
+        /// Returns if the parsed UA contains the 'Desktop x64;' or 'Desktop x32;' or 'Desktop WOW64' fragment
+        /// </summary>
+        /// <returns>True if contains fragment</returns>
+        protected bool HasDesktopFragment()
+        {
+            return IsMatchUserAgent("Desktop (x(?:32|64)|WOW64)");
         }
 
         private bool UsesMobileBrowser()
@@ -259,7 +267,7 @@ namespace DeviceDetectorNET
 
         public bool IsTablet()
         {
-            return device.HasValue && device.Value == DeviceType.DEVICE_TYPE_TABLET;
+            return device == DeviceType.DEVICE_TYPE_TABLET;
         }
 
         public bool IsMobile()
@@ -322,20 +330,12 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public ParseResult<OsMatchResult> GetOs()
         {
-            if (!os.Success)
-            {
-                return new ParseResult<OsMatchResult>(new UnknownOsMatchResult(), false);
-            }
-            return os;
+            return os.Success ? os : new ParseResult<OsMatchResult>(new UnknownOsMatchResult(), false);
         }
 
         public ParseResult<ClientMatchResult> GetClient()
         {
-            if (!client.Success)
-            {
-                return new ParseResult<ClientMatchResult>(new UnknownClientMatchResult(), false);
-            }
-            return client;
+            return client.Success ? client : new ParseResult<ClientMatchResult>(new UnknownClientMatchResult(), false);
         }
 
         /// <summary>
@@ -344,25 +344,22 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public ParseResult<BrowserMatchResult> GetBrowserClient()
         {
-            if (client.Success)
+            if (client.Success && client.Match is BrowserMatchResult browser)
             {
-                if (client.Match is BrowserMatchResult browser)
-                {
-                    return new ParseResult<BrowserMatchResult>(browser);
-                }
+                return new ParseResult<BrowserMatchResult>(browser);
             }
             return new ParseResult<BrowserMatchResult>();
         }
 
         /// <summary>
         /// Returns the device type extracted from the parsed UA
-        ///  <see cref="DeviceParserAbstract{T,TResult}.DeviceTypes"/> for available device types
+        ///  <see cref="Devices.DeviceTypes"/> for available device types
         /// </summary>
         /// <returns></returns>
         public string GetDeviceName()
         {
             return device.HasValue
-                ? DeviceParserAbstract<Dictionary<string, DeviceModel>>.GetDeviceName(device.Value).Key
+                ? Devices.GetDeviceName(device.Value).Key
                 : null;
         }
 
@@ -378,8 +375,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public string GetBrandName()
         {
-            return DeviceParserAbstract<Dictionary<string, DeviceModel>>
-                .GetFullName(brand);
+            return Devices.GetFullName(brand);
         }
 
         public string GetModel()
@@ -457,7 +453,7 @@ namespace DeviceDetectorNET
                 ParseBase();
             }
         }
-        
+
         private bool LoadCacheData(string key)
         {
             var data = ParseCache.Instance.FindById(key);
@@ -493,19 +489,18 @@ namespace DeviceDetectorNET
         private void ParseBase()
         {
             ParseBot();
-            if (!IsBot())
-            {
-                ParseOs();
+            if (IsBot()) return;
 
-                /**
-                 * Parse Clients
-                 * Clients might be browsers, Feed Readers, Mobile Apps, Media Players or
-                 * any other application accessing with an parseable UA
-                 */
-                ParseClient();
+            ParseOs();
 
-                ParseDevice();
-            }
+            /*
+             * Parse Clients
+             * Clients might be browsers, Feed Readers, Mobile Apps, Media Players or
+             * any other application accessing with an parseable UA
+             */
+            ParseClient();
+
+            ParseDevice();
         }
 
         /// <summary>
@@ -619,7 +614,7 @@ namespace DeviceDetectorNET
             //a detected browser, but can still be detected. So we check the useragent for Chrome instead.
             if (!device.HasValue && osFamily == "Android" && IsMatchUserAgent(@"Chrome/[\.0-9]*"))
             {
-                if (IsMatchUserAgent(@"Chrome/[\.0-9]* Mobile"))
+                if (IsMatchUserAgent(@"Chrome/[\.0-9]* (?:Mobile|eliboM)"))
                 {
                     device = DeviceType.DEVICE_TYPE_SMARTPHONE;
                 }
@@ -688,6 +683,12 @@ namespace DeviceDetectorNET
             if (!device.HasValue && (clientName == "Kylo" || clientName == "Espial TV Browser"))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
+            }
+
+            // Set device type desktop if string ua contains desktop
+            if (device != DeviceType.DEVICE_TYPE_DESKTOP && HasDesktopFragment())
+            {
+                device = DeviceType.DEVICE_TYPE_DESKTOP;
             }
 
             //set device type to desktop for all devices running a desktop os that were not detected as an other device type
@@ -760,9 +761,7 @@ namespace DeviceDetectorNET
 
         public ICache GetCache()
         {
-            if (cache == null)
-                cache = new DictionaryCache();
-            return cache;
+            return cache ?? (cache = new DictionaryCache());
         }
 
         public void SetRegexEngine(IRegexEngine regexEng)
@@ -772,9 +771,7 @@ namespace DeviceDetectorNET
 
         public IRegexEngine GetRegexEngine()
         {
-            if (regexEngine == null) 
-                regexEngine = new MSRegexCompiledEngine();
-            return regexEngine;
+            return regexEngine ?? (regexEngine = new MSRegexCompiledEngine());
         }
 
         //@todo: duplicate in parserabstract
