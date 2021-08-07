@@ -5,7 +5,7 @@ using System.IO;
 using Microsoft.Extensions.Logging;
 namespace DeviceDetectorNET.Cache
 {
-    internal class ParseCache
+    internal class ParseCache : IParseCache
     {
         private ParseCache()
         {
@@ -54,7 +54,7 @@ namespace DeviceDetectorNET.Cache
         public static ILogger Logger { get; set; } = DeviceDetectorSettings.Logger;
         public static ParseCache Instance => LazyCache.Value;
 
-        private LiteCollection<CachedDataHolder> ParsedDataCollection { get; set; }
+        private ILiteCollection<CachedDataHolder> ParsedDataCollection { get; set; }
 
         public DeviceDetectorCachedData FindById(string key)
         {
@@ -85,7 +85,7 @@ namespace DeviceDetectorNET.Cache
 
         private void EmptyExpired()
         {
-            ParsedDataCollection.Delete(b => b.ExpirationDate < DateTime.UtcNow);
+            ParsedDataCollection.DeleteMany(b => b.ExpirationDate < DateTime.UtcNow);
         }
 
         private static bool IsExpired(CachedDataHolder data)
