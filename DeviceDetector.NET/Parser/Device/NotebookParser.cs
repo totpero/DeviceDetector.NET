@@ -17,6 +17,11 @@ namespace DeviceDetectorNET.Parser.Device
         public override ParseResult<DeviceMatchResult> Parse()
         {
             var result = new ParseResult<DeviceMatchResult>();
+
+            //if (IsMatchUserAgent("FBMD/"))
+            //{
+            //    return result;
+            //}
             return PreMatchOverall() ? base.Parse() : result;
         }
     }
