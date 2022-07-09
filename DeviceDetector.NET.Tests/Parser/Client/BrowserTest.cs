@@ -74,5 +74,19 @@ namespace DeviceDetectorNET.Tests.Parser.Client
             var available = new BrowserParser().GetAvailableClients();
             BrowserParser.GetAvailableBrowsers().Count.Should().BeGreaterOrEqualTo(available.Count);
         }
+
+
+        [Fact]
+        public void TestEngineVerison()
+        {
+            BrowserParser.SetVersionTruncation(BrowserParser.VERSION_TRUNCATION_NONE);
+            var browsers = new BrowserParser();
+            browsers.SetUserAgent("Mozilla/5.0 (Android 10; Mobile; rv:81.0) Gecko/81.0 Firefox/81.0/TansoDL");
+            var result = browsers.Parse();
+            var browserResult = result.Match as BrowserMatchResult;
+
+            browserResult.EngineVersion.Should().BeEquivalentTo("81.0","EngineVersion should be equal");
+
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DeviceDetectorNET.Class.Device;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -109,19 +110,35 @@ namespace DeviceDetectorNET
             return this.PlatformVersion;
         }
 
-        public string[] getBrandList()
+        public List<KeyValuePair<string, string>> GetBrandList()
         {
                 if (this.FullVersionList.Length > 0)
                 {
-                    //return \array_combine(
-                    //\array_column($this->fullVersionList, 'brand'),
-                    //        \array_column($this->fullVersionList, 'version')
-                    //   ) ?: [];
+               
+//return \array_combine(
+//\array_column($this->fullVersionList, 'brand'),
+//        \array_column($this->fullVersionList, 'version')
+//   ) ?: [];
 
                 }
 
-                return Array.Empty<string>();
+                return new List<KeyValuePair<string, string>>();
         }
+
+        /// <summary>
+        /// Returns the Browser version
+        /// </summary>
+        /// <returns></returns>
+        public string GetBrandVersion()
+        {
+            if (!string.IsNullOrEmpty(UaFullVersion))
+            {
+                return UaFullVersion;
+            }
+
+            return string.Empty;
+        }
+
         public string GetApp()
         {
             return this.App;

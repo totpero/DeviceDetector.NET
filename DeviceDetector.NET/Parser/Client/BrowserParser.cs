@@ -7,7 +7,6 @@ using DeviceDetectorNET.Parser.Client.Browser.Engine;
 using DeviceDetectorNET.Parser.Client.Hints;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
-using Semver;
 
 namespace DeviceDetectorNET.Parser.Client
 {
@@ -625,6 +624,10 @@ namespace DeviceDetectorNET.Parser.Client
         public override ParseResult<ClientMatchResult> Parse()
         {
             var result = new ParseResult<ClientMatchResult>();
+
+            var browserFromClientHints = ParseBrowserFromClientHints();
+            //var browserFromUserAgent = ParseBrowserFromUserAgent();
+
             Class.Client.Browser localBrowser = null;
             string[] localMatches = null;
             foreach (var browser in regexList)
@@ -665,6 +668,53 @@ namespace DeviceDetectorNET.Parser.Client
 
             return result;
             throw new Exception("Detected browser name was not found in AvailableBrowsers. Tried to parse user agent: " + UserAgent);
+        }
+
+        /// <summary>
+        /// Returns the browser that can be safely detected from client hints
+        /// </summary>
+        protected BrowserMatchResult ParseBrowserFromClientHints()
+{
+            var name = string.Empty;
+            var version = string.Empty;
+            var @short = string.Empty;
+            if (ClientHints != null)
+            {
+               var brands = ClientHints.GetBrandList();
+                if (brands.Any())
+                {
+                    foreach (var brand in brands)
+                    {
+                        //brand = this.ApplyClientHintMapping(brand);
+                        foreach (var availableBrowser in AvailableBrowsers)
+                        {
+                            if (FuzzyCompare(brand.Key, availableBrowser.Value) 
+                                || FuzzyCompare(brand.Key + " Browser", availableBrowser.Value)
+                                || FuzzyCompare(brand.Key, availableBrowser.Value + " Browser")
+                                )
+                            {
+                                name = availableBrowser.Value;
+                                @short   = availableBrowser.Key;
+                                version = brand.Value;
+
+                                break;
+                            }
+                        }
+                        // If we detected a brand, that is not chromium, we will use it, otherwise we will look further
+                        if (!string.IsNullOrEmpty(name) && "Chromium" != name) {
+                            break;
+                        }
+                    }
+                    version = this.ClientHints.GetBrandVersion()  ?? version;
+                }
+            }
+
+            return new BrowserMatchResult
+            {
+                Name = name, 
+                ShortName = @short,
+                Version = BuildVersion(version,new string[0]) 
+            };
         }
 
         protected string BuildEngine(Engine engineData, string browserVersion)

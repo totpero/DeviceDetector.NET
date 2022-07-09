@@ -37,12 +37,12 @@ namespace DeviceDetectorNET.Tests
         {
             var headers = new Dictionary<string, string>
                 {
-                    {"TTP_SEC_CH_UA_FULL_VERSION_LIST" , @""" Not A;Brand"";v=""99.0.0.0"", ""Chromium"";v=""98.0.4758.82"", ""Opera"";v=""98.0.4758.82""" },
-                    { "TTP_SEC_CH_UA"                  , @""" Not A;Brand"";v=""99"", ""Chromium"";v=""98"", ""Opera"";v=""84"""},
-                    { "TTP_SEC_CH_UA_MOBILE"           , "?1"},
-                    { "TTP_SEC_CH_UA_MODEL"            , "DN2103"},
-                    { "TTP_SEC_CH_UA_PLATFORM"         , "Ubuntu"},
-                    { "TTP_SEC_CH_UA_PLATFORM_VERSION" , "3.7"},
+                    { "HTTP_SEC_CH_UA_FULL_VERSION_LIST" , @""" Not A;Brand"";v=""99.0.0.0"", ""Chromium"";v=""98.0.4758.82"", ""Opera"";v=""98.0.4758.82""" },
+                    { "HTTP_SEC_CH_UA"                  , @""" Not A;Brand"";v=""99"", ""Chromium"";v=""98"", ""Opera"";v=""84"""},
+                    { "HTTP_SEC_CH_UA_MOBILE"           , "?1"},
+                    { "HTTP_SEC_CH_UA_MODEL"            , "DN2103"},
+                    { "HTTP_SEC_CH_UA_PLATFORM"         , "Ubuntu"},
+                    { "HTTP_SEC_CH_UA_PLATFORM_VERSION" , "3.7"},
                     { "HTTP_SEC_CH_UA_FULL_VERSION"    , "98.0.14335.105"}
                 };
 

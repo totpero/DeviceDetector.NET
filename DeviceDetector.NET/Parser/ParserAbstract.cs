@@ -229,10 +229,20 @@ namespace DeviceDetectorNET.Parser
         {
             throw new NotImplementedException();
 
-            //foreach (var clientHintMapping in ClientHintMapping)
-            //{
-            //    clientHintMapping
+            foreach (var clientHintMapping in ClientHintMapping)
+            {
+                //clientHintMapping
+            }
+
+            //foreach (static::$clientHintMapping as $mappedName => $clientHints) {
+            //    foreach ($clientHints as $clientHint) {
+            //        if (\strtolower($name) === \strtolower($clientHint)) {
+            //            return $mappedName;
+            //        }
+            //    }
             //}
+
+            //return $name;
         }
 
         /// <summary>
@@ -406,6 +416,17 @@ namespace DeviceDetectorNET.Parser
                 RegexEngine = new MSRegexCompiledEngine();
 
             return RegexEngine;
+        }
+
+        /// <summary>
+        /// Compares if two strings equals after lowering their case and removing spaces
+        /// </summary>
+        /// <param name="value1"></param>
+        /// <param name="value2"></param>
+        /// <returns></returns>
+        protected bool FuzzyCompare(string value1, string value2)
+        {
+            return value1.Replace(" ", "").ToLower() == value2.Replace(" ", "").ToLower();
         }
     }
 }

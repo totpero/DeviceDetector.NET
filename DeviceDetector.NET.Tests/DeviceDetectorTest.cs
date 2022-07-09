@@ -205,11 +205,14 @@ namespace DeviceDetectorNET.Tests
             //DeviceDetectorSettings.RegexesDirectory = @"D:\WorkSpaces\GitHubVisualStudio\DeviceDetector.Net\src\DeviceDetector.NET\";
             var parser = new YamlParser<List<DeviceDetectorFixture>>();
             var fixtureData = parser.ParseFile($"{Utils.CurrentDirectory()}\\fixtures\\{fileNme}.yml");
+            DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
 
             Parallel.ForEach(fixtureData, expected =>
             // fixtureData.ForEach(expected =>
             {
-                var dd = DeviceDetector.GetInfoFromUserAgent(expected.user_agent);
+                 var clientHints = expected.headers.Any() ? ClientHints.Factory(expected.headers) : null;
+
+                var dd = DeviceDetector.GetInfoFromUserAgent(expected.user_agent, clientHints);
                 dd.Success.Should().BeTrue();
                 dd.Match.OsFamily.Should().BeEquivalentTo(expected.os_family);
                 dd.Match.BrowserFamily.Should().BeEquivalentTo(expected.browser_family);
@@ -341,7 +344,7 @@ namespace DeviceDetectorNET.Tests
                 botData.Match.Url.Should().BeEquivalentTo(fixture.bot.url, "URLs should be equal");
                 if (botData.Match.Producer != null && fixture.bot.producer != null)
                 {
-                    botData.Match.Producer.Name.Should().BeEquivalentTo(fixture.bot.producer.name, "Producers name should be equal");
+                    botData.Match.Producer.Name.Should().BeEquivalentTo(fixture.bot.producer.name ?? string.Empty, "Producers name should be equal");
                 }
 
                 // client and os will always be unknown for bots
