@@ -16,7 +16,7 @@ namespace DeviceDetectorNET.Parser.Client
 
         }
 
-        protected ClientParserAbstract(string ua) : base(ua)
+        protected ClientParserAbstract(string ua, ClientHints clientHints = null) : base(ua, clientHints)
         {
 
         }

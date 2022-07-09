@@ -110,10 +110,20 @@ namespace DeviceDetectorNET.Parser
             //regexList = new IEnumerable<T>();
         }
 
-        protected ParserAbstract(string ua = "")
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ua"></param>
+        /// <param name="clientHints"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        protected ParserAbstract(string ua = "", ClientHints clientHints = null)
         {
             if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
             UserAgent = ua;
+            if (clientHints != null)
+            {
+                this.ClientHints = clientHints;
+            }
             //regexList = new List<T>();
         }
 

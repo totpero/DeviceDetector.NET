@@ -49,6 +49,11 @@ namespace DeviceDetectorNET
         protected string userAgent;
 
         /// <summary>
+        /// Holds the client hints that should be parsed
+        /// </summary>
+        protected ClientHints clientHints = null;
+
+        /// <summary>
         /// Holds the operating system data after parsing the UA
         /// </summary>
         protected ParseResult<OsMatchResult> os = new ParseResult<OsMatchResult>();
@@ -130,11 +135,16 @@ namespace DeviceDetectorNET
         ///
         /// </summary>
         /// <param name="userAgent">UA to parse</param>
-        public DeviceDetector(string userAgent = "")
+        /// <param name="clientHints">Browser client hints to parse</param>
+        public DeviceDetector(string userAgent = "", ClientHints clientHints = null)
         {
             if (!string.IsNullOrEmpty(userAgent))
             {
                 SetUserAgent(userAgent);
+            }
+            if (clientHints != null)
+            {
+                SetClientHints(clientHints);
             }
         }
 
@@ -155,6 +165,19 @@ namespace DeviceDetectorNET
                 Reset();
             }
             this.userAgent = userAgent;
+        }
+
+        /// <summary>
+        /// Sets the browser client hints to be parsed
+        /// </summary>
+        /// <param name="clientHints"></param>
+        public void SetClientHints(ClientHints clientHints)
+        {
+            if (this.clientHints != null || this.clientHints != clientHints)
+            {
+                Reset();
+            }
+            this.clientHints = clientHints;
         }
 
         private void Reset()
@@ -272,6 +295,11 @@ namespace DeviceDetectorNET
 
         public bool IsMobile()
         {
+            // Client hints indicate a mobile device
+            if (this.clientHints != null && this.clientHints.IsMobile()) {
+                return true;
+            }
+
             // Mobile device types
             if (device.HasValue && mobileDeviceTypes.Contains(device.Value))
             {
@@ -285,7 +313,7 @@ namespace DeviceDetectorNET
             }
 
             // Check for browsers available for mobile devices only
-            if (UsesMobileBrowser())
+            if (this.UsesMobileBrowser())
             {
                 return true;
             }
@@ -430,8 +458,9 @@ namespace DeviceDetectorNET
 
             parsed = true;
 
-            // skip parsing for empty useragents or those not containing any letter
-            if (string.IsNullOrEmpty(userAgent) || !GetRegexEngine().Match(userAgent, "([a-z])"))
+            // skip parsing for empty useragents or those not containing any letter (if no client hints were provided)
+            if ((string.IsNullOrEmpty(userAgent) || !GetRegexEngine().Match(userAgent, "([a-z])"))
+                && clientHints == null)
             {
                 return;
             }
@@ -521,6 +550,7 @@ namespace DeviceDetectorNET
 
                 parser.SetUserAgent(userAgent);
                 parser.SetCache(cache);
+                parser.SetClientHints(this.clientHints);
                 parser.DiscardDetails = discardBotInformation;
                 var botParseResult = parser.Parse();
                 if (!botParseResult.Success) continue;
@@ -557,6 +587,7 @@ namespace DeviceDetectorNET
             {
                 deviceParser.SetCache(cache);
                 deviceParser.SetUserAgent(userAgent);
+                deviceParser.SetClientHints(clientHints);
 
                 var result = deviceParser.Parse();
                 if (!result.Success) continue;
@@ -565,6 +596,11 @@ namespace DeviceDetectorNET
                 model = result.Match.Name;
                 brand = result.Match.Brand;
                 break;
+            }
+
+            //If no model could be parsed from useragent, we use the one from client hints if available
+            if (this.clientHints != null && string.IsNullOrEmpty(model)) {
+                model = this.clientHints.getModel();
             }
 
             //If no brand has been assigned try to match by known vendor fragments
@@ -584,11 +620,13 @@ namespace DeviceDetectorNET
             os = GetOs();
 
             var osShortName = string.Empty;
+            var osName = string.Empty;
             var osFamily = string.Empty;
             var osVersion = string.Empty;
             if (os.Success)
             {
                 osShortName = os.Match.ShortName;
+                osName = os.Match.Name;
                 OperatingSystemParser.GetOsFamily(osShortName, out osFamily);
                 osVersion = os.Match.Version;
                 if (!string.IsNullOrEmpty(osVersion))
@@ -602,9 +640,9 @@ namespace DeviceDetectorNET
 
 
             //Assume all devices running iOS / Mac OS are from Apple
-            if (string.IsNullOrEmpty(brand) && new[] { "ATV", "IOS", "MAC" }.Contains(osShortName))
+            if (string.IsNullOrEmpty(brand) && new[] { "iPadOS", "tvOS", "watchOS", "iOS" , "Mac" }.Contains(osName))
             {
-                brand = "AP";
+                brand = "Apple";
             }
 
             //Chrome on Android passes the device type based on the keyword 'Mobile'
@@ -614,11 +652,11 @@ namespace DeviceDetectorNET
             //a detected browser, but can still be detected. So we check the useragent for Chrome instead.
             if (!device.HasValue && osFamily == "Android" && IsMatchUserAgent(@"Chrome/[\.0-9]*"))
             {
-                if (IsMatchUserAgent(@"Chrome/[\.0-9]* (?:Mobile|eliboM)"))
+                if (IsMatchUserAgent(@"(?:Mobile|eliboM) Safari/"))
                 {
                     device = DeviceType.DEVICE_TYPE_SMARTPHONE;
                 }
-                else if (IsMatchUserAgent(@"Chrome/[\.0-9]* (?!Mobile)"))
+                else if (IsMatchUserAgent(@"(?!Mobile )Safari/"))
                 {
                     device = DeviceType.DEVICE_TYPE_TABLET;
                 }
@@ -642,13 +680,16 @@ namespace DeviceDetectorNET
             //
             //So were are expecting that all devices running Android < 2 are smartphones
             // Devices running Android 3.X are tablets.Device type of Android 2.X and 4.X + are unknown
-            if (!device.HasValue && osShortName == "AND" && osVersion != string.Empty)
+            if (!device.HasValue && osName == "Android" && osVersion != string.Empty)
             {
-                if (System.Version.TryParse(osVersion, out _) && new System.Version(osVersion).CompareTo(new System.Version("2.0")) == -1)
+                if (System.Version.TryParse(osVersion, out _) 
+                    && new System.Version(osVersion).CompareTo(new System.Version("2.0")) == -1)
                 {
                     device = DeviceType.DEVICE_TYPE_SMARTPHONE;
                 }
-                else if (System.Version.TryParse(osVersion, out _) && new System.Version(osVersion).CompareTo(new System.Version("3.0")) >= 0 && new System.Version(osVersion).CompareTo(new System.Version("4.0")) == -1)
+                else if (System.Version.TryParse(osVersion, out _) 
+                    && new System.Version(osVersion).CompareTo(new System.Version("3.0")) >= 0 
+                    && new System.Version(osVersion).CompareTo(new System.Version("4.0")) == -1)
                 {
                     device = DeviceType.DEVICE_TYPE_TABLET;
                 }
@@ -660,21 +701,42 @@ namespace DeviceDetectorNET
                 device = DeviceType.DEVICE_TYPE_SMARTPHONE;
             }
 
-            //According to http://msdn.microsoft.com/en-us/library/ie/hh920767(v=vs.85).aspx
-            //Internet Explorer 10 introduces the "Touch" UA string token. If this token is present at the end of the
-            //UA string, the computer has touch capability, and is running Windows 8(or later).
-            //
-            // This UA string will be transmitted on a touch - enabled system running Windows 8(RT)
-            //
-            //As most touch enabled devices are tablets and only a smaller part are desktops / notebooks we assume that
-            //all Windows 8 touch devices are tablets.
-            if (!device.HasValue && (osShortName == "WRT" || (osShortName == "WIN" && System.Version.TryParse(osVersion, out _) && new System.Version(osVersion).CompareTo(new System.Version("8.0")) >= 0)) && IsTouchEnabled())
+            //All unknown devices under running Java ME are more likely a features phones
+            if ("Java ME" == osName && !device.HasValue) {
+                device = DeviceType.DEVICE_TYPE_FEATURE_PHONE;
+            }
+
+
+            /*According to http://msdn.microsoft.com/en-us/library/ie/hh920767(v=vs.85).aspx
+             *Internet Explorer 10 introduces the "Touch" UA string token. If this token is present at the end of the
+             *UA string, the computer has touch capability, and is running Windows 8(or later).
+             *
+             * This UA string will be transmitted on a touch - enabled system running Windows 8(RT)
+             *
+             *As most touch enabled devices are tablets and only a smaller part are desktops / notebooks we assume that
+             *all Windows 8 touch devices are tablets.
+            */
+            if (!device.HasValue && (osName == "Windows RT" || (osName == "Windows" 
+                && System.Version.TryParse(osVersion, out _) 
+                && new System.Version(osVersion).CompareTo(new System.Version("8.0")) >= 0)) && IsTouchEnabled())
             {
                 device = DeviceType.DEVICE_TYPE_TABLET;
             }
 
             //All devices running Opera TV Store are assumed to be a tv
-            if (IsMatchUserAgent("Opera TV Store"))
+            if (IsMatchUserAgent("Opera TV Store| OMI/"))
+            {
+                device = DeviceType.DEVICE_TYPE_TV;
+            }
+
+            //All devices that contain Andr0id in string are assumed to be a tv
+            if (IsMatchUserAgent("Andr0id|Android TV"))
+            {
+                device = DeviceType.DEVICE_TYPE_TV;
+            }
+
+            //All devices running Tizen TV or SmartTV are assumed to be a tv
+            if (!device.HasValue && IsMatchUserAgent("SmartTV|Tizen.+ TV .+$"))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
             }
@@ -686,7 +748,7 @@ namespace DeviceDetectorNET
             }
 
             // Set device type desktop if string ua contains desktop
-            if (device != DeviceType.DEVICE_TYPE_DESKTOP && HasDesktopFragment())
+            if (device != DeviceType.DEVICE_TYPE_DESKTOP && !userAgent.Contains("Desktop") && HasDesktopFragment())
             {
                 device = DeviceType.DEVICE_TYPE_DESKTOP;
             }
@@ -702,6 +764,8 @@ namespace DeviceDetectorNET
         {
             var osParser = new OperatingSystemParser();
             osParser.SetUserAgent(userAgent);
+            osParser.SetClientHints(clientHints);
+            //osParser.SetYamlParser(yamlParser);
             osParser.SetCache(cache);
 
             os = osParser.Parse();
@@ -717,10 +781,10 @@ namespace DeviceDetectorNET
         /// </summary>
         /// <param name="ua">UserAgent to parse</param>
         /// <returns></returns>
-        public static ParseResult<DeviceDetectorResult> GetInfoFromUserAgent(string ua)
+        public static ParseResult<DeviceDetectorResult> GetInfoFromUserAgent(string ua, ClientHints clientHints = null)
         {
             var result = new ParseResult<DeviceDetectorResult>();
-            var deviceDetector = new DeviceDetector(ua);
+            var deviceDetector = new DeviceDetector(ua, clientHints); //@todo:singleton
 
             deviceDetector.Parse();
 

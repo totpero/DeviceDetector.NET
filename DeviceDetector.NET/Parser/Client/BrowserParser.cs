@@ -4,6 +4,7 @@ using System.Linq;
 using DeviceDetectorNET.Class.Client;
 using DeviceDetectorNET.Parser.Client.Browser;
 using DeviceDetectorNET.Parser.Client.Browser.Engine;
+using DeviceDetectorNET.Parser.Client.Hints;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
 using Semver;
@@ -559,6 +560,9 @@ namespace DeviceDetectorNET.Parser.Client
             FixtureFile = "regexes/client/browsers.yml";
             ParserName = "browser";
             regexList = GetRegexes();
+
+            //$this->browserHints = new BrowserHints($ua, $clientHints);
+
             //regexList = regexList.Select(r =>
             //{
             //    r.Engine.Versions = r.Engine.Versions ?? new Dictionary<string, string>();

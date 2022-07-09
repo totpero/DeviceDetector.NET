@@ -7,6 +7,7 @@ using DeviceDetectorNET.Yaml;
 using System.Linq;
 using System.Threading.Tasks;
 using DeviceDetectorNET.Results.Client;
+using DeviceDetectorNET.Parser.Client.Hints;
 
 namespace DeviceDetectorNET.Tests.Parser.Client
 {
@@ -73,6 +74,5 @@ namespace DeviceDetectorNET.Tests.Parser.Client
             var available = new BrowserParser().GetAvailableClients();
             BrowserParser.GetAvailableBrowsers().Count.Should().BeGreaterOrEqualTo(available.Count);
         }
-
     }
 }

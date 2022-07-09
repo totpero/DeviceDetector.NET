@@ -9,6 +9,7 @@ namespace DeviceDetectorNET.Parser
         string ParserName { get; }
 
         void SetUserAgent(string ua);
+        void SetClientHints(ClientHints clientHints = null);
         void SetCache(ICache cacheProvider);
 
         ParseResult<TResult> Parse();
