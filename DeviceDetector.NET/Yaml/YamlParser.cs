@@ -36,6 +36,7 @@ namespace DeviceDetectorNET.Yaml
             while (parser.TryConsume<DocumentStart>(out _))
             // Deserialize the document
             {
+                var type = typeof(T);
                 return deserializer.Deserialize<T>(parser);
             }
 

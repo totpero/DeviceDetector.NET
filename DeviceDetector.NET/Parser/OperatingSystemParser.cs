@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DeviceDetectorNET.Class;
@@ -10,25 +11,33 @@ namespace DeviceDetectorNET.Parser
 
         private const string Unknown = "Unknown";
         private const string UnknownShort = "UNK";
+
         /// <summary>
         /// Known operating systems mapped to their internal short codes
         /// </summary>
-        protected static readonly Dictionary<string,string> OperatingSystems = new Dictionary<string, string>()
+        protected static readonly Dictionary<string, string> OperatingSystems = new Dictionary<string, string>()
         {
             {"AIX", "AIX"},
             {"AND", "Android"},
+            {"ADR", "Android TV"},
+            {"AMZ", "Amazon Linux"},
             {"AMG", "AmigaOS"},
-            {"ATV", "Apple TV"},
+            {"ATV", "tvOS"},
             {"ARL", "Arch Linux"},
             {"BTR", "BackTrack"},
             {"SBA", "Bada"},
             {"BEO", "BeOS"},
             {"BLB", "BlackBerry OS"},
             {"QNX", "BlackBerry Tablet OS"},
+            {"BOS", "Bliss OS"},
             {"BMP", "Brew"},
             {"CAI", "Caixa Mágica"},
             {"CES", "CentOS"},
+            {"CST", "CentOS Stream"},
+            {"CLR", "ClearOS Mobile"},
             {"COS", "Chrome OS"},
+            {"CRS", "Chromium OS"},
+            {"CHN", "China OS"},
             {"CYN", "CyanogenMod"},
             {"DEB", "Debian"},
             {"DEE", "Deepin"},
@@ -38,22 +47,31 @@ namespace DeviceDetectorNET.Parser
             {"FEN", "Fenix"},
             {"FOS", "Firefox OS"},
             {"FIR", "Fire OS"},
+            {"FOR", "Foresight Linux"},
             {"FRE", "Freebox"},
             {"BSD", "FreeBSD"},
             {"FYD", "FydeOS"},
+            {"FUC", "Fuchsia"},
             {"GNT", "Gentoo"},
             {"GRI", "GridOS"},
             {"GTV", "Google TV"},
             {"HPX", "HP-UX"},
             {"HAI", "Haiku OS"},
             {"IPA", "iPadOS"},
+            {"HAR", "HarmonyOS"},
             {"HAS", "HasCodingOS"},
             {"IRI", "IRIX"},
             {"INF", "Inferno"},
+            {"JME", "Java ME"},
             {"KOS", "KaiOS"},
+            {"KAN", "Kanotix"},
             {"KNO", "Knoppix"},
+            {"KTV", "KreaTV"},
             {"KBT", "Kubuntu"},
             {"LIN", "GNU/Linux"},
+            {"LND", "LindowsOS"},
+            {"LNS", "Linspire"},
+            {"LEN", "Lineage OS"},
             {"LBT", "Lubuntu"},
             {"LOS", "Lumin OS"},
             {"VLN", "VectorLinux"},
@@ -63,6 +81,7 @@ namespace DeviceDetectorNET.Parser
             {"MDR", "Mandriva"},
             {"SMG", "MeeGo"},
             {"MCD", "MocorDroid"},
+            {"MON", "moonOS"},
             {"MIN", "Mint"},
             {"MLD", "MildWild"},
             {"MOR", "MorphOS"},
@@ -71,17 +90,26 @@ namespace DeviceDetectorNET.Parser
             {"MRE", "MRE"},
             {"WII", "Nintendo"},
             {"NDS", "Nintendo Mobile"},
+            {"NOV", "Nova"},
             {"OS2", "OS/2"},
             {"T64", "OSF1"},
             {"OBS", "OpenBSD"},
+            {"OWR", "OpenWrt"},
+            {"OTV", "Opera TV"},
             {"ORD", "Ordissimo"},
+            {"PAR", "Pardus"},
             {"PCL", "PCLinuxOS"},
+            {"PLA", "Plasma Mobile"},
             {"PSP", "PlayStation Portable"},
             {"PS3", "PlayStation"},
+            {"PUR", "PureOS"},
             {"RHT", "Red Hat"},
+            {"REV", "Revenge OS"},
             {"ROS", "RISC OS"},
+            {"ROK", "Roku OS"},
             {"RSO", "Rosa"},
             {"REM", "Remix OS"},
+            {"REX", "REX"},
             {"RZD", "RazoDroiD"},
             {"SAB", "Sabayon"},
             {"SSE", "SUSE"},
@@ -95,6 +123,7 @@ namespace DeviceDetectorNET.Parser
             {"S40", "Symbian OS Series 40"},
             {"S60", "Symbian OS Series 60"},
             {"SY3", "Symbian^3"},
+            {"TEN", "TencentOS"},
             {"TDX", "ThreadX"},
             {"TIZ", "Tizen"},
             {"TOS", "TmaxOS"},
@@ -110,10 +139,11 @@ namespace DeviceDetectorNET.Parser
             {"WRT", "Windows RT"},
             {"XBX", "Xbox"},
             {"XBT", "Xubuntu"},
-            {"YNS", "YunOs"},
+            {"YNS", "YunOS"},
+            {"ZEN", "Zenwalk"},
             {"IOS", "iOS"},
             {"POS", "palmOS"},
-            {"WOS", "webOS"},
+            {"WOS", "webOS"}
         };
 
         /// <summary>
@@ -121,26 +151,29 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected static readonly Dictionary<string, string[]> OsFamilies = new Dictionary<string, string[]>
         {
-            {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI"}},
+            {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
+                                                "ADR", "CLR", "BOS", "REV", "LEN"}},
             {"AmigaOS"              , new [] {"AMG", "MOR"}},
-            {"Apple TV"             , new [] {"ATV"}},
+            //{"Apple TV"             , new [] {"ATV"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
             {"Brew"                 , new [] {"BMP"}},
             {"BeOS"                 , new [] {"BEO", "HAI"}},
-            {"Chrome OS"            , new [] {"COS", "FYD", "SEE"}},
+            {"Chrome OS"            , new [] {"COS", "CRS", "FYD", "SEE"}},
             {"Firefox OS"           , new [] {"FOS", "KOS"}},
             {"Gaming Console"       , new [] {"WII", "PS3"}},
             {"Google TV"            , new [] {"GTV"}},
             {"IBM"                  , new [] {"OS2"}},
-            {"iOS"                  , new [] {"IOS", "WAS", "IPA"}},
+            {"iOS"                  , new [] {"IOS", "ATV", "WAS", "IPA"}},
             {"RISC OS"              , new [] {"ROS"}},
             {"GNU/Linux"            , new [] {"LIN", "ARL", "DEB", "KNO", "MIN", "UBT", "KBT", "XBT", "LBT", "FED",
                                                 "RHT", "VLN", "MDR", "GNT", "SAB", "SLW", "SSE", "CES", "BTR", "SAF",
                                                 "ORD", "TOS", "RSO", "DEE", "FRE", "MAG", "FEN", "CAI", "PCL", "HAS",
-                                                "LOS", "DVK"}},
+                                                "LOS", "DVK", "ROK", "OWR", "OTV", "KTV", "PUR", "PLA", "FUC", "PAR",
+                                                "FOR", "MON", "KAN", "ZEN", "LND", "LNS", "CHN", "AMZ", "TEN", "CST",
+                                                "NOV"}},
             {"Mac"                  , new [] {"MAC"}},
             {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX"}},
-            {"Real-time OS"         , new [] {"MTK", "TDX", "MRE"}},
+            {"Real-time OS"         , new [] {"MTK", "TDX", "MRE", "JME", "REX"}},
             {"Other Mobile"         , new [] {"WOS", "POS", "SBA", "TIZ", "SMG", "MAE"}},
             {"Symbian"              , new [] {"SYM", "SYS", "SY3", "S60", "S40"}},
             {"Unix"                 , new [] {"SOS", "AIX", "HPX", "BSD", "NBS", "OBS", "DFB", "SYL", "IRI", "T64", "INF"}},
@@ -148,6 +181,23 @@ namespace DeviceDetectorNET.Parser
             {"Windows"              , new [] {"WIN"}},
             {"Windows Mobile"       , new [] {"WPH", "WMO", "WCE", "WRT", "WIO"}},
             {"Other Smart TV"       , new [] {"WHS"}}
+        };
+
+        /// <summary>
+        /// Contains a list of mappings from OS names we use to known client hint values
+        /// </summary>
+        protected static readonly Dictionary<string, string[]> ClientHintMapping = new Dictionary<string, string[]>
+        {
+             {"GNU/Linux", new [] {"Linux"}},
+             {"Mac"      , new [] {"MacOS"}},
+        };
+
+        /// <summary>
+        /// Operating system families that are known as desktop only
+        /// </summary>
+        protected static readonly string[] DesktopOs = new string[]
+        {
+            "AmigaOS", "IBM", "GNU/Linux", "Mac", "Unix", "Windows", "BeOS", "Chrome OS", "Chromium OS"
         };
 
         /// <summary>
@@ -166,6 +216,26 @@ namespace DeviceDetectorNET.Parser
         public static Dictionary<string, string[]> GetAvailableOperatingSystemFamilies()
         {
             return OsFamilies;
+        }
+
+        /// <summary>
+        /// Returns the os name and shot name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string[] getShortOsData(string name)
+        {
+            throw new NotImplementedException();
+
+            //name = name.ToLower();
+            //foreach (var operatingSystem in OperatingSystems)
+            //{
+            //    if (name != operatingSystem.Value)
+            //    {
+            //        continue;
+            //    }
+            //}
+            //return UnknownShort;
         }
 
         public OperatingSystemParser()
@@ -228,25 +298,44 @@ namespace DeviceDetectorNET.Parser
             return result;
         }
 
+        /// <summary>
+        /// Parse current UserAgent string for the operating system platform
+        /// </summary>
+        /// <returns></returns>
         protected string ParsePlatform()
         {
-            if (IsMatchUserAgent("arm")) {
+            //@todo:clientHints
+            // Use architecture from client hints if available
+
+            if (IsMatchUserAgent("arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")) {
                 return PlatformType.ARM;
             }
-            if(IsMatchUserAgent("WOW64|x64|win64|amd64|x86_64")) {
+            if (IsMatchUserAgent("mips"))
+            {
+                return PlatformType.MIPS;
+            }
+            if (IsMatchUserAgent("sh4"))
+            {
+                return PlatformType.SuperH;
+            }
+            if (IsMatchUserAgent("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64")) {
                 return PlatformType.X64;
             }
-            return IsMatchUserAgent("i[0-9]86|i86pc") ? PlatformType.X86 : PlatformType.NONE;
+            return IsMatchUserAgent(".+32bit|.+win32|(?:i[0-9]|x)86|i86pc") ? PlatformType.X86 : PlatformType.NONE;
         }
 
         /// <summary>
         /// Returns the operating system family for the given operating system
         /// </summary>
-        /// <param name="osLabel"></param>
+        /// <param name="osLabel">name or short name</param>
         /// <param name="name"></param>
         /// <returns>bool|string If false, <see cref="Unknown"/></returns>
         public static bool GetOsFamily(string osLabel, out string name) //TryGetBrowserFamily
         {
+            if (OperatingSystems.ContainsKey(osLabel))
+            {
+                //@todo..
+            }
             foreach (var family in OsFamilies)
             {
                 if (!family.Value.Contains(osLabel)) continue;
@@ -255,6 +344,19 @@ namespace DeviceDetectorNET.Parser
             }
             name = Unknown;
             return false;
+        }
+
+        /// <summary>
+        /// Returns true if OS is desktop
+        /// </summary>
+        /// <param name="osName">OS short name</param>
+        /// <returns></returns>
+        public static bool IsDesktopOs(string osName)
+        {
+            throw new NotImplementedException();
+            //@todo:...
+            //var osFamily = GetOsFamily(osName);
+            //return \in_array($osFamily, self::$desktopOsArray);
         }
 
         /// <summary>

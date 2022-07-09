@@ -35,7 +35,17 @@ namespace DeviceDetectorNET.Parser
         public string UserAgent { get; private set; }
 
         /// <summary>
-        ///
+        /// Holds the client hints to be parsed
+        /// </summary>
+        public ClientHints ClientHints { get; protected set; }
+
+        /// <summary>
+        /// Contains a list of mappings from names we use to known client hint values
+        /// </summary>
+        public virtual Dictionary<string, string[]> ClientHintMapping { get; set; }
+
+        /// <summary>
+        /// Holds an array with method that should be available global
         /// </summary>
         protected string[] globalMethods;
 
@@ -43,6 +53,11 @@ namespace DeviceDetectorNET.Parser
         /// Holds an array with regexes to parse, if already loaded
         /// </summary>
         protected T regexList;
+
+        /// <summary>
+        /// Holds the concatenated regex for all items in regex list
+        /// </summary>
+        //protected List<T> overAllMatch;
 
         /// <summary>
         /// Indicates how deep versioning will be detected
@@ -132,6 +147,17 @@ namespace DeviceDetectorNET.Parser
         }
 
         /// <summary>
+        /// Sets the client hints to parse
+        /// </summary>
+        /// <param name="clientHints"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual void SetClientHints(ClientHints clientHints)
+        {
+            if (clientHints == null) throw new ArgumentNullException(nameof(clientHints));
+            ClientHints = clientHints;
+        }
+
+        /// <summary>
         /// Returns the internal name of the parser
         /// </summary>
         /// <returns></returns>
@@ -182,6 +208,22 @@ namespace DeviceDetectorNET.Parser
         }
 
         /// <summary>
+        /// Returns the provided name after applying client hint mappings.
+        /// This is used to map names provided in client hints to the names we use.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected string ApplyClientHintMapping(string name)
+        {
+            throw new NotImplementedException();
+
+            //foreach (var clientHintMapping in ClientHintMapping)
+            //{
+            //    clientHintMapping
+            //}
+        }
+
+        /// <summary>
         ///
         /// </summary>
         /// <returns></returns>
@@ -212,7 +254,8 @@ namespace DeviceDetectorNET.Parser
         private string FixUserAgentRegEx(string regex)
         {
             var cleanedRegex = regex.Replace("/", @"\/").Replace("++", "+").Replace(@"\_", "_").Replace(@"\_", @"\\_");
-            var result = $@"(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-)(?:{cleanedRegex})";
+            // only match if useragent begins with given regex or there is no letter before it
+            var result = $@"(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-|MZ-)(?:{cleanedRegex})";
             return result;
         }
 

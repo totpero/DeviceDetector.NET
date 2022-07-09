@@ -26,7 +26,8 @@ namespace DeviceDetectorNET.Parser.Client.Browser
             "Edge",
             "NetSurf",
             "Servo",
-            "Goanna"
+            "Goanna",
+            "EkiohFlow"
         };
 
         public EngineParser()

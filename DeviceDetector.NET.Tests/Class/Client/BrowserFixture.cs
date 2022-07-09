@@ -5,6 +5,8 @@
     {
         public string user_agent { get; set; }
         public Client client { get; set; }
+        public object headers { get; set; }
+
         public class Client
         {
             public string type { get; set; }
@@ -13,6 +15,7 @@
             public string version { get; set; }
             public string engine { get; set; }
             public object engine_version { get; set; }
+            public string family { get; set; }
         }
     }
 }

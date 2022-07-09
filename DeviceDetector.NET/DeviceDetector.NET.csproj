@@ -19,19 +19,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="regexes\**\*" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="regexes\**\*" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.11" />
+    <PackageReference Include="LiteDB" Version="5.0.12" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="semver" Version="2.0.6" />
+    <PackageReference Include="semver" Version="2.2.0" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>

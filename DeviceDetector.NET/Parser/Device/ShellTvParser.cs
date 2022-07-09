@@ -36,7 +36,7 @@ namespace DeviceDetectorNET.Parser.Device
 
         public bool IsShellTv()
         {
-            const string regex = @"[a-z]+[ _]Shell[ _]\w{6}";
+            const string regex = @"[a-z]+[ _]Shell[ _]\w{6}|tclwebkit(\d+[\.\d]*)";
             return IsMatchUserAgent(regex);
         }
     }

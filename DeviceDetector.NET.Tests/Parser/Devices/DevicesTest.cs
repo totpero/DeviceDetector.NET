@@ -23,7 +23,7 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
                              .DeviceBrands
                              .Count
                              .Should()
-                             .Be(1064);
+                             .Be(1296);
         }
     }
 }

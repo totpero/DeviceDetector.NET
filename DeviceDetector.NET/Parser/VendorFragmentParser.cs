@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using DeviceDetectorNET.Class.Device;
 using DeviceDetectorNET.Parser.Device;
 using DeviceDetectorNET.Results;
 
