@@ -100,6 +100,9 @@ namespace DeviceDetectorNET
         protected ICache cache;
         protected IRegexEngine regexEngine;
 
+        /// <summary>
+        /// @todo: geneic parser like IRegexEngine or ICache
+        /// </summary>
         protected IParser yamlParser;
 
         protected List<IClientParserAbstract> clientParsers = new List<IClientParserAbstract>

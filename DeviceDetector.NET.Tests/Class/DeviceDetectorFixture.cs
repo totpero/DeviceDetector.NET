@@ -11,6 +11,8 @@ namespace DeviceDetectorNET.Tests.Class
         public Device device { get; set; }
         public string os_family { get; set; }
         public string browser_family { get; set; }
+        public Dictionary<string, string> headers { get; set; }
+        public Bot bot { get; set; }
 
     }
 
@@ -37,5 +39,13 @@ namespace DeviceDetectorNET.Tests.Class
         public string type { get; set; }
         public string brand { get; set; }
         public string model { get; set; }
+    }
+
+    public class Bot
+    {
+        public string name { get; set; }
+        public string category { get; set; }
+        public string url { get; set; }
+
     }
 }

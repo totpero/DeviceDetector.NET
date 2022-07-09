@@ -163,8 +163,10 @@ namespace DeviceDetectorNET.Parser
         /// <exception cref="ArgumentNullException"></exception>
         public virtual void SetClientHints(ClientHints clientHints)
         {
-            if (clientHints == null) throw new ArgumentNullException(nameof(clientHints));
-            ClientHints = clientHints;
+            if (clientHints != null)
+            {
+                ClientHints = clientHints;
+            }
         }
 
         /// <summary>

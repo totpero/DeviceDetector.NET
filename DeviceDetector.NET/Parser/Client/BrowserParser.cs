@@ -14,6 +14,11 @@ namespace DeviceDetectorNET.Parser.Client
     public class BrowserParser : ClientParserAbstract<List<Class.Client.Browser>>
     {
         /// <summary>
+        /// 
+        /// </summary>
+        private BrowserHints browserHints;
+
+        /// <summary>
         /// Known browsers mapped to their internal short codes
         /// </summary>
         protected static readonly Dictionary<string, string> AvailableBrowsers = new Dictionary<string, string>
@@ -561,7 +566,7 @@ namespace DeviceDetectorNET.Parser.Client
             ParserName = "browser";
             regexList = GetRegexes();
 
-            //$this->browserHints = new BrowserHints($ua, $clientHints);
+            //this.browserHints = new BrowserHints(UserAgent, ClientHints);
 
             //regexList = regexList.Select(r =>
             //{

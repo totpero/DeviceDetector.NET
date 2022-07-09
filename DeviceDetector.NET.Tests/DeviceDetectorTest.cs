@@ -142,12 +142,15 @@ namespace DeviceDetectorNET.Tests
         // [InlineData("bots")]
         [InlineData("camera")]
         [InlineData("car_browser")]
+        [InlineData("clienthints")]
+        [InlineData("clienthints-app")]
         [InlineData("console")]
         [InlineData("desktop")]
         [InlineData("feature_phone")]
         [InlineData("feed_reader")]
         [InlineData("mediaplayer")]
         [InlineData("mobile_apps")]
+        [InlineData("peripheral")]
         [InlineData("phablet")]
         [InlineData("portable_media_player")]
         [InlineData("smart_display")]
@@ -178,12 +181,21 @@ namespace DeviceDetectorNET.Tests
         [InlineData("smartphone-23")]
         [InlineData("smartphone-24")]
         [InlineData("smartphone-25")]
+        [InlineData("smartphone-26")]
+        [InlineData("smartphone-27")]
+        [InlineData("smartphone-28")]
+        [InlineData("smartphone-29")]
+        [InlineData("smartphone-30")]
+        [InlineData("smartphone-31")]
         [InlineData("tablet")]
         [InlineData("tablet-1")]
         [InlineData("tablet-2")]
         [InlineData("tablet-3")]
         [InlineData("tablet-4")]
         [InlineData("tablet-5")]
+        [InlineData("tablet-6")]
+        [InlineData("tablet-7")]
+        [InlineData("tablet-8")]
         [InlineData("tv")]
         [InlineData("tv-1")]
         [InlineData("unknown")]
@@ -462,6 +474,7 @@ namespace DeviceDetectorNET.Tests
             client.Match.Version.Should().BeEquivalentTo("9.0");
             client.Match.Engine.Should().BeEquivalentTo("Trident");
             client.Match.EngineVersion.Should().BeEquivalentTo("5.0");
+            //client.Match.Family.Should().BeEquivalentTo("Internet Explorer");
         }
 
         [Fact]
