@@ -23,6 +23,8 @@ namespace DeviceDetectorNET.Results
             Success = success;
         }
 
+        [DataMember]
+        public string ParserName { get; set; }
 
         [DataMember]
         public bool Success { get; private set; }

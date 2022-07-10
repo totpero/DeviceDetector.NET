@@ -94,7 +94,19 @@ namespace DeviceDetectorNET.Parser.Device
                 }
             }
 
-            if (localMatches == null) return result;
+            if (localMatches == null)
+            {
+                if (ClientHints != null && !string.IsNullOrEmpty(ClientHints.GetModel()))
+                {
+                    result.Add(new DeviceMatchResult
+                    {
+                        Type = null,
+                        Brand= string.Empty,
+                        Name = ClientHints.GetModel()
+                    });
+                }
+                return result;
+            }
 
             if (!localDevice.Key.Equals(UnknownBrand))
             {
@@ -165,7 +177,7 @@ namespace DeviceDetectorNET.Parser.Device
             model = GetRegexEngine().Replace(model, " TD$", string.Empty);
             model = model.Replace("$1", "");
 
-            return model == "Build" ? null : model;
+            return model == "Build" ? null : model.Trim();
         }
 
         protected void Reset()
@@ -173,6 +185,16 @@ namespace DeviceDetectorNET.Parser.Device
             deviceType = null;
             model = null;
             brand = null;
+        }
+
+        protected DeviceMatchResult GetResult()
+        {
+            return new DeviceMatchResult
+            {
+                Type = deviceType,
+                Name = model,
+                Brand = brand,
+            };
         }
     }
 }

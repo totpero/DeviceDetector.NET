@@ -12,6 +12,9 @@ namespace DeviceDetectorNET.Parser.Client
 {
     public class BrowserParser : ClientParserAbstract<List<Class.Client.Browser>>
     {
+
+        public const string DefaultParserName = "browser";
+
         /// <summary>
         /// 
         /// </summary>
@@ -562,7 +565,7 @@ namespace DeviceDetectorNET.Parser.Client
         public BrowserParser()
         {
             FixtureFile = "regexes/client/browsers.yml";
-            ParserName = "browser";
+            ParserName = DefaultParserName;
             regexList = GetRegexes();
 
             //this.browserHints = new BrowserHints(UserAgent, ClientHints);

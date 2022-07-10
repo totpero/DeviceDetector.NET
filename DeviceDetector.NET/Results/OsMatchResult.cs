@@ -15,6 +15,8 @@ namespace DeviceDetectorNET.Results
         public string Version { get; set; }
         [DataMember]
         public string Platform { get; set; }
+        [DataMember]
+        public string Family { get; set; }
 
         public override string ToString() =>
         $"ShortName: {ShortName}; " +
@@ -23,6 +25,8 @@ namespace DeviceDetectorNET.Results
         $"{Environment.NewLine} " +
         $"Version: {Version};" +
         $"{Environment.NewLine} " +
-        $"Platform: {Platform};" ;
+        $"Platform: {Platform};" +
+        $"{Environment.NewLine} " +
+        $"Family: {Family};" ;
     }
 }

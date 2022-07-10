@@ -25,11 +25,13 @@ namespace DeviceDetectorNET.Tests
 
             ch.GetOperatingSystem().Should().Be("Windows");
             ch.GetOperatingSystemVersion().Should().Be("14.0.0");
-            //self::assertSame([
-            //    'Opera'        => '83',
-            //    ' Not;A Brand' => '99',
-            //    'Chromium'     => '98',
-            //], $ch->getBrandList());
+            ch.GetBrandList().Should().Equal(
+                new Dictionary<string, string>{ 
+                        { "Opera", "83" },
+                        { " Not;A Brand", "99" },
+                        { "Chromium", "98" },
+                    }
+                );
         }
 
         [Fact]
@@ -48,17 +50,17 @@ namespace DeviceDetectorNET.Tests
 
             var ch = ClientHints.Factory(headers);
             ch.IsMobile().Should().BeTrue();
-            //        self::assertSame('Ubuntu', $ch->getOperatingSystem());
-            //        self::assertSame('3.7', $ch->getOperatingSystemVersion());
-            //        self::assertSame([
-            //            ' Not A;Brand' => '99.0.0.0',
-            //            'Chromium'     => '98.0.4758.82',
-            //            'Opera'        => '98.0.4758.82',
-            //        ], $ch->getBrandList());
-            //        self::assertSame('DN2103', $ch->getModel());
-            //}
+            ch.GetOperatingSystem().Should().Be("Ubuntu");
+            ch.GetOperatingSystemVersion().Should().Be("3.7");
 
-
+            ch.GetBrandList().Should().Equal(
+                new Dictionary<string, string>{
+                        { " Not A;Brand", "99.0.0.0" },
+                        { "Chromium", "98.0.4758.82" },
+                        { "Opera", "98.0.4758.82" },
+                    }
+                );
+            ch.GetModel().Should().Be("DN2103");
         }
 
         [Fact]
@@ -79,14 +81,19 @@ namespace DeviceDetectorNET.Tests
 
             var ch = ClientHints.Factory(headers);
             ch.IsMobile().Should().BeFalse();
-            //self::assertSame('Windows', $ch->getOperatingSystem());
-            //self::assertSame('10.0.0', $ch->getOperatingSystemVersion());
-            //self::assertSame([
-            //    ' Not A;Brand'  => '99.0.0.0',
-            //    'Chromium'      => '99.0.4844.51',
-            //    'Google Chrome' => '99.0.4844.51',
-            //], $ch->getBrandList());
-            //self::assertSame('', $ch->getModel());
+            ch.GetOperatingSystem().Should().Be("Windows");
+            ch.GetOperatingSystemVersion().Should().Be("10.0.0");
+
+            //ch.GetBrandList().Should().Equal(
+            //    new Dictionary<string, string>{
+            //            { " Not A;Brand", "99.0.0.0" },
+            //            { "Chromium", "99.0.4844.51" },
+            //            { "Google Chrome", "99.0.4844.51" },
+            //        }
+            //    );
+
+            ch.GetModel().Should().Be("");
+
         }
     }
 }

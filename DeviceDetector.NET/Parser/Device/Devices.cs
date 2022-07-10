@@ -1348,7 +1348,7 @@ namespace DeviceDetectorNET.Parser.Device
         }
 
         /// <summary>
-        ///     Given the brandId (two letter identifier such as "AP" returns the full device brand name "Apple"
+        ///     Returns the full brand name for the given short name
         /// </summary>
         /// <param name="brandId"></param>
         /// <returns>Full device brand name</returns>

@@ -68,6 +68,8 @@ namespace DeviceDetectorNET
         /// </summary>
         protected int? device;
 
+        protected string deviceName;
+
         /// <summary>
         /// Holds the device brand data after parsing the UA
         /// </summary>
@@ -576,6 +578,7 @@ namespace DeviceDetectorNET
                 if (!result.Success) continue;
 
                 client = new ParseResult<ClientMatchResult>();
+                client.ParserName = clientParser.ParserName;
                 client.AddRange(result.Matches);
                 return;
             }
@@ -595,6 +598,7 @@ namespace DeviceDetectorNET
                 var result = deviceParser.Parse();
                 if (!result.Success) continue;
 
+                deviceName = deviceParser.ParserName;
                 device = result.Match.Type;
                 model = result.Match.Name;
                 brand = result.Match.Brand;
@@ -603,7 +607,7 @@ namespace DeviceDetectorNET
 
             //If no model could be parsed from useragent, we use the one from client hints if available
             if (this.clientHints != null && string.IsNullOrEmpty(model)) {
-                model = this.clientHints.getModel();
+                model = this.clientHints.GetModel();
             }
 
             //If no brand has been assigned try to match by known vendor fragments
@@ -796,7 +800,10 @@ namespace DeviceDetectorNET
             if (deviceDetector.IsBot())
             {
                 match.Bot = deviceDetector.bot.Match;
+                //return;
             }
+
+          
 
             match.Os = deviceDetector.os.Match;
             match.Client = deviceDetector.client.Match;
@@ -806,7 +813,7 @@ namespace DeviceDetectorNET
 
             if (deviceDetector.os.Success)
             {
-                var osFamily =OperatingSystemParser.GetOsFamily(deviceDetector.os.Match.ShortName);
+                var osFamily = deviceDetector.os.Match.Family;
                 match.OsFamily = osFamily;
             }
 
@@ -815,6 +822,12 @@ namespace DeviceDetectorNET
             BrowserParser.GetBrowserFamily(browserMatch.ShortName, out var browserFamily);
             match.BrowserFamily = browserFamily;
             return result.Add(match);
+
+            //if (deviceDetector.client.Success &&
+            //  deviceDetector.client.ParserName.Equals(BrowserParser.DefaultParserName))
+            //{
+            //    client.Match.Family
+            //}
         }
 
         /// <summary>

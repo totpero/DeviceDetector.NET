@@ -319,7 +319,7 @@ namespace DeviceDetectorNET.Parser
                 ShortName = @short,
                 Version = version,
                 Platform = platform,
-                //Family = family,
+                Family = family,
             };
 
             if (OperatingSystems.ContainsValue(os.Name))
@@ -383,9 +383,9 @@ namespace DeviceDetectorNET.Parser
         /// <returns>string|null If null, <see cref="Unknown"/></returns>
         public static string GetOsFamily(string osLabel) 
         {
-            if (OperatingSystems.ContainsKey(osLabel))
+            if (OperatingSystems.ContainsValue(osLabel))
             {
-                osLabel = OperatingSystems[osLabel];
+                osLabel = OperatingSystems.FirstOrDefault(o=>o.Value == osLabel).Key;
             }
             foreach (var family in OsFamilies)
             {

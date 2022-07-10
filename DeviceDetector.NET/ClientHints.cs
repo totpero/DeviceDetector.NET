@@ -1,13 +1,12 @@
-﻿using DeviceDetectorNET.Class.Device;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using YamlDotNet.Core.Tokens;
 
 namespace DeviceDetectorNET
 {
+    /// <summary>
+    /// @todo: use IRegexEngine
+    /// </summary>
     public class ClientHints
     {
         /// <summary>
@@ -48,7 +47,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Represents `Sec-CH-UA-Full-Version-List` header field: the full version for each brand in its brand list
         /// </summary>
-        public string[] FullVersionList { get; set; }
+        public Dictionary<string, string> FullVersionList { get; set; }
 
         /// <summary>
         /// Represents `x-requested-with` header field: Android app id
@@ -67,7 +66,7 @@ namespace DeviceDetectorNET
         /// <param name="architecture">`Sec-CH-UA-Arch` header field</param>
         /// <param name="bitness">`Sec-CH-UA-Bitness`</param>
         /// <param name="app">`HTTP_X-REQUESTED-WITH`</param>
-        public ClientHints(string model, string platform, string platformVersion, string uaFullVersion, string[] fullVersionList, bool mobile, string architecture, string bitness, string app)
+        public ClientHints(string model, string platform, string platformVersion, string uaFullVersion, Dictionary<string,string> fullVersionList, bool mobile, string architecture, string bitness, string app)
         {
             Model = model;
             Platform = platform;
@@ -91,7 +90,7 @@ namespace DeviceDetectorNET
             return this.Mobile;
         }
 
-        public string getModel()
+        public string GetModel()
         {
             return this.Model;
         }
@@ -124,19 +123,19 @@ namespace DeviceDetectorNET
             return this.Architecture;
         }
 
-        public List<KeyValuePair<string, string>> GetBrandList()
+        public Dictionary<string, string> GetBrandList()
         {
-                if (this.FullVersionList.Length > 0)
+                if (this.FullVersionList.Count > 0)
                 {
-               
-//return \array_combine(
-//\array_column($this->fullVersionList, 'brand'),
-//        \array_column($this->fullVersionList, 'version')
-//   ) ?: [];
+                    return this.FullVersionList;
+                    //return \array_combine(
+                    //\array_column($this->fullVersionList, 'brand'),
+                    //        \array_column($this->fullVersionList, 'version')
+                    //   ) ?: [];
 
                 }
 
-                return new List<KeyValuePair<string, string>>();
+                return new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -170,47 +169,55 @@ namespace DeviceDetectorNET
 
             var app = string.Empty;
             var mobile = false;
-            List<string> fullVersionList = new List<string>();
+            Dictionary<string,string> fullVersionList = new Dictionary<string, string>();
 
             foreach (var header in headers)
             {
-                switch (header.Key.ToLower().Replace("_","-"))
+                var headerNormalized = header.Key.ToLower().Replace("_", "-");
+                switch (headerNormalized)
                 {
                     case "http-sec-ch-ua-arch":
                     case "sec-ch-ua-arch":
                     case "arch":
                     case "architecture":
-                        architecture = header.Value.Trim('"');
+                        architecture = header.Value.ToString().Trim('"');
                         break;
                     case "http-sec-ch-ua-bitness":
                     case "sec-ch-ua-bitness":
                     case "bitness":
-                        bitness = header.Value.Trim('"');
+                        bitness = header.Value.ToString().Trim('"');
                         break;
                     case "http-sec-ch-ua-mobile":
                     case "sec-ch-ua-mobile":
                     case "mobile":
-                        mobile = header.Value.Equals("1") || header.Value.Equals("?1");
+                        //if (header.Value.GetType() == typeof(bool))
+                        //{
+                        //    mobile = (bool)header.Value;
+                        //}
+                        //else
+                        {
+                            mobile = header.Value.ToString().Equals("1") || header.Value.ToString().Equals("?1");
+                        }
                         break;
                     case "http-sec-ch-ua-model":
                     case "sec-ch-ua-model":
                     case "model":
-                        model = header.Value.Trim('"');
+                        model = header.Value.ToString().Trim('"');
                         break;
                     case "http-sec-ch-ua-full-version":
                     case "sec-ch-ua-full-version":
                     case "uafullversion":
-                        uaFullVersion = header.Value.Trim('"');
+                        uaFullVersion = header.Value.ToString().Trim('"');
                         break;
                     case "http-sec-ch-ua-platform":
                     case "sec-ch-ua-platform":
                     case "platform":
-                        platform = header.Value.Trim('"');
+                        platform = header.Value.ToString().Trim('"');
                         break;
                     case "http-sec-ch-ua-platform-version":
                     case "sec-ch-ua-platform-version":
                     case "platformversion":
-                        platformVersion = header.Value.Trim('"');
+                        platformVersion = header.Value.ToString().Trim('"');
                         break;
                     case "brands":
                         //if (fullVersionList.Count > 0)
@@ -219,8 +226,9 @@ namespace DeviceDetectorNET
                         //}
                     // use this only if no other header already set the list
                     case "fullversionlist":
-                        //fullVersionList = \is_array($value) ? $value: $fullVersionList;
-
+                        //fullVersionList = (header.Value.GetType() == typeof(List<string>))
+                        //    ? (List<string>)header.Value
+                        //    : fullVersionList;
                         break;
                     case "http-sec-ch-ua":
                     case "sec-ch-ua":
@@ -228,16 +236,41 @@ namespace DeviceDetectorNET
                         //{
                         //    break;
                         //}
-                        //if (!empty($fullVersionList))
-                        //{
-                        //    break;
-                        //}
                     // use this only if no other header already set the list
                     case "http-sec-ch-ua-full-version-list":
                     case "sec-ch-ua-full-version-list":
-                       // const string reg = '/^"([^"]+)"; ?v="([^"]+)"(?:, )?/';
-                        //var list = [];
 
+                        if (headerNormalized.Equals("http-sec-ch-ua") ||
+                            headerNormalized.Equals("sec-ch-ua") && 
+                            fullVersionList.Count > 0)
+                        {
+                            break;
+                        }
+                        const string reg = "^\"([^\"]+)\"; ?v=\"([^\"]+)\"(?:, )?";
+                        var list = new Dictionary<string,string>();
+
+                        var value = header.Value.ToString();
+                        
+                        while (!string.IsNullOrEmpty(value))
+                        {
+                            var r = new Regex(reg, RegexOptions.IgnoreCase);
+                            var match = r.Match(value);
+
+                            while (match.Success)
+                            {
+                                var substr = match.Groups[0].Value;
+                                var brand = match.Groups[1].Value;
+                                var version = match.Groups[2].Value;
+                                list.Add(brand, version);
+                                value = value.Substring(substr.Length);
+                                match = match.NextMatch();
+                            }
+                        }
+                        
+                        if (list.Count > 0)
+                        {
+                            fullVersionList = list;
+                        }
                         //while (\preg_match($reg, $value, $matches)) {
                         //$list[] = ['brand' => $matches[1], 'version' => $matches[2]];
                         //$value = \substr($value, \strlen($matches[0]));
@@ -246,19 +279,18 @@ namespace DeviceDetectorNET
                         //if (\count($list)) {
                         //$fullVersionList = $list;
                         //}
-
                         break;
                     case "http-x-requested-with":
                     case "x-requested-with":
-                        if ("xmlhttprequest" != header.Value.ToLower()) {
-                            app = header.Value;
+                        if ("xmlhttprequest" != header.Value.ToString().ToLower()) {
+                            app = header.Value.ToString();
                         }
                         break;
                     default:
                         break;
                 }
             }
-            ClientHints clientHints = new ClientHints(model,platform,platformVersion,uaFullVersion,null,mobile,architecture,bitness,app);
+            ClientHints clientHints = new ClientHints(model,platform,platformVersion,uaFullVersion, fullVersionList, mobile,architecture,bitness,app);
             return clientHints;
         }
     }

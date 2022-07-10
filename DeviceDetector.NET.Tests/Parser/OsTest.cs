@@ -75,6 +75,15 @@ namespace DeviceDetectorNET.Tests.Parser
             var count = OperatingSystemParser.GetAvailableOperatingSystems().Count;
             count.Should().BeGreaterThan(70);
         }
+        
+        [Fact]
+        public void TestX()
+        {
+            var os = new OperatingSystemParser();
+            os.SetUserAgent("HbbTV/1.1.1 (;;;;) Mozilla/5.0 (compatible; ANTGalio/3.0.2.1.22.43.08; Linux2.6.18-7.1/7405d0-smp)");
+            var r = os.Parse();
+            r.Should().NotBeNull();
+        }
 
         [Fact]
         public void TestGetAvailableOperatingSystemFamilies()
