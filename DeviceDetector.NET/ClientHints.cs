@@ -95,6 +95,11 @@ namespace DeviceDetectorNET
         {
             return this.Model;
         }
+        
+        public string GetBitness()
+        {
+            return this.Bitness;
+        }
 
         /// <summary>
         /// Returns the Operating System
@@ -108,6 +113,15 @@ namespace DeviceDetectorNET
         public string GetOperatingSystemVersion()
         {
             return this.PlatformVersion;
+        }
+
+        /// <summary>
+        ///  Returns the Architecture
+        /// </summary>
+        /// <returns></returns>
+        public string GetArchitecture()
+        {
+            return this.Architecture;
         }
 
         public List<KeyValuePair<string, string>> GetBrandList()

@@ -223,19 +223,22 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public static string[] getShortOsData(string name)
+        public static OsMatchResult GetShortOsData(string name)
         {
-            throw new NotImplementedException();
+            var shortName = UnknownShort;
+            name = name.ToLower();
 
-            //name = name.ToLower();
-            //foreach (var operatingSystem in OperatingSystems)
-            //{
-            //    if (name != operatingSystem.Value)
-            //    {
-            //        continue;
-            //    }
-            //}
-            //return UnknownShort;
+            foreach (var operatingSystem in OperatingSystems)
+            {
+                if (name != operatingSystem.Value.ToLower())
+                {
+                    continue;
+                }
+                name = operatingSystem.Value;
+                shortName = operatingSystem.Key;
+                break;
+            }
+            return new OsMatchResult { Name = name, ShortName = shortName };
         }
 
         public OperatingSystemParser()
@@ -248,9 +251,237 @@ namespace DeviceDetectorNET.Parser
         public override ParseResult<OsMatchResult> Parse()
         {
             var result = new ParseResult<OsMatchResult>();
-            Os localOs = null;
+            //Os localOs = null;
+
+            var osFromClientHints = this.ParseOsFromClientHints();
+            var osFromUserAgent = this.ParseOsFromUserAgent();
+
+            var name = string.Empty;
+            var version = string.Empty;
+            var @short = string.Empty;
+            if (!string.IsNullOrEmpty(osFromClientHints.Name))
+            {
+                name = osFromClientHints.Name;
+                version = osFromClientHints.Version;
+
+                // use version from user agent if non was provided in client hints, but os family from useragent matches
+                if (string.IsNullOrEmpty(version) && GetOsFamily(name) == GetOsFamily(osFromUserAgent.Name))
+                {
+                    version = osFromUserAgent.Version;
+                }
+
+                // If the OS name detected from client hints matches the OS family from user agent
+                // but the os name is another, we use the one from user agent, as it might be more detailed
+                if (GetOsFamily(osFromUserAgent.Name) == name && osFromUserAgent.Name != name)
+                {
+                    name = osFromUserAgent.Name;
+                }
+
+                @short = osFromClientHints.ShortName;
+
+                // Chrome OS is in some cases reported as Linux in client hints, we fix this only if the version matches
+                if ("GNU/Linux" == name && "Chrome OS" == osFromUserAgent.Name && osFromClientHints.Version == osFromUserAgent.Version)
+                {
+                    name = osFromUserAgent.Name;
+                    @short = osFromUserAgent.ShortName;
+                }
+            }
+            else if (!string.IsNullOrEmpty(osFromUserAgent.Name))
+            {
+                name = osFromUserAgent.Name;
+                version = osFromUserAgent.Version;
+                @short = osFromUserAgent.ShortName;
+            }
+            else
+            {
+                return result;
+            }
+           
+            var platform = ParsePlatform();
+            var family = GetOsFamily(@short);
+            var androidApps = new[] { "com.hisense.odinbrowser", "com.seraphic.openinet.pre", "com.appssppa.idesktoppcbrowser" };
+
+
+            if (ClientHints != null)
+            {
+                if (androidApps.Contains(ClientHints.GetApp()) && "Android" != name)
+                {
+                    name = "Android";
+                    family = "Android";
+                    @short = "ADR";
+                    version = string.Empty;
+                }
+            }
+
+            var os = new OsMatchResult
+            {
+                Name = name,
+                ShortName = @short,
+                Version = version,
+                Platform = platform,
+                //Family = family,
+            };
+
+            if (OperatingSystems.ContainsValue(os.Name))
+            {
+                os.ShortName = OperatingSystems.FirstOrDefault(o => o.Value.Equals(os.Name)).Key;
+            }
+            result.Add(os);
+            //string[] localMatches = null;
+
+            //foreach (var os in regexList)
+            //{
+            //    var matches = MatchUserAgent(os.Regex);
+            //    if (matches.Length > 0)
+            //    {
+            //        localOs = os;
+            //        localMatches = matches;
+            //        break;
+            //    }
+            //}
+
+            //if (localMatches != null)
+            //{
+            //    var name = BuildByMatch(localOs.Name, localMatches);
+            //    var @short = UnknownShort;
+            //    foreach (var operatingSystem in OperatingSystems)
+            //    {
+            //        if (operatingSystem.Value.ToLower().Equals(name.ToLower()))
+            //        {
+            //            name = operatingSystem.Value;
+            //            @short = operatingSystem.Key;
+            //        }
+            //    }
+            //    var os = new OsMatchResult
+            //    {
+            //        Name = name,
+            //        ShortName = @short,
+            //        Version = BuildVersion(localOs.Version, localMatches),
+            //        Platform = ParsePlatform()
+            //    };
+
+            //    if (OperatingSystems.ContainsKey(name))
+            //    {
+            //        os.ShortName = OperatingSystems.Keys.FirstOrDefault(o=>o.Equals(name));
+            //    }
+            //    if (OperatingSystems.ContainsValue(name))
+            //    {
+            //        os.Name = OperatingSystems.Values.FirstOrDefault(o => o.Equals(name));
+            //    }
+
+            //    result.Add(os);
+
+            //}
+            return result;
+        }
+
+
+        /// <summary>
+        /// Returns the operating system family for the given operating system
+        /// </summary>
+        /// <param name="osLabel">osLabel name or short name</param>
+        /// <returns>string|null If null, <see cref="Unknown"/></returns>
+        public static string GetOsFamily(string osLabel) 
+        {
+            if (OperatingSystems.ContainsKey(osLabel))
+            {
+                osLabel = OperatingSystems[osLabel];
+            }
+            foreach (var family in OsFamilies)
+            {
+                if (!family.Value.Contains(osLabel)) continue;
+                return family.Key;
+            }
+            return Unknown;
+        }
+
+        /// <summary>
+        /// Returns true if OS is desktop
+        /// </summary>
+        /// <param name="osName">OS short name</param>
+        /// <returns></returns>
+        public static bool IsDesktopOs(string osName)
+        {
+            var osFamily = GetOsFamily(osName);
+            return DesktopOs.Contains(osFamily);
+        }
+
+        /// <summary>
+        /// Returns the full name for the given short name
+        /// </summary>
+        /// <param name="os"></param>
+        /// <param name="ver"></param>
+        /// <returns></returns>
+        public static string GetNameFromId(string os, string ver = "")
+        {
+            if (!OperatingSystems.ContainsKey(os)) return string.Empty;
+            var osFullName = OperatingSystems[os];
+            return (osFullName + " " + ver).Trim();
+        }
+
+        /// <summary>
+        /// Returns the OS that can be safely detected from client hints
+        /// </summary>
+        /// <returns></returns>
+        protected OsMatchResult ParseOsFromClientHints()
+        {
+            var name = string.Empty;
+            var version = string.Empty;
+            var @short = string.Empty;
+            if (ClientHints != null && !string.IsNullOrEmpty(ClientHints.GetOperatingSystem()))
+            {
+                var hintName = ApplyClientHintMapping(ClientHints.GetOperatingSystem());
+
+                foreach (var operatingSystem in OperatingSystems)
+                {
+                    if (FuzzyCompare(hintName, operatingSystem.Key))
+                    {
+                        name = operatingSystem.Value;
+                        @short = operatingSystem.Key;
+                        break;
+                    }
+                }
+
+                version = ClientHints.GetOperatingSystemVersion();
+
+                if ("Windows" == name)
+                {
+                    var majorVersion = version.Split('.').Length >0 ? int.Parse(version.Split('.')[0]) : 0;
+                    if (majorVersion > 0 && majorVersion < 11)
+                    {
+                        version = "10";
+                    }
+                    else if (majorVersion > 10)
+                    {
+                        version = "11";
+                    }
+                }
+
+                if (version.Equals("0"))
+                {
+                    version = string.Empty;
+                }
+            }
+            return new OsMatchResult
+            {
+                Name = name,
+                ShortName = @short,
+                Version = BuildVersion(version, new string[0])
+            };
+        }
+
+        /// <summary>
+        /// Returns the OS that can be detected from useragent
+        /// </summary>
+        /// <returns></returns>
+        protected OsMatchResult ParseOsFromUserAgent()
+        {
+            var name = string.Empty;
+            var version = string.Empty;
+            var @short = string.Empty;
 
             string[] localMatches = null;
+            Os localOs = null;
 
             foreach (var os in regexList)
             {
@@ -265,38 +496,43 @@ namespace DeviceDetectorNET.Parser
 
             if (localMatches != null)
             {
-                var name = BuildByMatch(localOs.Name, localMatches);
-                var @short = UnknownShort;
-                foreach (var operatingSystem in OperatingSystems)
+                name = BuildByMatch(localOs.Name, localMatches);
+                var shortData = GetShortOsData(name);
+                if (!string.IsNullOrEmpty(localOs.Version))
                 {
-                    if (operatingSystem.Value.ToLower().Equals(name.ToLower()))
+                    version = BuildVersion(localOs.Version, localMatches);
+                }
+                if (localOs.Versions != null && localOs.Versions.Count > 0)
+                {
+                    foreach (var regex in localOs.Versions)
                     {
-                        name = operatingSystem.Value;
-                        @short = operatingSystem.Key;
+                        var matches = MatchUserAgent(regex.Regex);
+                        if (matches.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        //if (\array_key_exists('name', $regex)) {
+                        //    $name = $this->buildByMatch($regex['name'], $matches);
+                        //    ['name' => $name, 'short' => $short] = self::getShortOsData($name);
+                        //}
+                        if (regex.Version.Length > 0)
+                        {
+                            version = BuildVersion(regex.Version, matches);
+                        }
+                        break;
                     }
-                }
-                var os = new OsMatchResult
-                {
-                    Name = name,
-                    ShortName = @short,
-                    Version = BuildVersion(localOs.Version, localMatches),
-                    Platform = ParsePlatform()
-                };
-
-                if (OperatingSystems.ContainsKey(name))
-                {
-                    os.ShortName = OperatingSystems.Keys.FirstOrDefault(o=>o.Equals(name));
-                }
-                if (OperatingSystems.ContainsValue(name))
-                {
-                    os.Name = OperatingSystems.Values.FirstOrDefault(o => o.Equals(name));
-                }
-
-                result.Add(os);
-
+                }           
             }
-            return result;
+
+            return new OsMatchResult
+            {
+                Name = name,
+                ShortName = @short,
+                Version = version
+            };
         }
+
 
         /// <summary>
         /// Parse current UserAgent string for the operating system platform
@@ -304,10 +540,35 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected string ParsePlatform()
         {
-            //@todo:clientHints
             // Use architecture from client hints if available
+            if (ClientHints != null && !string.IsNullOrEmpty(ClientHints.GetArchitecture()))
+            {
+                var arch = ClientHints.GetArchitecture().ToLower();
+                if (arch.Contains("arm"))
+                {
+                    return PlatformType.ARM;
+                }
+                if (arch.Contains("mips"))
+                {
+                    return PlatformType.MIPS;
+                }
+                if (arch.Contains("sh4"))
+                {
+                    return PlatformType.SuperH;
+                }
+                if (arch.Contains("x64") || (arch.Contains("x86") && ClientHints.GetBitness() == "64"))
+                {
+                    return PlatformType.X64;
+                }
+                if (arch.Contains("x86"))
+                {
+                    return PlatformType.X86;
+                }
+            }
 
-            if (IsMatchUserAgent("arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]")) {
+
+            if (IsMatchUserAgent("arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]"))
+            {
                 return PlatformType.ARM;
             }
             if (IsMatchUserAgent("mips"))
@@ -318,58 +579,11 @@ namespace DeviceDetectorNET.Parser
             {
                 return PlatformType.SuperH;
             }
-            if (IsMatchUserAgent("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64")) {
+            if (IsMatchUserAgent("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64"))
+            {
                 return PlatformType.X64;
             }
             return IsMatchUserAgent(".+32bit|.+win32|(?:i[0-9]|x)86|i86pc") ? PlatformType.X86 : PlatformType.NONE;
-        }
-
-        /// <summary>
-        /// Returns the operating system family for the given operating system
-        /// </summary>
-        /// <param name="osLabel">name or short name</param>
-        /// <param name="name"></param>
-        /// <returns>bool|string If false, <see cref="Unknown"/></returns>
-        public static bool GetOsFamily(string osLabel, out string name) //TryGetBrowserFamily
-        {
-            if (OperatingSystems.ContainsKey(osLabel))
-            {
-                //@todo..
-            }
-            foreach (var family in OsFamilies)
-            {
-                if (!family.Value.Contains(osLabel)) continue;
-                name = family.Key;
-                return true;
-            }
-            name = Unknown;
-            return false;
-        }
-
-        /// <summary>
-        /// Returns true if OS is desktop
-        /// </summary>
-        /// <param name="osName">OS short name</param>
-        /// <returns></returns>
-        public static bool IsDesktopOs(string osName)
-        {
-            throw new NotImplementedException();
-            //@todo:...
-            //var osFamily = GetOsFamily(osName);
-            //return \in_array($osFamily, self::$desktopOsArray);
-        }
-
-        /// <summary>
-        /// Returns the full name for the given short name
-        /// </summary>
-        /// <param name="os"></param>
-        /// <param name="ver"></param>
-        /// <returns></returns>
-        public static string GetNameFromId(string os, string ver = "")
-        {
-            if (!OperatingSystems.ContainsKey(os)) return string.Empty;
-            var osFullName = OperatingSystems[os];
-            return (osFullName + " " + ver).Trim();
         }
     }
 }

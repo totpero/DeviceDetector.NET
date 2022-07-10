@@ -1,11 +1,13 @@
-﻿namespace DeviceDetectorNET.Tests.Class.Client
+﻿using System.Collections.Generic;
+
+namespace DeviceDetectorNET.Tests.Class.Client
 {
     public class OsFixture
     {
         public string user_agent { get; set; }
         public Os os { get; set; }
         public string client { get; set; }
-        public object headers { get; set; }
+        public Dictionary<string,string> headers { get; set; }
 
         public class Os
         {

@@ -37,6 +37,11 @@ namespace DeviceDetectorNET.Tests.Parser
             {
                 var operatingSystemParser = new OperatingSystemParser();
                 operatingSystemParser.SetUserAgent(fixture.user_agent);
+                if (fixture.headers != null)
+                {
+                    var clientHints = ClientHints.Factory(fixture.headers);
+                    operatingSystemParser.SetClientHints(clientHints);
+                }
                 var result = operatingSystemParser.Parse();
                 result.Success.Should().BeTrue("Match should be with success");
 
@@ -44,6 +49,15 @@ namespace DeviceDetectorNET.Tests.Parser
                 result.Match.ShortName.Should().BeEquivalentTo(fixture.os.short_name, "short_names should be equal");
                 result.Match.Version.Should().BeEquivalentTo(fixture.os.version, "Versions should be equal");
             });
+        }
+
+        [Fact]
+        public void OsTestCustom()
+        {
+            var operatingSystemParser = new OperatingSystemParser();
+            operatingSystemParser.SetUserAgent("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch; ARMBJS)");
+            var result = operatingSystemParser.Parse();
+            result.Success.Should().BeTrue("Match should be with success");
         }
 
         [Fact]

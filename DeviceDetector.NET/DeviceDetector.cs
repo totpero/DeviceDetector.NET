@@ -349,7 +349,7 @@ namespace DeviceDetectorNET
                 return false;
             }
 
-            OperatingSystemParser.GetOsFamily(osShort, out string decodedFamily);
+            var decodedFamily = OperatingSystemParser.GetOsFamily(osShort);
 
             return Array.IndexOf(desktopOsArray, decodedFamily) > -1;
         }
@@ -630,7 +630,7 @@ namespace DeviceDetectorNET
             {
                 osShortName = os.Match.ShortName;
                 osName = os.Match.Name;
-                OperatingSystemParser.GetOsFamily(osShortName, out osFamily);
+                osFamily = OperatingSystemParser.GetOsFamily(osShortName);
                 osVersion = os.Match.Version;
                 if (!string.IsNullOrEmpty(osVersion))
                 {
@@ -806,7 +806,7 @@ namespace DeviceDetectorNET
 
             if (deviceDetector.os.Success)
             {
-                OperatingSystemParser.GetOsFamily(deviceDetector.os.Match.ShortName, out var osFamily);
+                var osFamily =OperatingSystemParser.GetOsFamily(deviceDetector.os.Match.ShortName);
                 match.OsFamily = osFamily;
             }
 
