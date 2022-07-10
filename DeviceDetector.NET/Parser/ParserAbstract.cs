@@ -42,7 +42,7 @@ namespace DeviceDetectorNET.Parser
         /// <summary>
         /// Contains a list of mappings from names we use to known client hint values
         /// </summary>
-        public virtual Dictionary<string, string[]> ClientHintMapping { get; set; }
+        public virtual Dictionary<string, string[]> ClientHintMapping { get; }
 
         /// <summary>
         /// Holds an array with method that should be available global
@@ -227,22 +227,20 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected string ApplyClientHintMapping(string name)
         {
-            throw new NotImplementedException();
+            name = name.ToLower();
 
-            foreach (var clientHintMapping in ClientHintMapping)
+            foreach (var clientHints in ClientHintMapping)
             {
-                //clientHintMapping
+                foreach (var clientHint in clientHints.Value)
+                {
+                    if (name == clientHint.ToLower())
+                    {
+                        return clientHints.Key;
+                    }
+                }
             }
 
-            //foreach (static::$clientHintMapping as $mappedName => $clientHints) {
-            //    foreach ($clientHints as $clientHint) {
-            //        if (\strtolower($name) === \strtolower($clientHint)) {
-            //            return $mappedName;
-            //        }
-            //    }
-            //}
-
-            //return $name;
+            return name;
         }
 
         /// <summary>

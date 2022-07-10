@@ -186,7 +186,7 @@ namespace DeviceDetectorNET.Parser
         /// <summary>
         /// Contains a list of mappings from OS names we use to known client hint values
         /// </summary>
-        protected static readonly Dictionary<string, string[]> ClientHintMapping = new Dictionary<string, string[]>
+        public override Dictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
         {
              {"GNU/Linux", new [] {"Linux"}},
              {"Mac"      , new [] {"MacOS"}},
@@ -434,7 +434,7 @@ namespace DeviceDetectorNET.Parser
 
                 foreach (var operatingSystem in OperatingSystems)
                 {
-                    if (FuzzyCompare(hintName, operatingSystem.Key))
+                    if (FuzzyCompare(hintName, operatingSystem.Value))
                     {
                         name = operatingSystem.Value;
                         @short = operatingSystem.Key;
@@ -498,6 +498,9 @@ namespace DeviceDetectorNET.Parser
             {
                 name = BuildByMatch(localOs.Name, localMatches);
                 var shortData = GetShortOsData(name);
+                name = shortData.Name;
+                @short = shortData.ShortName;
+
                 if (!string.IsNullOrEmpty(localOs.Version))
                 {
                     version = BuildVersion(localOs.Version, localMatches);
@@ -512,6 +515,7 @@ namespace DeviceDetectorNET.Parser
                             continue;
                         }
 
+                        //I don't find this logic
                         //if (\array_key_exists('name', $regex)) {
                         //    $name = $this->buildByMatch($regex['name'], $matches);
                         //    ['name' => $name, 'short' => $short] = self::getShortOsData($name);

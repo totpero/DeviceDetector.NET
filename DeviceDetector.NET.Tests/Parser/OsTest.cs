@@ -52,15 +52,6 @@ namespace DeviceDetectorNET.Tests.Parser
         }
 
         [Fact]
-        public void OsTestCustom()
-        {
-            var operatingSystemParser = new OperatingSystemParser();
-            operatingSystemParser.SetUserAgent("Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; ARM; Trident/6.0; Touch; ARMBJS)");
-            var result = operatingSystemParser.Parse();
-            result.Success.Should().BeTrue("Match should be with success");
-        }
-
-        [Fact]
         public void TestOSInGroup()
         {
             var AllOs = OperatingSystemParser.GetAvailableOperatingSystems();

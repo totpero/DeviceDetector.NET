@@ -224,6 +224,10 @@ namespace DeviceDetectorNET
                         break;
                     case "http-sec-ch-ua":
                     case "sec-ch-ua":
+                        //if (fullVersionList.Count > 0)
+                        //{
+                        //    break;
+                        //}
                         //if (!empty($fullVersionList))
                         //{
                         //    break;
