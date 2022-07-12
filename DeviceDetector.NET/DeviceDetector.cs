@@ -569,6 +569,11 @@ namespace DeviceDetectorNET
         /// </summary>
         protected void ParseClient()
         {
+            //if (!clientParsers.Any( c=> c.ParserName == MobileAppParser.AppParserName))
+            //{
+            //    AddClientParser(new MobileAppParser(userAgent, clientHints));
+            //}
+
             foreach (var clientParser in clientParsers)
             {
                 clientParser.SetCache(cache);

@@ -26,18 +26,20 @@ namespace DeviceDetectorNET.Parser.Client.Hints
         /// <returns></returns>
         public override ParseResult<HintsResult> Parse()
         {
-
+            var result = new ParseResult<HintsResult>();
             if (null == this.ClientHints) {
-                return null;
+                return result;
             }
 
             var appId = this.ClientHints.GetApp();
             var name = this.regexList[appId] ?? null;
 
             if (string.IsNullOrEmpty(name)) {
-                return null;
+                return result;
             }
-            return new ParseResult<HintsResult>(new HintsResult { Name = name });
+
+            result.Add(new HintsResult { Name = name });
+            return result;
         }
     }
 }

@@ -118,7 +118,7 @@ namespace DeviceDetectorNET.Parser
         /// <exception cref="ArgumentNullException"></exception>
         protected AbstractParser(string ua = "", ClientHints clientHints = null)
         {
-            if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
+            //if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
             UserAgent = ua;
             if (clientHints != null)
             {
