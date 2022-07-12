@@ -5,8 +5,9 @@ using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public class HbbTvParser : DeviceParserAbstract<IDictionary<string, DeviceModel>>
+    public class HbbTvParser : AbstractDeviceParser<IDictionary<string, DeviceModel>>
     {
+        const string regex = @"HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})";
         public HbbTvParser()
         {
             FixtureFile = "regexes/device/televisions.yml";
@@ -25,23 +26,22 @@ namespace DeviceDetectorNET.Parser.Device
             deviceType = DeviceType.DEVICE_TYPE_TV;
 
             result = base.Parse();
-            if (!result.Success)
-            {
-                result.Add(new DeviceMatchResult { Brand = string.Empty, Name = string.Empty, Type = deviceType });
-            }
+
+            if (result.Success) return result;
+
+            result.Add(GetResult());
             return result;
         }
 
         public bool IsHbbTv()
         {
-            var regex = @"HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})";
             return IsMatchUserAgent(regex);
         }
 
-        public string[] HbbTv()
+        public string HbbTv()
         {
-            var regex = @"HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})";
-            return MatchUserAgent(regex);
+            var match = MatchUserAgent(regex);
+            return match.Length > 1 ? match[1] : string.Empty;
         }
     }
 }

@@ -6,7 +6,7 @@ using DeviceDetectorNET.Results;
 
 namespace DeviceDetectorNET.Parser
 {
-    public class OperatingSystemParser : ParserAbstract<List<Os>, OsMatchResult>
+    public class OperatingSystemParser : AbstractParser<List<Os>, OsMatchResult>
     {
 
         private const string Unknown = "Unknown";

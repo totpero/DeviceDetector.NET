@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Results;
-using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser
 {
@@ -11,7 +9,7 @@ namespace DeviceDetectorNET.Parser
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TResult"></typeparam>
-    public abstract class BotParserAbstract<T> : ParserAbstract<T, BotMatchResult>, IBotParserAbstract
+    public abstract class AbstractBotParser<T> : AbstractParser<T, BotMatchResult>, IBotParserAbstract
         where T : class, IEnumerable<Bot>
     {
         /// <summary>

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public abstract class DeviceParserAbstract<T> : ParserAbstract<T, DeviceMatchResult>, IDeviceParserAbstract
+    public abstract class AbstractDeviceParser<T> : AbstractParser<T, DeviceMatchResult>, IDeviceParserAbstract
         where T : class, IDictionary<string, DeviceModel>
     {
         protected string model;
@@ -77,6 +77,11 @@ namespace DeviceDetectorNET.Parser.Device
         public override ParseResult<DeviceMatchResult> Parse()
         {
             var result = new ParseResult<DeviceMatchResult>();
+
+            var resultClientHint = ParseClientHints();
+            if (string.IsNullOrEmpty(resultClientHint.Model) && HasDesktopFragment())
+                return result;
+
             var regexes = regexList.ToList();
 
             if (!regexes.Any()) return result;
@@ -96,15 +101,7 @@ namespace DeviceDetectorNET.Parser.Device
 
             if (localMatches == null)
             {
-                if (ClientHints != null && !string.IsNullOrEmpty(ClientHints.GetModel()))
-                {
-                    result.Add(new DeviceMatchResult
-                    {
-                        Type = null,
-                        Brand= string.Empty,
-                        Name = ClientHints.GetModel()
-                    });
-                }
+                result.Add(resultClientHint);
                 return result;
             }
 
@@ -123,7 +120,9 @@ namespace DeviceDetectorNET.Parser.Device
             {
                 deviceType = localDeviceType;
             }
+
             model = string.Empty;
+
             if (!string.IsNullOrEmpty(localDevice.Value.Name))
             {
                 model = BuildModel(localDevice.Value.Name, localMatches);
@@ -145,7 +144,7 @@ namespace DeviceDetectorNET.Parser.Device
                 }
 
                 if (localModelMatches == null) {
-                    result.Add(new DeviceMatchResult { Name = model, Brand = brand, Type = deviceType });
+                    result.Add(GetResult());
                     return result;
                 }
 
@@ -164,7 +163,7 @@ namespace DeviceDetectorNET.Parser.Device
                     deviceType = localDeviceType;
                 }
             }
-            result.Add(new DeviceMatchResult { Name = model, Brand = brand, Type = deviceType });
+            result.Add(GetResult());
 
             return result;
         }
@@ -178,6 +177,35 @@ namespace DeviceDetectorNET.Parser.Device
             model = model.Replace("$1", "");
 
             return model == "Build" ? null : model.Trim();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected DeviceMatchResult ParseClientHints()
+        {
+            if (ClientHints != null && !string.IsNullOrEmpty(ClientHints.GetModel()))
+            {
+                return new DeviceMatchResult
+                {
+                    Type = null,
+                    Name = ClientHints.GetModel(),
+                    Brand = string.Empty
+                };
+            }
+            return new DeviceMatchResult();
+        }
+
+        /// <summary>
+        /// Returns if the parsed UA contains the 'Windows NT;' or 'X11; Linux x86_64' fragments
+        /// </summary>
+        /// <returns></returns>
+        protected bool HasDesktopFragment()
+        {
+            return IsMatchUserAgent("(?:Windows (?:NT|IoT)|X11; Linux x86_64)") && 
+                !IsMatchUserAgent(" Mozilla/|Android|Tablet|Mobile|iPhone|Windows Phone") && 
+                !IsMatchUserAgent("Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)");
         }
 
         protected void Reset()

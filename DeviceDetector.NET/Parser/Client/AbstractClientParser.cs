@@ -6,17 +6,17 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public abstract class ClientParserAbstract<T> : ParserAbstract<T, ClientMatchResult>, IClientParserAbstract
+    public abstract class AbstractClientParser<T> : AbstractParser<T, ClientMatchResult>, IAbstractClientParser
         where T : class, IEnumerable<IClientParseLibrary>
         // where TResult : class, IClientMatchResult, new()
 
     {
-        protected ClientParserAbstract()
+        protected AbstractClientParser()
         {
 
         }
 
-        protected ClientParserAbstract(string ua, ClientHints clientHints = null) : base(ua, clientHints)
+        protected AbstractClientParser(string ua, ClientHints clientHints = null) : base(ua, clientHints)
         {
 
         }

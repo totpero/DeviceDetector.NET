@@ -3,7 +3,7 @@ using DeviceDetectorNET.Class.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public class PimParser : ClientParserAbstract<List<Pim>>
+    public class PimParser : AbstractClientParser<List<Pim>>
     {
         public PimParser()
         {

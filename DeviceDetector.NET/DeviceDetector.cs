@@ -107,7 +107,7 @@ namespace DeviceDetectorNET
         /// </summary>
         protected IParser yamlParser;
 
-        protected List<IClientParserAbstract> clientParsers = new List<IClientParserAbstract>
+        protected List<IAbstractClientParser> clientParsers = new List<IAbstractClientParser>
         {
             ClientType.FeedReader.Client,
             ClientType.MobileApp.Client,
@@ -196,12 +196,12 @@ namespace DeviceDetectorNET
             parsed = false;
         }
 
-        public void AddClientParser(IClientParserAbstract parser)
+        public void AddClientParser(IAbstractClientParser parser)
         {
             clientParsers.Add(parser);
         }
 
-        public IEnumerable<IClientParserAbstract> GetClientsParsers()
+        public IEnumerable<IAbstractClientParser> GetClientsParsers()
         {
             return clientParsers.AsEnumerable();
         }
@@ -874,23 +874,23 @@ namespace DeviceDetectorNET
             return @"(?:^|[^A-Z_-])(?:" + regex.Replace("/", @"\/").Replace("++", "+") + ")";
         }
 
-        private static int _versionTruncation = ParserAbstract<List<Class.Bot>, ClientMatchResult>.VERSION_TRUNCATION_NONE;
+        private static int _versionTruncation = AbstractParser<List<Class.Bot>, ClientMatchResult>.VERSION_TRUNCATION_NONE;
 
         public static void SetVersionTruncation(int versionTruncation)
         {
             _versionTruncation = versionTruncation;
-            ParserAbstract<List<Class.Bot>, BotMatchResult>.SetVersionTruncation(versionTruncation);
-            ParserAbstract<List<Class.Os>, OsMatchResult>.SetVersionTruncation(versionTruncation);
-            ParserAbstract<Dictionary<string, string[]>, VendorFragmentResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<List<Class.Bot>, BotMatchResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<List<Class.Os>, OsMatchResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<Dictionary<string, string[]>, VendorFragmentResult>.SetVersionTruncation(versionTruncation);
 
-            ParserAbstract<List<Class.Client.FeedReader>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
-            ParserAbstract<List<Class.Client.MobileApp>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
-            ParserAbstract<List<Class.Client.MediaPlayer>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
-            ParserAbstract<List<Class.Client.Pim>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
-            ParserAbstract<List<Class.Client.Browser>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
-            ParserAbstract<List<Class.Client.Library>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<List<Class.Client.FeedReader>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<List<Class.Client.MobileApp>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<List<Class.Client.MediaPlayer>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<List<Class.Client.Pim>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<List<Class.Client.Browser>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<List<Class.Client.Library>, ClientMatchResult>.SetVersionTruncation(versionTruncation);
 
-            ParserAbstract<IDictionary<string, DeviceModel>, DeviceMatchResult>.SetVersionTruncation(versionTruncation);
+            AbstractParser<IDictionary<string, DeviceModel>, DeviceMatchResult>.SetVersionTruncation(versionTruncation);
         }
     }
 

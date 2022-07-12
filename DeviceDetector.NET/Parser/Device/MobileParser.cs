@@ -4,7 +4,7 @@ using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public class MobileParser : DeviceParserAbstract<IDictionary<string, DeviceModel>>
+    public class MobileParser : AbstractDeviceParser<IDictionary<string, DeviceModel>>
     {
         public MobileParser()
         {

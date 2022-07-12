@@ -13,7 +13,7 @@ using DeviceDetectorNET.Yaml;
 
 namespace DeviceDetectorNET.Parser
 {
-    public abstract class ParserAbstract<T, TResult>: IParserAbstract<TResult>
+    public abstract class AbstractParser<T, TResult>: IAbstractParser<TResult>
         where T : class, IEnumerable
 //, IParseLibrary
         where TResult : class, IMatchResult, new()
@@ -105,7 +105,7 @@ namespace DeviceDetectorNET.Parser
             throw new NotImplementedException();
         }
 
-        protected ParserAbstract()
+        protected AbstractParser()
         {
             //regexList = new IEnumerable<T>();
         }
@@ -116,7 +116,7 @@ namespace DeviceDetectorNET.Parser
         /// <param name="ua"></param>
         /// <param name="clientHints"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        protected ParserAbstract(string ua = "", ClientHints clientHints = null)
+        protected AbstractParser(string ua = "", ClientHints clientHints = null)
         {
             if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
             UserAgent = ua;

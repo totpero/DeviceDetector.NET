@@ -3,7 +3,7 @@ using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public interface IDeviceParserAbstract: IParserAbstract<DeviceMatchResult>
+    public interface IDeviceParserAbstract: IAbstractParser<DeviceMatchResult>
     {
         string GetModel();
         string GetBrand();

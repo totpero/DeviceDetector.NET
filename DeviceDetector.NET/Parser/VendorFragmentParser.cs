@@ -5,7 +5,7 @@ using DeviceDetectorNET.Results;
 
 namespace DeviceDetectorNET.Parser
 {
-    public class VendorFragmentParser : ParserAbstract<Dictionary<string,string[]>, VendorFragmentResult>
+    public class VendorFragmentParser : AbstractParser<Dictionary<string,string[]>, VendorFragmentResult>
     {
         public VendorFragmentParser()
         {

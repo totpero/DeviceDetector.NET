@@ -5,7 +5,7 @@ using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public class CameraParser : DeviceParserAbstract<IDictionary<string, DeviceModel>>
+    public class CameraParser : AbstractDeviceParser<IDictionary<string, DeviceModel>>
     {
         public CameraParser()
         {

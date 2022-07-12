@@ -5,7 +5,7 @@ using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public class PortableMediaPlayerParser : DeviceParserAbstract<IDictionary<string, DeviceModel>>
+    public class PortableMediaPlayerParser : AbstractDeviceParser<IDictionary<string, DeviceModel>>
     {
         public PortableMediaPlayerParser()
         {

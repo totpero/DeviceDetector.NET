@@ -10,7 +10,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public class BrowserParser : ClientParserAbstract<List<Class.Client.Browser>>
+    public class BrowserParser : AbstractClientParser<List<Class.Client.Browser>>
     {
 
         public const string DefaultParserName = "browser";

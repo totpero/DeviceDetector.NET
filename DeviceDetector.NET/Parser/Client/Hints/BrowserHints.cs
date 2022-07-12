@@ -4,7 +4,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client.Hints
 {
-    public class BrowserHints : ParserAbstract<HintsDictionary, HintsResult>
+    public class BrowserHints : AbstractParser<HintsDictionary, HintsResult>
     {
         private BrowserHints()
         {

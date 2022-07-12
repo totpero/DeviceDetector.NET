@@ -7,6 +7,9 @@ namespace DeviceDetectorNET.Results.Device
     [DataContract]
     public class DeviceMatchResult : IDeviceMatchResult
     {
+        /// <summary>
+        /// Model
+        /// </summary>
         [DataMember]
         public string Name { get; set; }
         [DataMember]
@@ -14,15 +17,14 @@ namespace DeviceDetectorNET.Results.Device
         [DataMember]
         public int? Type { get; set; }
         [DataMember]
-        public string Model { get; set; }
+        public string Model => Name;
 
         public override string ToString() =>
          $"Type: {Type}; " +
          $"{Environment.NewLine} " +
-         $"Name: {Name};" +
+         $"Name (Model): {Name};" +
          $"{Environment.NewLine} " +
          $"Brand: {Brand};" +
-         $"{Environment.NewLine} " +
-         $"Model: {Model};";
+         $"{Environment.NewLine}";
     }
 }

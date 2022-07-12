@@ -3,7 +3,7 @@ using DeviceDetectorNET.Results;
 
 namespace DeviceDetectorNET.Parser
 {
-    public interface IParserAbstract <TResult> where TResult : class, IMatchResult, new()
+    public interface IAbstractParser <TResult> where TResult : class, IMatchResult, new()
     {
         string FixtureFile { get; }
         string ParserName { get; }

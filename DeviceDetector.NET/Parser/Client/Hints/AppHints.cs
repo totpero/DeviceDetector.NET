@@ -5,7 +5,7 @@ using System.Xml.Linq;
 
 namespace DeviceDetectorNET.Parser.Client.Hints
 {
-    public class AppHints : ParserAbstract<HintsDictionary, HintsResult>
+    public class AppHints : AbstractParser<HintsDictionary, HintsResult>
     {
         private AppHints()
         {

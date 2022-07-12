@@ -6,7 +6,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client.Browser
 {
-    public class EngineParser : ClientParserAbstract<List<BrowserEngine>>
+    public class EngineParser : AbstractClientParser<List<BrowserEngine>>
     {
         /// <summary>
         /// Known browser engines mapped to their internal short codes
