@@ -52,11 +52,20 @@ namespace DeviceDetectorNET.Tests.Parser
         }
 
         [Fact]
+        public void TestX()
+        {
+            var os = new OperatingSystemParser();
+            os.SetUserAgent("HbbTV/1.1.1 (;;;;) Mozilla/5.0 (compatible; ANTGalio/3.0.2.1.22.43.08; Linux2.6.18-7.1/7405d0-smp)");
+            var r = os.Parse();
+            r.Should().NotBeNull();
+        }
+
+        [Fact]
         public void TestOSInGroup()
         {
-            var AllOs = OperatingSystemParser.GetAvailableOperatingSystems();
+            var allOs = OperatingSystemParser.GetAvailableOperatingSystems();
             var familiesOs = OperatingSystemParser.GetAvailableOperatingSystemFamilies();
-            foreach (var os in AllOs.Keys)
+            foreach (var os in allOs.Keys)
             {
                 var contains = false;
                 foreach (var familyOs in familiesOs.Values)
@@ -68,6 +77,26 @@ namespace DeviceDetectorNET.Tests.Parser
                 contains.Should().BeTrue();
             }
         }
+        
+        [Fact]
+        public void TestFamilyOSExists()
+        {
+            var allFamilyOs = OperatingSystemParser.GetAvailableOperatingSystemFamilies();
+            var allOs = OperatingSystemParser.GetAvailableOperatingSystems();
+            
+            foreach (var familyOs in allFamilyOs)
+            {
+                var contains = false;
+                foreach (var familyOsItem in familyOs.Value)
+                {
+                    
+                    if (!allOs.ContainsKey(familyOsItem)) continue;
+                    contains = true;
+                    break;
+                }                
+                contains.Should().BeTrue();
+            }
+        }
 
         [Fact]
         public void TestGetAvailableOperatingSystems()
@@ -76,15 +105,6 @@ namespace DeviceDetectorNET.Tests.Parser
             count.Should().BeGreaterThan(70);
         }
         
-        [Fact]
-        public void TestX()
-        {
-            var os = new OperatingSystemParser();
-            os.SetUserAgent("HbbTV/1.1.1 (;;;;) Mozilla/5.0 (compatible; ANTGalio/3.0.2.1.22.43.08; Linux2.6.18-7.1/7405d0-smp)");
-            var r = os.Parse();
-            r.Should().NotBeNull();
-        }
-
         [Fact]
         public void TestGetAvailableOperatingSystemFamilies()
         {
