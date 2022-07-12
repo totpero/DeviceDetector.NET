@@ -37,7 +37,7 @@ namespace DeviceDetectorNET.Parser.Client.Hints
             }
 
             var appId = this.ClientHints.GetApp();
-            var name = this.regexList[appId] ?? null;
+            var name = regexList.ContainsKey(appId) ? this.regexList[appId] : null;
 
             if (string.IsNullOrEmpty(name)) {
                 return result;

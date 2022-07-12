@@ -35,7 +35,7 @@ namespace DeviceDetectorNET.Parser.Client.Hints
             if (string.IsNullOrEmpty(appId))
                 return result;
 
-            var name = this.regexList[appId] ?? null;
+            var name = regexList.ContainsKey(appId) ? this.regexList[appId] : null;
 
             if (string.IsNullOrEmpty(name))
                 return result;

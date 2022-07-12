@@ -729,7 +729,7 @@ namespace DeviceDetectorNET.Parser.Client
                 client.Engine = browserFromUserAgent.Engine;
                 client.EngineVersion = browserFromUserAgent.EngineVersion;
             }
-            var family = GetBrowserFamily(client.ShortName);
+            client.Family = GetBrowserFamily(client.ShortName);
             var appHash = browserHints.Parse();
             if (appHash.Success && appHash.Match.Name != client.Name)
             {

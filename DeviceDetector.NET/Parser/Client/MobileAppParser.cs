@@ -51,8 +51,8 @@ namespace DeviceDetectorNET.Parser.Client
         public override ParseResult<ClientMatchResult> Parse()
         {
             var result = base.Parse();
-            var name = result.Match.Name ?? string.Empty;
-            var version = result.Match.Version ?? string.Empty;
+            var name = result?.Match?.Name ?? string.Empty;
+            var version = result?.Match?.Version ?? string.Empty;
             var appHash = appHints.Parse();
             if (appHash.Success && appHash.Match.Name != name)
             {

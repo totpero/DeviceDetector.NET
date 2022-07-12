@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "4.3.0";
+        public const string VERSION = "6.0.2";
 
         /// <summary>
         /// Operating system families that are known as desktop only
@@ -67,8 +67,6 @@ namespace DeviceDetectorNET
         /// Holds the device type after parsing the UA
         /// </summary>
         protected int? device;
-
-        protected string deviceName;
 
         /// <summary>
         /// Holds the device brand data after parsing the UA
@@ -413,7 +411,7 @@ namespace DeviceDetectorNET
 
         public string GetModel()
         {
-            return model;
+            return model ?? string.Empty;
         }
 
         /// <summary>
@@ -578,6 +576,7 @@ namespace DeviceDetectorNET
             {
                 clientParser.SetCache(cache);
                 clientParser.SetUserAgent(userAgent);
+                clientParser.SetClientHints(clientHints);
 
                 var result = clientParser.Parse();
                 if (!result.Success) continue;
@@ -603,7 +602,7 @@ namespace DeviceDetectorNET
                 var result = deviceParser.Parse();
                 if (!result.Success) continue;
 
-                deviceName = deviceParser.ParserName;
+                //deviceName = deviceParser.ParserName;
                 device = result.Match.Type;
                 model = result.Match.Name;
                 brand = result.Match.Brand;
@@ -783,6 +782,11 @@ namespace DeviceDetectorNET
             os = osParser.Parse();
         }
 
+        public bool IsBrowser()
+        {
+            return client.Success && client.Match is BrowserMatchResult; // && deviceName == BrowserParser.DefaultParserName;
+        }
+
         /// <summary>
         /// Parses a useragent and returns the detected data
         ///
@@ -808,24 +812,24 @@ namespace DeviceDetectorNET
                 //return;
             }
 
-          
-
-            match.Os = deviceDetector.os.Match;
-            match.Client = deviceDetector.client.Match;
-            match.DeviceType = deviceDetector.GetDeviceName();
-            match.DeviceBrand = deviceDetector.brand;
-            match.DeviceModel = deviceDetector.model;
+            if (deviceDetector.IsBrowser())
+            {
+                var browserMatch = deviceDetector.client.Match as BrowserMatchResult;
+                match.BrowserFamily = browserMatch.Family;
+            }
 
             if (deviceDetector.os.Success)
             {
                 var osFamily = deviceDetector.os.Match.Family;
-                match.OsFamily = osFamily;
+                match.OsFamily = osFamily ?? "Unknown";
             }
 
-            if (!(deviceDetector.client.Match is BrowserMatchResult browserMatch)) return result.Add(match);
+            match.Os = deviceDetector.os.Match;
+            match.Client = deviceDetector.client.Match;
+            match.DeviceType = deviceDetector.GetDeviceName();
+            match.DeviceBrand = deviceDetector.GetBrandName();
+            match.DeviceModel = deviceDetector.GetModel();
 
-            var browserFamily = BrowserParser.GetBrowserFamily(browserMatch.ShortName);
-            match.BrowserFamily = browserFamily;
             return result.Add(match);
 
             //if (deviceDetector.client.Success &&
