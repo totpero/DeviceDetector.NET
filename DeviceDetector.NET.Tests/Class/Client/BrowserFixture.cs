@@ -1,11 +1,13 @@
-﻿namespace DeviceDetectorNET.Tests.Class.Client
+﻿using System.Collections.Generic;
+
+namespace DeviceDetectorNET.Tests.Class.Client
 {
 
     public class BrowserFixture
     {
         public string user_agent { get; set; }
         public Client client { get; set; }
-        public object headers { get; set; }
+        public Dictionary<string,string> headers { get; set; }
 
         public class Client
         {

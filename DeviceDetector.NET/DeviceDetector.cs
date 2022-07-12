@@ -824,7 +824,7 @@ namespace DeviceDetectorNET
 
             if (!(deviceDetector.client.Match is BrowserMatchResult browserMatch)) return result.Add(match);
 
-            BrowserParser.GetBrowserFamily(browserMatch.ShortName, out var browserFamily);
+            var browserFamily = BrowserParser.GetBrowserFamily(browserMatch.ShortName);
             match.BrowserFamily = browserFamily;
             return result.Add(match);
 

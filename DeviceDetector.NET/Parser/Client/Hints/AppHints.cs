@@ -7,17 +7,22 @@ namespace DeviceDetectorNET.Parser.Client.Hints
 {
     public class AppHints : AbstractParser<HintsDictionary, HintsResult>
     {
-        private AppHints()
+        private void Init()
         {
             FixtureFile = "regexes/client/hints/apps.yml";
             ParserName = "AppHints";
             regexList = GetRegexes();
         }
 
+        private AppHints()
+        {
+            Init();
+        }
+
         public AppHints(string ua, ClientHints clientHints = null)
             :base(ua, clientHints)
         {
-
+            Init();
         }
 
         /// <summary>

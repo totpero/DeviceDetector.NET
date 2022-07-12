@@ -6,35 +6,41 @@ namespace DeviceDetectorNET.Parser.Client.Hints
 {
     public class BrowserHints : AbstractParser<HintsDictionary, HintsResult>
     {
-        private BrowserHints()
+
+        private void Init()
         {
+
             FixtureFile = "regexes/client/hints/browsers.yml";
             ParserName = "BrowserHints";
             regexList = GetRegexes();
+        }
+        private BrowserHints()
+        {
+            Init();
         }
 
         public BrowserHints(string ua, ClientHints clientHints = null)
            : base(ua, clientHints)
         {
-
+            Init();
         }
 
         public override ParseResult<HintsResult> Parse()
         {
-
+            var result = new ParseResult<HintsResult>();
             if (null == this.ClientHints)
-            {
-                return null;
-            }
+                return result;
 
             var appId = this.ClientHints.GetApp();
+            if (string.IsNullOrEmpty(appId))
+                return result;
+
             var name = this.regexList[appId] ?? null;
 
             if (string.IsNullOrEmpty(name))
-            {
-                return null;
-            }
-            return new ParseResult<HintsResult>(new HintsResult { Name = name });
+                return result;
+
+            return result.Add(new HintsResult { Name = name });
         }
     }
 }

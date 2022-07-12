@@ -149,7 +149,7 @@ namespace DeviceDetectorNET
                 return UaFullVersion;
             }
 
-            return string.Empty;
+            return null;
         }
 
         public string GetApp()
@@ -261,7 +261,10 @@ namespace DeviceDetectorNET
                                 var substr = match.Groups[0].Value;
                                 var brand = match.Groups[1].Value;
                                 var version = match.Groups[2].Value;
-                                list.Add(brand, version);
+                                if (!list.ContainsKey(brand))
+                                {
+                                    list.Add(brand, version);
+                                }
                                 value = value.Substring(substr.Length);
                                 match = match.NextMatch();
                             }

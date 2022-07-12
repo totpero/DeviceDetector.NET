@@ -562,19 +562,43 @@ namespace DeviceDetectorNET.Parser.Client
 
         private const int MaxVersionParts = 5;
 
-        public BrowserParser()
+
+        private void Init()
         {
+
             FixtureFile = "regexes/client/browsers.yml";
             ParserName = DefaultParserName;
             regexList = GetRegexes();
+        }
+        private BrowserParser()
+        {
+            Init();
+        }
 
-            //this.browserHints = new BrowserHints(UserAgent, ClientHints);
+        public BrowserParser(string ua = "", ClientHints clientHints = null)
+           : base(ua, clientHints)
+        {
+            Init();
+            browserHints = new BrowserHints(UserAgent, ClientHints);
+        }
 
-            //regexList = regexList.Select(r =>
-            //{
-            //    r.Engine.Versions = r.Engine.Versions ?? new Dictionary<string, string>();
-            //    return r;
-            //}).ToList();
+        /// <summary>
+        /// Sets the client hints to parse
+        /// </summary>
+        public override void SetClientHints(ClientHints clientHints)
+        {
+            base.SetClientHints(clientHints);
+            browserHints.SetClientHints(clientHints);
+        }
+
+        /// <summary>
+        /// Sets the user agent to parse
+        /// </summary>
+        /// <param name="ua"></param>
+        public override void SetUserAgent(string ua)
+        {
+            base.SetUserAgent(ua);
+            browserHints.SetUserAgent(ua);
         }
 
         /// <summary>
@@ -594,22 +618,38 @@ namespace DeviceDetectorNET.Parser.Client
             return BrowserFamilies;
         }
 
-        ///  <summary>
-        ///
-        ///  </summary>
-        ///  <param name="browserLabel"></param>
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="name"></param>
-        /// <returns>bool|string If false, "Unknown"</returns>
-        public static bool GetBrowserFamily(string browserLabel, out string name) //TryGetBrowserFamily
+        /// <returns></returns>
+        public static string GetBrowserShortName(string name)
+        {
+            name = name.ToLower();
+            foreach (var availableBrowser in AvailableBrowsers)
+            {
+                if (availableBrowser.Value.ToLower() == name)
+                {
+                    return availableBrowser.Key;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="browserLabel"></param>
+        /// <param name="name"></param>
+        /// <returns>string|null If null, "Unknown"</returns>
+        public static string GetBrowserFamily(string browserLabel)
         {
             foreach (var family in BrowserFamilies)
             {
                 if (!family.Value.Contains(browserLabel)) continue;
-                name = family.Key;
-                return true;
+                return family.Key;
             }
-            name = "Unknown";
-            return false;
+            return "Unknown";
         }
 
         /// <summary>
@@ -627,57 +667,108 @@ namespace DeviceDetectorNET.Parser.Client
         public override ParseResult<ClientMatchResult> Parse()
         {
             var result = new ParseResult<ClientMatchResult>();
+            var client = new BrowserMatchResult();
 
             var browserFromClientHints = ParseBrowserFromClientHints();
-            //var browserFromUserAgent = ParseBrowserFromUserAgent();
+            var browserFromUserAgent = ParseBrowserFromUserAgent();
 
-            Class.Client.Browser localBrowser = null;
-            string[] localMatches = null;
-            foreach (var browser in regexList)
+            // use client hints in favor of user agent data if possible
+            if (!string.IsNullOrEmpty(browserFromClientHints.Name) && !string.IsNullOrEmpty(browserFromClientHints.Version))
             {
-                var matches = MatchUserAgent(browser.Regex);
-                if (matches.Length > 0)
+                client.Name = browserFromClientHints.Name;
+                client.Version = browserFromClientHints.Version;
+                client.ShortName = browserFromClientHints.ShortName;
+
+                // If client hints report Chromium, but user agent detects a chromium based browser, we favor this instead
+                if ("Chromium" == client.Name
+                    && !string.IsNullOrEmpty(browserFromUserAgent.Name)
+                    && "Chromium" != browserFromUserAgent.Name
+                    && "Chrome" == GetBrowserFamily(browserFromUserAgent.Name)
+                    )
                 {
-                    localBrowser = browser;
-                    localMatches = matches;
-                    break;
+                    client.Name = browserFromUserAgent.Name;
+                    client.ShortName = browserFromUserAgent.ShortName;
+                    client.Version = browserFromUserAgent.Version;
                 }
-            }
-            if (localMatches != null)
-            {
-                var name = BuildByMatch(localBrowser.Name, localMatches);
 
-                foreach (var availableBrowser in AvailableBrowsers)
+                // Fix mobile browser names e.g. Chrome => Chrome Mobile
+                if (client.Name + " Mobile" == browserFromUserAgent.Name)
                 {
-                    if (string.Equals(name, availableBrowser.Value, StringComparison.CurrentCultureIgnoreCase))
+                    client.Name = browserFromUserAgent.Name;
+                    client.ShortName = browserFromUserAgent.ShortName;
+                }
+
+                // If useragent detects another browser, but the family matches, we use the detected engine from useragent
+                if (client.Name != browserFromUserAgent.Name
+                    && GetBrowserFamily(client.Name) == GetBrowserFamily(browserFromUserAgent.Name))
+                {
+                    client.Engine = browserFromUserAgent.Engine ?? string.Empty;
+                    client.EngineVersion = browserFromUserAgent.EngineVersion ?? string.Empty;
+                }
+
+                if(client.Name == browserFromUserAgent.Name){
+                    client.Engine = browserFromUserAgent.Engine ?? string.Empty;
+                    client.EngineVersion = browserFromUserAgent.EngineVersion ?? string.Empty;
+
+                    // In case the user agent reports a more detailed version, we try to use this instead
+                    if (!string.IsNullOrEmpty(browserFromUserAgent.Version)
+                        && 0 == browserFromUserAgent.Version.IndexOf(client.Version)
+                        //&& \version_compare($version, $browserFromUserAgent['version'], '<')
+                        )
                     {
-                        if (localBrowser.Engine == null)
-                            localBrowser.Engine = new Engine();
-                        var version = BuildVersion(localBrowser.Version, localMatches);
-                        var engine = BuildEngine(localBrowser.Engine, version);
-                        var engineVersion = BuildEngineVersion(engine);
-                        result.Add(new BrowserMatchResult
-                        {
-                            Type = ParserName,
-                            Name = name,
-                            Version = version,
-                            ShortName = availableBrowser.Key,
-                            Engine = engine,
-                            EngineVersion = engineVersion
-                        });
+                        client.Version = browserFromUserAgent.Version;
                     }
                 }
+
+            }
+            else
+            {
+                client.Name = browserFromUserAgent.Name;
+                client.Version = browserFromUserAgent.Version;
+                client.ShortName = browserFromUserAgent.ShortName;
+                client.Engine = browserFromUserAgent.Engine;
+                client.EngineVersion = browserFromUserAgent.EngineVersion;
+            }
+            var family = GetBrowserFamily(client.ShortName);
+            var appHash = browserHints.Parse();
+            if (appHash.Success && appHash.Match.Name != client.Name)
+            {
+                client.Name = appHash.Match.Name;
+                client.Version = string.Empty;
+                client.ShortName = GetBrowserShortName(client.Name);
+                if (IsMatchUserAgent("Chrome/.+ Safari/537.36"))
+                {
+                    client.Engine = "Blink";
+                    client.Family = GetBrowserFamily(client.ShortName) ?? "Chrome";
+                    client.EngineVersion = BuildEngineVersion(client.Engine);
+                }
+
+                if (string.IsNullOrEmpty(client.ShortName))
+                {
+                    // This Exception should never be thrown. If so a defined browser name is missing in $availableBrowsers
+                    throw new Exception("Detected browser name " + client.Name + " was not found in AvailableBrowsers. Tried to parse user agent: " + UserAgent);
+                }
             }
 
-            return result;
-            throw new Exception("Detected browser name was not found in AvailableBrowsers. Tried to parse user agent: " + UserAgent);
+            if (string.IsNullOrEmpty(client.Name))
+                return result;
+
+            // exclude Blink engine version for browsers
+            if (client.Engine == "Blink" && client.Name == "Flow Browser")
+            {
+                client.EngineVersion = string.Empty;
+            }
+
+            client.Type = DefaultParserName;
+
+            return result.Add(client);
         }
 
         /// <summary>
         /// Returns the browser that can be safely detected from client hints
         /// </summary>
         protected BrowserMatchResult ParseBrowserFromClientHints()
-{
+        {
             var name = string.Empty;
             var version = string.Empty;
             var @short = string.Empty;
@@ -718,6 +809,53 @@ namespace DeviceDetectorNET.Parser.Client
                 ShortName = @short,
                 Version = BuildVersion(version,new string[0]) 
             };
+        }
+
+        /// <summary>
+        /// Returns the browser that can be detected from useragent
+        /// </summary>
+        /// <returns></returns>
+        protected BrowserMatchResult ParseBrowserFromUserAgent()
+        {
+            BrowserMatchResult result = new BrowserMatchResult();
+
+            Class.Client.Browser localBrowser = null;
+            string[] localMatches = null;
+            foreach (var browser in regexList)
+            {
+                var matches = MatchUserAgent(browser.Regex);
+                if (matches.Length > 0)
+                {
+                    localBrowser = browser;
+                    localMatches = matches;
+                    break;
+                }
+            }
+
+            if (localBrowser == null) // || localMatches == null
+                return result;
+
+            var name = BuildByMatch(localBrowser.Name, localMatches);
+            var browserShort =GetBrowserShortName(name);
+            if (!string.IsNullOrEmpty(browserShort))
+            {
+                if (localBrowser.Engine == null)
+                    localBrowser.Engine = new Engine();
+                var version = BuildVersion(localBrowser.Version, localMatches);
+                var engine = BuildEngine(localBrowser.Engine, version);
+                var engineVersion = BuildEngineVersion(engine);
+                return new BrowserMatchResult
+                {
+                    Type = ParserName,
+                    Name = name,
+                    Version = version,
+                    ShortName = browserShort,
+                    Engine = engine,
+                    EngineVersion = engineVersion
+                };
+            }
+
+            throw new Exception("Detected browser name "+name+" was not found in AvailableBrowsers. Tried to parse user agent: " + UserAgent);
         }
 
         protected string BuildEngine(Engine engineData, string browserVersion)

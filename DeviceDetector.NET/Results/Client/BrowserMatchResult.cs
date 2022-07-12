@@ -14,12 +14,17 @@ namespace DeviceDetectorNET.Results.Client
         [DataMember]
         public string EngineVersion { get; set; }
 
+        [DataMember]
+        public string Family { get; set; }
+
         public override string ToString() => 
             base.ToString() +
             $"ShortName: {ShortName}; " +
             $"{Environment.NewLine} " +
             $"Engine: {Engine}; " +
             $"{Environment.NewLine} " +
-            $"EngineVersion: {EngineVersion};" ;
+            $"EngineVersion: {EngineVersion};" +
+            $"{Environment.NewLine} " +
+            $"Family: {Family};" ;
     }
 }
