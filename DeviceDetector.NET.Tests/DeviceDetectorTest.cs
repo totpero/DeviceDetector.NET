@@ -537,14 +537,15 @@ namespace DeviceDetectorNET.Tests
             detector.Parse();
             detector.IsDesktop().Should().BeTrue();
         }
+
         [Fact]
         public void TestX()
         {
-            const string userAgent = "Mozilla/5.0 (Linux; Android 5.1.1; TeachTouch Table) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36";
+            const string userAgent = "Mozilla/5.0 (Linux; Plasma Mobile, like Android 9.0) AppleWebKit/537.36 (KHTML, like Gecko) QtWebEngine/5.14.2 Chrome/75.0.3770.116 Mobile Safari/537.36";
 
             var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
             dd.Success.Should().BeTrue();
-            dd.Match.DeviceModel.Should().Be("Ixion M150 Storm");
+            dd.Match.DeviceType.Should().Be("smartphone");
         }
     }
 }

@@ -143,6 +143,7 @@ namespace DeviceDetectorNET.Parser.Device
                 }
 
                 if (localModelMatches == null) {
+                    result.Add(GetResult());
                     return result;
                 }
 

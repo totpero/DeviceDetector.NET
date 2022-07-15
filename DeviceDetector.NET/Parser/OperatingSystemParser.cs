@@ -152,7 +152,7 @@ namespace DeviceDetectorNET.Parser
         protected static readonly Dictionary<string, string[]> OsFamilies = new Dictionary<string, string[]>
         {
             {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
-                                                "ADR", "CLR", "BOS", "REV", "LEN"}},
+                                                "ADR", "CLR", "BOS", "REV", "LEN", "SIR"}},
             {"AmigaOS"              , new [] {"AMG", "MOR"}},
             //{"Apple TV"             , new [] {"ATV"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
@@ -195,7 +195,7 @@ namespace DeviceDetectorNET.Parser
         /// <summary>
         /// Operating system families that are known as desktop only
         /// </summary>
-        protected static readonly string[] DesktopOs = new string[]
+        protected internal static readonly string[] DesktopOs = new[]
         {
             "AmigaOS", "IBM", "GNU/Linux", "Mac", "Unix", "Windows", "BeOS", "Chrome OS", "Chromium OS"
         };

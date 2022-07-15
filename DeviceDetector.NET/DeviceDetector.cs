@@ -24,21 +24,6 @@ namespace DeviceDetectorNET
         public const string VERSION = "6.0.2";
 
         /// <summary>
-        /// Operating system families that are known as desktop only
-        /// </summary>
-        protected static readonly string[] desktopOsArray =
-        {
-            "AmigaOS",
-            "IBM",
-            "GNU/Linux",
-            "Mac",
-            "Unix",
-            "Windows",
-            "BeOS",
-            "Chrome OS"
-        };
-
-        /// <summary>
         /// Constant used as value for unknown browser / os
         /// </summary>
         public const string UNKNOWN = "UNK";
@@ -350,7 +335,7 @@ namespace DeviceDetectorNET
 
             var decodedFamily = OperatingSystemParser.GetOsFamily(osShort);
 
-            return Array.IndexOf(desktopOsArray, decodedFamily) > -1;
+            return Array.IndexOf(OperatingSystemParser.DesktopOs, decodedFamily) > -1;
         }
 
         /// <summary>

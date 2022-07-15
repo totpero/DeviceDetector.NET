@@ -489,7 +489,7 @@ namespace DeviceDetectorNET.Parser.Client
             {"XO", "Xooloo Internet"},
             {"XV", "Xvast"},
             {"ZE", "Zetakey"},
-            {"ZV", "Zvu"}, 
+            {"ZV", "Zvu"},
 
             // detected browsers in older versions
             // {"IA", "Iceape"},   => pim
