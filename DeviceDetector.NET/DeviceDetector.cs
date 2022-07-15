@@ -151,10 +151,9 @@ namespace DeviceDetectorNET
             }
         }
 
-        //@todo:need implemented
         public bool Is(ClientType type)
         {
-            throw new NotImplementedException();
+            return client.ParserName == type.Name;
         }
 
         /// <summary>

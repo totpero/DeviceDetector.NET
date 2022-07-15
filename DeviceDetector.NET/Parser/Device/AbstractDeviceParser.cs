@@ -101,7 +101,6 @@ namespace DeviceDetectorNET.Parser.Device
 
             if (localMatches == null)
             {
-                result.Add(resultClientHint);
                 return result;
             }
 
@@ -144,7 +143,6 @@ namespace DeviceDetectorNET.Parser.Device
                 }
 
                 if (localModelMatches == null) {
-                    result.Add(GetResult());
                     return result;
                 }
 

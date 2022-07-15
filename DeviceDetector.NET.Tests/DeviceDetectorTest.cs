@@ -388,13 +388,14 @@ namespace DeviceDetectorNET.Tests
             dd.IsBot().Should().BeTrue();
         }
 
-        [Fact(Skip = "Not Implemented")]
+        [Fact]
         public void TestMagicMethods()
         {
             var ua = "Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36";
             var dd = new DeviceDetector(ua);
             dd.Parse();
-            dd.Is(ClientType.Browser);
+            var result = dd.Is(ClientType.Browser);
+            result.Should().BeTrue();
         }
 
         [Fact]
@@ -535,6 +536,15 @@ namespace DeviceDetectorNET.Tests
             var detector = new DeviceDetector(userAgent);
             detector.Parse();
             detector.IsDesktop().Should().BeTrue();
+        }
+        [Fact]
+        public void TestX()
+        {
+            const string userAgent = "Mozilla/5.0 (Linux; Android 5.1.1; TeachTouch Table) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36";
+
+            var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
+            dd.Success.Should().BeTrue();
+            dd.Match.DeviceModel.Should().Be("Ixion M150 Storm");
         }
     }
 }
