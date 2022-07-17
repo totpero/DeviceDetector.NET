@@ -586,7 +586,7 @@ namespace DeviceDetectorNET
                 var result = deviceParser.Parse();
                 if (!result.Success) continue;
 
-                //deviceName = deviceParser.ParserName;
+                var parserName = deviceParser.ParserName;
                 device = result.Match.Type;
                 model = result.Match.Name;
                 brand = result.Match.Brand;
@@ -810,6 +810,13 @@ namespace DeviceDetectorNET
 
             match.Os = deviceDetector.os.Match;
             match.Client = deviceDetector.client.Match;
+           
+            match.Device = new DeviceMatchResult
+            {
+                Name = deviceDetector.GetDeviceName(),
+                //Type = deviceDetector.GetDeviceName(),
+                Brand = deviceDetector.GetBrandName(),
+            };
             match.DeviceType = deviceDetector.GetDeviceName();
             match.DeviceBrand = deviceDetector.GetBrandName();
             match.DeviceModel = deviceDetector.GetModel();

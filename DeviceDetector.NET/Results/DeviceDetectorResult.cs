@@ -1,4 +1,5 @@
 using DeviceDetectorNET.Results.Client;
+using DeviceDetectorNET.Results.Device;
 using System;
 using System.Runtime.Serialization;
 
@@ -22,11 +23,14 @@ namespace DeviceDetectorNET.Results
         [DataMember]
         public ClientMatchResult Client { get; set; }
         [DataMember]
+        public DeviceMatchResult Device { get; set; }
+        [DataMember]
         public string DeviceType { get; set; }
         [DataMember]
         public string DeviceBrand { get; set; }
         [DataMember]
         public string DeviceModel { get; set; }
+
         [DataMember]
         public string OsFamily { get; set; }
         [DataMember]
@@ -35,6 +39,7 @@ namespace DeviceDetectorNET.Results
         public override string ToString() =>
         $"UserAgent: {UserAgent}; " +
         $"{Environment.NewLine} " +
+        $"Device: {Device}" +
         $"DeviceType: {DeviceType}" +
         $"{Environment.NewLine} " +
         $"DeviceBrand: {DeviceBrand}" +
