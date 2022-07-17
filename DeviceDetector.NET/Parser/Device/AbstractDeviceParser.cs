@@ -203,7 +203,7 @@ namespace DeviceDetectorNET.Parser.Device
         protected bool HasDesktopFragment()
         {
             return IsMatchUserAgent("(?:Windows (?:NT|IoT)|X11; Linux x86_64)") && 
-                !IsMatchUserAgent(" Mozilla/|Android|Tablet|Mobile|iPhone|Windows Phone") && 
+                !IsMatchUserAgent(" Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh") && 
                 !IsMatchUserAgent("Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)");
         }
 
