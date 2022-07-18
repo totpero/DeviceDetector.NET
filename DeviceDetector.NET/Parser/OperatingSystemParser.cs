@@ -115,6 +115,7 @@ namespace DeviceDetectorNET.Parser
             {"SSE", "SUSE"},
             {"SAF", "Sailfish OS"},
             {"SEE", "SeewoOS"},
+            {"SIR", "Sirin OS"},
             {"SLW", "Slackware"},
             {"SOS", "Solaris"},
             {"SYL", "Syllable"},

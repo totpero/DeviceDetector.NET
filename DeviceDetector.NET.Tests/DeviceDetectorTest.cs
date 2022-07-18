@@ -541,11 +541,11 @@ namespace DeviceDetectorNET.Tests
         [Fact]
         public void TestX()
         {
-            const string userAgent = "Mozilla/5.0 (X11; Linux x86_64; ricoh_mfpapnl) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.34 Safari/534.24";
+            const string userAgent = "Mozilla/5.0 (Linux; Android 8.1.0; FINNEY U1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.210 Mobile Safari/537.36";
 
             var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
             dd.Success.Should().BeTrue();
-            dd.Match.DeviceType.Should().Be("peripheral");
+            dd.Match.OsFamily.Should().Be("Android");
         }
     }
 }
