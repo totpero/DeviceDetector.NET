@@ -644,12 +644,16 @@ namespace DeviceDetectorNET.Parser.Client
         /// <returns>string|null If null, "Unknown"</returns>
         public static string GetBrowserFamily(string browserLabel)
         {
+            //if (AvailableBrowsers.TryGetValue(browserLabel, out var browserName))
+            //{
+            //    browserLabel = browserName;
+            //}
             foreach (var family in BrowserFamilies)
             {
                 if (!family.Value.Contains(browserLabel)) continue;
                 return family.Key;
             }
-            return "Unknown";
+            return null;
         }
 
         /// <summary>
@@ -729,7 +733,7 @@ namespace DeviceDetectorNET.Parser.Client
                 client.Engine = browserFromUserAgent.Engine;
                 client.EngineVersion = browserFromUserAgent.EngineVersion;
             }
-            client.Family = GetBrowserFamily(client.ShortName);
+            client.Family = GetBrowserFamily(client.ShortName) ?? "Unknown";
             var appHash = browserHints.Parse();
             if (appHash.Success && appHash.Match.Name != client.Name)
             {

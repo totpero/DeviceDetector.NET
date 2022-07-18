@@ -541,11 +541,14 @@ namespace DeviceDetectorNET.Tests
         [Fact]
         public void TestX()
         {
-            const string userAgent = "Mozilla/5.0 (Linux; Android 8.1.0; FINNEY U1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.210 Mobile Safari/537.36";
+            //const string userAgent = "Microsoft Office OneNote/16.0.13328.20478 (Windows/10.0; Desktop x64; en-GB; Universal app; Dell Inc./XXX TEST)";
+            const string userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36";
 
-            var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
+            var ch = ClientHints.Factory(new Dictionary<string, string> { { "x-requested-with", "com.appssppa.idesktoppcbrowser" } });
+            var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, ch);
+
             dd.Success.Should().BeTrue();
-            dd.Match.OsFamily.Should().Be("Android");
+            dd.Match.BrowserFamily.Should().Be("Chrome");
         }
     }
 }
