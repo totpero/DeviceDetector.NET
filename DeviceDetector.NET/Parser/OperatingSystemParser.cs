@@ -447,7 +447,7 @@ namespace DeviceDetectorNET.Parser
 
                 if ("Windows" == name)
                 {
-                    var majorVersion = version.Split('.').Length >0 ? int.Parse(version.Split('.')[0]) : 0;
+                    var majorVersion = !string.IsNullOrEmpty(version) && version.Split('.').Length >0 ? int.Parse(version.Split('.')[0]) : 0;
                     if (majorVersion > 0 && majorVersion < 11)
                     {
                         version = "10";
