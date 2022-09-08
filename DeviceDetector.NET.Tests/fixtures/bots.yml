@@ -5019,5 +5019,18 @@
     category: Service Agent
     url: https://www.semrush.com/bot/
     producer:
-        name: SEMrush
-        url: https://www.semrush.com/
+      name: SEMrush
+      url: https://www.semrush.com/
+-
+  user_agent: panscient.com
+  bot:
+    name: Panscient
+    category: Crawler
+    url: https://www.panscient.com/faq.htm
+    producer:
+      name: Panscient, Inc.
+      url: https://www.panscient.com/
+-
+  user_agent: daumoa,damoa,daum,daumos,duamoa,duam,duamos
+  bot:
+    name: Generic Bot
