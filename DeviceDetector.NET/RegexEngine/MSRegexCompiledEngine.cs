@@ -15,7 +15,7 @@ namespace DeviceDetectorNET.RegexEngine
         
         private Regex GetRegex(string pattern)
         {
-            return _staticRegExCache.Value.GetOrAdd(pattern, new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Compiled));
+            return _staticRegExCache.Value.GetOrAdd(pattern, (regexPattern) => new Regex(regexPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled));
         }
         
         public bool Match(string input, string pattern)
@@ -39,7 +39,7 @@ namespace DeviceDetectorNET.RegexEngine
                 {
                     if (!match.Value.Equals(group.Value))
                     {
-                       yield return group.Value;
+                        yield return group.Value;
                     }
                 }
             }
