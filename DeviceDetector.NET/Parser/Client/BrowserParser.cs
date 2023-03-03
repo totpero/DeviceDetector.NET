@@ -6,7 +6,6 @@ using DeviceDetectorNET.Parser.Client.Browser;
 using DeviceDetectorNET.Parser.Client.Browser.Engine;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
-using Semver;
 
 namespace DeviceDetectorNET.Parser.Client
 {
