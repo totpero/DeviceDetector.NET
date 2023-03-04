@@ -95,5 +95,38 @@ namespace DeviceDetectorNET.Tests
             ch.GetModel().Should().Be("");
 
         }
+
+        [Fact]
+        public void TestIncorrectVersionListIsDiscarded()
+        {
+            var headers = new Dictionary<string, string>
+            {
+                //'fullVersionList' => [
+                //    ['brand' => ' Not A;Brand', 'version' => '99.0.0.0'],
+                //    ['brand' => 'Chromium', 'version' => '99.0.4844.51'],
+                //    ['brand' => 'Google Chrome', 'version' => '99.0.4844.51'],
+                //],
+                {"mobile"          , "false" },
+                {"model"           , "" },
+                {"platform"        , "Windows" },
+                { "platformVersion" , "10.0.0" },
+            };
+
+            var ch = ClientHints.Factory(headers);
+            ch.IsMobile().Should().BeFalse();
+            ch.GetOperatingSystem().Should().Be("Windows");
+            ch.GetOperatingSystemVersion().Should().Be("10.0.0");
+
+            //ch.GetBrandList().Should().Equal(
+            //    new Dictionary<string, string>{
+            //            { " Not A;Brand", "99.0.0.0" },
+            //            { "Chromium", "99.0.4844.51" },
+            //            { "Google Chrome", "99.0.4844.51" },
+            //        }
+            //    );
+
+            ch.GetModel().Should().Be("");
+
+        }
     }
 }

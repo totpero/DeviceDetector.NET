@@ -90,30 +90,6 @@ namespace DeviceDetectorNET
             return this.Mobile;
         }
 
-        public string GetModel()
-        {
-            return this.Model;
-        }
-        
-        public string GetBitness()
-        {
-            return this.Bitness;
-        }
-
-        /// <summary>
-        /// Returns the Operating System
-        /// </summary>
-        /// <returns></returns>
-        public string GetOperatingSystem()
-        {
-            return this.Platform;
-        }
-
-        public string GetOperatingSystemVersion()
-        {
-            return this.PlatformVersion;
-        }
-
         /// <summary>
         ///  Returns the Architecture
         /// </summary>
@@ -123,6 +99,46 @@ namespace DeviceDetectorNET
             return this.Architecture;
         }
 
+        /// <summary>
+        /// Returns the Bitness
+        /// </summary>
+        /// <returns></returns>
+        public string GetBitness()
+        {
+            return this.Bitness;
+        }
+
+        /// <summary>
+        /// Returns the device model
+        /// </summary>
+        /// <returns></returns>
+        public string GetModel()
+        {
+            return this.Model;
+        }
+        
+        /// <summary>
+        /// Returns the Operating System
+        /// </summary>
+        /// <returns></returns>
+        public string GetOperatingSystem()
+        {
+            return this.Platform;
+        }
+
+        /// <summary>
+        /// Returns the Operating System version
+        /// </summary>
+        /// <returns></returns>
+        public string GetOperatingSystemVersion()
+        {
+            return this.PlatformVersion;
+        }
+
+        /// <summary>
+        /// Returns the Browser name
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, string> GetBrandList()
         {
                 if (this.FullVersionList.Count > 0)
@@ -152,12 +168,20 @@ namespace DeviceDetectorNET
             return null;
         }
 
+        /// <summary>
+        /// Returns the Android app id
+        /// </summary>
+        /// <returns></returns>
         public string GetApp()
         {
             return this.App;
         }
 
-
+        /// <summary>
+        /// Factory method to easily instantiate this class using an array containing all available (client hint) header
+        /// </summary>
+        /// <param name="headers"></param>
+        /// <returns></returns>
         public static ClientHints Factory(Dictionary<string,string> headers)
         {
             var model = string.Empty;
@@ -180,12 +204,12 @@ namespace DeviceDetectorNET
                     case "sec-ch-ua-arch":
                     case "arch":
                     case "architecture":
-                        architecture = header.Value.ToString().Trim('"');
+                        architecture = header.Value.Trim('"');
                         break;
                     case "http-sec-ch-ua-bitness":
                     case "sec-ch-ua-bitness":
                     case "bitness":
-                        bitness = header.Value.ToString().Trim('"');
+                        bitness = header.Value.Trim('"');
                         break;
                     case "http-sec-ch-ua-mobile":
                     case "sec-ch-ua-mobile":
@@ -196,28 +220,28 @@ namespace DeviceDetectorNET
                         //}
                         //else
                         {
-                            mobile = header.Value.ToString().Equals("1") || header.Value.ToString().Equals("?1");
+                            mobile = header.Value.Equals("1") || header.Value.Equals("?1");
                         }
                         break;
                     case "http-sec-ch-ua-model":
                     case "sec-ch-ua-model":
                     case "model":
-                        model = header.Value.ToString().Trim('"');
+                        model = header.Value.Trim('"');
                         break;
                     case "http-sec-ch-ua-full-version":
                     case "sec-ch-ua-full-version":
                     case "uafullversion":
-                        uaFullVersion = header.Value.ToString().Trim('"');
+                        uaFullVersion = header.Value.Trim('"');
                         break;
                     case "http-sec-ch-ua-platform":
                     case "sec-ch-ua-platform":
                     case "platform":
-                        platform = header.Value.ToString().Trim('"');
+                        platform = header.Value.Trim('"');
                         break;
                     case "http-sec-ch-ua-platform-version":
                     case "sec-ch-ua-platform-version":
                     case "platformversion":
-                        platformVersion = header.Value.ToString().Trim('"');
+                        platformVersion = header.Value.Trim('"');
                         break;
                     case "brands":
                         //if (fullVersionList.Count > 0)
@@ -240,6 +264,23 @@ namespace DeviceDetectorNET
                     case "http-sec-ch-ua-full-version-list":
                     case "sec-ch-ua-full-version-list":
 
+                        //from up case
+                        if (headerNormalized.Equals("fullversionlist"))
+                        {
+                            //header
+                            //fullVersionList
+                            //headerNormalized
+                            break;
+                        }
+
+                        //from up case
+                        if (headerNormalized.Equals("brands") &&
+                            fullVersionList.Count > 0)
+                        {
+                            break;
+                        }
+
+                        //from up case
                         if (headerNormalized.Equals("http-sec-ch-ua") ||
                             headerNormalized.Equals("sec-ch-ua") && 
                             fullVersionList.Count > 0)
@@ -249,7 +290,7 @@ namespace DeviceDetectorNET
                         const string reg = "^\"([^\"]+)\"; ?v=\"([^\"]+)\"(?:, )?";
                         var list = new Dictionary<string,string>();
 
-                        var value = header.Value.ToString();
+                        var value = header.Value;
                         
                         while (!string.IsNullOrEmpty(value))
                         {
@@ -274,19 +315,11 @@ namespace DeviceDetectorNET
                         {
                             fullVersionList = list;
                         }
-                        //while (\preg_match($reg, $value, $matches)) {
-                        //$list[] = ['brand' => $matches[1], 'version' => $matches[2]];
-                        //$value = \substr($value, \strlen($matches[0]));
-                        //}
-
-                        //if (\count($list)) {
-                        //$fullVersionList = $list;
-                        //}
                         break;
                     case "http-x-requested-with":
                     case "x-requested-with":
-                        if ("xmlhttprequest" != header.Value.ToString().ToLower()) {
-                            app = header.Value.ToString();
+                        if ("xmlhttprequest" != header.Value.ToLower()) {
+                            app = header.Value;
                         }
                         break;
                     default:

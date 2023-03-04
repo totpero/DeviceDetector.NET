@@ -6,6 +6,13 @@
 ###############
 
 ##########
+# RedOS (https://redos.red-soft.ru/)
+##########
+- regex: 'RED OS; Linux'
+  name: 'RedOS'
+  version: ''
+
+##########
 # RouterOS (https://help.mikrotik.com/docs/display/ROS/RouterOS)
 ##########
 - regex: 'Mikrotik/(\d).x'
@@ -180,6 +187,9 @@
 - regex: 'HarmonyOS(?:[/ ](\d+[\.\d]+))?'
   name: 'HarmonyOS'
   version: '$1'
+- regex: 'Hmos/1'
+  name: 'HarmonyOS'
+  version: '1.0.0'
 
 - regex: 'RazoDroiD(?: v(\d+[\.\d]*))?'
   name: 'RazoDroiD'
@@ -227,6 +237,13 @@
   name: 'Lineage OS'
   version: ''
 
+#########
+# Resurrection Remix OS (https://resurrectionremix.com/)
+##########
+- regex: 'Android 8(?:[\d.]*);(?: [\w-]+;)? rr_fortuna3g'
+  name: 'Resurrection Remix OS'
+  version: '6'
+
 ##########
 # Remix OS
 ##########
@@ -254,7 +271,7 @@
   name: 'Android TV'
   version: '$1'
 
-- regex: 'Android[; ](\d+[\.\d]*).+(?:Android|AT&T) TV'
+- regex: 'Android[; ](\d+[\.\d]*).+(?:(?:Android|AT&T) TV|AOSP on r33a0)'
   name: 'Android TV'
   version: '$1'
 
@@ -316,7 +333,7 @@
   name: 'Android'
   version: ''
 
-- regex: 'Android OS/(\d+[\.\d]*)'
+- regex: '(?:Android OS|OMDroid)[ /](\d+[\.\d]*)'
   name: 'Android'
   version: '$1'
 
@@ -356,7 +373,7 @@
   name: 'Android'
   version: '$1'
 
-- regex: 'BeyondPod|AntennaPod|Podkicker|DoggCatcher|Player FM|okhttp|Podcatcher Deluxe|Sonos/.+\(ACR_'
+- regex: 'BeyondPod|AntennaPod|Podkicker|DoggCatcher|Player FM|okhttp|Podcatcher Deluxe|Sonos/.+\(ACR_|Linux x86_64; Quest'
   name: 'Android'
   version: ''
 
@@ -488,7 +505,7 @@
   version: '$1'
 
 # PCLinuxOS (https://www.pclinuxos.com/)
-- regex: 'PCLinuxOS/(\d+[\.\d]+)|.+pc-linux-gnu'
+- regex: 'PCLinuxOS/(\d+[\.\d]+)'
   name: 'PCLinuxOS'
   version: '$1'
 
@@ -539,6 +556,10 @@
 
 - regex: 'Linux Mint/(\d)'
   name: 'Mint'
+  version: '$1'
+
+- regex: 'Zorin OS (\d+)'
+  name: 'ZorinOS'
   version: '$1'
 
 - regex: 'Linux; .*((?:Debian|Knoppix|Mint|Ubuntu|Kubuntu|Xubuntu|Lubuntu|Fedora|Red Hat|Mandriva|Gentoo|Sabayon|Slackware|SUSE|CentOS|BackTrack))[ /](\d+[\.\d]+)'
@@ -676,7 +697,7 @@
   name: 'Windows'
   version: '3.1'
 
-- regex: 'Windows|.+win32|Win64|MSDW|HandBrake Win Upd|Microsoft BITS'
+- regex: 'Windows|.+win32|Win64|MSDW|HandBrake Win Upd|Microsoft BITS|ms-office; MSOffice'
   name: 'Windows'
   version: ''
 
@@ -708,6 +729,9 @@
 - regex: '(?:Watch1,[12]/|Watch OS,|watchOS[ /])(\d+[\.\d]*)'
   name: 'watchOS'
   version: '$1'
+- regex: 'Apple Watch(?!;)'
+  name: 'watchOS'
+  version: ''
 
 ##########
 # iPadOS (https://www.apple.com/ipados/)
@@ -716,7 +740,7 @@
   name: 'iPadOS'
   version: '$1.$2'
 
-- regex: 'iPad/(1[3-6]).(\d+[\.\d]*)'
+- regex: 'iPad(?:OS)?/(1[3-6]).(\d+[\.\d]*)'
   name: 'iPadOS'
   version: '$1.$2'
 
@@ -724,7 +748,7 @@
   name: 'iPadOS'
   version: '$1.$2'
 
-- regex: 'iPad(?:; iOS|.+CPU OS) ((1[3-6])+(?:[_\.]\d+)*)'
+- regex: 'iPad(?:; (?:iOS|iPadOS|iPhone OS)|.+CPU OS) ((1[3-6])+(?:[_\.]\d+)*)'
   name: 'iPadOS'
   version: '$1'
 
@@ -762,6 +786,12 @@
 - regex: '^(?!com.apple.Safari.SearchHelper).*CFNetwork/.+ Darwin/(\d+[\.\d]+)(?!.*(?:x86_64|i386|PowerMac|Power%20Macintosh))'
   name: 'iOS'
   versions:
+    - regex: 'Darwin/22.3.0'
+      version: '16.3'
+    - regex: 'Darwin/22.2.0'
+      version: '16.2'
+    - regex: 'Darwin/22.1.0'
+      version: '16.1'
     - regex: 'Darwin/22.0.0'
       version: '16.0'
     - regex: 'Darwin/21.6.0'
@@ -971,6 +1001,12 @@
 - regex: 'CFNetwork/.+ Darwin/(?:[\d\.]+).+(?:x86_64|i386|Power%20Macintosh)|(?:x86_64-apple-)?darwin(?:[\d\.]+)|PowerMac|com.apple.Safari.SearchHelper'
   name: 'Mac'
   versions:
+    - regex: '(?:x86_64-apple-)?Darwin/?22.3.0'
+      version: '13.2'
+    - regex: '(?:x86_64-apple-)?Darwin/?22.2.0'
+      version: '13.1'
+    - regex: '(?:x86_64-apple-)?Darwin/?22.1.0'
+      version: '13.0.1'
     - regex: '(?:x86_64-apple-)?Darwin/?22.0.0'
       version: '13.0'
     - regex: '(?:x86_64-apple-)?Darwin/?21.6.0'
@@ -1383,7 +1419,7 @@
   name: 'GNU/Linux'
   version: '$1'
 
-- regex: 'Linux(?:OS)?[^a-z]|Cinnamon/(?:\d+[\.\d]+)|.+unknown-linux-gnu'
+- regex: 'Linux(?:OS)?[^a-z]|Cinnamon/(?:\d+[\.\d]+)|.+(?:pc|unknown)-linux-gnu'
   name: 'GNU/Linux'
   version: ''
 

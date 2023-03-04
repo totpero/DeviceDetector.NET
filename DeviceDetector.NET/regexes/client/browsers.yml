@@ -319,7 +319,7 @@
     default: 'Blink'
 
 # Chromium GOST (https://github.com/deemru/chromium-gost)
-- regex: 'Chrome/(\d+[\.\d]+).+\(Chromium GOST\)'
+- regex: 'Chrome/(\d+\.[\.\d]+) .*\(Chromium GOST\)'
   name: 'Chromium GOST'
   version: '$1'
   engine:
@@ -349,7 +349,7 @@
     default: 'Gecko'
 
 # CoolBrowser (https://play.google.com/store/apps/details?id=com.easybrowser.browser.coolbrowser)
-- regex: 'Chrome/(\d+[\.\d]+).+AgentWeb.+UCBrowser'
+- regex: 'Chrome/(\d+\.[\.\d]+) .*AgentWeb.+UCBrowser'
   name: 'CoolBrowser'
   version: '$1'
   engine:
@@ -387,7 +387,7 @@
     default: 'Blink'
 
 # Qutebrowser (https://qutebrowser.org/)
-- regex: 'qutebrowser/(\d+[\.\d]+).+Chrome'
+- regex: 'qutebrowser/(\d+\.[\.\d]+) .*Chrome'
   name: 'Qutebrowser'
   version: '$1'
   engine:
@@ -791,6 +791,13 @@
   engine:
     default: 'Blink'
 
+# Wolvic VR Browser
+- regex: 'Wolvic/(\d+\.[.\d]+)'
+  name: 'Wolvic'
+  version: '$1'
+  engine:
+    default: 'Gecko'
+
 # Firefox Reality (https://mixedreality.mozilla.org/firefox-reality/)
 - regex: 'Mobile VR.+Firefox'
   name: 'Firefox Reality'
@@ -902,7 +909,7 @@
   name: 'Faux Browser'
   version: '$1'
 
-# Splash (https://scrapinghub.com/splash)
+# Splash (https://www.zyte.com/splash/)
 - regex: 'splash Version(?:/(\d+[\.\d]+))?'
   name: 'Splash'
   version: '$1'
@@ -975,6 +982,8 @@
 - regex: 'OculusBrowser(?:/(\d+[\.\d]+))?'
   name: 'Oculus Browser'
   version: '$1'
+  engine:
+    default: 'Blink'
 
 # Jio Browser (https://play.google.com/store/apps/details?id=com.jio.web)
 - regex: 'Jio(?:Browser|Pages)(?:/(\d+[\.\d]+))?'
@@ -1230,7 +1239,7 @@
   version: '$1'
 
 #Amigo
-- regex: 'Chrome/(\d+[\.\d]+).*MRCHROME'
+- regex: 'Chrome/(\d+\.[\.\d]+) .*MRCHROME'
   name: 'Amigo'
   version: '$1'
   engine:
@@ -1393,7 +1402,7 @@
     default: 'Gecko'
 
 #Swiftfox
-- regex: 'Firefox/(\d+[\.\d]+).*\(Swiftfox\)'
+- regex: 'Firefox/(\d+\.[\.\d]+) .*\(Swiftfox\)'
   name: 'Swiftfox'
   version: '$1'
   engine:
@@ -1579,7 +1588,7 @@
   version: '$1'
   engine:
     default: 'Blink'
-- regex: 'Opera/(\d+[\.\d]+).+Opera Mobi'
+- regex: 'Opera/(\d+\.[\.\d]+) .*Opera Mobi'
   name: 'Opera Mobile'
   version: '$1'
   engine:
@@ -1614,7 +1623,7 @@
     default: 'Presto'
     versions:
       15: 'Blink'
-- regex: '(?:Opera|OPR)[/ ](?:9.80.*Version/)?(\d+[\.\d]+).+Edition Next'
+- regex: '(?:Opera|OPR)[/ ](?:9.80.*Version/)?(\d+\.[\.\d]+) .*Edition Next'
   name: 'Opera Next'
   version: '$1'
   engine:
@@ -1787,7 +1796,7 @@
     default: 'Blink'
 
 # Iron
-- regex: 'Chrome(?:/(\d+[\.\d]+))?.*Iron'
+- regex: 'Chrome(?:/(\d+\.[\.\d]+) )?.*Iron'
   name: 'Iron'
   version: '$1'
   engine:
@@ -1955,7 +1964,7 @@
     default: 'Blink'
 
 # Web Explorer
-- regex: 'Web Explorer/(\d+[\.\d]+).*Chrome'
+- regex: 'Web Explorer/(\d+\.[\.\d]+) .*Chrome'
   name: 'Web Explorer'
   version: '$1'
   engine:
@@ -2242,7 +2251,7 @@
 - regex: '(?:Tizen|SLP) ?Browser(?:/(\d+[\.\d]+))?'
   name: 'Tizen Browser'
   version: '$1'
-- regex: 'Tizen (?:\d+[\.\d]+).+ Version/(\d+[\.\d]+) (?:TV|Mobile|like)'
+- regex: 'Tizen (?:\d+\.[\.\d]+)[^\.\d].* Version/(\d+[\.\d]+) (?:TV|Mobile|like)'
   name: 'Tizen Browser'
   version: '$1'
   engine:
@@ -2411,7 +2420,7 @@
   version: '$1'
   engine:
     default: 'WebKit'
-- regex: 'GoogleEarth/(\d+[\.\d]+).+client:(?:Plus|Pro)'
+- regex: 'GoogleEarth/(\d+\.[\.\d]+)[^\.\d].*client:(?:Plus|Pro)'
   name: 'Google Earth Pro'
   version: '$1'
   engine:
@@ -2458,7 +2467,7 @@
   version: '$1'
   engine:
     default: 'Trident'
-- regex: 'MSIE (\d+[\.\d]+).*XBLWP7'
+- regex: 'MSIE (\d+\.[\.\d]+)[^\.\d].*XBLWP7'
   name: 'IE Mobile'
   version: '$1'
   engine:
@@ -2661,7 +2670,7 @@
   version: '$1'
   engine:
     default: 'WebKit'
-- regex: '(?:Version/(\d+[\.\d]+).*)?Mobile.*Safari/'
+- regex: '(?:Version/(\d+\.[\.\d]+) .*)?Mobile.*Safari/'
   name: 'Mobile Safari'
   version: '$1'
   engine:
@@ -2671,7 +2680,7 @@
   version: ''
   engine:
     default: 'WebKit'
-- regex: 'Version/(\d+[\.\d]+).*Safari/|(?:Safari|Safari(?:%20)?%E6%B5%8F%E8%A7%88%E5%99%A8)/?\d+'
+- regex: 'Version/(\d+\.[\.\d]+) .*Safari/|(?:Safari|Safari(?:%20)?%E6%B5%8F%E8%A7%88%E5%99%A8)/?\d+'
   name: 'Safari'
   version: '$1'
   engine:

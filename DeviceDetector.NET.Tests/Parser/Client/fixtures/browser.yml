@@ -2138,8 +2138,8 @@
     type: browser
     name: Oculus Browser
     version: "6.0.17.167158974"
-    engine: WebKit
-    engine_version: "537.36"
+    engine: Blink
+    engine_version: 74.0.3729.182
     family: Chrome
 -
   user_agent: Mozilla/5.0 (Linux; Android 7.0; INTEX AQUA SELFIE Build/NRD90M;) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.116 Mobile Safari/537.36 JioBrowser/1.4.2
@@ -5902,7 +5902,7 @@
     version: ""
     engine: WebKit
     engine_version: "534.46"
-    family: ""
+    family:
 -
   user_agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36
   client:
@@ -7141,3 +7141,65 @@
   headers:
     Sec-CH-UA: '"Chromium";v="92", " Not A;Brand";v="99", "HuaweiBrowser";v="92"'
     Sec-CH-UA-Mobile: '?1'
+-
+  user_agent: Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36
+  client:
+    type: browser
+    name: Brave
+    version: "106"
+    engine: Blink
+    engine_version: 106.0.0.0
+    family: Chrome
+  headers:
+    Sec-CH-UA: '"Chromium";v="106", "Brave";v="106", "Not;A=Brand";v="99"'
+    Sec-CH-UA-Platform: "Android"
+    Sec-CH-UA-Mobile: "?1"
+-
+  user_agent: Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36
+  client:
+    type: browser
+    name: Brave
+    version: "106"
+    engine: Blink
+    engine_version: 106.0.0.0
+    family: Chrome
+  headers:
+    Sec-CH-UA: '"Chromium";v="106", "Brave Browser";v="106", "Not;A=Brand";v="99"'
+    Sec-CH-UA-Platform: "Android"
+    Sec-CH-UA-Mobile: "?1"
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64; Quest 2) AppleWebKit/537.36 (KHTML, like Gecko) OculusBrowser/24.3.0.4.63.416895357 SamsungBrowser/4.0 Chrome/106.0.5249.168 VR Safari/537.36
+  client:
+    type: browser
+    name: Oculus Browser
+    version: 24.3.0.4.63.416895357
+    engine: Blink
+    engine_version: 106.0.5249.168
+    family: Chrome
+  headers:
+    Sec-CH-UA: '"Chromium";v="106", "Oculus Browser";v="24", "Not;A=Brand";v="99"'
+    Sec-CH-UA-Platform: "Linux"
+    Sec-CH-UA-Mobile: "?0"
+-
+  user_agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36
+  client:
+    type: browser
+    name: Iridium
+    version: "2021.12"
+    engine: Blink
+    engine_version: 96.0.4664.110
+    family: Chrome
+  headers:
+    Sec-CH-UA: '"Chromium";v="2021", ";Not A Brand";v="99"'
+    Sec-CH-UA-Platform: "Windows"
+    Sec-CH-UA-Mobile: "?0"
+    Sec-CH-UA-Full-Version: '"2021.12"'
+-
+  user_agent: Mozilla/5.0 (Android 10; Mobile VR; rv:105.0) Gecko/105.0 Wolvic/1.2
+  client:
+    type: browser
+    name: Wolvic
+    version: "1.2"
+    engine: Gecko
+    engine_version: "105.0"
+    family: Firefox

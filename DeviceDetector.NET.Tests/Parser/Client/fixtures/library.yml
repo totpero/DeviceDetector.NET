@@ -204,6 +204,12 @@
     name: Postman Desktop
     version: "7.9.1"
 -
+  user_agent: insomnia/2022.6.0
+  client:
+    type: library
+    name: Insomnia REST Client
+    version: "2022.6.0"
+-
   user_agent: Jakarta Commons-HttpClient/3.1
   client:
     type: library
@@ -486,3 +492,39 @@
     type: library
     name: Dart
     version: "2.16"
+-
+  user_agent: req/v3 (https://github.com/imroc/req)
+  client:
+    type: library
+    name: req
+    version: "3"
+-
+  user_agent: azure-data-factory/2.0
+  client:
+    type: library
+    name: Azure Data Factory
+    version: "2.0"
+-
+  user_agent: quic-go-HTTP/3
+  client:
+    type: library
+    name: quic-go
+    version: ""
+-
+  user_agent: 'Typhoeus - https://github.com/typhoeus/typhoeus'
+  client:
+    type: library
+    name: Typhoeus
+    version: ""
+-
+  user_agent: got (https://github.com/sindresorhus/got)
+  client:
+    type: library
+    name: got
+    version: ""
+-
+  user_agent: axios/1.2.0
+  client:
+    type: library
+    name: Axios
+    version: "1.2.0"

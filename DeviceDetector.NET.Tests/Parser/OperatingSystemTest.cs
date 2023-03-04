@@ -11,11 +11,11 @@ namespace DeviceDetectorNET.Tests.Parser
 {
     [Trait("Category","Os")]
 
-    public class OsTest
+    public class OperatingSystemTest
     {
         private readonly List<OsFixture> _fixtureData;
 
-        public OsTest()
+        public OperatingSystemTest()
         {
             var path = $"{Utils.CurrentDirectory()}\\{@"Parser\fixtures\oss.yml"}";
 

@@ -117,6 +117,8 @@ namespace DeviceDetectorNET.Tests
             dd.IsParsed().Should().BeTrue();
             var client = dd.GetClient();
             client.Success.Should().BeFalse();
+            dd.IsDesktop().Should().BeFalse();
+            dd.IsMobile().Should().BeFalse();
         }
 
         [Fact]
@@ -127,6 +129,8 @@ namespace DeviceDetectorNET.Tests
             dd.IsParsed().Should().BeTrue();
             var client = dd.GetClient();
             client.Success.Should().BeFalse();
+            dd.IsDesktop().Should().BeFalse();
+            dd.IsMobile().Should().BeFalse();
         }
 
         [Fact]
@@ -152,6 +156,7 @@ namespace DeviceDetectorNET.Tests
         [InlineData("mobile_apps")]
         [InlineData("peripheral")]
         [InlineData("phablet")]
+        [InlineData("phablet-1")]
         [InlineData("portable_media_player")]
         [InlineData("smart_display")]
         [InlineData("smart_speaker")]
@@ -187,6 +192,10 @@ namespace DeviceDetectorNET.Tests
         [InlineData("smartphone-29")]
         [InlineData("smartphone-30")]
         [InlineData("smartphone-31")]
+        [InlineData("smartphone-32")]
+        [InlineData("smartphone-33")]
+        [InlineData("smartphone-34")]
+        [InlineData("smartphone-35")]
         [InlineData("tablet")]
         [InlineData("tablet-1")]
         [InlineData("tablet-2")]
@@ -196,8 +205,10 @@ namespace DeviceDetectorNET.Tests
         [InlineData("tablet-6")]
         [InlineData("tablet-7")]
         [InlineData("tablet-8")]
+        [InlineData("tablet-9")]
         [InlineData("tv")]
         [InlineData("tv-1")]
+        [InlineData("tv-2")]
         [InlineData("unknown")]
         [InlineData("wearable")]
         public void TestParse(string fileNme)
