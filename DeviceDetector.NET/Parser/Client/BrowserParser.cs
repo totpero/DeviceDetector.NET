@@ -592,8 +592,8 @@ namespace DeviceDetectorNET.Parser.Client
                                                                     "B5", "B6", "TC", "A6", "2X", "F4", "YG", "WR", "NA",
                                                                     "DM", "1M", "A7", "XN", "XT", "XB", "W1", "HT", "B7",
                                                                     "B9",};
-        //@todo
-        protected new static readonly Dictionary<string, string[]> ClientHintMapping = new Dictionary<string, string[]>
+
+        public override Dictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
         {
              {"Chrome", new [] {"Google Chrome"}}
         };
@@ -728,13 +728,13 @@ namespace DeviceDetectorNET.Parser.Client
                 if ("2021.12" == client.Version || "2022" == client.Version || "2022.04" == client.Version) {
                     client.Name = "Iridium";
                     client.ShortName = "I1";
-                    client.Engine = browserFromClientHints.Engine;
-                    client.EngineVersion = browserFromClientHints.EngineVersion;
+                    client.Engine = browserFromUserAgent.Engine;
+                    client.EngineVersion = browserFromUserAgent.EngineVersion;
                 }
 
                 if ("Atom" == client.Name || "Huawei Browser" == client.Name)
                 {
-                    client.Version = browserFromClientHints.Version; ;
+                    client.Version = browserFromUserAgent.Version;
                 }
 
                 // If client hints report Chromium, but user agent detects a chromium based browser, we favor this instead
@@ -837,12 +837,12 @@ namespace DeviceDetectorNET.Parser.Client
                 {
                     foreach (var brand in brands)
                     {
-                        //brand = this.ApplyClientHintMapping(brand);
+                        var brandName = this.ApplyClientHintMapping(brand.Key);
                         foreach (var availableBrowser in AvailableBrowsers)
                         {
-                            if (FuzzyCompare(brand.Key, availableBrowser.Value) 
-                                || FuzzyCompare(brand.Key + " Browser", availableBrowser.Value)
-                                || FuzzyCompare(brand.Key, availableBrowser.Value + " Browser")
+                            if (FuzzyCompare(brandName, availableBrowser.Value) 
+                                || FuzzyCompare(brandName + " Browser", availableBrowser.Value)
+                                || FuzzyCompare(brandName, availableBrowser.Value + " Browser")
                                 )
                             {
                                 name = availableBrowser.Value;
