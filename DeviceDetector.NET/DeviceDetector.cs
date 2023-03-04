@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.0.2";
+        public const string VERSION = "6.1.0";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -375,12 +375,21 @@ namespace DeviceDetectorNET
         {
             return device.HasValue
                 ? Devices.GetDeviceName(device.Value).Key
-                : null;
+                : null; //todo: string.Empty?
         }
 
+        /**
+         * Returns the device brand extracted from the parsed UA
+         *
+         * @see self::$deviceBrand for available device brands
+         *
+         * @return string
+         *
+         * @deprecated since 4.0 - short codes might be removed in next major release
+         */
         public string GetBrand()
         {
-            return brand;
+            return Devices.GetShortCode(brand);
         }
 
         /// <summary>
@@ -390,7 +399,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public string GetBrandName()
         {
-            return Devices.GetFullName(brand);
+            return brand;
         }
 
         public string GetModel()
@@ -488,7 +497,7 @@ namespace DeviceDetectorNET
 
         private void SaveCacheData(string key)
         {
-            var ent = new DeviceDetectorCachedData()
+            var ent = new DeviceDetectorCachedData
             {
                 Device = device,
                 Brand = brand,
@@ -565,8 +574,10 @@ namespace DeviceDetectorNET
                 var result = clientParser.Parse();
                 if (!result.Success) continue;
 
-                client = new ParseResult<ClientMatchResult>();
-                client.ParserName = clientParser.ParserName;
+                client = new ParseResult<ClientMatchResult>
+                {
+                    ParserName = clientParser.ParserName
+                };
                 client.AddRange(result.Matches);
                 return;
             }
@@ -645,7 +656,8 @@ namespace DeviceDetectorNET
             //See https://developer.chrome.com/multidevice/user-agent#chrome_for_android_user_agent
             //Note: We do not check for browser (family) here, as there might be mobile apps using Chrome, that won't have
             //a detected browser, but can still be detected. So we check the useragent for Chrome instead.
-            if (!device.HasValue && osFamily == "Android" && IsMatchUserAgent(@"Chrome/[\.0-9]*"))
+            if (!device.HasValue && osFamily == "Android" 
+                                 && IsMatchUserAgent(@"Chrome/[\.0-9]*"))
             {
                 if (IsMatchUserAgent(@"(?:Mobile|eliboM) Safari/"))
                 {
@@ -655,6 +667,12 @@ namespace DeviceDetectorNET
                 {
                     device = DeviceType.DEVICE_TYPE_TABLET;
                 }
+            }
+
+            //Some UA contain the fragment 'Pad/APad', so we assume those devices as tablets
+            if (DeviceType.DEVICE_TYPE_SMARTPHONE == device && IsMatchUserAgent("Pad/APad"))
+            {
+                device = DeviceType.DEVICE_TYPE_TABLET;
             }
 
             //Some user agents simply contain the fragment 'Android; Tablet;' or 'Opera Tablet', so we assume those devices as tablets
@@ -725,7 +743,7 @@ namespace DeviceDetectorNET
             }
 
             //All devices that contain Andr0id in string are assumed to be a tv
-            if (IsMatchUserAgent("Andr0id|Android TV"))
+            if (IsMatchUserAgent("Andr0id|Android TV|\\(lite\\) TV"))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
             }
@@ -738,6 +756,12 @@ namespace DeviceDetectorNET
 
             //Devices running Kylo or Espital TV Browsers are assumed to be a TV
             if (!device.HasValue && (clientName == "Kylo" || clientName == "Espial TV Browser"))
+            {
+                device = DeviceType.DEVICE_TYPE_TV;
+            }
+
+            //All devices containing TV fragment are assumed to be a tv
+            if (!device.HasValue && IsMatchUserAgent("\\(TV;"))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
             }
@@ -813,9 +837,10 @@ namespace DeviceDetectorNET
            
             match.Device = new DeviceMatchResult
             {
-                Name = deviceDetector.GetDeviceName(),
-                //Type = deviceDetector.GetDeviceName(),
+                //Name = deviceDetector.GetDeviceName(),
+                Type = deviceDetector.device,
                 Brand = deviceDetector.GetBrandName(),
+                Name = deviceDetector.GetModel(),
             };
             match.DeviceType = deviceDetector.GetDeviceName();
             match.DeviceBrand = deviceDetector.GetBrandName();

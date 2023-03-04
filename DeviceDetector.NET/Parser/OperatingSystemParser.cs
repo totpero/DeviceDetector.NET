@@ -159,7 +159,6 @@ namespace DeviceDetectorNET.Parser
             {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
                                                 "ADR", "CLR", "BOS", "REV", "LEN", "SIR", "RRS" }},
             {"AmigaOS"              , new [] {"AMG", "MOR"}},
-            //{"Apple TV"             , new [] {"ATV"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
             {"Brew"                 , new [] {"BMP"}},
             {"BeOS"                 , new [] {"BEO", "HAI"}},

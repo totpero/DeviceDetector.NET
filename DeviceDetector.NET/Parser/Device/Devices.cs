@@ -1654,5 +1654,20 @@ namespace DeviceDetectorNET.Parser.Device
                 return string.Empty;
             return DeviceBrands.ContainsKey(brandId) ? DeviceBrands[brandId] : string.Empty;
         }
+
+
+        /**
+         * Returns the brand short code for the given name
+         *
+         * @param string $brand brand name
+         *
+         * @return string
+         *
+         * @deprecated since 4.0 - short codes might be removed in next major release
+         */
+        public static string GetShortCode(string brand)
+        {
+            return DeviceBrands.ContainsValue(brand) ? DeviceBrands.FirstOrDefault(x => x.Value == brand).Key : string.Empty;
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace DeviceDetectorNET.Parser.Client
         /// <summary>
         /// 
         /// </summary>
-        private BrowserHints browserHints;
+        private readonly BrowserHints browserHints;
 
         /// <summary>
         /// Known browsers mapped to their internal short codes

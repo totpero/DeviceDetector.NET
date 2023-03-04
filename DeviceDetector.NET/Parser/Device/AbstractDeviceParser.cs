@@ -43,7 +43,7 @@ namespace DeviceDetectorNET.Parser.Device
         [Obsolete("Use Devices.GetDeviceName")]
         public static KeyValuePair<string, int> GetDeviceName(int deviceType)
         {
-            return Devices.DeviceTypes.ContainsValue(deviceType) ? DeviceTypes.FirstOrDefault(t=>t.Value.Equals(deviceType)): new KeyValuePair<string, int>();
+            return Devices.GetDeviceName(deviceType);
         }
 
         /// <summary>

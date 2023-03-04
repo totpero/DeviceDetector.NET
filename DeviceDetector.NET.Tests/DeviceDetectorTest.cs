@@ -225,16 +225,36 @@ namespace DeviceDetectorNET.Tests
 
                 var dd = DeviceDetector.GetInfoFromUserAgent(expected.user_agent, clientHints);
                 dd.Success.Should().BeTrue();
+                
                 dd.Match.OsFamily.Should().BeEquivalentTo(expected.os_family);
                 dd.Match.BrowserFamily.Should().BeEquivalentTo(expected.browser_family);
+
                 if (expected.os != null)
                 {
                     switch (expected.os)
                     {
                         case Dictionary<object, object> { Count: > 0 } dicOs:
                             {
-                                var osName = dicOs["name"];
-                                dd.Match.Os.Name.Should().BeEquivalentTo(osName.ToString());
+                                if (dicOs.TryGetValue("name", out var osName))
+                                {
+                                    dd.Match.Os.Name.Should().BeEquivalentTo(osName.ToString());
+                                }
+                                if (dicOs.TryGetValue("version", out var osVersion))
+                                {
+                                    dd.Match.Os.Version.Should().BeEquivalentTo(osVersion.ToString());
+                                }
+                                if (dicOs.TryGetValue("platform", out var osPlatform))
+                                {
+                                    dd.Match.Os.Platform.Should().BeEquivalentTo(osPlatform.ToString());
+                                }
+                                if (dicOs.TryGetValue("short_name", out var osShortName))
+                                {
+                                    dd.Match.Os.ShortName.Should().BeEquivalentTo(osShortName.ToString());
+                                }
+                                if (dicOs.TryGetValue("family", out var osfamily))
+                                {
+                                    dd.Match.Os.Family.Should().BeEquivalentTo(osfamily.ToString());
+                                }
                                 break;
                             }
                         case List<object> { Count: > 0 }:
@@ -248,12 +268,15 @@ namespace DeviceDetectorNET.Tests
                 {
                     dd.Match.Client.Type.Should().BeEquivalentTo(expected.client.type);
                     dd.Match.Client.Name.Should().BeEquivalentTo(expected.client.name);
+                    dd.Match.Client.Version.Should().BeEquivalentTo(expected.client.version);
+                    //dd.Match.Client.Engine.Should().BeEquivalentTo(expected.client.engine);
+                    //dd.Match.Client.EngineVersion.Should().BeEquivalentTo(expected.client.engine_version);
                 }
 
                 if (expected.device == null) return;
 
                 dd.Match.DeviceType?.Should().BeEquivalentTo(expected.device.type);
-                //dd.Match.DeviceBrand.Should().BeEquivalentTo((expected.device.brand ?? ""));
+                dd.Match.DeviceBrand.Should().BeEquivalentTo((expected.device.brand ?? ""), expected.user_agent);
                 dd.Match.DeviceModel?.Should().BeEquivalentTo((expected.device.model ?? ""));
             });
         }
@@ -296,7 +319,6 @@ namespace DeviceDetectorNET.Tests
 
                 // quick sanity check of Reset()
                 deviceDetector.IsParsed().Should().BeFalse();
-                deviceDetector.GetBrand().Should().BeNullOrEmpty();
                 deviceDetector.GetModel().Should().BeNullOrEmpty();
 
                 deviceDetector.Parse();
@@ -340,8 +362,8 @@ namespace DeviceDetectorNET.Tests
             var path = $"{Utils.CurrentDirectory()}\\{@"fixtures\bots.yml"}";
 
             var parser = new YamlParser<List<BotFixture>>();
-            var _fixtureData = parser.ParseFile(path);
-            foreach (var fixture in _fixtureData)
+            var fixtureData = parser.ParseFile(path);
+            foreach (var fixture in fixtureData)
             {
                 var dd = new DeviceDetector(fixture.user_agent);
                 dd.Parse();
@@ -367,7 +389,7 @@ namespace DeviceDetectorNET.Tests
         }
 
         [Fact]
-        public void TestGetInfoFromUABot()
+        public void TestGetInfoFromUaBot()
         {
             var expected = new DeviceDetectorResult {
                 UserAgent = "Googlebot/2.1 (http://www.googlebot.com/bot.html)",
@@ -392,8 +414,8 @@ namespace DeviceDetectorNET.Tests
         [Fact]
         public void TestParseNoDetails()
         {
-           var user_agent = "Googlebot/2.1 (http://www.googlebot.com/bot.html)";
-            var dd = new DeviceDetector(user_agent);
+           const string userAgent = "Googlebot/2.1 (http://www.googlebot.com/bot.html)";
+            var dd = new DeviceDetector(userAgent);
             dd.DiscardBotInformation();
             dd.Parse();
             dd.IsBot().Should().BeTrue();
@@ -446,7 +468,7 @@ namespace DeviceDetectorNET.Tests
             }
         }
         [Fact]
-        public void TestLRUCache()
+        public void TestLruCache()
         {
             var dd = LRUCachedDeviceDetector.GetDeviceDetector("Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)");
             dd.IsParsed().Should().BeTrue();
