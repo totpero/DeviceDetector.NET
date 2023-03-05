@@ -20,6 +20,8 @@ namespace DeviceDetectorNET.RegexEngine
         
         public bool Match(string input, string pattern)
         {
+            if (string.IsNullOrEmpty(input))
+                return false;
             var match = Regex.Match(input, pattern, RegexOptions.IgnoreCase);
             return match.Success;
         }

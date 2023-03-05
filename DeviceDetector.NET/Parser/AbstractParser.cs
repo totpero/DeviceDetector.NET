@@ -13,7 +13,7 @@ using DeviceDetectorNET.Yaml;
 
 namespace DeviceDetectorNET.Parser
 {
-    public abstract class ParserAbstract<T, TResult>: IParserAbstract<TResult>
+    public abstract class AbstractParser<T, TResult>: IAbstractParser<TResult>
         where T : class, IEnumerable
 //, IParseLibrary
         where TResult : class, IMatchResult, new()
@@ -35,7 +35,17 @@ namespace DeviceDetectorNET.Parser
         public string UserAgent { get; private set; }
 
         /// <summary>
-        ///
+        /// Holds the client hints to be parsed
+        /// </summary>
+        public ClientHints ClientHints { get; protected set; }
+
+        /// <summary>
+        /// Contains a list of mappings from names we use to known client hint values
+        /// </summary>
+        public virtual Dictionary<string, string[]> ClientHintMapping { get; }
+
+        /// <summary>
+        /// Holds an array with method that should be available global
         /// </summary>
         protected string[] globalMethods;
 
@@ -43,6 +53,11 @@ namespace DeviceDetectorNET.Parser
         /// Holds an array with regexes to parse, if already loaded
         /// </summary>
         protected T regexList;
+
+        /// <summary>
+        /// Holds the concatenated regex for all items in regex list
+        /// </summary>
+        //protected List<T> overAllMatch;
 
         /// <summary>
         /// Indicates how deep versioning will be detected
@@ -90,15 +105,25 @@ namespace DeviceDetectorNET.Parser
             throw new NotImplementedException();
         }
 
-        protected ParserAbstract()
+        protected AbstractParser()
         {
             //regexList = new IEnumerable<T>();
         }
 
-        protected ParserAbstract(string ua = "")
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ua"></param>
+        /// <param name="clientHints"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        protected AbstractParser(string ua = "", ClientHints clientHints = null)
         {
-            if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
+            //if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
             UserAgent = ua;
+            if (clientHints != null)
+            {
+                ClientHints = clientHints;
+            }
             //regexList = new List<T>();
         }
 
@@ -127,8 +152,21 @@ namespace DeviceDetectorNET.Parser
         /// <param name="ua"></param>
         public virtual void SetUserAgent(string ua)
         {
-            if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
-            UserAgent = ua;
+            //if (string.IsNullOrEmpty(ua)) throw new ArgumentNullException(nameof(ua));
+            UserAgent = ua ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Sets the client hints to parse
+        /// </summary>
+        /// <param name="clientHints"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public virtual void SetClientHints(ClientHints clientHints)
+        {
+            if (clientHints != null)
+            {
+                ClientHints = clientHints;
+            }
         }
 
         /// <summary>
@@ -182,6 +220,30 @@ namespace DeviceDetectorNET.Parser
         }
 
         /// <summary>
+        /// Returns the provided name after applying client hint mappings.
+        /// This is used to map names provided in client hints to the names we use.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        protected string ApplyClientHintMapping(string name)
+        {
+            name = name.ToLower();
+
+            foreach (var clientHints in ClientHintMapping)
+            {
+                foreach (var clientHint in clientHints.Value)
+                {
+                    if (name == clientHint.ToLower())
+                    {
+                        return clientHints.Key;
+                    }
+                }
+            }
+
+            return name;
+        }
+
+        /// <summary>
         ///
         /// </summary>
         /// <returns></returns>
@@ -212,7 +274,8 @@ namespace DeviceDetectorNET.Parser
         private string FixUserAgentRegEx(string regex)
         {
             var cleanedRegex = regex.Replace("/", @"\/").Replace("++", "+").Replace(@"\_", "_").Replace(@"\_", @"\\_");
-            var result = $@"(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-)(?:{cleanedRegex})";
+            // only match if useragent begins with given regex or there is no letter before it
+            var result = $@"(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-|MZ-)(?:{cleanedRegex})";
             return result;
         }
 
@@ -351,6 +414,17 @@ namespace DeviceDetectorNET.Parser
                 RegexEngine = new MSRegexCompiledEngine();
 
             return RegexEngine;
+        }
+
+        /// <summary>
+        /// Compares if two strings equals after lowering their case and removing spaces
+        /// </summary>
+        /// <param name="value1"></param>
+        /// <param name="value2"></param>
+        /// <returns></returns>
+        protected bool FuzzyCompare(string value1, string value2)
+        {
+            return value1.Replace(" ", "").ToLower() == value2.Replace(" ", "").ToLower();
         }
     }
 }

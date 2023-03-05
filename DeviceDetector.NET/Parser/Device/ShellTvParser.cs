@@ -5,7 +5,7 @@ using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public class ShellTvParser : DeviceParserAbstract<IDictionary<string, DeviceModel>>
+    public class ShellTvParser : AbstractDeviceParser<IDictionary<string, DeviceModel>>
     {
         public ShellTvParser()
         {
@@ -28,15 +28,13 @@ namespace DeviceDetectorNET.Parser.Device
 
             if (result.Success) return result;
 
-            result.Add(new DeviceMatchResult
-                {Brand = string.Empty, Name = string.Empty, Type = deviceType});
-
+            result.Add(GetResult());
             return result;
         }
 
         public bool IsShellTv()
         {
-            const string regex = @"[a-z]+[ _]Shell[ _]\w{6}";
+            const string regex = @"[a-z]+[ _]Shell[ _]\w{6}|tclwebkit(\d+[\.\d]*)";
             return IsMatchUserAgent(regex);
         }
     }

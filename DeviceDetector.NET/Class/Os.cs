@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
 namespace DeviceDetectorNET.Class
@@ -10,6 +11,7 @@ namespace DeviceDetectorNET.Class
         public string Name { get; set; }
         [YamlMember(Alias = "version")]
         public string Version { get; set; }
-
+        [YamlMember(Alias = "versions")]
+        public List<OsVersion> Versions { get; set; }
     }
 }

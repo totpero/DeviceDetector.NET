@@ -19,10 +19,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="regexes\**\*" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="regexes\**\*" />
   </ItemGroup>
 

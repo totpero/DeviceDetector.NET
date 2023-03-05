@@ -2,7 +2,7 @@
 
 namespace DeviceDetectorNET.Parser
 {
-    public interface IBotParserAbstract: IParserAbstract<BotMatchResult>
+    public interface IBotParserAbstract: IAbstractParser<BotMatchResult>
     {
         bool DiscardDetails { get; set; }
     }

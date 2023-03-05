@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public abstract class DeviceParserAbstract<T> : ParserAbstract<T, DeviceMatchResult>, IDeviceParserAbstract
+    public abstract class AbstractDeviceParser<T> : AbstractParser<T, DeviceMatchResult>, IDeviceParserAbstract
         where T : class, IDictionary<string, DeviceModel>
     {
         protected string model;
@@ -43,7 +43,7 @@ namespace DeviceDetectorNET.Parser.Device
         [Obsolete("Use Devices.GetDeviceName")]
         public static KeyValuePair<string, int> GetDeviceName(int deviceType)
         {
-            return Devices.DeviceTypes.ContainsValue(deviceType) ? DeviceTypes.FirstOrDefault(t=>t.Value.Equals(deviceType)): new KeyValuePair<string, int>();
+            return Devices.GetDeviceName(deviceType);
         }
 
         /// <summary>
@@ -77,6 +77,11 @@ namespace DeviceDetectorNET.Parser.Device
         public override ParseResult<DeviceMatchResult> Parse()
         {
             var result = new ParseResult<DeviceMatchResult>();
+
+            var resultClientHint = ParseClientHints();
+            if (string.IsNullOrEmpty(resultClientHint.Model) && HasDesktopFragment())
+                return result;
+
             var regexes = regexList.ToList();
 
             if (!regexes.Any()) return result;
@@ -94,24 +99,29 @@ namespace DeviceDetectorNET.Parser.Device
                 }
             }
 
-            if (localMatches == null) return result;
+            if (localMatches == null)
+            {
+                return result;
+            }
 
             if (!localDevice.Key.Equals(UnknownBrand))
             {
-                var localBrand = Devices.DeviceBrands.SingleOrDefault(x => x.Value == localDevice.Key).Key;
+                var localBrand = Devices.DeviceBrands.SingleOrDefault(x => x.Value == localDevice.Key).Value;
                 if (string.IsNullOrEmpty(localBrand))
                 {
                     // This Exception should never be thrown. If so a defined brand name is missing in DeviceBrands
                     throw new Exception("The brand with name '"+ localDevice.Key + "' should be listed in the deviceBrands array. Tried to parse user agent: "+ UserAgent);
                 }
-                brand = localBrand;
+                brand = localBrand; //localDevice.Key
             }
 
             if (localDevice.Value.Device != null && Devices.DeviceTypes.TryGetValue(localDevice.Value.Device, out var localDeviceType))
             {
                 deviceType = localDeviceType;
             }
+
             model = string.Empty;
+
             if (!string.IsNullOrEmpty(localDevice.Value.Name))
             {
                 model = BuildModel(localDevice.Value.Name, localMatches);
@@ -133,7 +143,7 @@ namespace DeviceDetectorNET.Parser.Device
                 }
 
                 if (localModelMatches == null) {
-                    result.Add(new DeviceMatchResult { Name = model, Brand = brand, Type = deviceType });
+                    result.Add(GetResult());
                     return result;
                 }
 
@@ -144,7 +154,7 @@ namespace DeviceDetectorNET.Parser.Device
                     var localBrand = Devices.DeviceBrands.SingleOrDefault(x => x.Value == localModel.Brand).Key;
                     if (!string.IsNullOrEmpty(localBrand))
                     {
-                        brand = localBrand;
+                        brand = localModel.Brand;
                     }
                 }
                 if (localModel.Device != null && Devices.DeviceTypes.TryGetValue(localModel.Device, out localDeviceType))
@@ -152,7 +162,7 @@ namespace DeviceDetectorNET.Parser.Device
                     deviceType = localDeviceType;
                 }
             }
-            result.Add(new DeviceMatchResult { Name = model, Brand = brand, Type = deviceType });
+            result.Add(GetResult());
 
             return result;
         }
@@ -165,7 +175,36 @@ namespace DeviceDetectorNET.Parser.Device
             model = GetRegexEngine().Replace(model, " TD$", string.Empty);
             model = model.Replace("$1", "");
 
-            return model == "Build" ? null : model;
+            return model == "Build" ? null : model.Trim();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        protected DeviceMatchResult ParseClientHints()
+        {
+            if (ClientHints != null && !string.IsNullOrEmpty(ClientHints.GetModel()))
+            {
+                return new DeviceMatchResult
+                {
+                    Type = null,
+                    Name = ClientHints.GetModel(),
+                    Brand = string.Empty
+                };
+            }
+            return new DeviceMatchResult();
+        }
+
+        /// <summary>
+        /// Returns if the parsed UA contains the 'Windows NT;' or 'X11; Linux x86_64' fragments
+        /// </summary>
+        /// <returns></returns>
+        protected bool HasDesktopFragment()
+        {
+            return IsMatchUserAgent("(?:Windows (?:NT|IoT)|X11; Linux x86_64)") && 
+                !IsMatchUserAgent(" Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser") && 
+                !IsMatchUserAgent("Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)");
         }
 
         protected void Reset()
@@ -173,6 +212,16 @@ namespace DeviceDetectorNET.Parser.Device
             deviceType = null;
             model = null;
             brand = null;
+        }
+
+        protected DeviceMatchResult GetResult()
+        {
+            return new DeviceMatchResult
+            {
+                Type = deviceType,
+                Name = model,
+                Brand = brand,
+            };
         }
     }
 }

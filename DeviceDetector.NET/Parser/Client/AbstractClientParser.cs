@@ -6,21 +6,35 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public abstract class ClientParserAbstract<T> : ParserAbstract<T, ClientMatchResult>, IClientParserAbstract
+    public abstract class AbstractClientParser<T> : AbstractParser<T, ClientMatchResult>, IAbstractClientParser
         where T : class, IEnumerable<IClientParseLibrary>
         // where TResult : class, IClientMatchResult, new()
 
     {
-        protected ClientParserAbstract()
+        protected AbstractClientParser()
         {
 
         }
 
-        protected ClientParserAbstract(string ua) : base(ua)
+        protected AbstractClientParser(string ua, ClientHints clientHints = null) : base(ua, clientHints)
         {
 
         }
 
+        /**
+        * Parses the current UA and checks whether it contains any client information
+        *
+        * @see $fixtureFile for file with list of detected clients
+        *
+        * Step 1: Build a big regex containing all regexes and match UA against it
+        * -> If no matches found: return
+        * -> Otherwise:
+        * Step 2: Walk through the list of regexes in feed_readers.yml and try to match every one
+        * -> Return the matched feed reader
+        *
+        * NOTE: Doing the big match before matching every single regex speeds up the detection
+        *
+        */
         public new virtual ParseResult<ClientMatchResult> Parse()
         {
             var result = new ParseResult<ClientMatchResult>();

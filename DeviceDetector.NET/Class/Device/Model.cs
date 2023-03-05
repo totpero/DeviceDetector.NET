@@ -6,6 +6,9 @@ namespace DeviceDetectorNET.Class.Device
     {
         [YamlMember(Alias = "regex")]
         public string Regex { get; set; }
+        /// <summary>
+        /// Model
+        /// </summary>
         [YamlMember(Alias = "model")]
         public string Name { get; set; }
         [YamlMember(Alias = "device")] //mobile

@@ -7,7 +7,7 @@ using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client.Browser.Engine
 {
-    public class VersionParser : ClientParserAbstract<List<IClientParseLibrary>>
+    public class VersionParser : AbstractClientParser<List<IClientParseLibrary>>
     {
         private readonly string _engine;
         public VersionParser(string ua, string engine):base(ua)
@@ -27,15 +27,23 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
 
             if (string.Compare(_engine, "Gecko", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                matches = GetRegexEngine().MatchesUniq(UserAgent, @"\s(?:rv[: ]([0-9\.]+)).*gecko/(?:[0-9]{8,10}|[0-9]+\.[0-9]+)")
-                                              .ToArray();
+                matches = GetRegexEngine()
+                                    .MatchesUniq(UserAgent, @"[ ](?:rv[: ]([0-9\.]+)).*gecko/[0-9]{2,10}").ToArray();
             }
             else
             {
+                var engineToken = _engine;
+
+                if (string.Compare(_engine, "Blink", StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    engineToken = "Chrome";
+                }
+
                 matches = GetRegexEngine()
-                              .MatchesUniq(UserAgent,
-                                  _engine + @"\s*\/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{1,7}(?=(?:\D|$))))").ToArray();
+                                  .MatchesUniq(UserAgent,
+                                      $@"{engineToken}\s*/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{{1,7}}(?=(?:\D|$))))").ToArray();
             }
+            
 
             if (matches.Length <= 0) return result;
 

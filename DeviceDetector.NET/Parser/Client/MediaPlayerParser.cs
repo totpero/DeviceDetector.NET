@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using DeviceDetectorNET.Class.Client;
-using DeviceDetectorNET.Results.Client;
 
 namespace DeviceDetectorNET.Parser.Client
 {
-    public class MediaPlayerParser : ClientParserAbstract<List<MediaPlayer>>
+    public class MediaPlayerParser : AbstractClientParser<List<MediaPlayer>>
     {
         public MediaPlayerParser()
         {

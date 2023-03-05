@@ -23,7 +23,7 @@ namespace DeviceDetectorNET.Tests.Parser
             //replace null
             _fixtureData = _fixtureData.Select(f =>
             {
-                f.vendor = f.vendor ?? "";
+                f.vendor ??= string.Empty;
                 return f;
             }).ToList();
         }

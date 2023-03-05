@@ -8,7 +8,7 @@ namespace DeviceDetectorNET.Parser
     /// Class BotParserAbstract
     /// Abstract class for all bot parsers
     /// </summary>
-    public class BotParser : BotParserAbstract<List<Bot>>
+    public class BotParser : AbstractBotParser<List<Bot>>
     {
         public BotParser()
         {

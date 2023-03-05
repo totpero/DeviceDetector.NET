@@ -9,10 +9,13 @@ namespace DeviceDetectorNET.Web.Controllers
     {
         public IActionResult Index()
         {
-            DeviceDetectorNET.DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
+            DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
 
             var userAgent = Request.Headers["User-Agent"];
-            var result = DeviceDetectorNET.DeviceDetector.GetInfoFromUserAgent(userAgent);
+
+            //var headers = Request.Headers.ToDictionary(a => a.Key, a => a.Value);
+
+            var result = DeviceDetector.GetInfoFromUserAgent(userAgent);
 
             var output = result.Success ? result.ToString().Replace(Environment.NewLine, "<br />") : "Unknown";
 

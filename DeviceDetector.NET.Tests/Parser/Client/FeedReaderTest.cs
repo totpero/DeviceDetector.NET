@@ -23,7 +23,7 @@ namespace DeviceDetectorNET.Tests.Parser.Client
             //replace null
             _fixtureData = _fixtureData.Select(f =>
             {
-                f.client.version = f.client.version ?? "";
+                f.client.version = f.client.version ?? string.Empty;
                 return f;
             }).ToList();
         }
@@ -39,8 +39,9 @@ namespace DeviceDetectorNET.Tests.Parser.Client
                 result.Success.Should().BeTrue("Match should be with success");
 
                 result.Match.Name.Should().BeEquivalentTo(fixture.client.name,"Names should be equal");
-                result.Match.Type.Should().BeEquivalentTo(fixture.client.type, "Types should be equal");
                 result.Match.Version.Should().BeEquivalentTo(fixture.client.version, "Versions should be equal");
+
+                result.Match.Type.Should().BeEquivalentTo(fixture.client.type, "Types should be equal");
             }
         }
     }

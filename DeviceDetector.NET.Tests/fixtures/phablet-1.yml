@@ -1,0 +1,789 @@
+---
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; SM-F721U Build/SP2A.220305.013; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/105.0.5195.136 Mobile Safari/537.36 Instagram 255.1.0.17.102 Android (32/12; 480dpi; 1080x2402; samsung; SM-F721U; b4q; qcom; en_US; 405431927)
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: mobile app
+    name: Instagram App
+    version: 255.1.0.17.102
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Z Flip 4
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; arm_64; Android 11; Note 13P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.124 YaBrowser/22.9.5.73.00 SA/3 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "11"
+    platform: ARM
+  client:
+    type: browser
+    name: Yandex Browser
+    version: 22.9.5.73.00
+    engine: Blink
+    engine_version: 104.0.5112.124
+  device:
+    type: phablet
+    brand: Ulefone
+    model: Note 13P
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; arm_64; Android 11; Note 12P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.114 YaSearchBrowser/22.94.1 BroPP/1.0 YaSearchApp/22.94.1 webOmni SA/3 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "11"
+    platform: ARM
+  client:
+    type: browser
+    name: Yandex Browser
+    version: 22.94.1
+    engine: Blink
+    engine_version: 104.0.5112.114
+  device:
+    type: phablet
+    brand: Ulefone
+    model: Note 12P
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; 22061218C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Mobile Safari/537.36 EdgA/105.0.1343.27
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Microsoft Edge
+    version: 105.0.1343.27
+    engine: Blink
+    engine_version: 105.0.0.0
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Mix Fold 2
+  os_family: Android
+  browser_family: Internet Explorer
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; TECNO LG7n) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.5060.129 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 103.0.5060.129
+    engine: Blink
+    engine_version: 103.0.5060.129
+  device:
+    type: phablet
+    brand: Tecno Mobile
+    model: Pova 4
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; arm_64; Android 12; Infinix X6819) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 YaBrowser/22.9.1.98.00 SA/3 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ARM
+  client:
+    type: browser
+    name: Yandex Browser
+    version: 22.9.1.98.00
+    engine: Blink
+    engine_version: 104.0.5112.102
+  device:
+    type: phablet
+    brand: Infinix
+    model: Note 12i
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; Android 8.1.0; rr_fortuna3g) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.93 Mobile Safari/537.36
+  os:
+    name: Resurrection Remix OS
+    version: "6"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 79.0.3945.93
+    engine: Blink
+    engine_version: 79.0.3945.93
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Grand Prime
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; arm_64; Android 12; TECNO LG8n) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.124 YaApp_Android/22.95.1 YaSearchBrowser/22.95.1 BroPP/1.0 SA/3 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ARM
+  client:
+    type: browser
+    name: Yandex Browser
+    version: 22.95.1
+    engine: Blink
+    engine_version: 104.0.5112.124
+  device:
+    type: phablet
+    brand: Tecno Mobile
+    model: Pova 4 Pro
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; arm_64; Android 12; Infinix X676C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.124 YaSearchBrowser/22.98.1 BroPP/1.0 YaSearchApp/22.98.1 webOmni SA/3 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ARM
+  client:
+    type: browser
+    name: Yandex Browser
+    version: 22.98.1
+    engine: Blink
+    engine_version: 104.0.5112.124
+  device:
+    type: phablet
+    brand: Infinix
+    model: Note 12 (2023)
+  os_family: Android
+  browser_family: Unknown
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; SC-54C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 106.0.0.0
+    engine: Blink
+    engine_version: 106.0.0.0
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Z Flip 4
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; SCG16) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome
+    version: 106.0.0.0
+    engine: Blink
+    engine_version: 106.0.0.0
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Z Fold 4
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; SC-55C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 106.0.0.0
+    engine: Blink
+    engine_version: 106.0.0.0
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Z Fold 4
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; SM-W9023 Build/SP2A.220305.013; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/102.0.5005.125 Mobile Safari/537.36 SearchWidget
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Webview
+    version: 102.0.5005.125
+    engine: Blink
+    engine_version: 102.0.5005.125
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy W23 Fold
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; Infinix X6820) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 107.0.0.0
+    engine: Blink
+    engine_version: 107.0.0.0
+  device:
+    type: phablet
+    brand: Infinix
+    model: Zero Ultra
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Dalvik/2.1.0 (Linux; U; Android 5.1; EGO Phab 3G Build/LMY47D)
+  os:
+    name: Android
+    version: "5.1"
+    platform: ""
+  client:
+    type: browser
+    name: Android Browser
+    version: ""
+    engine: WebKit
+    engine_version: ""
+  device:
+    type: phablet
+    brand: Torque
+    model: EGO Phab 3G
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; 22021119KR) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 107.0.0.0
+    engine: Blink
+    engine_version: 107.0.0.0
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 10T
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; V2229A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome
+    version: 107.0.0.0
+    engine: Blink
+    engine_version: 107.0.0.0
+  device:
+    type: phablet
+    brand: Vivo
+    model: X Fold+
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; SCG17) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 106.0.0.0
+    engine: Blink
+    engine_version: 106.0.0.0
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Z Flip 4
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 5.1.1; SAMSUNG-SM-N920A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36
+  os:
+    name: Android
+    version: 5.1.1
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 87.0.4280.101
+    engine: Blink
+    engine_version: 87.0.4280.101
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Note 5
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 5.1.1; SAMSUNG-SM-N915A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.127 Mobile Safari/537.36
+  os:
+    name: Android
+    version: 5.1.1
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 85.0.4183.127
+    engine: Blink
+    engine_version: 85.0.4183.127
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Note 4 Edge
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 5.1.1; SAMSUNG-SM-N910A) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36
+  os:
+    name: Android
+    version: 5.1.1
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 87.0.4280.101
+    engine: Blink
+    engine_version: 87.0.4280.101
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Note 4
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.4.4; SM-G530FZ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36
+  os:
+    name: Android
+    version: 4.4.4
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 81.0.4044.138
+    engine: Blink
+    engine_version: 81.0.4044.138
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Grand Prime
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 4.4.4; SM-G530Y) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36
+  os:
+    name: Android
+    version: 4.4.4
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 81.0.4044.138
+    engine: Blink
+    engine_version: 81.0.4044.138
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Grand Prime
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 12; zh-CN; 22101316C Build/SP1A.210812.016) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/78.0.3904.108 Quark/6.0.8.236 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Quark
+    version: 6.0.8.236
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 12 Pro
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 11; 22087RA4DI) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/106.0.0.0 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "11"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 106.0.0.0
+    engine: Blink
+    engine_version: 106.0.0.0
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11 SE
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; 22101316UCP) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 108.0.0.0
+    engine: Blink
+    engine_version: 108.0.0.0
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 12 Pro+
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; SM-F721C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 107.0.0.0
+    engine: Blink
+    engine_version: 107.0.0.0
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Z Flip 4
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 13; SAMSUNG SM-F7210) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/19.0 Chrome/102.0.5005.125 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "13"
+    platform: ""
+  client:
+    type: browser
+    name: Samsung Browser
+    version: "19.0"
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Samsung
+    model: Galaxy Z Flip 4
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 11; ru-ru; Redmi Note 11S 5G Build/RP1A.200720.011) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.18.0-gn
+  os:
+    name: Android
+    version: "11"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.18.0
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11S 5G
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 11; uz-uz; Redmi Note 11 4G Build/RP1A.200720.011) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.20.0-gn
+  os:
+    name: Android
+    version: "11"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.20.0
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11 4G
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 11; uz-uz; Redmi Note 11 Pro 5G Build/RKQ1.211001.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.14.1-gn
+  os:
+    name: Android
+    version: "11"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.14.1
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11 Pro 5G
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 11; uz-uz; Redmi Note 11 SE Build/RP1A.200720.011) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.18.0-gn
+  os:
+    name: Android
+    version: "11"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.18.0
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11 SE
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 12; en-us; Redmi Note 12 Pro Build/SP1A.210812.016) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.19.2-gn
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.19.2
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 12 Pro
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 12; az-az; Redmi Note 11 Pro+ 5G Build/SP1A.210812.016) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.15.0-gn
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.15.0
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11 Pro+ 5G
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 12; uz-uz; Redmi Note 11E Build/SP1A.210812.016) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.21.0-gn
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.21.0
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11E
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 12; ru-ru; Redmi Note 11T 5G Build/SP1A.210812.016) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.19.2-gn
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.19.2
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11T 5G
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 12; ru-ru; Redmi Note 10T 5G Build/SP1A.210812.016) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.17.0-gn
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.17.0
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 10T 5G
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 12; uz-uz; Redmi Note 11R Build/SP1A.210812.016) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.19.2-gn
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.19.2
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11R
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 11; ru-ru; Redmi Note 11 Pro+ Build/RP1A.200720.011) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.116 Mobile Safari/537.36 XiaoMi/MiuiBrowser/12.22.0-gn
+  os:
+    name: Android
+    version: "11"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 12.22.0
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11 Pro+
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 12; ru-ru; Redmi Note 11E Pro Build/SKQ1.211006.001) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.19.2-gn
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.19.2
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11E Pro
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 12; ru-ru; Redmi Note 11T Pro Build/SP1A.210812.016) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/100.0.4896.127 Mobile Safari/537.36 XiaoMi/MiuiBrowser/13.16.0-gn
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 13.16.0
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11T Pro
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; U; Android 11; ru-ru; Redmi Note 9 4G Build/RKQ1.201004.002) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/89.0.4389.116 Mobile Safari/537.36 XiaoMi/MiuiBrowser/12.16.2-gn
+  os:
+    name: Android
+    version: "11"
+    platform: ""
+  client:
+    type: browser
+    name: MIUI Browser
+    version: 12.16.2
+    engine: WebKit
+    engine_version: "537.36"
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 9
+  os_family: Android
+  browser_family: Android Browser
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; 22095RA98C) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: browser
+    name: Chrome Mobile
+    version: 109.0.0.0
+    engine: Blink
+    engine_version: 109.0.0.0
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 11R 5G
+  os_family: Android
+  browser_family: Chrome
+-
+  user_agent: Mozilla/5.0 (Linux; Android 12; 22101316UC Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/103.0.5060.129 Mobile Safari/537.36 SP-engine/2.40.0 baiduboxapp/13.2.0.10 (Baidu; P1 12) NABar/1.0
+  os:
+    name: Android
+    version: "12"
+    platform: ""
+  client:
+    type: mobile app
+    name: Baidu Box App
+    version: 13.2.0.10
+  device:
+    type: phablet
+    brand: Xiaomi
+    model: Redmi Note 12 Pro DE
+  os_family: Android
+  browser_family: Unknown

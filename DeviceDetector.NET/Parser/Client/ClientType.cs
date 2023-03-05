@@ -9,14 +9,14 @@ namespace DeviceDetectorNET.Parser.Client
         public static ClientType MobileApp => new ClientType(new MobileAppParser());
         public static ClientType PIM => new ClientType(new PimParser());
 
-        private ClientType(IClientParserAbstract client)
+        private ClientType(IAbstractClientParser client)
         {
             Client = client;
             Name = client.ParserName;
             FixtureFile = client.FixtureFile;
         }
 
-        public IClientParserAbstract Client { get; }
+        public IAbstractClientParser Client { get; }
         public string Name { get; }
         public string FixtureFile { get; }
     }

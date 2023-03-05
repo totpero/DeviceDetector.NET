@@ -5,7 +5,7 @@ using DeviceDetectorNET.Results.Device;
 
 namespace DeviceDetectorNET.Parser.Device
 {
-    public class NotebookParser : DeviceParserAbstract<IDictionary<string, DeviceModel>>
+    public class NotebookParser : AbstractDeviceParser<IDictionary<string, DeviceModel>>
     {
         public NotebookParser()
         {
@@ -18,10 +18,10 @@ namespace DeviceDetectorNET.Parser.Device
         {
             var result = new ParseResult<DeviceMatchResult>();
 
-            //if (IsMatchUserAgent("FBMD/"))
-            //{
-            //    return result;
-            //}
+            if (!IsMatchUserAgent("FBMD/"))
+            {
+                return result;
+            }
             return PreMatchOverall() ? base.Parse() : result;
         }
     }
