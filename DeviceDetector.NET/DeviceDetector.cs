@@ -27,6 +27,7 @@ namespace DeviceDetectorNET
         /// Constant used as value for unknown browser / os
         /// </summary>
         public const string UNKNOWN = "UNK";
+        public const string UNKNOWN_FULL = "Unknown";
 
         /// <summary>
         /// Holds the useragent that should be parsed
@@ -597,7 +598,7 @@ namespace DeviceDetectorNET
                 var result = deviceParser.Parse();
                 if (!result.Success) continue;
 
-                var parserName = deviceParser.ParserName;
+                //var parserName = deviceParser.ParserName;
                 device = result.Match.Type;
                 model = result.Match.Name;
                 brand = result.Match.Brand;
@@ -829,7 +830,7 @@ namespace DeviceDetectorNET
             if (deviceDetector.os.Success)
             {
                 var osFamily = deviceDetector.os.Match.Family;
-                match.OsFamily = osFamily ?? "Unknown";
+                match.OsFamily = osFamily ?? UNKNOWN_FULL;
             }
 
             match.Os = deviceDetector.os.Match;

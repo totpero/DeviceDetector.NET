@@ -326,7 +326,8 @@ namespace DeviceDetectorNET
                         break;
                 }
             }
-            ClientHints clientHints = new ClientHints(model,platform,platformVersion,uaFullVersion, fullVersionList, mobile,architecture,bitness,app);
+
+            var clientHints = new ClientHints(model, platform, platformVersion, uaFullVersion, fullVersionList, mobile, architecture, bitness, app);
             return clientHints;
         }
     }

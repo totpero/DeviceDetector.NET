@@ -4,6 +4,7 @@ using DeviceDetectorNET.Parser.Device;
 using DeviceDetectorNET.Tests.Class.Client.Device;
 using DeviceDetectorNET.Yaml;
 using Xunit;
+using DeviceDetectorNET.Tests.Class.Client;
 
 namespace DeviceDetectorNET.Tests.Parser.Devices
 {
@@ -38,21 +39,13 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
                 var result = consoleParser.Parse();
                 result.Success.Should().BeTrue("Match should be with success to " + fixture.device.model);
 
-                result.Match.Name.Should().BeEquivalentTo(fixture.device.model, "Names should be equal");
-                DeviceDetectorNET.Parser.Device.Devices.GetFullName(result.Match.Brand).Should()
-                                 .BeEquivalentTo(fixture.device.brand, "Brand should be equal");
                 result.Match.Type.Should().Be(DeviceDetectorNET.Parser.Device.Devices.DeviceTypes[fixture.device.type],
                     "Types should be equal");
-            }
-        }
 
-        [Fact]
-        public void Test()
-        {
-            var ua = @"Mozilla/5.0 (Linux; Android 4.2.2; ARCHOS 101 PLATINUM Build/JDQ39) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1847.114 Safari/537.36";
-            var consoleParser = new ConsoleParser();
-            consoleParser.SetUserAgent(ua);
-            consoleParser.Parse();
+                result.Match.Brand.Should().BeEquivalentTo(fixture.device.brand, "Brand should be equal");
+                result.Match.Model.Should().BeEquivalentTo(fixture.device.model, "Model should be equal");
+
+            }
         }
     }
 }

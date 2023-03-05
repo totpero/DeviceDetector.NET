@@ -106,13 +106,13 @@ namespace DeviceDetectorNET.Parser.Device
 
             if (!localDevice.Key.Equals(UnknownBrand))
             {
-                var localBrand = Devices.DeviceBrands.SingleOrDefault(x => x.Value == localDevice.Key).Key;
+                var localBrand = Devices.DeviceBrands.SingleOrDefault(x => x.Value == localDevice.Key).Value;
                 if (string.IsNullOrEmpty(localBrand))
                 {
                     // This Exception should never be thrown. If so a defined brand name is missing in DeviceBrands
                     throw new Exception("The brand with name '"+ localDevice.Key + "' should be listed in the deviceBrands array. Tried to parse user agent: "+ UserAgent);
                 }
-                brand = localBrand;
+                brand = localBrand; //localDevice.Key
             }
 
             if (localDevice.Value.Device != null && Devices.DeviceTypes.TryGetValue(localDevice.Value.Device, out var localDeviceType))
@@ -154,7 +154,7 @@ namespace DeviceDetectorNET.Parser.Device
                     var localBrand = Devices.DeviceBrands.SingleOrDefault(x => x.Value == localModel.Brand).Key;
                     if (!string.IsNullOrEmpty(localBrand))
                     {
-                        brand = localBrand;
+                        brand = localModel.Brand;
                     }
                 }
                 if (localModel.Device != null && Devices.DeviceTypes.TryGetValue(localModel.Device, out localDeviceType))

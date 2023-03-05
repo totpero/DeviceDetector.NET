@@ -13,6 +13,14 @@
     name: 'Plesk International GmbH'
     url: 'https://www.plesk.com'
 
+- regex: 'Cloudflare-Healthchecks'
+  name: 'Cloudflare Health Checks'
+  category: 'Service Agent'
+  url: 'https://developers.cloudflare.com/health-checks/'
+  producer:
+    name: 'CloudFlare'
+    url: 'http://www.cloudflare.com'
+
 - regex: '360Spider'
   name: '360Spider'
   category: 'Search bot'
@@ -3276,6 +3284,14 @@
   producer:
     name: 'IAB Technology Laboratory, Inc.'
     url: 'https://iabtechlab.com/'
+
+- regex: 'Morningscore'
+  name: 'Morning Score'
+  category: 'Crawler'
+  url: 'https://morningscore.io/'
+  producer:
+    name: 'Morningscore'
+    url: 'https://morningscore.io/'
 
 # Generic detections
 - regex: '[a-z0-9\-_]*((?<!cu|power[ _]|m[ _])bot(?![ _]TAB|[ _]?5[0-9]|[ _]Senior|[ _]Junior)|crawler|crawl|checker|archiver|transcoder|spider)([^a-z]|$)'
