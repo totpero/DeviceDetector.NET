@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;Net462</TargetFrameworks>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
-    <Version>4.3.2</Version>
+    <Version>6.1.0</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression></PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
@@ -12,10 +12,91 @@
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>4.3.2.0</AssemblyVersion>
+    <AssemblyVersion>6.1.0.0</AssemblyVersion>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
     <SignAssembly>false</SignAssembly>
-    <FileVersion>4.3.2.0</FileVersion>
+    <FileVersion>6.1.0.0</FileVersion>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>### What's Changed
+
+### V6.1.0:
+- Detect new brands: Vormor, Oangcc, SOSH and Detect devices for existing brands Vivo, Xiaomi, Sharp, ZTE 
+- Detect mobile apps: Audible, Overcast
+- Detect Wolvic VR Browser
+- Detect bot: GumGum Verity
+- Detect new brands: Everex, GTMEDIA, Guophone, Unitech and Detect devices for existing brands
+- Detect new brands: ViBox, WANSA, XElectron and Detect devices for existing brands: Samsung, ZTE, Xiaomi, iTel 
+- Detect devices for exists brands: LG, Energy Sistem, SmartBook, Arnova 
+- Detect new brand BMXC and Detect devices for exist brands 
+- Detect new brands: V-Gen, Nedaphone and Detect devices for exist brands
+- Detect new brands: Frunsi, RelNAT, TeloSystems, MIWANG and Detect devices for exist brands 
+- Fix possible error if an incorrect version list array is provided
+- Detect new brands: HeadWolf, Great Asia, Zamolxe, ZoomSmart and Detect devices for exist brands
+- Detect new brands: PC Smart, Ephone, YunSong, SYH, iRobot and Detect devices for exist brands
+- Overwrite device type smartphone - if UA contains a'prefix, Pad/APad
+- Detect new brands: Attila, BRAVE and Detect devices for exist brands
+- Detect new brands: Roam Cat, DIMO, Everest, SANY and Detect devices for exist brands
+
+### V6.0.6:
+
+- Fixed comment typo
+- Ensure to use correct cache for client hints parsing
+- Detect new brands: LPX-G, GIRASOLE, MOVISUN, Sankey, VALTECH, Samtech and Detect devices for existing brands
+- Detect new brands: MwalimuPlus, OLTO, DSIC, Mascom and Detect devices for existing brands Vivo, Xiaomi, Sharp
+
+### V6.0.5:
+
+- Adds Plesk 360 Monitoring detection
+- Detect brand LG: 43UT782H0ZA
+- Detect devices for existing brands and new brands
+- Adds client hints test for Brave browser
+- Detect new brands : AMA, OSCAL and detect existing brand : Philips, Stylo, DEXP, X96, H96, Gionee, Wiko
+- Detect existing brand : Vivo, Zebra, Oppo, Xiaomi, Tecno, Samsung
+- Detect new brands : Hiberg, Hartens and detect existing brand : Infinix
+- Detect new brands : UE, Hykker
+- Improved detection of office apps and detect ZorinOS
+- Detect new brands : Fluo, Quatro and detect existing brand : iLife, Nvidia, Toshiba, Smooth Mobile, Samsung, Allwinner, China Mobile
+- Change client family to null instead of empty string for consistency
+- Detect new brands : ALLINmobile and detect existing brand : Dell, Coolpad, Mint, Tecno Mobile
+- Detect new brands : Uniden and detect existing brand : Vivo, Infinix
+- Detect new brands : TETC, Vizmo and detect existing brand : Oppo, Google. Samsung, Huawei, Sony, Cherry, Evercoss
+- Adds detection for various libraries and improve detection for iPadOS
+- Adds client hints test for Brave browser
+- Detect new brand : 10moons and detect existing brand : iBrit, iVooMi, Samsung, LG
+- Detect new brands : Farassoo, Ophone, XWave and detect existing brand : InFone
+- Detect new brands : Foxxd, K-Lite and Detect devices for existing brand: Hotwav
+- Detect new brands: DEALDIG, MygPad, TecToy and Detect devices for existing brands: MyPhone, ZTE, iTel
+- Improves detection for Android and Oculus Browser
+- Detect new brands: Fxtec, Maxfone, NEKO, Netmak and Detect devices for existing brands
+- Add Axios library
+- Detect new brands: Mosimosi, Mobell, Smartex, Citycall and Detect devices for existing brands
+- Detect existing brand: Digma, Condor, Samsung, iDroid, BQ, Gigabyte, Santin
+- Detect new brands: DEYI, JoySurf, VIVIMAGE, X-Mobile and Detect devices for existing brands: Vivo, Huawei, Sharp, HTC
+- Improves detection for Iridium browser
+- Run tests on PHP 8.2
+- Improves version detection for iOS, iPadOS and macOS
+- Adds detection for Movitel, Moxee, Olax, Olympia, Uniqcell, Yestel, Youin brands and improves detection for Alcatel, Andowl, Archos, AT&amp;T, Bmobile, Cellution, Cricket, Crosscall, Facetel, Huawei, iPro, Kalley, Konrow, LOGIC, Mediacom, Multilaser, neoCore, Nokia, OnePlus, ONN, Positivo, Siragon, TCL, Vivo, Xiaomi, Xtratech, Yezz, Zuum brands
+- Improving regex rules for browser versions: Chromium GOST, CoolBrowser, Amigo, Opera Mobile etc.
+- Adds detection for RedOS
+- Improves detection for iPadOS and mobile apps
+- Adds detection for Airpha, Brigmton, Cwowdefu, Entity, Mobile Kingdom, SGIN, Wecool brands and improves detection for Alcatel, Blu, Bmobile, Ceibal, CORN, Cricket, Cyrus, Digit4G, Hammer, Hi, Huawei, Konrow, Kurio, Moxee, MTN, ONN, Philco, Realme, Sky, TCL, True, Vivo, Wolki, Xiaomi, Zuum, ZTE brands and Android TV
+- Detect new brands: Kapsys, Sunmax, SSKY, Winstar, XCOM, YELLYOUTH and Detect devices for existing brands
+- Detect new brands: Khadas, Youwei and Detect devices for existing brands
+- Adds detection for Ruggex, Syco brands and improves detection for Huawei, iPro, Kempler &amp; Strauss, MTC, QUBO, Realme, TCL, TOSCIDO, Verizon, Vivo brands
+
+### V6.0.4 - V6.0.1
+
+- detection improvements
+- performance improvements
+
+### V6.0.0
+- Introduces support for Browser client hints
+
+### V5.0.5 - V5.0.0
+
+- detection improvements
+- performance improvements</PackageReleaseNotes>
+    <PackageIcon>logo.jpg</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -33,6 +114,14 @@
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
+    </None>
+    <None Include="..\logo.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 
