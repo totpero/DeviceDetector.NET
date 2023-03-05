@@ -768,7 +768,7 @@ namespace DeviceDetectorNET
             }
 
             // Set device type desktop if string ua contains desktop
-            if (device != DeviceType.DEVICE_TYPE_DESKTOP && !userAgent.Contains("Desktop") && HasDesktopFragment())
+            if (device != DeviceType.DEVICE_TYPE_DESKTOP && !string.IsNullOrEmpty(userAgent) && !userAgent.Contains("Desktop") && HasDesktopFragment())
             {
                 device = DeviceType.DEVICE_TYPE_DESKTOP;
             }

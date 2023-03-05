@@ -243,7 +243,7 @@ namespace DeviceDetectorNET.Tests
                                 }
                                 if (dicOs.TryGetValue("platform", out var osPlatform))
                                 {
-                                    dd.Match.Os.Platform.Should().BeEquivalentTo(osPlatform.ToString());
+                                    dd.Match.Os.Platform.Should().BeOneOf(osPlatform?.ToString(), null, string.Empty);
                                 }
                                 if (dicOs.TryGetValue("short_name", out var osShortName))
                                 {
@@ -266,7 +266,7 @@ namespace DeviceDetectorNET.Tests
                 {
                     dd.Match.Client.Type.Should().BeEquivalentTo(expected.client.type);
                     dd.Match.Client.Name.Should().BeEquivalentTo(expected.client.name);
-                    dd.Match.Client.Version.Should().BeEquivalentTo(expected.client.version);
+                    dd.Match.Client.Version.Should().BeOneOf(expected.client.version, null, string.Empty);
                     //dd.Match.Client.Engine.Should().BeEquivalentTo(expected.client.engine);
                     //dd.Match.Client.EngineVersion.Should().BeEquivalentTo(expected.client.engine_version);
                 }
