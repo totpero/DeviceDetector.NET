@@ -1028,6 +1028,14 @@
 - regex: 'Octopus [0-9]'
   name: 'Octopus'
 
+- regex: 'OnlineOrNot.com_bot'
+  name: 'OnlineOrNot Bot'
+  category: 'Site Monitor'
+  url: 'https://onlineornot.com/website-monitoring'
+  producer:
+    name: 'OnlineOrNot'
+    url: 'https://onlineornot.com'
+
 - regex: 'omgili'
   name: 'Omgili bot'
   category: 'Search bot'
@@ -2161,6 +2169,14 @@
     name: 'Startpagina B.V.'
     url: 'https://www.startpagina.nl/'
 
+- regex: 'MoodleBot-Linkchecker'
+  name: 'MoodleBot Linkchecker'
+  category: 'Search bot'
+  url: 'hhttps://docs.moodle.org/en/Usage'
+  producer:
+    name: 'Moodle Pty Ltd'
+    url: 'https://moodle.org/'
+
 - regex: 'GTmetrix'
   name: 'GTmetrix'
   category: 'Crawler'
@@ -2415,6 +2431,13 @@
 
 - regex: 'Hatena-Favicon'
   name: 'Hatena Favicon'
+  category: 'Crawler'
+  url: 'https://www.hatena.ne.jp/faq/'
+  producer:
+    name: 'Hatena Co., Ltd.'
+    url: 'https://www.hatena.ne.jp'
+- regex: 'Hatena-?Bookmark'
+  name: 'Hatena Bookmark'
   category: 'Crawler'
   url: 'https://www.hatena.ne.jp/faq/'
   producer:
@@ -3286,12 +3309,38 @@
     url: 'https://iabtechlab.com/'
 
 - regex: 'Morningscore'
-  name: 'Morning Score'
+  name: 'Morningscore Bot'
   category: 'Crawler'
   url: 'https://morningscore.io/'
   producer:
     name: 'Morningscore'
     url: 'https://morningscore.io/'
+
+- regex: 'Uptime-Kuma/([\d+.]+)'
+  name: 'Uptime-Kuma'
+  category: 'Site Monitor'
+  url: 'https://github.com/louislam/uptime-kuma'
+
+- regex: 'ChatGPT-User'
+  name: 'ChatGPT'
+  category: 'Crawler'
+  url: 'https://platform.openai.com/docs/plugins/bot'
+  producer:
+    name: 'OpenAI OpCo, LLC'
+    url: 'https://openai.com/'
+
+- regex: 'BrightEdge Crawler/([\d+.]+)'
+  name: 'BrightEdge'
+  category: 'Crawler'
+  url: 'https://www.brightedge.com/'
+  producer:
+    name: 'BrightEdge Technologies, Inc'
+    url: 'https://www.brightedge.com/'
+
+- regex: 'sfFeedReader/([\d+.]+)'
+  name: 'sfFeedReader'
+  url: 'https://github.com/diem-project/sfFeed2Plugin'
+  category: 'Feed Fetcher'
 
 # Generic detections
 - regex: '[a-z0-9\-_]*((?<!cu|power[ _]|m[ _])bot(?![ _]TAB|[ _]?5[0-9]|[ _]Senior|[ _]Junior)|crawler|crawl|checker|archiver|transcoder|spider)([^a-z]|$)'

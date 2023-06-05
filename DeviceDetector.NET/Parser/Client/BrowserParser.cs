@@ -248,6 +248,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "I4", "IceCat" },
             { "ID", "IceDragon" },
             { "IV", "Isivioo" },
+            { "I8", "IVVI Browser" },
             { "IW", "Iceweasel" },
             { "IN", "Inspect Browser" },
             { "IE", "Internet Explorer" },
@@ -325,6 +326,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "NO", "Nokia OSS Browser" },
             { "NV", "Nokia Ovi Browser" },
             { "NX", "Nox Browser" },
+            { "N1", "NOMone VR Browser" },
             { "NE", "NetSurf" },
             { "NF", "NetFront" },
             { "NL", "NetFront Life" },
@@ -368,6 +370,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "PM", "Pale Moon" },
             { "PY", "Polypane" },
             { "PP", "Oppo Browser" },
+            { "P6", "Opus Browser" },
             { "PR", "Palm Pre" },
             { "PU", "Puffin" },
             { "2P", "Puffin Web Browser" },
@@ -411,6 +414,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "SO", "Sogou Mobile Browser" },
             { "RF", "SOTI Surf" },
             { "2S", "Soul Browser" },
+            { "T0", "Soundy Browser" },
             { "SF", "Safari" },
             { "PV", "Safari Technology Preview" },
             { "S5", "Safe Exam Browser" },
@@ -497,6 +501,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "WE", "WebPositive" },
             { "WF", "Waterfox" },
             { "WB", "Wave Browser" },
+            { "WA", "Wavebox" },
             { "WH", "Whale Browser" },
             { "WO", "wOSBrowser" },
             { "WT", "WeTab Browser" },
@@ -525,8 +530,8 @@ namespace DeviceDetectorNET.Parser.Client
             { "ZI", "Zirco Browser" },
 
             // detected browsers in older versions
-            // {"IA", "Iceape"},  => pim
-            // {"SM", "SeaMonkey"},  => pim
+            // { "IA", "Iceape" },  => pim
+            // { "SM", "SeaMonkey" },  => pim
         };
 
         /// <summary>
@@ -559,7 +564,9 @@ namespace DeviceDetectorNET.Parser.Client
                                             "XO", "U0", "B0", "VA", "X0", "NX", "O5", "R1", "I1",
                                             "HO", "A5", "X1", "18", "B5", "B6", "TC", "A6", "2X",
                                             "F4", "YG", "WR", "NA", "DM", "1M", "A7", "XN", "XT",
-                                            "XB", "W1", "HT", "B8", "F5", "B9"}},
+                                            "XB", "W1", "HT", "B8", "F5", "B9", "WA", "T0", "HC",
+
+            }},
             {"Firefox"            , new []{"AX", "BI", "BF", "BH", "BN", "C0", "CU", "EI", "F1",
                                             "FB", "FE", "FF", "FM", "FR", "FY", "GZ", "I4", "IF",
                                             "IW", "LH", "LY", "MB", "MN", "MO", "MY", "OA", "OS",

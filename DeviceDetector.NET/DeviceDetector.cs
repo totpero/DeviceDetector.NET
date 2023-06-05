@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.1.0";
+        public const string VERSION = "6.1.2";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -645,6 +645,13 @@ namespace DeviceDetectorNET
             client = GetClient();
             var clientName = client.Success ? client.Match.Name : string.Empty;
 
+            //if it's fake UA then it's best not to identify it as Apple running Android OS
+            if ("Android" == osFamily && "Apple" == brand)
+            {
+                device = null;
+                brand = string.Empty;
+                model = string.Empty;
+            }
 
             //Assume all devices running iOS / Mac OS are from Apple
             if (string.IsNullOrEmpty(brand) && new[] { "iPadOS", "tvOS", "watchOS", "iOS" , "Mac" }.Contains(osName))

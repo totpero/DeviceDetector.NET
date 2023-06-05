@@ -2168,6 +2168,15 @@
       name: Omgili
       url: http://www.omgili.com
 -
+  user_agent: OnlineOrNot.com_bot_1.0_(https://onlineornot.com)
+  bot:
+    name: OnlineOrNot Bot
+    category: Site Monitor
+    url: "https://onlineornot.com/website-monitoring"
+    producer:
+      name: OnlineOrNot
+      url: https://onlineornot.com
+-
   user_agent: Mozilla/5.0 (compatible; spbot/4.0.9; +http://OpenLinkProfiler.org/bot )
   bot:
     name: OpenLinkProfiler
@@ -3715,6 +3724,15 @@
       url: https://ahrefs.com/robot
 -
   user_agent: 'Mozilla/5.0 (compatible; AhrefsBot/5.0; +http://ahrefs.com/robot/) AppEngine-Google; (+http://code.google.com/appengine; appid: s~proxyfile1-hrd)'
+  bot:
+    name: aHrefs Bot
+    category: Crawler
+    url: https://ahrefs.com/robot
+    producer:
+      name: Ahrefs Pte Ltd
+      url: https://ahrefs.com/robot
+-
+  user_agent: Mozilla/5.0 (compatible; AhrefsBot/7.0; +http://ahrefs.com/robot/)
   bot:
     name: aHrefs Bot
     category: Crawler
@@ -5542,7 +5560,7 @@
 -
   user_agent: Mozilla/5.0 (Morningscore/1.0)
   bot:
-    name: Morning Score
+    name: Morningscore Bot
     category: Crawler
     url: https://morningscore.io/
     producer:
@@ -5551,9 +5569,57 @@
 -
   user_agent: Mozilla/5.0 (Morningscore Bot/1.0)
   bot:
-    name: Morning Score
+    name: Morningscore Bot
     category: Crawler
     url: https://morningscore.io/
     producer:
       name: Morningscore
       url: https://morningscore.io/
+-
+  user_agent: Uptime-Kuma/1.21.2
+  bot:
+    name: Uptime-Kuma
+    category: Site Monitor
+    url: https://github.com/louislam/uptime-kuma
+-
+  user_agent: Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; ChatGPT-User/1.0; +https://openai.com/bot
+  bot:
+    name: ChatGPT
+    category: Crawler
+    url: https://platform.openai.com/docs/plugins/bot
+    producer:
+      name: OpenAI OpCo, LLC
+      url: https://openai.com/
+-
+  user_agent: BrightEdge Crawler/1.0 (crawler@brightedge.com)
+  bot:
+    name: BrightEdge
+    category: Crawler
+    url: https://www.brightedge.com/
+    producer:
+      name: BrightEdge Technologies, Inc
+      url: https://www.brightedge.com/
+-
+  user_agent: sfFeedReader/0.9
+  bot:
+    name: sfFeedReader
+    category: Feed Fetcher
+    url: https://github.com/diem-project/sfFeed2Plugin
+-
+  user_agent: HatenaBookmark/4.0 (Hatena::Bookmark; Analyzer)
+  bot:
+    name: Hatena Bookmark
+    category: Crawler
+    url: https://www.hatena.ne.jp/faq/
+    producer:
+      name: Hatena Co., Ltd.
+      url: https://www.hatena.ne.jp
+-
+  user_agent: MoodleBot-LinkChecker (+https://docs.moodle.org/en/Usage)
+  bot:
+    name: MoodleBot Linkchecker
+    category: Search bot
+    url: hhttps://docs.moodle.org/en/Usage
+    producer:
+      name: Moodle Pty Ltd
+      url: https://moodle.org/
