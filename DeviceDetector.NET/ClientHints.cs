@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using YamlDotNet.Core.Tokens;
 
 namespace DeviceDetectorNET
 {
