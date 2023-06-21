@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.RegexEng
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.CacheBuilder", "DeviceDetector.Net.CacheBuilder\DeviceDetector.NET.CacheBuilder.csproj", "{E4DA874C-7C29-4D34-9C0E-103073AEE043}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Web", "DeviceDetector.NET.Web\DeviceDetector.NET.Web.csproj", "{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{E4DA874C-7C29-4D34-9C0E-103073AEE043}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4DA874C-7C29-4D34-9C0E-103073AEE043}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4DA874C-7C29-4D34-9C0E-103073AEE043}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
