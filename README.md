@@ -26,7 +26,7 @@ using DeviceDetectorNET;
 // add using DeviceDetectorNET.Parser;
 DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
 
-ar userAgent = Request.Headers["User-Agent"]; // change this to the useragent you want to parse
+var userAgent = Request.Headers["User-Agent"]; // change this to the useragent you want to parse
 var headers = Request.Headers.ToDictionary(a => a.Key, a => a.Value.ToArray().FirstOrDefault());
 var clientHints = ClientHints.Factory(headers);  // client hints are optional
 
