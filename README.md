@@ -27,9 +27,10 @@ using DeviceDetectorNET;
 DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
 
 ar userAgent = Request.Headers["User-Agent"]; // change this to the useragent you want to parse
+var headers = Request.Headers.ToDictionary(a => a.Key, a => a.Value.ToArray().FirstOrDefault());
 var clientHints = ClientHints.Factory(headers);  // client hints are optional
 
-var dd = new DeviceDetector(userAgent);
+var dd = new DeviceDetector(userAgent, clientHints);
 
 // OPTIONAL: Set caching method
 // By default static cache is used, which works best within one php process (memory array caching)
