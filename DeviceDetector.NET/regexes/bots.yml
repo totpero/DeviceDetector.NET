@@ -735,6 +735,11 @@
     name: 'HubSpot Inc.'
     url: 'https://www.hubspot.com'
 
+- regex: 'vuhuvBot'
+  name: 'Vuhuv Bot'
+  category: 'Crawler'
+  url: 'http://vuhuv.com/bot.html'
+
 - regex: 'HTTPMon'
   name: 'HTTPMon'
   category: 'Site Monitor'
@@ -2041,7 +2046,15 @@
     name: 'WooRank sprl'
     url: 'https://www.woorank.com/'
 
-- regex: '(Match|LinkCheck) by Siteimprove.com'
+- regex: 'by Siteimprove\.com'
+  name: 'Siteimprove'
+  category: 'Search bot'
+  url: 'https://siteimprove.com/'
+  producer:
+    name: 'Siteimprove GmbH'
+    url: 'https://siteimprove.com/'
+
+- regex: 'Image size by Siteimprove\.com'
   name: 'Siteimprove'
   category: 'Search bot'
   url: 'https://siteimprove.com/'
@@ -2587,6 +2600,14 @@
   category: 'Security Checker'
   url: 'https://github.com/LeakIX/l9explore'
 
+- regex: 'l9scan/|^Lkx-(.*)/([\d+.]+)'
+  name: 'LeakIX'
+  category: 'Security Checker'
+  url: 'https://leakix.net/'
+  producer:
+    name: 'BaDaaS SRL'
+    url: 'https://leakix.net/'
+
 - regex: 'MegaIndex.ru/([\d+\.])'
   name: 'MegaIndex'
   category: 'Crawler'
@@ -3078,14 +3099,6 @@
     name: 'New Work SE'
     url: 'https://www.xing.com/'
 
-- regex: '^Lkx-(.*)/([\d+.]+)'
-  name: 'LeakIX'
-  category: 'Security Checker'
-  url: 'https://leakix.net/'
-  producer:
-    name: 'BaDaaS SRL'
-    url: 'https://leakix.net/'
-
 - regex: 'RepoLookoutBot/([\d+.]+)'
   name: 'Repo Lookout'
   category: 'Security Checker'
@@ -3342,6 +3355,30 @@
   url: 'https://github.com/diem-project/sfFeed2Plugin'
   category: 'Feed Fetcher'
 
+- regex: 'cyberscan.io'
+  name: 'Cyberscan'
+  category: 'Security Checker'
+  url: 'https://www.cyberscan.io/'
+  producer:
+    name: 'DGC Verwaltungs GmbH'
+    url: 'https://dgc.org/'
+
+- regex: 'deepcrawl\.com'
+  name: 'Lumar'
+  category: 'Crawler'
+  url: 'https://deepcrawl.com/bot'
+  producer:
+    name: 'Lumar'
+    url: 'https://www.lumar.io/'
+
+- regex: 'RepoLookoutBot'
+  name: 'Repo Lookout'
+  category: 'Crawler'
+  url: 'https://www.repo-lookout.org/'
+  producer:
+    name: 'Crissy Field GmbH'
+    url: 'https://www.crissyfield.de/'
+
 # Generic detections
-- regex: '[a-z0-9\-_]*((?<!cu|power[ _]|m[ _])bot(?![ _]TAB|[ _]?5[0-9]|[ _]Senior|[ _]Junior)|crawler|crawl|checker|archiver|transcoder|spider|inspectiontool)([^a-z]|$)'
+- regex: '[a-z0-9\-_]*((?<!cu|power[ _]|m[ _])bot(?![ _]TAB|[ _]?5[0-9]|[ _]Senior|[ _]Junior)|crawler|crawl|checker|archiver|transcoder|spider)([^a-z]|$)'
   name: 'Generic Bot'
