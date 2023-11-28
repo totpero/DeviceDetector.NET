@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>DeviceDetectorNET.RegexEngine.PCRE</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net7.0;net8.0</TargetFrameworks>
+		<RootNamespace>DeviceDetectorNET.RegexEngine.PCRE</RootNamespace>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="PCRE.NET" Version="0.20.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="PCRE.NET" Version="0.20.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
+	</ItemGroup>
 
 </Project>
