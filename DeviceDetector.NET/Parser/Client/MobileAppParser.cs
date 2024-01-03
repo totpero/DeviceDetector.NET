@@ -10,6 +10,9 @@ namespace DeviceDetectorNET.Parser.Client
     {
         public const string AppParserName = "mobile app";
 
+        /// <summary>
+        /// AppHints | null
+        /// </summary>
         private AppHints appHints;
 
         private void Init()

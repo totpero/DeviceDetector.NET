@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.1.4";
+        public const string VERSION = "6.2.0";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -241,13 +241,15 @@ namespace DeviceDetectorNET
             return IsMatchUserAgent("Touch");
         }
 
+
         /// <summary>
         /// Returns if the parsed UA contains the 'Android; Tablet;' fragment
         /// </summary>
         /// <returns></returns>
         public bool HasAndroidTableFragment()
         {
-            return IsMatchUserAgent(@"Android( [\.0-9]+)?; Tablet;");
+            const string regex = @"Android( [\.0-9]+)?; Tablet;";
+            return IsMatchUserAgent(regex);
         }
 
         /// <summary>
@@ -256,16 +258,18 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool HasAndroidMobileFragment()
         {
-            return IsMatchUserAgent(@"Android( [\.0-9]+)?; Mobile;");
+            const string regex = @"Android( [\.0-9]+)?; Mobile;";
+            return IsMatchUserAgent(regex);
         }
 
         /// <summary> 
-        /// Returns if the parsed UA contains the 'Desktop x64;' or 'Desktop x32;' or 'Desktop WOW64' fragment
+        /// Returns if the parsed UA contains the 'Desktop;', 'Desktop x32;', 'Desktop x64;' or 'Desktop WOW64;' fragment
         /// </summary>
         /// <returns>True if contains fragment</returns>
         protected bool HasDesktopFragment()
         {
-            return IsMatchUserAgent("Desktop (x(?:32|64)|WOW64)");
+            const string regex = "Desktop(?: (x(?:32|64)|WOW64))?;";
+            return IsMatchUserAgent(regex);
         }
 
         private bool UsesMobileBrowser()
@@ -375,7 +379,7 @@ namespace DeviceDetectorNET
         public string GetDeviceName()
         {
             return device.HasValue
-                ? Devices.GetDeviceName(device.Value).Key
+                ? Devices.GetDeviceName(device.Value)
                 : null; //todo: string.Empty?
         }
 
@@ -659,6 +663,12 @@ namespace DeviceDetectorNET
                 brand = "Apple";
             }
 
+            //All devices containing VR fragment are assumed to be a wearable
+            if (!device.HasValue && IsMatchUserAgent(" VR "))
+            {
+                device = DeviceType.DEVICE_TYPE_WEARABLE;
+            }
+
             //Chrome on Android passes the device type based on the keyword 'Mobile'
             //If it is present the device should be a smartphone, otherwise it's a tablet
             //See https://developer.chrome.com/multidevice/user-agent#chrome_for_android_user_agent
@@ -751,7 +761,7 @@ namespace DeviceDetectorNET
             }
 
             //All devices that contain Andr0id in string are assumed to be a tv
-            if (IsMatchUserAgent("Andr0id|Android TV|\\(lite\\) TV"))
+            if (IsMatchUserAgent("Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA"))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
             }
@@ -762,8 +772,12 @@ namespace DeviceDetectorNET
                 device = DeviceType.DEVICE_TYPE_TV;
             }
 
-            //Devices running Kylo or Espital TV Browsers are assumed to be a TV
-            if (!device.HasValue && (clientName == "Kylo" || clientName == "Espial TV Browser"))
+            //Devices running those browsers are assumed to be a TV
+            if (!device.HasValue && new[]
+                {
+                    "Kylo", "Espial TV Browser", "LUJO TV Browser", "LogicUI TV Browser", "Open TV Browser",
+                    "Seraphic Sraf", "Opera Devices"
+                }.Contains(clientName))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
             }

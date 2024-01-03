@@ -23,7 +23,7 @@ namespace DeviceDetectorNET.Tests.Parser.Client
             //replace null
             _fixtureData = _fixtureData.Select(f =>
             {
-                f.client.version = f.client.version ?? string.Empty;
+                f.client.version ??= string.Empty;
                 return f;
             }).ToList();
         }

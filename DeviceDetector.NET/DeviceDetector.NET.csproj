@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;Net462;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
-    <Version>6.1.4</Version>
+    <Version>6.2.0</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression></PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
@@ -12,70 +12,49 @@
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>6.1.4.0</AssemblyVersion>
+    <AssemblyVersion>6.2.0.0</AssemblyVersion>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
     <SignAssembly>false</SignAssembly>
-    <FileVersion>6.1.4.0</FileVersion>
+    <FileVersion>6.2.0.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>### What's Changed:
+    <PackageReleaseNotes>
+		### What's Changed:
 
-### V6.1.4:
-- Improves version detection for iOS and macOS
-- Detect new brands: 5IVE, Gfone, MLAB, noDROPOUT, TechSmart, TOOGO, Zeblaze and Detect devices for exist brands
-- Detect new brands: DangcapHD, Durabook, Panoramic, Platoon, Visual Land and Detect devices for exist brands
-- Detect new brands: Green Orange, KN Mobile, UOOGOU and Detect devices for exist brands
-- Detect new brands: Premier, A95X and Detect devices for exist brands
-- Improves version detection for Android, tvOS, DuckDuckGo Privacy Browser
-- fix: htc detect models
-- Detect new brands: BAFF, BARTEC, FOSSiBOT, GroBerwert, ibowin, MultiPOS, Nanho and Detect devices for exist brands
-- Detect new brands: iDino, Vekta and Detect devices for exist brands
-- Detect bots: siteimprove, lumar
-- Detect brand and model device for Client-Hints
-- Detect new brands: SobieTech, Accesstyle, Canguro, Epic, Gamma, Lime, Xcell, VETAS and Detect device for exist brands
-- Adds detection for Repo Lookout bot
-- Detect device for exist brands: Vivo, POCO, Blu, Xiaomi, Asus, Realme, iTel
-- Detect new brand F+ and Detect device for exist brands
-- Detect device for exist brands: Xiaomi, Huawie, Vivo, Lenovo
+		### V6.2.0:
+		- Detect device new brands: A&amp;K, BASE, CKK Mobile, Matco Tools, Sparx and Detect devices for exist brands
+		- Adds detection for various bots
+		- Detect new brands: Penta, SPURT and Detect devices for exist brands
+		- Improves detection for Apple Watch and version detection for iOS and macOS
+		- Harmonizing feed reader type
+		- Detect new brand: Z-Kai and Detect device for exist brands
+		- Podcasting uas
+		- OperaMini detection improvements
+		- Add MeltwaterNews to Bot detection
+		- Adds detection for VIDAA operating system and various TV brands, improves detection for existing ones
+		- Detect devices new brand Lemco
+		- Adds detection for TiVo OS and improves detection for various devices
+		- Adds detection for various libraries, bots and operating system
+		- Detect devices for exist brands: Oppo, OnePlus, Samsung
 
-### V6.1.3:
-- Adds detection for various bots
-- Adds client hints test for Headless Chrome
-- Detect new brands: AEEZO, Disney, Galactic, Geant, WAF, Zigo and Detect devices for exist brands
-- Add AhrefsBot/7.0
-- Detect new brands: Conceptum, DPA, TPS and Detect devices for exist brands
-- Detect new brands: SkyStream, Supraim and Detect devices for exist brands
-- Add OnlineOrNot to bots.yml
-- Detect new brand EKINOX and Detect devices for exist brands
-- Detect devices for LG brand
-- Detect new brands: DIJITSU, iLepo, KuGou, SEEWO, TOPSHOWS and Detect devices for exist brands
+		### V6.1.6:
+		- Adds detection for Samsung Browser Lite and various apps and improves detection for various browsers
+		- Adds detection for StudioDisplay
+		- Improves detection for Android TV and Sony models
+		- Detect devices for exists brands: Realme, Dcode, OPPO, Vivo, Huawei, Tecno Mobile, OnePlus, F+
+		- Adds detection for Norton Secure Browser, ALVA and improves detection for various browsers
+		- Add JHelioviewer regex
+		- Improves version detection for iPadOS
+		- Improves detection for Apple devices
+		- Detect new brand: VOLKANO and Detect device for exists brands: OnePlus, Oppo, Huawei, Xiaomi, Samsung
+		- Adds detection for PICO OS, PICO Browser and Pico 4 device
 
-### V6.1.2:
-- Detect new brands: SEBBE, Webfleet and Detect devices for exist brands: Samsung, Sony, Motorola, OPPO, Ulefone
-- Detect new brands: Kinstone, ROiK and Detect device for exist brands: Samsung, Huawai, DEXP, TCL, Xiaomi
-- Detect new brand HIPER and Detect devices for exits brands: Samsung, Xiaomi, BBK, SUNWIND, Stylo
-- Adds detection for Wavebox browser
-- Detect browsers: IVVI Browser, NOMone VR Browser, Opus Browser, Soundy Browser
-- Detect new brands: ANXONIT, Ctroniq, Punos, TopDevice and Detect devices for exist brands: OPPO, POCO, Pico, Tecno Mobile, DEXP
-- Detect new brands: GOODTEL, Viper, VIIPOO, Vityaz, Samtron and Detect devices for exist brands: Huawei, ZTE, Doogee, Realme. OPPO
-- Detect new brands: RedLine, HAOQIN, XY Auto and Detect devices for exist brands: Tecno Mobile, Vsmart, Itel, Samsung
-- Improves detection for iOS and macOS
-- Improves detection for Tesla
-- Adds detection for Uptime-Kuma
-- Adds detection for ChatGPT
-- Detect new brands: Advantage Air, Motiv, OneLern, Ober, Oking, Olkya and Detect devices for exist brands: Tecno Mobile, Vivo, TCL, Samsung
-- Detect device new brands: Inhon, RuggeTech, SKK Mobile and Detect device for exist brands
-- Detect new brands: ASSE, Kraft, Linsay, NeuTab, Zoom and Detect devices for exist brands
-
-### V6.1.1:
-- Detect new brands: BenWee, BluSlate, Bookeen, Lectrus, LeBest, NOVO, Pano, Surge, Volt and Detect devices for exist brands
-- Adds detection for various bots and apps
-- fix: YamlParser for AppHints &amp; BrowserHints
-- Detect Morning Score bot by @sanchezzzhak
-- Detect browsers: YandexBrowser, AlohaBrowser for iOS and Detect apps: Quora, JJ2GO, BonPrix
-- Detect new brands: FFF SmartLife, NuVision, Versus and Detect devices for exist brands
-- Fix name for Morningscore Bot
-- Detect devices for exist brands: POCO, OPPO, Ravoz, Vivo, Samsung, Huawei, Nubia, OnePlus, Oukitel, Xiaomi
-- Detect new brands: NGpon, Rupa and Detect devices for exist brands</PackageReleaseNotes>
+		### V6.1.5:
+		- Adds detection for Wear OS, Odd Browser, Mobvoi brand and various bots
+		- Adds detection for various browsers and apps
+		- Adds detection for various bots
+		- Denect new brands: Sber, Sveon, DSDevices and Detect device for exist brands
+		- Adds detection for various bots
+	</PackageReleaseNotes>
     <PackageIcon>logo.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
@@ -88,7 +67,15 @@
     <PackageReference Include="LiteDB" Version="5.0.17" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="YamlDotNet" Version="13.7.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
+
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" Condition="'$(TargetFramework)' == 'net8.0'" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" Condition="'$(TargetFramework)' == 'net7.0'" />
+
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" Condition="'$(TargetFramework)' == 'net6.0'" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" Condition="'$(TargetFramework)' == 'net5.0'" />
+
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" Condition="'$(TargetFramework)' == 'net462'" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
   </ItemGroup>
 
   <ItemGroup>

@@ -398,9 +398,7 @@ namespace DeviceDetectorNET.Parser
 
         public IParser<T> GetYamlParser()
         {
-            if(YamlParser==null)
-                YamlParser = new YamlParser<T>();
-            return YamlParser;
+            return YamlParser ?? (YamlParser = new YamlParser<T>());
         }
 
         public void SetRegexEngine(IRegexEngine regexEngine)
@@ -410,10 +408,7 @@ namespace DeviceDetectorNET.Parser
 
         public IRegexEngine GetRegexEngine()
         {
-            if (RegexEngine == null)
-                RegexEngine = new MSRegexCompiledEngine();
-
-            return RegexEngine;
+            return RegexEngine ?? (RegexEngine = new MSRegexCompiledEngine());
         }
 
         /// <summary>

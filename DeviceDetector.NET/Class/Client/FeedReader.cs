@@ -12,7 +12,5 @@ namespace DeviceDetectorNET.Class.Client
         public string Version { get; set; }
         [YamlMember(Alias = "url")]
         public string Url { get; set; }
-        [YamlMember(Alias = "type")]
-        public string Type { get; set; }
     }
 }

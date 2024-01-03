@@ -41,7 +41,7 @@ namespace DeviceDetectorNET.Parser.Device
         }
 
         [Obsolete("Use Devices.GetDeviceName")]
-        public static KeyValuePair<string, int> GetDeviceName(int deviceType)
+        public static string GetDeviceName(int deviceType)
         {
             return Devices.GetDeviceName(deviceType);
         }
@@ -79,7 +79,20 @@ namespace DeviceDetectorNET.Parser.Device
             var result = new ParseResult<DeviceMatchResult>();
 
             var resultClientHint = ParseClientHints();
-            if (string.IsNullOrEmpty(resultClientHint.Model) && HasDesktopFragment())
+            var deviceModel = resultClientHint.Model ?? string.Empty;
+
+            // is freeze user-agent then restoring the original UA for the device definition
+            if (!string.IsNullOrEmpty(deviceModel) && 
+                GetRegexEngine().MatchesUniq(UserAgent, @"Android 10[.\d]*; K(?: Build/|[;)])").ToArray().Any())
+            {
+                var  osVersion = ClientHints != null ? ClientHints.GetOperatingSystemVersion() : string.Empty;
+                SetUserAgent(GetRegexEngine().Replace(
+                    UserAgent, 
+                    @"(Android 10[.\d]*; K)",
+                    $"Android {(!string.IsNullOrEmpty(osVersion) ? osVersion : "10")}; {deviceModel}"));
+            }
+
+            if (string.IsNullOrEmpty(deviceModel) && HasDesktopFragment())
                 return result;
 
             var regexes = regexList.ToList();
@@ -203,6 +216,7 @@ namespace DeviceDetectorNET.Parser.Device
         protected bool HasDesktopFragment()
         {
             return IsMatchUserAgent("(?:Windows (?:NT|IoT)|X11; Linux x86_64)") && 
+                !IsMatchUserAgent("CE-HTML") && 
                 !IsMatchUserAgent(" Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser") && 
                 !IsMatchUserAgent("Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)");
         }

@@ -34,7 +34,7 @@ namespace DeviceDetectorNET
         public string Platform { get; set; }
 
         /// <summary>
-        /// Represents `SSec-CH-UA-Platform-Version` header field: the platform's major version
+        /// Represents `Sec-CH-UA-Platform-Version` header field: the platform's major version
         /// </summary>
         public string PlatformVersion { get; set; }
 
@@ -140,17 +140,18 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public Dictionary<string, string> GetBrandList()
         {
-                if (this.FullVersionList.Count > 0)
-                {
-                    return this.FullVersionList;
-                    //return \array_combine(
-                    //\array_column($this->fullVersionList, 'brand'),
-                    //        \array_column($this->fullVersionList, 'version')
-                    //   ) ?: [];
+            if (this.FullVersionList.Count > 0)
+            {
+                return this.FullVersionList;
+                //$brands   = \array_column($this->fullVersionList, 'brand');
+                //$versions = \array_column($this->fullVersionList, 'version');
 
-                }
+                //if (\count($brands) === \count($versions)) {
+                //	return \array_combine($brands, $versions);
+                //}
+            }
 
-                return new Dictionary<string, string>();
+            return new Dictionary<string, string>();
         }
 
         /// <summary>
