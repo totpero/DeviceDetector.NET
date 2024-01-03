@@ -17,44 +17,42 @@
     <SignAssembly>false</SignAssembly>
     <FileVersion>6.2.0.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>
-		### What's Changed:
+    <PackageReleaseNotes>### What's Changed:
 
-		### V6.2.0:
-		- Detect device new brands: A&amp;K, BASE, CKK Mobile, Matco Tools, Sparx and Detect devices for exist brands
-		- Adds detection for various bots
-		- Detect new brands: Penta, SPURT and Detect devices for exist brands
-		- Improves detection for Apple Watch and version detection for iOS and macOS
-		- Harmonizing feed reader type
-		- Detect new brand: Z-Kai and Detect device for exist brands
-		- Podcasting uas
-		- OperaMini detection improvements
-		- Add MeltwaterNews to Bot detection
-		- Adds detection for VIDAA operating system and various TV brands, improves detection for existing ones
-		- Detect devices new brand Lemco
-		- Adds detection for TiVo OS and improves detection for various devices
-		- Adds detection for various libraries, bots and operating system
-		- Detect devices for exist brands: Oppo, OnePlus, Samsung
+### V6.2.0:
+- Detect device new brands: A&amp;K, BASE, CKK Mobile, Matco Tools, Sparx and Detect devices for exist brands
+- Adds detection for various bots
+- Detect new brands: Penta, SPURT and Detect devices for exist brands
+- Improves detection for Apple Watch and version detection for iOS and macOS
+- Harmonizing feed reader type
+- Detect new brand: Z-Kai and Detect device for exist brands
+- Podcasting uas
+- OperaMini detection improvements
+- Add MeltwaterNews to Bot detection
+- Adds detection for VIDAA operating system and various TV brands, improves detection for existing ones
+- Detect devices new brand Lemco
+- Adds detection for TiVo OS and improves detection for various devices
+- Adds detection for various libraries, bots and operating system
+- Detect devices for exist brands: Oppo, OnePlus, Samsung
 
-		### V6.1.6:
-		- Adds detection for Samsung Browser Lite and various apps and improves detection for various browsers
-		- Adds detection for StudioDisplay
-		- Improves detection for Android TV and Sony models
-		- Detect devices for exists brands: Realme, Dcode, OPPO, Vivo, Huawei, Tecno Mobile, OnePlus, F+
-		- Adds detection for Norton Secure Browser, ALVA and improves detection for various browsers
-		- Add JHelioviewer regex
-		- Improves version detection for iPadOS
-		- Improves detection for Apple devices
-		- Detect new brand: VOLKANO and Detect device for exists brands: OnePlus, Oppo, Huawei, Xiaomi, Samsung
-		- Adds detection for PICO OS, PICO Browser and Pico 4 device
+### V6.1.6:
+- Adds detection for Samsung Browser Lite and various apps and improves detection for various browsers
+- Adds detection for StudioDisplay
+- Improves detection for Android TV and Sony models
+- Detect devices for exists brands: Realme, Dcode, OPPO, Vivo, Huawei, Tecno Mobile, OnePlus, F+
+- Adds detection for Norton Secure Browser, ALVA and improves detection for various browsers
+- Add JHelioviewer regex
+- Improves version detection for iPadOS
+- Improves detection for Apple devices
+- Detect new brand: VOLKANO and Detect device for exists brands: OnePlus, Oppo, Huawei, Xiaomi, Samsung
+- Adds detection for PICO OS, PICO Browser and Pico 4 device
 
-		### V6.1.5:
-		- Adds detection for Wear OS, Odd Browser, Mobvoi brand and various bots
-		- Adds detection for various browsers and apps
-		- Adds detection for various bots
-		- Denect new brands: Sber, Sveon, DSDevices and Detect device for exist brands
-		- Adds detection for various bots
-	</PackageReleaseNotes>
+### V6.1.5:
+- Adds detection for Wear OS, Odd Browser, Mobvoi brand and various bots
+- Adds detection for various browsers and apps
+- Adds detection for various bots
+- Denect new brands: Sber, Sveon, DSDevices and Detect device for exist brands
+- Adds detection for various bots</PackageReleaseNotes>
     <PackageIcon>logo.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
