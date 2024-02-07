@@ -21,6 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.CacheBui
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Web", "DeviceDetector.NET.Web\DeviceDetector.NET.Web.csproj", "{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{9D4D2F68-CCD7-49C1-B117-4C642CC6F678}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{69FF52A1-6576-413A-9FBB-30F911261511}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,5 +60,9 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88D253CD-9A5E-42A6-BBBA-3362F7D47DF2}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D4D2F68-CCD7-49C1-B117-4C642CC6F678} = {999E1778-7E91-4F62-AD53-6BE530E59B7C}
+		{69FF52A1-6576-413A-9FBB-30F911261511} = {9D4D2F68-CCD7-49C1-B117-4C642CC6F678}
 	EndGlobalSection
 EndGlobal
