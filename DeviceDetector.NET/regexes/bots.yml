@@ -3532,6 +3532,21 @@
     name: 'BBC'
     url: 'https://www.bbc.com/'
 
+- regex: 'RuxitSynthetic'
+  name: 'RuxitSynthetic'
+  category: 'Site Monitor'
+  producer:
+    name: 'Dynatrace LLC'
+    url: 'https://www.dynatrace.com'
+
+- regex: 'sitebulb'
+  name: 'SiteBulb'
+  url: 'https://sitebulb.com'
+  category: 'Crawler'
+  producer:
+    name: 'Sitebulb Limited'
+    url: 'https://sitebulb.com'
+
 # Generic detections
 - regex: '[a-z0-9\-_]*((?<!cu|power[ _]|m[ _])bot(?![ _]TAB|[ _]?5[0-9]|[ _]Senior|[ _]Junior)|crawler|crawl|checker|archiver|transcoder|spider|^firefox$|^chrome$)([^a-z]|$)'
   name: 'Generic Bot'
