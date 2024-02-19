@@ -5917,3 +5917,20 @@
     producer:
       name: BBC
       url: https://www.bbc.com/
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.5672.126 Safari/537.36 RuxitSynthetic/1.0 v104032285451 t1437235942278817309 ath5a4d3a2e altpub cvcv=2 smf=0
+  bot:
+    name: RuxitSynthetic
+    category: Site Monitor
+    producer:
+      name: Dynatrace LLC
+      url: https://www.dynatrace.com
+-
+  user_agent: Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36 +https://sitebulb.com
+  bot:
+    name: SiteBulb
+    category: Crawler
+    url: 'https://sitebulb.com'
+    producer:
+      name: Sitebulb Limited
+      url: 'https://sitebulb.com'
