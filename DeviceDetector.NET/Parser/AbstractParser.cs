@@ -275,7 +275,7 @@ namespace DeviceDetectorNET.Parser
         {
             var cleanedRegex = regex.Replace("/", @"\/").Replace("++", "+").Replace(@"\_", "_").Replace(@"\_", @"\\_");
             // only match if useragent begins with given regex or there is no letter before it
-            var result = $@"(?:^|[^A-Z0-9\-_]|[^A-Z0-9\-]_|sprd-|MZ-)(?:{cleanedRegex})";
+            var result = $@"(?:^|[^A-Z0-9_-]|[^A-Z0-9-]_|sprd-|MZ-)(?:{cleanedRegex})";
             return result;
         }
 

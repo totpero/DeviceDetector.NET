@@ -1,24 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
 namespace DeviceDetector.Net.CacheBuilder
 {
-    public class CacheBuilder
+    public class CacheBuilder(IEnumerable<string> userAgentStrings, bool skipBotDetection, ILogger logger)
     {
-        public IEnumerable<string> UserAgentStrings { get; }
-        public bool SkipBotDetection { get; }
-        public ILogger Logger { get; }
-
-        public CacheBuilder(IEnumerable<string> userAgentStrings, bool skipBotDetection, ILogger logger)
-        {
-            UserAgentStrings = userAgentStrings;
-            SkipBotDetection = skipBotDetection;
-            Logger = logger;
-        }
+        public IEnumerable<string> UserAgentStrings { get; } = userAgentStrings;
+        public bool SkipBotDetection { get; } = skipBotDetection;
+        public ILogger Logger { get; } = logger;
 
         public void BuildCache()
         {

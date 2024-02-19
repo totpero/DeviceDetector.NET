@@ -207,6 +207,7 @@ public class DeviceDetectorTest
     [InlineData("tablet-8")]
     [InlineData("tablet-9")]
     [InlineData("tablet-10")]
+    [InlineData("tablet-11")]
     [InlineData("tv")]
     [InlineData("tv-1")]
     [InlineData("tv-2")]
@@ -398,11 +399,11 @@ public class DeviceDetectorTest
             {
                 Name = "Googlebot",
                 Category = "Search bot",
-                Url = "http://www.google.com/bot.html",
+                Url = "https://developers.google.com/search/docs/crawling-indexing/overview-google-crawlers",
                 Producer = new Producer
                 {
                     Name = "Google Inc.",
-                    Url = "http://www.google.com"
+                    Url = "https://www.google.com/"
                 }
             }
         };
@@ -443,29 +444,21 @@ public class DeviceDetectorTest
     [Fact]
     public void TestTypeMethods()
     {
-        var userAgents = new List<Tuple<string, bool, bool, bool>> {
-            new("Googlebot/2.1 (http://www.googlebot.com/bot.html)", true, false, false),
-            new("Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36", false, true, false),
-            new("Mozilla/5.0 (Linux; Android 4.4.3; Build/KTU84L) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.117 Mobile Safari/537.36", false, true, false),
-            new("Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)", false, false, true),
-            new("Mozilla/3.01 (compatible;)", false, false, false),
-            // Mobile only browsers:
-            new("Opera/9.80 (J2ME/MIDP; Opera Mini/9.5/37.8069; U; en) Presto/2.12.423 Version/12.16", false, true, false),
-            new("Mozilla/5.0 (X11; U; Linux i686; th-TH@calendar=gregorian) AppleWebKit/534.12 (KHTML, like Gecko) Puffin/1.3.2665MS Safari/534.12", false, true, false),
-            new("Mozilla/5.0 (Linux; Android 4.4.4; MX4 Pro Build/KTU84P) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/33.0.0.0 Mobile Safari/537.36; 360 Aphone Browser (6.9.7)", false, true, false),
-            new("Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_7; xx) AppleWebKit/530.17 (KHTML, like Gecko) Version/4.0 Safari/530.17 Skyfire/6DE", false, true, false),
-            // useragent containing non unicode chars
-            new("Mozilla/5.0 (Linux; U; Android 4.1.2; ru-ru; PMP7380D3G Build/JZO54K) AppleWebKit/534.30 (KHTML, ÃÂºÃÂ°ÃÂº Gecko) Version/4.0 Safari/534.30", false, true, false),
-        };
+        var path = $"{Utils.CurrentDirectory()}\\{@"Parser\fixtures\type-methods.yml"}";
+        var parser = new YamlParser<List<TypeMethodFixture>>();
+        var fixtureData = parser.ParseFile(path);
 
-        foreach (var item in userAgents)
+        foreach (var item in fixtureData)
         {
-            var dd = new DeviceDetector(item.Item1);
+            var dd = new DeviceDetector(item.user_agent);
             dd.DiscardBotInformation();
             dd.Parse();
-            dd.IsBot().Should().Be(item.Item2);
-            dd.IsMobile().Should().Be(item.Item3);
-            dd.IsDesktop().Should().Be(item.Item4);
+            dd.IsBot().Should().Be(item.check.Item1);
+            dd.IsMobile().Should().Be(item.check.Item2);
+            dd.IsDesktop().Should().Be(item.check.Item3);
+            dd.IsTablet().Should().Be(item.check.Item4);
+            dd.IsTv().Should().Be(item.check.Item5);
+            dd.IsWearable().Should().Be(item.check.Item6);
         }
     }
     [Fact]

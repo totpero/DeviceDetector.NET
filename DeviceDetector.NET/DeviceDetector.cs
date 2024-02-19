@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.2.0";
+        public const string VERSION = "6.3.0";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -85,10 +85,6 @@ namespace DeviceDetectorNET
         /// </summary>
         protected ICache cache;
         protected IRegexEngine regexEngine;
-
-        /// <summary>
-        /// @todo: geneic parser like IRegexEngine or ICache
-        /// </summary>
         protected IParser yamlParser;
 
         protected List<IAbstractClientParser> clientParsers = new List<IAbstractClientParser>
@@ -285,10 +281,20 @@ namespace DeviceDetectorNET
             return device == DeviceType.DEVICE_TYPE_TABLET;
         }
 
+        public bool IsTv()
+        {
+            return device == DeviceType.DEVICE_TYPE_TV;
+        }
+        
+        public bool IsWearable()
+        {
+            return device == DeviceType.DEVICE_TYPE_WEARABLE;
+        }
+
         public bool IsMobile()
         {
             // Client hints indicate a mobile device
-            if (this.clientHints != null && this.clientHints.IsMobile()) {
+            if (clientHints != null && clientHints.IsMobile()) {
                 return true;
             }
 
@@ -305,7 +311,7 @@ namespace DeviceDetectorNET
             }
 
             // Check for browsers available for mobile devices only
-            if (this.UsesMobileBrowser())
+            if (UsesMobileBrowser())
             {
                 return true;
             }
@@ -610,8 +616,8 @@ namespace DeviceDetectorNET
             }
 
             //If no model could be parsed from useragent, we use the one from client hints if available
-            if (this.clientHints != null && string.IsNullOrEmpty(model)) {
-                model = this.clientHints.GetModel();
+            if (clientHints != null && string.IsNullOrEmpty(model)) {
+                model = clientHints.GetModel();
             }
 
             //If no brand has been assigned try to match by known vendor fragments
@@ -634,6 +640,8 @@ namespace DeviceDetectorNET
             var osName = string.Empty;
             var osFamily = string.Empty;
             var osVersion = string.Empty;
+            var appleOsNames = new[] { "iPadOS", "tvOS", "watchOS", "iOS", "Mac" };
+
             if (os.Success)
             {
                 osShortName = os.Match.ShortName;
@@ -649,8 +657,8 @@ namespace DeviceDetectorNET
             client = GetClient();
             var clientName = client.Success ? client.Match.Name : string.Empty;
 
-            //if it's fake UA then it's best not to identify it as Apple running Android OS
-            if ("Android" == osFamily && "Apple" == brand)
+            //if it's fake UA then it's best not to identify it as Apple running Android OS or GNU/Linux
+            if ("Apple" == brand && !appleOsNames.Contains(osName))
             {
                 device = null;
                 brand = string.Empty;
@@ -658,7 +666,7 @@ namespace DeviceDetectorNET
             }
 
             //Assume all devices running iOS / Mac OS are from Apple
-            if (string.IsNullOrEmpty(brand) && new[] { "iPadOS", "tvOS", "watchOS", "iOS" , "Mac" }.Contains(osName))
+            if (string.IsNullOrEmpty(brand) && appleOsNames.Contains(osName))
             {
                 brand = "Apple";
             }
@@ -677,11 +685,11 @@ namespace DeviceDetectorNET
             if (!device.HasValue && osFamily == "Android" 
                                  && IsMatchUserAgent(@"Chrome/[\.0-9]*"))
             {
-                if (IsMatchUserAgent(@"(?:Mobile|eliboM) Safari/"))
+                if (IsMatchUserAgent("(?:Mobile|eliboM) "))
                 {
                     device = DeviceType.DEVICE_TYPE_SMARTPHONE;
                 }
-                else if (IsMatchUserAgent(@"(?!Mobile )Safari/"))
+                else
                 {
                     device = DeviceType.DEVICE_TYPE_TABLET;
                 }
@@ -772,11 +780,11 @@ namespace DeviceDetectorNET
                 device = DeviceType.DEVICE_TYPE_TV;
             }
 
-            //Devices running those browsers are assumed to be a TV
+            //Devices running those clients are assumed to be a TV
             if (!device.HasValue && new[]
                 {
-                    "Kylo", "Espial TV Browser", "LUJO TV Browser", "LogicUI TV Browser", "Open TV Browser",
-                    "Seraphic Sraf", "Opera Devices"
+                    "Kylo", "Espial TV Browser", "LUJO TV Browser", "LogicUI TV Browser", "Open TV Browser", "Seraphic Sraf",
+                    "Opera Devices", "Crow Browser", "Vewd Browser", "TiviMate", "Quick Search TV"
                 }.Contains(clientName))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
@@ -918,7 +926,7 @@ namespace DeviceDetectorNET
 
         private static string FixUserAgentRegEx(string regex)
         {
-            return @"(?:^|[^A-Z_-])(?:" + regex.Replace("/", @"\/").Replace("++", "+") + ")";
+            return "(?:^|[^A-Z_-])(?:" + regex.Replace("/", @"\/").Replace("++", "+") + ")";
         }
 
         private static int _versionTruncation = AbstractParser<List<Class.Bot>, ClientMatchResult>.VERSION_TRUNCATION_NONE;

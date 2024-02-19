@@ -7,15 +7,8 @@ namespace DeviceDetectorNet.Web.Controllers
     [ApiController]
 
     [Route("[controller]")]
-    public class HomeController : ControllerBase
+    public class HomeController(ILogger<HomeController> logger) : ControllerBase
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         [HttpGet]
         public object Get()
         {
@@ -28,7 +21,7 @@ namespace DeviceDetectorNet.Web.Controllers
             var result = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
 
             var output = result.Success ? result.ToString().Replace(Environment.NewLine, "<br />") : "Unknown";
-            _logger.LogDebug(output);
+            logger.LogDebug(output);
 
             return result;
         }

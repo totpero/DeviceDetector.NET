@@ -16,11 +16,11 @@ namespace DeviceDetectorNET.Tests.Parser
 
                 Name = "Googlebot",
                 Category = "Search bot",
-                Url = "http://www.google.com/bot.html",
+                Url = "https://developers.google.com/search/docs/crawling-indexing/overview-google-crawlers",
                 Producer = new Producer
                 {
                     Name = "Google Inc.",
-                    Url = "http://www.google.com"
+                    Url = "https://www.google.com/"
                 }
             };
 
