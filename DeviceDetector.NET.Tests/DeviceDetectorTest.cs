@@ -219,7 +219,7 @@ public class DeviceDetectorTest
     {
         //DeviceDetectorSettings.RegexesDirectory = @"D:\WorkSpaces\GitHubVisualStudio\DeviceDetector.Net\src\DeviceDetector.NET\";
         var parser = new YamlParser<List<DeviceDetectorFixture>>();
-        var fixtureData = parser.ParseFile($"{Utils.CurrentDirectory()}\\fixtures\\{fileNme}.yml");
+        var fixtureData = parser.ParseFile($@"{Utils.CurrentDirectory()}\fixtures\{fileNme}.yml");
         DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
 
         Parallel.ForEach(fixtureData, expected =>
