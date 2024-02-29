@@ -940,8 +940,8 @@ namespace DeviceDetectorNET.Parser.Client
                             break;
                         }
                     }
-                    version = this.ClientHints.GetBrandVersion()  ?? version;
                 }
+                version = ClientHints.GetBrandVersion() ?? version;
             }
 
             return new BrowserMatchResult

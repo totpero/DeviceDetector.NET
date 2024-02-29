@@ -193,7 +193,7 @@ namespace DeviceDetectorNET
 
             var app = string.Empty;
             var mobile = false;
-            Dictionary<string,string> fullVersionList = new Dictionary<string, string>();
+            var fullVersionList = new Dictionary<string, string>();
 
             foreach (var header in headers)
             {
@@ -297,18 +297,26 @@ namespace DeviceDetectorNET
                             var r = new Regex(reg, RegexOptions.IgnoreCase);
                             var match = r.Match(value);
 
-                            while (match.Success)
+                            if (match.Success)
                             {
-                                var substr = match.Groups[0].Value;
-                                var brand = match.Groups[1].Value;
-                                var version = match.Groups[2].Value;
-                                if (!list.ContainsKey(brand))
+                                while (match.Success)
                                 {
-                                    list.Add(brand, version);
+                                    var substr = match.Groups[0].Value;
+                                    var brand = match.Groups[1].Value;
+                                    var version = match.Groups[2].Value;
+                                    if (!list.ContainsKey(brand))
+                                    {
+                                        list.Add(brand, version);
+                                    }
+                                    value = value.Substring(substr.Length);
+                                    match = match.NextMatch();
                                 }
-                                value = value.Substring(substr.Length);
-                                match = match.NextMatch();
                             }
+                            else
+                            {
+                                value = string.Empty;
+                            }
+                           
                         }
                         
                         if (list.Count > 0)

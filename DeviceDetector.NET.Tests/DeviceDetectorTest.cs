@@ -155,6 +155,7 @@ public class DeviceDetectorTest
     [InlineData("peripheral")]
     [InlineData("phablet")]
     [InlineData("phablet-1")]
+    [InlineData("podcasting")]
     [InlineData("portable_media_player")]
     [InlineData("smart_display")]
     [InlineData("smart_speaker")]
@@ -211,6 +212,7 @@ public class DeviceDetectorTest
     [InlineData("tv")]
     [InlineData("tv-1")]
     [InlineData("tv-2")]
+    [InlineData("tv-3")]
     [InlineData("unknown")]
     [InlineData("wearable")]
     public void TestParse(string fileNme)
@@ -600,4 +602,28 @@ public class DeviceDetectorTest
     //    var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
     //    dd.Success.Should().BeTrue();
     //}
+
+    /// <summary>
+    /// Issue #79
+    /// </summary>
+    [Fact]
+    public void TestIssue79()
+    {
+        const string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36";
+        var clientHints = ClientHints.Factory(new Dictionary<string, string>
+        {
+            { "sec-ch-ua", "\"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"2022\"" },
+            { "sec-ch-ua-full-version", "2022.04" },
+            { "sec-ch-ua-mobile", "?0" },
+            { "sec-ch-ua-model", "" },
+            { "sec-ch-ua-platform", "Windows" },
+            { "sec-ch-ua-platform-version", "15.0.0" },
+            { "sec-fetch-dest", string.Empty },
+            { "sec-fetch-mode", "cors" },
+            { "sec-fetch-site", "same-origin" }
+        });
+
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
+        dd.Success.Should().BeTrue();
+    }
 }
