@@ -455,12 +455,12 @@ public class DeviceDetectorTest
             var dd = new DeviceDetector(item.user_agent);
             dd.DiscardBotInformation();
             dd.Parse();
-            dd.IsBot().Should().Be(item.check.Item1);
-            dd.IsMobile().Should().Be(item.check.Item2);
-            dd.IsDesktop().Should().Be(item.check.Item3);
-            dd.IsTablet().Should().Be(item.check.Item4);
-            dd.IsTv().Should().Be(item.check.Item5);
-            dd.IsWearable().Should().Be(item.check.Item6);
+            dd.IsBot().Should().Be(item.check[0]);
+            dd.IsMobile().Should().Be(item.check[1]);
+            dd.IsDesktop().Should().Be(item.check[2]);
+            dd.IsTablet().Should().Be(item.check[3]);
+            dd.IsTv().Should().Be(item.check[4]);
+            dd.IsWearable().Should().Be(item.check[5]);
         }
     }
     [Fact]
