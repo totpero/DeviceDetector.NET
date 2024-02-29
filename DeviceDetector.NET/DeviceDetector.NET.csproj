@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;Net462;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
-    <Version>6.3.0</Version>
+    <Version>6.3.1</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
@@ -11,59 +11,17 @@
     <PackageTags>parse detection-library user-agent bot-detection mobile-detection desktop tablet mobile tv cars console standard</PackageTags>
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <AssemblyVersion>6.3.0.0</AssemblyVersion>
+    <AssemblyVersion>6.3.0.1</AssemblyVersion>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
     <SignAssembly>false</SignAssembly>
-    <FileVersion>6.3.0.0</FileVersion>
+    <FileVersion>6.3.0.1</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>### What's Changed:
+    <PackageReleaseNotes>
+		### What's Changed:
 
-### V6.3.0:
-- Improves detection for various bots
-- Adds detection for various bots and improves detection for Googlebot
-- Fix false positives on Comodo Dragon browser for Dragon-model devices.
-- Adds detection for various bots
-- Adds ports for Go and Java
-- Fix false positives on Iron browser for Iron-model devices.
-- Adds detection for Telly brand, adds detection for Crow Browser, Frost, Private Internet Browser, Vewd Browser and improves detection for AVG Secure Browser, DuckDuckGo Privacy Browser, Iridium
-- Adds detection for BMW, Jeep brands and improves detection for other brands
-- Detect devices for new brands: Volla, I-Plus and Detect devices for exist brands
-- Fix false positive for Edge engine on Motorola Edge.
-- Improves version detection for iOS, macOS and Iridium
-- Change Chrome Android smartphone detection to allow "Mobile" anywhere.
-- Detect new brands: MeMobile, VOLIA and Detect device for exists brands
-- Chartable analytics tracker monitoring - nyt / spotify test
-- Adds ports Java and Rust by
-- Adds detection for BrightSign operating system, improves detection for Android, iPadOS, iOS, macOS operating systems, adds detection for various bots, apps, libraries and browsers
-- Improves detection for iPadOS
-- Fix engine detection on old Qwant iOS versions.
-- Adds detection for various bots
-- Clean up bot regexes
-- Adds detection for various bots and improves generic regex
-- Detect not real user agent for apple brand
-- Fix Blink detection across many browsers.
-- Fix detect Pico devices and detect Pico Neo 3 Link
-- Adds detection for Onion Browser and various apps
-- Adds detection for various bots
-- Adds detection for GO Browser, HotBrowser, Proxy Browser, Quick Search TV, Skye, VD Browser and improves detection for SecureX, Via
-- Improves detection for Apple devices
-- Adds detection for COOD-E, Droidlogic, ETOE, Fenoti, free, Imaq, Inka, Infomir, IOTWE, Panodic, Techstorm, WeChip brands
-- Improves detection for Android, iOS, macOS and Windows by @liviuconcioiu in #7591
-- Adds detection for FM WhatsApp, Signal, Stream Master, WhatsApp Business and Yo WhatsApp
-
-  
-### V6.2.1:
-- Improves detection for various devices
-- Adds detection for LuneOS
-- Detect new browsers: Vertex Surf, InBrowser, Every Browser, World Browser, Holla Web Browser, Tor Browser
-- Detect new brands iKonia, TwinMOS and Detect devices for exist brands
-- Improves detection for Apple devices and Spotify
-- Detect new brands: FreeYond, Getnord, Onida and Detect devices for exist brands
-- Detect new brands: GTX, Maunfeld, N-one, SAILF and Detect devices for exist brands
-- Adds detection for AYA, Botech, Continental Edison, EAS Electric, Edenwood, Fobem, Hanseatic, Hiremco, HKC, Kydos, Logik, Mitchell &amp; Brown, NEVIR, Next &amp; NextStar, Novacom, Skytech brands and improves detection for various brands
-- Adds detection for Altimo, AmazonBasics, Atlantic Electrics, Black Box, Canal+, Cecotec, DIORA, Dinalink, Elektroland, FITCO, Filimo, Graetz, HOFER, Homatics, Kendo, Maxwell, MEGA VISION, MEO, NABO, NetBox, OCEANIC, Orava, Play Now, PROSONIC, Sagemcom, SEHMAX, Silva Schneider, Solas, Super General, TADAAM, TAUBE, VANGUARD, Walker, We. by Loewe., WONDER brands. improves detection for other brands, improves version detection for Fire OS
-- Adds detection for Express LUCK, Ooredoo, Tsinghua Tongfang, XGEM brands, Nuanti Meta browser, DIGA, YouView mediaplayers and improves detection for various brands
-- Adds detection for OWLer and BBC bots, improves version detection for iOS and macOS</PackageReleaseNotes>
+		### V6.3.1:
+		- fix #79
+    </PackageReleaseNotes>
     <PackageIcon>logo.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
@@ -73,9 +31,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiteDB" Version="5.0.17" />
+    <PackageReference Include="LiteDB" Version="5.0.19" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="YamlDotNet" Version="15.1.1" />
+    <PackageReference Include="YamlDotNet" Version="15.1.2" />
 
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" Condition="'$(TargetFramework)' == 'net8.0'" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" Condition="'$(TargetFramework)' == 'net7.0'" />

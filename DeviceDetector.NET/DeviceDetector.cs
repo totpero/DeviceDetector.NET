@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.3.0";
+        public const string VERSION = "6.3.1";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
