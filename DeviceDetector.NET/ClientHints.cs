@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace DeviceDetectorNET
@@ -326,7 +327,7 @@ namespace DeviceDetectorNET
                         break;
                     case "http-x-requested-with":
                     case "x-requested-with":
-                        if ("xmlhttprequest" != header.Value.ToLower()) {
+                        if (!header.Value.Equals("xmlhttprequest", StringComparison.InvariantCultureIgnoreCase)) {
                             app = header.Value;
                         }
                         break;

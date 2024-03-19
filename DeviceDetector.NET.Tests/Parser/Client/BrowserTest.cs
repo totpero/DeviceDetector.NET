@@ -98,4 +98,21 @@ public class BrowserTest
         browserResult.Name.Should().NotBeEmpty();
 
     }
+
+    [Fact]
+    public void TestB()
+    {
+        BrowserParser.SetVersionTruncation(BrowserParser.VERSION_TRUNCATION_NONE);
+        var browsers = new BrowserParser();
+        browsers.SetUserAgent("Mozilla/5.0 (Macintosh; U; PPC; en-US; mimic; rv:9.3.0) Clecko/20120101 Classilla/CFM");
+
+        var result = browsers.Parse();
+
+        result.Success.Should().BeTrue("Match should be with success");
+
+        if (result.Match is not BrowserMatchResult browserResult) return;
+
+        browserResult.Name.Should().NotBeEmpty();
+        browserResult.Version.Should().BeEquivalentTo(string.Empty, "Version should be equal");
+    }
 }

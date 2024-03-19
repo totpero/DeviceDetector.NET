@@ -717,8 +717,7 @@ namespace DeviceDetectorNET.Parser.Client
              {"DuckDuckGo Privacy Browser", new [] {"DuckDuckGo"}},
              {"Edge WebView", new [] {"Microsoft Edge WebView2"}},
              {"Microsoft Edge", new [] {"Edge"}},
-             {"Norton Private Browser", new [] {"Norton Secure Browser"}},
-             {"Vewd Browser", new [] {"Vewd Core"}},
+             {"Norton Private Browser", new [] {"Norton Secure Browser"}}
         };
 
 

@@ -55,9 +55,12 @@ namespace DeviceDetectorNET.Tests.Parser
         public void TestX()
         {
             var os = new OperatingSystemParser();
-            os.SetUserAgent("HbbTV/1.1.1 (;;;;) Mozilla/5.0 (compatible; ANTGalio/3.0.2.1.22.43.08; Linux2.6.18-7.1/7405d0-smp)");
+            os.SetUserAgent("Mozilla/5.0 (Linux; Android 10; Mi Max Prime Build/QP1A.191005.007) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.186 Mobile Safari/537.36");
+            var clientHints = ClientHints.Factory(new(){ { "http-x-requested-with", "org.lineageos.jelly" } });
+            os.SetClientHints(clientHints);
             var r = os.Parse();
             r.Should().NotBeNull();
+            r.Match.Name.Should().Be("Lineage OS");
         }
 
         [Fact]

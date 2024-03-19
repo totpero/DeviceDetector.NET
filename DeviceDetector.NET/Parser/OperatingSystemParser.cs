@@ -366,7 +366,7 @@ namespace DeviceDetectorNET.Parser
                     version = string.Empty;
                 }
 
-                if ("'org.lineageos.jelly" == ClientHints.GetApp() && "Lineage OS" != name)
+                if ("org.lineageos.jelly" == ClientHints.GetApp() && "Lineage OS" != name)
                 {
                     name = "Lineage OS";
                     family = "Android";
