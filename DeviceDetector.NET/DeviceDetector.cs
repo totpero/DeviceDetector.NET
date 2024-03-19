@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.3.1";
+        public const string VERSION = "6.3.2";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -255,6 +255,16 @@ namespace DeviceDetectorNET
         public bool HasAndroidMobileFragment()
         {
             const string regex = @"Android( [\.0-9]+)?; Mobile;";
+            return IsMatchUserAgent(regex);
+        }
+
+        /// <summary>
+        /// Returns if the parsed UA contains the 'Android; Mobile VR;' fragment
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAndroidVRFragment()
+        {
+            const string regex = @"Android( [\.0-9]+)?; Mobile VR;| VR ";
             return IsMatchUserAgent(regex);
         }
 
@@ -672,7 +682,7 @@ namespace DeviceDetectorNET
             }
 
             //All devices containing VR fragment are assumed to be a wearable
-            if (!device.HasValue && IsMatchUserAgent(" VR "))
+            if (!device.HasValue && HasAndroidVRFragment())
             {
                 device = DeviceType.DEVICE_TYPE_WEARABLE;
             }
@@ -685,7 +695,7 @@ namespace DeviceDetectorNET
             if (!device.HasValue && osFamily == "Android" 
                                  && IsMatchUserAgent(@"Chrome/[\.0-9]*"))
             {
-                if (IsMatchUserAgent("(?:Mobile|eliboM) "))
+                if (IsMatchUserAgent("(?:Mobile|eliboM)"))
                 {
                     device = DeviceType.DEVICE_TYPE_SMARTPHONE;
                 }
@@ -784,7 +794,7 @@ namespace DeviceDetectorNET
             if (!device.HasValue && new[]
                 {
                     "Kylo", "Espial TV Browser", "LUJO TV Browser", "LogicUI TV Browser", "Open TV Browser", "Seraphic Sraf",
-                    "Opera Devices", "Crow Browser", "Vewd Browser", "TiviMate", "Quick Search TV"
+                    "Opera Devices", "Crow Browser", "Vewd Browser", "TiviMate", "Quick Search TV","QJY TV Browser", "TV Bro"
                 }.Contains(clientName))
             {
                 device = DeviceType.DEVICE_TYPE_TV;

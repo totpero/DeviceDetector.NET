@@ -22,6 +22,7 @@ namespace DeviceDetectorNET.Parser
             { "ADR", "Android TV" },
             { "AMZ", "Amazon Linux" },
             { "AMG", "AmigaOS" },
+            { "ARM", "Armadillo OS" },
             { "ATV", "tvOS" },
             { "ARL", "Arch Linux" },
             { "BTR", "BackTrack" },
@@ -51,6 +52,7 @@ namespace DeviceDetectorNET.Parser
             { "FOR", "Foresight Linux" },
             { "FRE", "Freebox" },
             { "BSD", "FreeBSD" },
+            { "FRI", "FRITZ!OS" },
             { "FYD", "FydeOS" },
             { "FUC", "Fuchsia" },
             { "GNT", "Gentoo" },
@@ -61,6 +63,7 @@ namespace DeviceDetectorNET.Parser
             { "IPA", "iPadOS" },
             { "HAR", "HarmonyOS" },
             { "HAS", "HasCodingOS" },
+            { "HEL", "HELIX OS" },
             { "IRI", "IRIX" },
             { "INF", "Inferno" },
             { "JME", "Java ME" },
@@ -74,6 +77,7 @@ namespace DeviceDetectorNET.Parser
             { "LND", "LindowsOS" },
             { "LNS", "Linspire" },
             { "LEN", "Lineage OS" },
+            { "LIR", "Liri OS" },
             { "LBT", "Lubuntu" },
             { "LOS", "Lumin OS" },
             { "LUN", "LuneOS" },
@@ -108,6 +112,8 @@ namespace DeviceDetectorNET.Parser
             { "PSP", "PlayStation Portable" },
             { "PS3", "PlayStation" },
             { "PUR", "PureOS" },
+            { "PIO", "Raspberry Pi OS" },
+            { "RAS", "Raspbian" },
             { "RHT", "Red Hat" },
             { "RED", "RedOS" },
             { "REV", "Revenge OS" },
@@ -138,6 +144,7 @@ namespace DeviceDetectorNET.Parser
             { "TIV", "TiVo OS" },
             { "TOS", "TmaxOS" },
             { "UBT", "Ubuntu" },
+            { "UOS", "UOS" },
             { "VID", "VIDAA" },
             { "WAS", "watchOS" },
             { "WER", "Wear OS" },
@@ -156,7 +163,8 @@ namespace DeviceDetectorNET.Parser
             { "ZOR", "ZorinOS" },
             { "IOS", "iOS" },
             { "POS", "palmOS" },
-            { "WOS", "webOS" }
+            { "WEB", "Webian" },
+            { "WOS", "webOS" },
         };
 
         /// <summary>
@@ -165,7 +173,8 @@ namespace DeviceDetectorNET.Parser
         protected static readonly Dictionary<string, string[]> OsFamilies = new Dictionary<string, string[]>
         {
             {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
-                                                "ADR", "CLR", "BOS", "REV", "LEN", "SIR", "RRS", "WER", "PIC" }},
+                                              "ADR", "CLR", "BOS", "REV", "LEN", "SIR", "RRS", "WER", "PIC", "ARM",
+                                              "HEL" }},
             {"AmigaOS"              , new [] {"AMG", "MOR"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
             {"Brew"                 , new [] {"BMP"}},
@@ -182,7 +191,8 @@ namespace DeviceDetectorNET.Parser
                                                 "ORD", "TOS", "RSO", "DEE", "FRE", "MAG", "FEN", "CAI", "PCL", "HAS",
                                                 "LOS", "DVK", "ROK", "OWR", "OTV", "KTV", "PUR", "PLA", "FUC", "PAR",
                                                 "FOR", "MON", "KAN", "ZEN", "LND", "LNS", "CHN", "AMZ", "TEN", "CST",
-                                                "NOV", "ROU", "ZOR", "RED", "KAL", "ORA", "VID", "TIV", "BSN" }},
+                                                "NOV", "ROU", "ZOR", "RED", "KAL", "ORA", "VID", "TIV", "BSN", "RAS",
+                                                "UOS", "PIO", "FRI", "LIR", "WEB" }},
             {"Mac"                  , new [] {"MAC"}},
             {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX"}},
             {"Real-time OS"         , new [] {"MTK", "TDX", "MRE", "JME", "REX"}},
@@ -291,6 +301,10 @@ namespace DeviceDetectorNET.Parser
                     {
                         version = string.Empty;
                     }
+                    if ("PICO OS" == name)
+                    {
+                        version = osFromUserAgent.Version;
+                    }
 
                     if ("Fire OS" == name)
                     {
@@ -351,6 +365,15 @@ namespace DeviceDetectorNET.Parser
                     @short = "ADR";
                     version = string.Empty;
                 }
+
+                if ("'org.lineageos.jelly" == ClientHints.GetApp() && "Lineage OS" != name)
+                {
+                    name = "Lineage OS";
+                    family = "Android";
+                    @short = "LEN";
+                    version = string.Empty;
+                }
+
             }
 
             var os = new OsMatchResult
@@ -599,6 +622,10 @@ namespace DeviceDetectorNET.Parser
                 if (arch.Contains("sh4"))
                 {
                     return PlatformType.SuperH;
+                } 
+                if (arch.Contains("sparc64"))
+                {
+                    return PlatformType.Sparc64;
                 }
                 if (arch.Contains("x64") || (arch.Contains("x86") && ClientHints.GetBitness() == "64"))
                 {
@@ -622,6 +649,10 @@ namespace DeviceDetectorNET.Parser
             if (IsMatchUserAgent("sh4"))
             {
                 return PlatformType.SuperH;
+            } 
+            if (IsMatchUserAgent("sparc64"))
+            {
+                return PlatformType.Sparc64;
             }
             if (IsMatchUserAgent("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64"))
             {

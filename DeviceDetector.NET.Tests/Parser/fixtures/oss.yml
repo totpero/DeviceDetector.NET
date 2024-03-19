@@ -276,7 +276,7 @@
   os:
     name: OS/2
     short_name: OS2
-    version:
+    version: "4.5"
     platform:
     family: IBM
 -
@@ -3428,7 +3428,7 @@
   os:
     name: Lineage OS
     short_name: LEN
-    version: ""
+    version: "18"
     platform: ""
     family: Android
 -
@@ -4191,6 +4191,49 @@
     platform:
     family: iOS
 -
+  user_agent: Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/8.0 (1:3.8.2.0-0rpi27rpi1g) Epiphany/3.8.2
+  os:
+    name: Raspbian
+    short_name: RAS
+    version: "8.0"
+    platform: ARM
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (Macintosh; ARM Mac OS X) AppleWebKit/538.15 (KHTML, like Gecko) Safari/538.15 Version/6.0 Raspbian/9.0 (1:3.8.2.0-0rpi28) Epiphany/3.8.2
+  os:
+    name: Raspbian
+    short_name: RAS
+    version: "9.0"
+    platform: ARM
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Raspbian Chromium/72.0.3626.121 Chrome/72.0.3626.121 Safari/537.36
+  os:
+    name: Raspberry Pi OS
+    short_name: PIO
+    version: ""
+    platform: ARM
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36 UOS
+  os:
+    name: UOS
+    short_name: UOS
+    version: ""
+    platform: x64
+    family: GNU/Linux
+-
+  user_agent: 'Mozilla/5.0 (X11; Linux x86_64; PICO 4 OS5.4.0 like Quest) AppleWebKit/537.36 (KHTML, like Gecko) PicoBrowser/3.3.22 Chrome/105.0.5195.68 VR Safari/537.36  OculusBrowser/7.0'
+  os:
+    name: PICO OS
+    short_name: PIC
+    version: 5.4.0
+    platform: x64
+    family: Android
+  headers:
+    Sec-CH-UA-Platform: "Android"
+    Sec-CH-UA-Platform-Version: "10.0.0"
+-
   user_agent: WhatsApp/2.22.9.78 A
   os:
     name: Android
@@ -4230,3 +4273,197 @@
     version: ""
     platform: ""
     family: Mac
+-
+  user_agent: Dalvik/2.1.0 (Linux; U; Android 11; Smart TV Build/RP1A.200622.001)
+  os:
+    name: Android TV
+    short_name: ADR
+    version: "11"
+    platform: ""
+    family: Android
+-
+  user_agent: Dalvik/2.1.0 (Linux; U; Android 9; SmartTV Build/RTK2842P)
+  os:
+    name: Android TV
+    short_name: ADR
+    version: "9"
+    platform: ""
+    family: Android
+-
+  user_agent: Mozilla/5.0 (Linux; Android 9; SMART_TV Build/PPR1.180610.011; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/66.0.3359.158 Safari/537.36
+  os:
+    name: Android TV
+    short_name: ADR
+    version: "9"
+    platform: ""
+    family: Android
+-
+  user_agent: Mozilla/5.0 (Linux; Android 10; Armadillo Phone) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.81 Mobile Safari/537.36
+  os:
+    name: Armadillo OS
+    short_name: ARM
+    version: ""
+    platform: ARM
+    family: Android
+-
+  user_agent: Mozilla/5.0 (Linux; Android 10; Helix Phone) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.127 Mobile Safari/537.36
+  os:
+    name: HELIX OS
+    short_name: HEL
+    version: ""
+    platform: ""
+    family: Android
+-
+  user_agent: FeedDaemon FRITZ!OS/07.12 Linux/2.6.39.3
+  os:
+    name: FRITZ!OS
+    short_name: FRI
+    version: "7.12"
+    platform: ""
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (Linux; Android 9; AEOAT) AppleWebKit/537.36 (KHTML, like Gecko) Silk/112.6.3 like Chrome/112.0.5615.213 Safari/537.36
+  os:
+    name: Fire OS
+    short_name: FIR
+    version: "7"
+    platform: ""
+    family: Android
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.1) Gecko/20060324 Ubuntu/dapper Firefox/52.5.0
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: "6.06"
+    platform: x86
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; nl; rv:1.8.0.4) Gecko/20060608 Ubuntu/dapper-security Firefox/52.4.1
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: "6.06"
+    platform: x86
+    family: GNU/Linux
+-
+  user_agent: Zeasn/2.0 Mozilla/5.0 (Linux;CE-HTML/1.0;U;en), Chrome/49.0.2623.87 Safari/537.36 AppleWebKit 537.36 (KHTML, like Gecko) Tbrowser/2.0, _TV_UNKONWN/V8-NT563LA-LF1V250 (WESTPOINT,TETS-4919SM,wireless)
+  os:
+    name: Whale OS
+    short_name: WHS
+    version: "1"
+    platform: ""
+    family: Other Smart TV
+-
+  user_agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_6_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 momoWebView/9.6.7 ios/5168(iPhone13,2;iOS 15.6.1;zh_CN;S1;netType/0)
+  os:
+    name: iOS
+    short_name: IOS
+    version: 15.6.1
+    platform: ""
+    family: iOS
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.1.3) Gecko/20061201 MEGAUPLOAD 1.0 (Ubuntu-feisty)
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: "7.04"
+    platform: x86
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux x86_64; pl-PL; rv:1.9.0.1) Gecko/2008071222 Ubuntu/hardy Firefox/3.0.1
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: "8.04"
+    platform: x64
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.11) Gecko/20070326 Ubuntu/breezy-security Epiphany/1.8.2 Firefox/1.5.0.11
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: "5.10"
+    platform: x86
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (X11; U; Linux x86_64; en-GB; rv:1.8.1b1) Gecko/20060601 BonEcho/2.0b1 (Ubuntu-edgy)
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: "6.10"
+    platform: x64
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36 Liri/0.4.0
+  os:
+    name: Liri OS
+    short_name: LIR
+    version:
+    platform: x64
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (X11; Linux x86_64; rv:2.0) Gecko/20110318 WebianShell/0.1
+  os:
+    name: Webian
+    short_name: WEB
+    version:
+    platform: x64
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; System75) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15 Ubuntu/22.04 Eolie/605.1.15
+  os:
+    name: Ubuntu
+    short_name: UBT
+    version: "22.04"
+    platform: x64
+    family: GNU/Linux
+-
+  user_agent: Mozilla/5.0 (Linux; Android 10; Mi Max Prime Build/QP1A.191005.007) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.186 Mobile Safari/537.36
+  os:
+    name: Lineage OS
+    short_name: LEN
+    version:
+    platform:
+    family: Android
+  headers:
+    http-x-requested-with: org.lineageos.jelly
+-
+  user_agent: Mozilla/5.0 (Linux; Android 11; lineage_j5y17lte Build/RQ2A.210305.006) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/88.0.4324.152 Mobile Safari/537.36
+  os:
+    name: Lineage OS
+    short_name: LEN
+    version: "18"
+    platform:
+    family: Android
+-
+  user_agent: 'Mozilla/5.0 (Linux; Android 10; SM-A105F Build/Lineage_17.1-arm64_by_Eureka_Team; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/87.0.4280.101 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/399.0.0.24.93;]'
+  os:
+    name: Lineage OS
+    short_name: LEN
+    version: "17.1"
+    platform:
+    family: Android
+-
+  user_agent: Mozilla/5.0 (Linux; Android 9; lineage_serranoltexx) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36
+  os:
+    name: Lineage OS
+    short_name: LEN
+    version: "16"
+    platform:
+    family: Android
+-
+  user_agent: Mozilla/5.0 (Linux; Android 7.1.2; lineage_FS504 Build/NJH47F; ru-ru) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36 Puffin/7.8.2.40664AP
+  os:
+    name: Lineage OS
+    short_name: LEN
+    version: "14.1"
+    platform:
+    family: Android
+-
+  user_agent: Dalvik/2.1.0 (Linux; U; Android 7.1.1; lineage_A6020 Build/NMF26V)
+  os:
+    name: Lineage OS
+    short_name: LEN
+    version: "14.1"
+    platform:
+    family: Android

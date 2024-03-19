@@ -25,16 +25,16 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
 
             string[] matches;
 
-            if (string.Compare(_engine, "Gecko", StringComparison.OrdinalIgnoreCase) == 0)
+            if (_engine.Equals("Gecko", StringComparison.OrdinalIgnoreCase) || _engine.Equals("Clecko", StringComparison.OrdinalIgnoreCase))
             {
                 matches = GetRegexEngine()
-                    .MatchesUniq(UserAgent, @"[ ](?:rv[: ]([0-9\.]+)).*gecko/[0-9]{2,10}").ToArray();
+                    .MatchesUniq(UserAgent, @"[ ](?:rv[: ]([0-9\.]+)).*(?:g|cl)ecko/[0-9]{8,10}").ToArray();
             }
             else
             {
                 var engineToken = _engine;
 
-                if (string.Compare(_engine, "Blink", StringComparison.OrdinalIgnoreCase) == 0)
+                if (_engine.Equals("Blink", StringComparison.OrdinalIgnoreCase))
                 {
                     engineToken = "Chrome|Cronet";
                 }

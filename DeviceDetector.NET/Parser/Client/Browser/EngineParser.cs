@@ -20,6 +20,7 @@ namespace DeviceDetectorNET.Parser.Client.Browser
             "iCab",
             "Elektra",
             "Presto",
+            "Clecko",
             "Gecko",
             "KHTML",
             "NetFront",
@@ -27,6 +28,7 @@ namespace DeviceDetectorNET.Parser.Client.Browser
             "NetSurf",
             "Servo",
             "Goanna",
+            "EkiohFlow",
             "EkiohFlow"
         };
 
