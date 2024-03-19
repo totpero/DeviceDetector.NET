@@ -792,7 +792,7 @@ namespace DeviceDetectorNET.Parser.Client
                 // If the version reported from the client hints is YYYY or YYYY.MM (e.g., 2022 or 2022.04),
                 // then it is the Iridium browser
                 // https://iridiumbrowser.de/news/
-                if (!GetRegexEngine().Match(client.Version, "/^202[0-4]/")){
+                if (GetRegexEngine().Match(client.Version, "/^202[0-4]/")){
                     client.Name = "Iridium";
                     client.ShortName = "I1";
                 }

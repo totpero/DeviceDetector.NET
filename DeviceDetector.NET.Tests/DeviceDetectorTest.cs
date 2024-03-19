@@ -624,6 +624,24 @@ public class DeviceDetectorTest
         });
 
         var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
+        dd.Match.Client.Name.Should().NotBe("Iridium");
+        dd.Success.Should().BeTrue();
+    }
+
+    /// <summary>
+    /// Issue #79 part 2
+    /// </summary>
+    [Fact]
+    public void TestIssue79_Test2()
+    {
+        var userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+        var clientHints = ClientHints.Factory(new Dictionary<string, string>
+        {
+            ["Sec-Ch-Ua-Full-Version-List"] = "\"Chromium\";v=\"122.0.6261.69\", \"Not(A:Brand\";v=\"24.0.0.0\", \"Google Chrome\";v=\"122.0.6261.69\"",
+        });
+
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
+        dd.Match.Client.Name.Should().NotBe("Iridium");
         dd.Success.Should().BeTrue();
     }
 }
