@@ -197,6 +197,7 @@ public class DeviceDetectorTest
     [InlineData("smartphone-35")]
     [InlineData("smartphone-36")]
     [InlineData("smartphone-37")]
+    [InlineData("smartphone-38")]
     [InlineData("tablet")]
     [InlineData("tablet-1")]
     [InlineData("tablet-2")]
@@ -665,7 +666,7 @@ public class DeviceDetectorTest
         const string userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15";
         var dd = new DeviceDetector(userAgent);
         dd.Parse();
-        dd.IsMobile().Should().BeTrue();
+        dd.IsMobile().Should().BeFalse();
     }    
     
     /// <summary>

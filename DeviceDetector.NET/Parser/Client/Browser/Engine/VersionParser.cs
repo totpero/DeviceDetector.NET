@@ -38,6 +38,16 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
                 {
                     engineToken = "Chrome|Cronet";
                 }
+                
+                if (_engine.Equals("Arachne", StringComparison.OrdinalIgnoreCase))
+                {
+                    engineToken = "Arachne\\/5\\.";
+                }
+                
+                if (_engine.Equals("LibWeb", StringComparison.OrdinalIgnoreCase))
+                {
+                    engineToken = "LibWeb\\+LibJs";
+                }
 
                 matches = GetRegexEngine()
                     .MatchesUniq(UserAgent,

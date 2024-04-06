@@ -29,7 +29,8 @@ namespace DeviceDetectorNET.Parser.Client.Browser
             "Servo",
             "Goanna",
             "EkiohFlow",
-            "EkiohFlow"
+            "Arachne",
+            "LibWeb"
         };
 
         public EngineParser()
