@@ -135,6 +135,9 @@ namespace DeviceDetectorNET
 
         public bool Is(ClientType type)
         {
+            if (!IsParsed())
+                throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
+
             return client.ParserName == type.Name;
         }
 
@@ -224,6 +227,9 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool IsBot()
         {
+            if (!IsParsed())
+                throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
+
             return bot.Success;
         }
 
@@ -303,6 +309,9 @@ namespace DeviceDetectorNET
 
         public bool IsMobile()
         {
+            if (!IsParsed())
+                throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
+
             // Client hints indicate a mobile device
             if (clientHints != null && clientHints.IsMobile()) {
                 return true;
@@ -342,6 +351,9 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool IsDesktop()
         {
+            if (!IsParsed())
+                throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
+
             var osShort = os.Success ? os.Match.ShortName : string.Empty;
             if (string.IsNullOrEmpty(osShort) || UNKNOWN == osShort)
             {

@@ -624,8 +624,8 @@ public class DeviceDetectorTest
         });
 
         var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
-        dd.Match.Client.Name.Should().NotBe("Iridium");
         dd.Success.Should().BeTrue();
+        dd.Match.Client.Name.Should().NotBe("Iridium");
     }
 
     /// <summary>
@@ -634,14 +634,51 @@ public class DeviceDetectorTest
     [Fact]
     public void TestIssue79_Test2()
     {
-        var userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+        const string userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
         var clientHints = ClientHints.Factory(new Dictionary<string, string>
         {
             ["Sec-Ch-Ua-Full-Version-List"] = "\"Chromium\";v=\"122.0.6261.69\", \"Not(A:Brand\";v=\"24.0.0.0\", \"Google Chrome\";v=\"122.0.6261.69\"",
         });
 
         var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
-        dd.Match.Client.Name.Should().NotBe("Iridium");
         dd.Success.Should().BeTrue();
+        dd.Match.Client.Name.Should().NotBe("Iridium");
+    }
+
+    /// <summary>
+    /// Issue #22
+    /// </summary>
+    [Fact]
+    public void TestIssue22_Test1()
+    {
+        const string userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Mobile/15E148 Safari/604.1";
+        var dd = new DeviceDetector(userAgent);
+        dd.Parse();
+        dd.IsMobile().Should().BeTrue();
+    }
+    /// <summary>
+    /// Issue #22
+    /// </summary>
+    [Fact]
+    public void TestIssue22_Test2()
+    {
+        const string userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15";
+        var dd = new DeviceDetector(userAgent);
+        dd.Parse();
+        dd.IsMobile().Should().BeTrue();
+    }    
+    
+    /// <summary>
+    /// Issue #22
+    /// </summary>
+    [Fact]
+    public void TestIssue22_Test3()
+    {
+        const string userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15";
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
+        dd.Success.Should().BeTrue();
+        dd.Match.Client.Type.Should().Be("browser");
+        dd.Match.OsFamily.Should().Be("Mac");
+        dd.Match.DeviceType.Should().Be("desktop");
     }
 }
