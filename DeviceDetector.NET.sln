@@ -21,12 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.CacheBui
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Web", "DeviceDetector.NET.Web\DeviceDetector.NET.Web.csproj", "{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{9D4D2F68-CCD7-49C1-B117-4C642CC6F678}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Cache.BitFaster", "DeviceDetector.NET.Cache.BitFaster\DeviceDetector.NET.Cache.BitFaster.csproj", "{3DF1A758-9E7A-4E86-BA2B-76AF58C0492E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{69FF52A1-6576-413A-9FBB-30F911261511}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Cache", "DeviceDetector.NET.Cache\DeviceDetector.NET.Cache.csproj", "{6844D2C6-5CE7-4DDD-8EAD-83D5400B38D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,15 +51,19 @@ Global
 		{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DF1A758-9E7A-4E86-BA2B-76AF58C0492E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DF1A758-9E7A-4E86-BA2B-76AF58C0492E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DF1A758-9E7A-4E86-BA2B-76AF58C0492E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DF1A758-9E7A-4E86-BA2B-76AF58C0492E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6844D2C6-5CE7-4DDD-8EAD-83D5400B38D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6844D2C6-5CE7-4DDD-8EAD-83D5400B38D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6844D2C6-5CE7-4DDD-8EAD-83D5400B38D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6844D2C6-5CE7-4DDD-8EAD-83D5400B38D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88D253CD-9A5E-42A6-BBBA-3362F7D47DF2}
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{9D4D2F68-CCD7-49C1-B117-4C642CC6F678} = {999E1778-7E91-4F62-AD53-6BE530E59B7C}
-		{69FF52A1-6576-413A-9FBB-30F911261511} = {9D4D2F68-CCD7-49C1-B117-4C642CC6F678}
 	EndGlobalSection
 EndGlobal

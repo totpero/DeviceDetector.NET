@@ -60,4 +60,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DeviceDetector.NET.Cache\DeviceDetector.NET.Cache.csproj" />
+  </ItemGroup>
+
 </Project>
