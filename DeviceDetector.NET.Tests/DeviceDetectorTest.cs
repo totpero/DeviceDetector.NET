@@ -155,6 +155,7 @@ public class DeviceDetectorTest
     [InlineData("peripheral")]
     [InlineData("phablet")]
     [InlineData("phablet-1")]
+    [InlineData("podcasting")]
     [InlineData("portable_media_player")]
     [InlineData("smart_display")]
     [InlineData("smart_speaker")]
@@ -196,6 +197,7 @@ public class DeviceDetectorTest
     [InlineData("smartphone-35")]
     [InlineData("smartphone-36")]
     [InlineData("smartphone-37")]
+    [InlineData("smartphone-38")]
     [InlineData("tablet")]
     [InlineData("tablet-1")]
     [InlineData("tablet-2")]
@@ -211,13 +213,14 @@ public class DeviceDetectorTest
     [InlineData("tv")]
     [InlineData("tv-1")]
     [InlineData("tv-2")]
+    [InlineData("tv-3")]
     [InlineData("unknown")]
     [InlineData("wearable")]
     public void TestParse(string fileNme)
     {
         //DeviceDetectorSettings.RegexesDirectory = @"D:\WorkSpaces\GitHubVisualStudio\DeviceDetector.Net\src\DeviceDetector.NET\";
         var parser = new YamlParser<List<DeviceDetectorFixture>>();
-        var fixtureData = parser.ParseFile($"{Utils.CurrentDirectory()}\\fixtures\\{fileNme}.yml");
+        var fixtureData = parser.ParseFile($@"{Utils.CurrentDirectory()}\fixtures\{fileNme}.yml");
         DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
 
         Parallel.ForEach(fixtureData, expected =>
@@ -453,12 +456,12 @@ public class DeviceDetectorTest
             var dd = new DeviceDetector(item.user_agent);
             dd.DiscardBotInformation();
             dd.Parse();
-            dd.IsBot().Should().Be(item.check.Item1);
-            dd.IsMobile().Should().Be(item.check.Item2);
-            dd.IsDesktop().Should().Be(item.check.Item3);
-            dd.IsTablet().Should().Be(item.check.Item4);
-            dd.IsTv().Should().Be(item.check.Item5);
-            dd.IsWearable().Should().Be(item.check.Item6);
+            dd.IsBot().Should().Be(item.check[0]);
+            dd.IsMobile().Should().Be(item.check[1]);
+            dd.IsDesktop().Should().Be(item.check[2]);
+            dd.IsTablet().Should().Be(item.check[3]);
+            dd.IsTv().Should().Be(item.check[4]);
+            dd.IsWearable().Should().Be(item.check[5]);
         }
     }
     [Fact]
@@ -600,4 +603,83 @@ public class DeviceDetectorTest
     //    var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
     //    dd.Success.Should().BeTrue();
     //}
+
+    /// <summary>
+    /// Issue #79
+    /// </summary>
+    [Fact]
+    public void TestIssue79()
+    {
+        const string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.60 Safari/537.36";
+        var clientHints = ClientHints.Factory(new Dictionary<string, string>
+        {
+            { "sec-ch-ua", "\"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"2022\"" },
+            { "sec-ch-ua-full-version", "2022.04" },
+            { "sec-ch-ua-mobile", "?0" },
+            { "sec-ch-ua-model", "" },
+            { "sec-ch-ua-platform", "Windows" },
+            { "sec-ch-ua-platform-version", "15.0.0" },
+            { "sec-fetch-dest", string.Empty },
+            { "sec-fetch-mode", "cors" },
+            { "sec-fetch-site", "same-origin" }
+        });
+
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
+        dd.Success.Should().BeTrue();
+        dd.Match.Client.Name.Should().NotBe("Iridium");
+    }
+
+    /// <summary>
+    /// Issue #79 part 2
+    /// </summary>
+    [Fact]
+    public void TestIssue79_Test2()
+    {
+        const string userAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36";
+        var clientHints = ClientHints.Factory(new Dictionary<string, string>
+        {
+            ["Sec-Ch-Ua-Full-Version-List"] = "\"Chromium\";v=\"122.0.6261.69\", \"Not(A:Brand\";v=\"24.0.0.0\", \"Google Chrome\";v=\"122.0.6261.69\"",
+        });
+
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
+        dd.Success.Should().BeTrue();
+        dd.Match.Client.Name.Should().NotBe("Iridium");
+    }
+
+    /// <summary>
+    /// Issue #22
+    /// </summary>
+    [Fact]
+    public void TestIssue22_Test1()
+    {
+        const string userAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Mobile/15E148 Safari/604.1";
+        var dd = new DeviceDetector(userAgent);
+        dd.Parse();
+        dd.IsMobile().Should().BeTrue();
+    }
+    /// <summary>
+    /// Issue #22
+    /// </summary>
+    [Fact]
+    public void TestIssue22_Test2()
+    {
+        const string userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15";
+        var dd = new DeviceDetector(userAgent);
+        dd.Parse();
+        dd.IsMobile().Should().BeFalse();
+    }    
+    
+    /// <summary>
+    /// Issue #22
+    /// </summary>
+    [Fact]
+    public void TestIssue22_Test3()
+    {
+        const string userAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.1 Safari/605.1.15";
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
+        dd.Success.Should().BeTrue();
+        dd.Match.Client.Type.Should().Be("browser");
+        dd.Match.OsFamily.Should().Be("Mac");
+        dd.Match.DeviceType.Should().Be("desktop");
+    }
 }

@@ -18,6 +18,9 @@ namespace DeviceDetectorNET.Results
         public string UserAgent { get; set; }
         [DataMember]
         public BotMatchResult Bot { get; set; }
+
+        public bool IsBoot => Bot != null;
+
         [DataMember]
         public OsMatchResult Os { get; set; }
         [DataMember]

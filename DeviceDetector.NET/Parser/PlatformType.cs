@@ -7,6 +7,7 @@ namespace DeviceDetectorNET.Parser
         public const string X86 = "x86";
         public const string MIPS = "MIPS";
         public const string SuperH = "SuperH";
+        public const string Sparc64 = "SPARC64";
         public const string NONE = "";
     }
 }

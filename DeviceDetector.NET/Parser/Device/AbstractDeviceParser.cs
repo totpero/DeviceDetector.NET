@@ -216,8 +216,8 @@ namespace DeviceDetectorNET.Parser.Device
         protected bool HasDesktopFragment()
         {
             var regexExcludeDesktopFragment = string.Join("|", 
-                "CE-HTML", 
-                " Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser", 
+                "CE-HTML",
+                " Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser",
                 "PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)");
 
             return IsMatchUserAgent("(?:Windows (?:NT|IoT)|X11; Linux x86_64)") && 

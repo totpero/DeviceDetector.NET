@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.3.0";
+        public const string VERSION = "6.3.2";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -135,6 +135,9 @@ namespace DeviceDetectorNET
 
         public bool Is(ClientType type)
         {
+            if (!IsParsed())
+                throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
+
             return client.ParserName == type.Name;
         }
 
@@ -224,6 +227,9 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool IsBot()
         {
+            if (!IsParsed())
+                throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
+
             return bot.Success;
         }
 
@@ -255,6 +261,16 @@ namespace DeviceDetectorNET
         public bool HasAndroidMobileFragment()
         {
             const string regex = @"Android( [\.0-9]+)?; Mobile;";
+            return IsMatchUserAgent(regex);
+        }
+
+        /// <summary>
+        /// Returns if the parsed UA contains the 'Android; Mobile VR;' fragment
+        /// </summary>
+        /// <returns></returns>
+        public bool HasAndroidVRFragment()
+        {
+            const string regex = @"Android( [\.0-9]+)?; Mobile VR;| VR ";
             return IsMatchUserAgent(regex);
         }
 
@@ -293,6 +309,9 @@ namespace DeviceDetectorNET
 
         public bool IsMobile()
         {
+            if (!IsParsed())
+                throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
+
             // Client hints indicate a mobile device
             if (clientHints != null && clientHints.IsMobile()) {
                 return true;
@@ -332,6 +351,9 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool IsDesktop()
         {
+            if (!IsParsed())
+                throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
+
             var osShort = os.Success ? os.Match.ShortName : string.Empty;
             if (string.IsNullOrEmpty(osShort) || UNKNOWN == osShort)
             {
@@ -672,7 +694,7 @@ namespace DeviceDetectorNET
             }
 
             //All devices containing VR fragment are assumed to be a wearable
-            if (!device.HasValue && IsMatchUserAgent(" VR "))
+            if (!device.HasValue && HasAndroidVRFragment())
             {
                 device = DeviceType.DEVICE_TYPE_WEARABLE;
             }
@@ -685,7 +707,7 @@ namespace DeviceDetectorNET
             if (!device.HasValue && osFamily == "Android" 
                                  && IsMatchUserAgent(@"Chrome/[\.0-9]*"))
             {
-                if (IsMatchUserAgent("(?:Mobile|eliboM) "))
+                if (IsMatchUserAgent("(?:Mobile|eliboM)"))
                 {
                     device = DeviceType.DEVICE_TYPE_SMARTPHONE;
                 }
@@ -784,7 +806,7 @@ namespace DeviceDetectorNET
             if (!device.HasValue && new[]
                 {
                     "Kylo", "Espial TV Browser", "LUJO TV Browser", "LogicUI TV Browser", "Open TV Browser", "Seraphic Sraf",
-                    "Opera Devices", "Crow Browser", "Vewd Browser", "TiviMate", "Quick Search TV"
+                    "Opera Devices", "Crow Browser", "Vewd Browser", "TiviMate", "Quick Search TV","QJY TV Browser", "TV Bro"
                 }.Contains(clientName))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
