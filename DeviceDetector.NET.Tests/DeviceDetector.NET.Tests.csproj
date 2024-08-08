@@ -2,9 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
     <RootNamespace>DeviceDetectorNET.Tests</RootNamespace>
   </PropertyGroup>
 
