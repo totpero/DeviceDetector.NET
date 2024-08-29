@@ -250,7 +250,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool HasAndroidTableFragment()
         {
-            const string regex = @"Android( [\.0-9]+)?; Tablet;";
+            const string regex = @"Android( [\.0-9]+)?; Tablet;|Tablet(?! PC)|.*\-tablet$";
             return IsMatchUserAgent(regex);
         }
 
@@ -791,7 +791,7 @@ namespace DeviceDetectorNET
             }
 
             //All devices that contain Andr0id in string are assumed to be a tv
-            if (IsMatchUserAgent("Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA"))
+            if (IsMatchUserAgent("Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA| TV$"))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
             }

@@ -20,23 +20,30 @@ namespace DeviceDetectorNET.Parser
             { "AIX", "AIX" },
             { "AND", "Android" },
             { "ADR", "Android TV" },
+            { "ALP", "Alpine Linux" },
             { "AMZ", "Amazon Linux" },
             { "AMG", "AmigaOS" },
             { "ARM", "Armadillo OS" },
+            { "ARO", "AROS" },
             { "ATV", "tvOS" },
             { "ARL", "Arch Linux" },
+            { "AOS", "AOSC OS" },
             { "ASP", "ASPLinux" },
+            { "AZU", "Azure Linux" },
             { "BTR", "BackTrack" },
             { "SBA", "Bada" },
+            { "BYI", "Baidu Yi" },
             { "BEO", "BeOS" },
             { "BLB", "BlackBerry OS" },
             { "QNX", "BlackBerry Tablet OS" },
+            { "PAN", "blackPanther OS" },
             { "BOS", "Bliss OS" },
             { "BMP", "Brew" },
             { "BSN", "BrightSignOS" },
             { "CAI", "Caixa Mágica" },
             { "CES", "CentOS" },
             { "CST", "CentOS Stream" },
+            { "CLO", "Clear Linux OS" },
             { "CLR", "ClearOS Mobile" },
             { "COS", "Chrome OS" },
             { "CRS", "Chromium OS" },
@@ -46,6 +53,8 @@ namespace DeviceDetectorNET.Parser
             { "DEE", "Deepin" },
             { "DFB", "DragonFly" },
             { "DVK", "DVKBuntu" },
+            { "ELE", "ElectroBSD" },
+            { "EUL", "EulerOS" },
             { "FED", "Fedora" },
             { "FEN", "Fenix" },
             { "FOS", "Firefox OS" },
@@ -57,6 +66,9 @@ namespace DeviceDetectorNET.Parser
             { "FYD", "FydeOS" },
             { "FUC", "Fuchsia" },
             { "GNT", "Gentoo" },
+            { "GNX", "GENIX" },
+            { "GEO", "GEOS" },
+            { "GNS", "gNewSense" },
             { "GRI", "GridOS" },
             { "GTV", "Google TV" },
             { "HPX", "HP-UX" },
@@ -68,9 +80,11 @@ namespace DeviceDetectorNET.Parser
             { "IRI", "IRIX" },
             { "INF", "Inferno" },
             { "JME", "Java ME" },
+            { "JOL", "Joli OS" },
             { "KOS", "KaiOS" },
             { "KAL", "Kali" },
             { "KAN", "Kanotix" },
+            { "KIN", "KIN OS" },
             { "KNO", "Knoppix" },
             { "KTV", "KreaTV" },
             { "KBT", "Kubuntu" },
@@ -79,6 +93,7 @@ namespace DeviceDetectorNET.Parser
             { "LNS", "Linspire" },
             { "LEN", "Lineage OS" },
             { "LIR", "Liri OS" },
+            { "LOO", "Loongnix" },
             { "LBT", "Lubuntu" },
             { "LOS", "Lumin OS" },
             { "LUN", "LuneOS" },
@@ -90,18 +105,23 @@ namespace DeviceDetectorNET.Parser
             { "SMG", "MeeGo" },
             { "MCD", "MocorDroid" },
             { "MON", "moonOS" },
+            { "EZX", "Motorola EZX" },
             { "MIN", "Mint" },
             { "MLD", "MildWild" },
             { "MOR", "MorphOS" },
             { "NBS", "NetBSD" },
             { "MTK", "MTK / Nucleus" },
             { "MRE", "MRE" },
+            { "NXT", "NeXTSTEP" },
+            { "NWS", "NEWS-OS" },
             { "WII", "Nintendo" },
             { "NDS", "Nintendo Mobile" },
             { "NOV", "Nova" },
             { "OS2", "OS/2" },
             { "T64", "OSF1" },
             { "OBS", "OpenBSD" },
+            { "OVS", "OpenVMS" },
+            { "OVZ", "OpenVZ" },
             { "OWR", "OpenWrt" },
             { "OTV", "Opera TV" },
             { "ORA", "Oracle Linux" },
@@ -112,13 +132,18 @@ namespace DeviceDetectorNET.Parser
             { "PLA", "Plasma Mobile" },
             { "PSP", "PlayStation Portable" },
             { "PS3", "PlayStation" },
+            { "PVE", "Proxmox VE" },
             { "PUR", "PureOS" },
+            { "QTP", "Qtopia" },
             { "PIO", "Raspberry Pi OS" },
             { "RAS", "Raspbian" },
             { "RHT", "Red Hat" },
+            { "RST", "Red Star" },
             { "RED", "RedOS" },
             { "REV", "Revenge OS" },
+            { "RIS", "risingOS" },
             { "ROS", "RISC OS" },
+            { "ROC", "Rocky Linux" },
             { "ROK", "Roku OS" },
             { "RSO", "Rosa" },
             { "ROU", "RouterOS" },
@@ -129,11 +154,13 @@ namespace DeviceDetectorNET.Parser
             { "SAB", "Sabayon" },
             { "SSE", "SUSE" },
             { "SAF", "Sailfish OS" },
+            { "SCI", "Scientific Linux" },
             { "SEE", "SeewoOS" },
             { "SER", "SerenityOS" },
             { "SIR", "Sirin OS" },
             { "SLW", "Slackware" },
             { "SOS", "Solaris" },
+            { "SBL", "Star-Blade OS" },
             { "SYL", "Syllable" },
             { "SYM", "Symbian" },
             { "SYS", "Symbian OS" },
@@ -145,9 +172,12 @@ namespace DeviceDetectorNET.Parser
             { "TIZ", "Tizen" },
             { "TIV", "TiVo OS" },
             { "TOS", "TmaxOS" },
+            { "TUR", "Turbolinux" },
             { "UBT", "Ubuntu" },
+            { "ULT", "ULTRIX" },
             { "UOS", "UOS" },
             { "VID", "VIDAA" },
+            { "VIZ", "ViziOS" },
             { "WAS", "watchOS" },
             { "WER", "Wear OS" },
             { "WTV", "WebTV" },
@@ -158,6 +188,7 @@ namespace DeviceDetectorNET.Parser
             { "WMO", "Windows Mobile" },
             { "WPH", "Windows Phone" },
             { "WRT", "Windows RT" },
+            { "WPO", "WoPhone" },
             { "XBX", "Xbox" },
             { "XBT", "Xubuntu" },
             { "YNS", "YunOS" },
@@ -176,8 +207,8 @@ namespace DeviceDetectorNET.Parser
         {
             {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
                                               "ADR", "CLR", "BOS", "REV", "LEN", "SIR", "RRS", "WER", "PIC", "ARM",
-                                              "HEL" }},
-            {"AmigaOS"              , new [] {"AMG", "MOR"}},
+                                              "HEL", "BYI", "RIS" }},
+            {"AmigaOS"              , new [] {"AMG", "MOR", "ARO"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
             {"Brew"                 , new [] {"BMP"}},
             {"BeOS"                 , new [] {"BEO", "HAI"}},
@@ -194,16 +225,19 @@ namespace DeviceDetectorNET.Parser
                                                 "LOS", "DVK", "ROK", "OWR", "OTV", "KTV", "PUR", "PLA", "FUC", "PAR",
                                                 "FOR", "MON", "KAN", "ZEN", "LND", "LNS", "CHN", "AMZ", "TEN", "CST",
                                                 "NOV", "ROU", "ZOR", "RED", "KAL", "ORA", "VID", "TIV", "BSN", "RAS",
-                                                "UOS", "PIO", "FRI", "LIR", "WEB", "SER", "ASP" }},
+                                                "UOS", "PIO", "FRI", "LIR", "WEB", "SER", "ASP", "AOS", "LOO", "EUL",
+                                                "SCI", "ALP", "CLO", "ROC", "OVZ", "PVE", "RST", "EZX", "GNS", "JOL",
+                                                "TUR", "QTP", "WPO", "PAN", "VIZ", "AZU", }},
             {"Mac"                  , new [] {"MAC"}},
             {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX"}},
             {"Real-time OS"         , new [] {"MTK", "TDX", "MRE", "JME", "REX"}},
-            {"Other Mobile"         , new [] {"WOS", "POS", "SBA", "TIZ", "SMG", "MAE", "LUN"}},
+            {"Other Mobile"         , new [] {"WOS", "POS", "SBA", "TIZ", "SMG", "MAE", "LUN", "GEO"}},
             {"Symbian"              , new [] {"SYM", "SYS", "SY3", "S60", "S40"}},
-            {"Unix"                 , new [] {"SOS", "AIX", "HPX", "BSD", "NBS", "OBS", "DFB", "SYL", "IRI", "T64", "INF"}},
+            {"Unix"                 , new [] {"SOS", "AIX", "HPX", "BSD", "NBS", "OBS", "DFB", "SYL", "IRI", "T64", 
+                                                "INF", "ELE", "GNX", "ULT", "NWS", "NXT", "SBL",}},
             {"WebTV"                , new [] {"WTV"}},
             {"Windows"              , new [] {"WIN"}},
-            {"Windows Mobile"       , new [] {"WPH", "WMO", "WCE", "WRT", "WIO"}},
+            {"Windows Mobile"       , new [] {"WPH", "WMO", "WCE", "WRT", "WIO", "KIN"}},
             {"Other Smart TV"       , new [] {"WHS"}}
         };
 
@@ -248,7 +282,7 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected internal static readonly Dictionary<string, string> LineageOsVersionMapping = new Dictionary<string, string>
         {
-            {"14"    , "21.0" },
+            {"14"    , "21" },
             {"13"    , "20.0" },
             {"12.1"  , "19.1" },
             {"12"    , "19.0" },
@@ -660,6 +694,10 @@ namespace DeviceDetectorNET.Parser
                 {
                     return PlatformType.ARM;
                 }
+                if (arch.Contains("loongarch64"))
+                {
+                    return PlatformType.LoongArch64;
+                }  
                 if (arch.Contains("mips"))
                 {
                     return PlatformType.MIPS;
@@ -683,10 +721,14 @@ namespace DeviceDetectorNET.Parser
             }
 
 
-            if (IsMatchUserAgent("arm|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]"))
+            if (IsMatchUserAgent("arm[ _;)ev]|.*arm$|.*arm64|aarch64|Apple ?TV|Watch ?OS|Watch1,[12]"))
             {
                 return PlatformType.ARM;
             }
+            if (IsMatchUserAgent("loongarch64"))
+            {
+                return PlatformType.LoongArch64;
+            } 
             if (IsMatchUserAgent("mips"))
             {
                 return PlatformType.MIPS;
@@ -703,7 +745,7 @@ namespace DeviceDetectorNET.Parser
             {
                 return PlatformType.X64;
             }
-            return IsMatchUserAgent(".+32bit|.+win32|(?:i[0-9]|x)86|i86pc") ? PlatformType.X86 : PlatformType.NONE;
+            return IsMatchUserAgent(".*32bit|.*win32|(?:i[0-9]|x)86|i86pc") ? PlatformType.X86 : PlatformType.NONE;
         }
     }
 }

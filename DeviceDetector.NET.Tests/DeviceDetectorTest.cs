@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using YamlDotNet.Core;
 
 namespace DeviceDetectorNET.Tests;
 
@@ -148,6 +149,7 @@ public class DeviceDetectorTest
     [InlineData("clienthints-app")]
     [InlineData("console")]
     [InlineData("desktop")]
+    [InlineData("desktop-1")]
     [InlineData("feature_phone")]
     [InlineData("feed_reader")]
     [InlineData("mediaplayer")]
@@ -198,6 +200,8 @@ public class DeviceDetectorTest
     [InlineData("smartphone-36")]
     [InlineData("smartphone-37")]
     [InlineData("smartphone-38")]
+    [InlineData("smartphone-39")]
+    [InlineData("smartphone-40")]
     [InlineData("tablet")]
     [InlineData("tablet-1")]
     [InlineData("tablet-2")]
@@ -214,6 +218,7 @@ public class DeviceDetectorTest
     [InlineData("tv-1")]
     [InlineData("tv-2")]
     [InlineData("tv-3")]
+    [InlineData("tv-4")]
     [InlineData("unknown")]
     [InlineData("wearable")]
     public void TestParse(string fileNme)
@@ -283,6 +288,52 @@ public class DeviceDetectorTest
             dd.Match.DeviceType?.Should().BeEquivalentTo(expected.device.type);
             dd.Match.DeviceBrand.Should().BeOneOf(expected.device.brand, null, string.Empty);
             dd.Match.DeviceModel?.Should().BeOneOf(expected.device.model, null, string.Empty);
+        });
+    }
+
+    [InlineData("browser")]
+    [InlineData("feed_reader")]
+    [InlineData("library")]
+    [InlineData("mediaplayer")]
+    [InlineData("mobile_app")]
+    [InlineData("pim")]
+    public void TestParseClient(string fileNme)
+    {
+        var parser = new YamlParser<List<DeviceDetectorFixture>>();
+        var fixtureData = parser.ParseFile($@"{Utils.CurrentDirectory()}\Parser\Client\fixtures\{fileNme}.yml");
+        DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
+
+        Parallel.ForEach(fixtureData, expected =>
+        {
+            var ua = expected.user_agent;
+            var clientHints = expected.headers.Any() ? ClientHints.Factory(expected.headers) : null;
+
+            var uaInfo = DeviceDetector.GetInfoFromUserAgent(ua, clientHints);
+            uaInfo.Success.Should().BeTrue();
+            uaInfo.Match.IsBoot.Should().BeFalse();
+            uaInfo.Match.Client.Name.Should().BeEquivalentTo(expected.client.name);
+        });
+    }
+
+     [InlineData("camera")]
+     [InlineData("car_browser")]
+     [InlineData("console")]
+     [InlineData("notebook")]
+    public void TestParseDevice(string fileNme)
+    {
+        var parser = new YamlParser<List<DeviceDetectorFixture>>();
+        var fixtureData = parser.ParseFile($@"{Utils.CurrentDirectory()}\Parser\Device\fixtures\{fileNme}.yml");
+        DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
+
+        Parallel.ForEach(fixtureData, expected =>
+        {
+            var ua = expected.user_agent;
+            var clientHints = expected.headers.Any() ? ClientHints.Factory(expected.headers) : null;
+
+            var uaInfo = DeviceDetector.GetInfoFromUserAgent(ua, clientHints);
+            uaInfo.Success.Should().BeTrue();
+            uaInfo.Match.IsBoot.Should().BeFalse();
+            uaInfo.Match.Device.Name.Should().BeEquivalentTo(expected.device.model);
         });
     }
 
@@ -359,6 +410,36 @@ public class DeviceDetectorTest
             DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
         }
     }
+    
+    [Fact]
+    public void TestVersionTruncationForClientHints()
+    {
+        DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_MINOR);
+        var dd = new DeviceDetector();
+        dd.SetClientHints(new ClientHints(
+                "Galaxy 4",
+                "Android",
+                "8.0.5",
+                "98.0.14335.105",
+                new Dictionary<string, string>
+                {
+                    { "brand", " Not A;Brand"}
+                },
+                true,
+                "",
+                "",
+                ""
+            )
+        );
+        dd.Parse();
+
+        dd.GetOs().Success.Should().BeTrue();
+        dd.GetClient().Success.Should().BeTrue();
+        dd.GetOs().Match.Version.Should().BeEquivalentTo("8.0");
+        dd.GetClient().Match.Version.Should().BeEquivalentTo("98.0");
+
+        DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
+    }
 
     [Fact]
 
@@ -390,6 +471,29 @@ public class DeviceDetectorTest
 
             dd.GetOs().Matches[0].ShortName.Should().BeEquivalentTo(DeviceDetector.UNKNOWN);
             dd.GetClient().Matches[0].Name.Should().BeEquivalentTo(DeviceDetector.UNKNOWN);
+            if (!string.IsNullOrEmpty(botData.Match.Category))
+            {
+                var categories = new []
+                    {
+                        "Benchmark",
+                        "Crawler",
+                        "Feed Fetcher",
+                        "Feed Parser",
+                        "Feed Reader",
+                        "Network Monitor",
+                        "Read-it-later Service",
+                        "Search bot",
+                        "Search tools",
+                        "Security Checker",
+                        "Security search bot",
+                        "Service Agent",
+                        "Service bot",
+                        "Site Monitor",
+                        "Social Media Agent",
+                        "Validator",
+                    };
+                categories.Should().Contain(botData.Match.Category,"Unknown category");
+            }
         }
     }
 
