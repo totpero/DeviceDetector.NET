@@ -1,24 +1,21 @@
 ﻿using LiteDB;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using Microsoft.Extensions.Logging;
+using DeviceDetectorNET.JsonSerializer;
 namespace DeviceDetectorNET.Cache
 {
     internal class ParseCache : IParseCache
     {
-        private ParseCache()
-        {
-        }
 
         private static readonly Lazy<ParseCache> LazyCache = new Lazy<ParseCache>(InitializeCache);
         private LiteDatabase _cacheDatabase;
+        private IJsonSerializerProvider _jsonSerializer;
 
-        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        private ParseCache()
         {
-            ContractResolver = null,
-            TypeNameHandling = TypeNameHandling.Auto
-        };
+            _jsonSerializer = new SystemTextJsonSerializerProvider();
+        }
 
         private static ParseCache InitializeCache()
         {
@@ -67,7 +64,7 @@ namespace DeviceDetectorNET.Cache
 
             if (string.IsNullOrEmpty(cachedData?.Json)) return null;
 
-            var data = JsonConvert.DeserializeObject<DeviceDetectorCachedData>(cachedData.Json, JsonSettings);
+            var data = _jsonSerializer.Deserialize<DeviceDetectorCachedData>(cachedData.Json);
             return data;
         }
 
@@ -76,7 +73,7 @@ namespace DeviceDetectorNET.Cache
             var cachedData = new CachedDataHolder()
             {
                 Id = key,
-                Json = JsonConvert.SerializeObject(data, JsonSettings),
+                Json = _jsonSerializer.Serialize(data),
                 ExpirationDate = DateTime.UtcNow.Add(DeviceDetectorSettings.ParseCacheDBExpiration)
             };
 
