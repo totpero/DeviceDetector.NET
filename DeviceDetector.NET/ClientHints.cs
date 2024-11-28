@@ -55,6 +55,11 @@ namespace DeviceDetectorNET
         public string App { get; set; }
 
         /// <summary>
+        /// Represents `Sec-CH-UA-Form-Factors` header field: form factor device type name
+        /// </summary>
+        public List<string> FormFactors { get; set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="model">`Sec-CH-UA-Model` header field</param>
@@ -66,7 +71,9 @@ namespace DeviceDetectorNET
         /// <param name="architecture">`Sec-CH-UA-Arch` header field</param>
         /// <param name="bitness">`Sec-CH-UA-Bitness`</param>
         /// <param name="app">`HTTP_X-REQUESTED-WITH`</param>
-        public ClientHints(string model, string platform, string platformVersion, string uaFullVersion, Dictionary<string,string> fullVersionList, bool mobile, string architecture, string bitness, string app)
+        /// <param name="formFactors">`Sec-CH-UA-Form-Factors` header field</param>
+        public ClientHints(string model, string platform, string platformVersion, string uaFullVersion, 
+            Dictionary<string,string> fullVersionList, bool mobile, string architecture, string bitness, string app, List<string> formFactors)
         {
             Model = model;
             Platform = platform;
@@ -77,6 +84,7 @@ namespace DeviceDetectorNET
             Architecture = architecture;
             Bitness = bitness;
             App = app;
+            FormFactors = formFactors;
         }
 
 
@@ -141,9 +149,9 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public Dictionary<string, string> GetBrandList()
         {
-            if (this.FullVersionList.Count > 0)
+            if (FullVersionList.Count > 0)
             {
-                return this.FullVersionList;
+                return FullVersionList;
                 //$brands   = \array_column($this->fullVersionList, 'brand');
                 //$versions = \array_column($this->fullVersionList, 'version');
 
@@ -175,7 +183,16 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public string GetApp()
         {
-            return this.App;
+            return App;
+        }
+
+        /// <summary>
+        /// Returns the formFactor device type name
+        /// </summary>
+        /// <returns></returns>
+        public List<string> GetFormFactors()
+        {
+            return FormFactors;
         }
 
         /// <summary>
@@ -195,6 +212,7 @@ namespace DeviceDetectorNET
             var app = string.Empty;
             var mobile = false;
             var fullVersionList = new Dictionary<string, string>();
+            var formFactors = new List<string>();
 
             foreach (var header in headers)
             {
@@ -331,12 +349,35 @@ namespace DeviceDetectorNET
                             app = header.Value;
                         }
                         break;
+                    case "formfactors":
+                    case "http-sec-ch-ua-form-factors":
+                    case "sec-ch-ua-form-factors":
+                    {
+                        if (header.Key.Length > 1)
+                        {
+                            formFactors.Add(header.Value);
+                        }
+                        else
+                        {
+                            const string reg_frm = "~\"([a-z]+)\"~i";
+                            var r = new Regex(reg_frm, RegexOptions.IgnoreCase);
+                            var matchs = r.Matches(header.Value);
+                            if (matchs.Count > 0)
+                            {
+                                foreach (Match match in matchs)
+                                {
+                                    formFactors.Add(match.Value);
+                                }
+                            }
+                        }
+                        break;
+                    }
                     default:
                         break;
                 }
             }
 
-            var clientHints = new ClientHints(model, platform, platformVersion, uaFullVersion, fullVersionList, mobile, architecture, bitness, app);
+            var clientHints = new ClientHints(model, platform, platformVersion, uaFullVersion, fullVersionList, mobile, architecture, bitness, app, formFactors);
             return clientHints;
         }
     }

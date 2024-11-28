@@ -81,16 +81,10 @@ namespace DeviceDetectorNET.Parser.Device
             var resultClientHint = ParseClientHints();
             var deviceModel = resultClientHint.Model ?? string.Empty;
 
-            // is freeze user-agent then restoring the original UA for the device definition
-            if (!string.IsNullOrEmpty(deviceModel) && 
-                GetRegexEngine().MatchesUniq(UserAgent, @"Android 10[.\d]*; K(?: Build/|[;)])").ToArray().Any())
-            {
-                var  osVersion = ClientHints != null ? ClientHints.GetOperatingSystemVersion() : string.Empty;
-                SetUserAgent(GetRegexEngine().Replace(
-                    UserAgent, 
-                    @"(Android 10[.\d]*; K)",
-                    $"Android {(!string.IsNullOrEmpty(osVersion) ? osVersion : "10")}; {deviceModel}"));
-            }
+            RestoreUserAgentFromClientHints();
+
+            if (string.IsNullOrEmpty(deviceModel) && HasUserAgentClientHintsFragment())
+                return result;
 
             if (string.IsNullOrEmpty(deviceModel) && HasDesktopFragment())
                 return result;
@@ -199,9 +193,19 @@ namespace DeviceDetectorNET.Parser.Device
         {
             if (ClientHints != null && !string.IsNullOrEmpty(ClientHints.GetModel()))
             {
+                int? detectedDeviceType = null;
+                var formFactors = ClientHints.GetFormFactors();
+                foreach (var formFactor in Devices.ClientHintFormFactorsMapping)
+                {
+                    if (formFactors.Contains(formFactor.Key))
+                    {
+                        detectedDeviceType = formFactor.Value;
+                        break;
+                    }
+                }
                 return new DeviceMatchResult
                 {
-                    Type = null,
+                    Type = detectedDeviceType,
                     Name = ClientHints.GetModel(),
                     Brand = string.Empty
                 };
@@ -209,21 +213,7 @@ namespace DeviceDetectorNET.Parser.Device
             return new DeviceMatchResult();
         }
 
-        /// <summary>
-        /// Returns if the parsed UA contains the 'Windows NT;' or 'X11; Linux x86_64' fragments
-        /// </summary>
-        /// <returns></returns>
-        protected bool HasDesktopFragment()
-        {
-            var regexExcludeDesktopFragment = string.Join("|", 
-                "CE-HTML",
-                " Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser",
-                "PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)");
-
-            return IsMatchUserAgent("(?:Windows (?:NT|IoT)|X11; Linux x86_64)") && 
-                !IsMatchUserAgent(regexExcludeDesktopFragment);
-        }
-
+       
         protected void Reset()
         {
             deviceType = null;

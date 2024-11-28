@@ -45,7 +45,8 @@ namespace DeviceDetectorNET.Tests
                     { "HTTP_SEC_CH_UA_MODEL"            , "DN2103"},
                     { "HTTP_SEC_CH_UA_PLATFORM"         , "Ubuntu"},
                     { "HTTP_SEC_CH_UA_PLATFORM_VERSION" , "3.7"},
-                    { "HTTP_SEC_CH_UA_FULL_VERSION"    , "98.0.14335.105"}
+                    { "HTTP_SEC_CH_UA_FULL_VERSION"    , "98.0.14335.105"},
+                    { "HTTP_SEC_CH_UA_FORM_FACTORS"    , "Desktop"}
                 };
 
             var ch = ClientHints.Factory(headers);
@@ -61,6 +62,7 @@ namespace DeviceDetectorNET.Tests
                     }
                 );
             ch.GetModel().Should().Be("DN2103");
+            ch.GetFormFactors().Should().Contain("Desktop");
         }
 
         [Fact]
@@ -73,6 +75,7 @@ namespace DeviceDetectorNET.Tests
                 //    ['brand' => 'Chromium', 'version' => '99.0.4844.51'],
                 //    ['brand' => 'Google Chrome', 'version' => '99.0.4844.51'],
                 //],
+                {"formFactors"          , "Desktop" },
                 {"mobile"          , "false" },
                 {"model"           , "" },
                 {"platform"        , "Windows" },
@@ -93,6 +96,7 @@ namespace DeviceDetectorNET.Tests
             //    );
 
             ch.GetModel().Should().Be("");
+            ch.FormFactors.Should().Contain("Desktop");
 
         }
 

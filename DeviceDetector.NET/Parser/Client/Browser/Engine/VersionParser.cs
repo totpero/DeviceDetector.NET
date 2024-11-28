@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using DeviceDetectorNET.Class.Client;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
@@ -28,7 +29,12 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
             if (_engine.Equals("Gecko", StringComparison.OrdinalIgnoreCase) || _engine.Equals("Clecko", StringComparison.OrdinalIgnoreCase))
             {
                 matches = GetRegexEngine()
-                    .MatchesUniq(UserAgent, @"[ ](?:rv[: ]([0-9\.]+)).*(?:g|cl)ecko/[0-9]{8,10}").ToArray();
+                    .MatchesUniq(UserAgent, "[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko/[0-9]{8,10}").ToArray();
+                //todo: ....is ok?
+                if (matches.Length > 0)
+                {
+                    result.Add(new ClientMatchResult { Version = matches[0] });
+                }
             }
             else
             {
@@ -36,7 +42,7 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
 
                 if (_engine.Equals("Blink", StringComparison.OrdinalIgnoreCase))
                 {
-                    engineToken = "Chrome|Cronet";
+                    engineToken = "Chr[o0]me|Chromium|Cronet";
                 }
                 
                 if (_engine.Equals("Arachne", StringComparison.OrdinalIgnoreCase))
@@ -51,7 +57,7 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
 
                 matches = GetRegexEngine()
                     .MatchesUniq(UserAgent,
-                        $@"(?:{engineToken})\s*/?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{{1,7}}(?=(?:\D|$))))").ToArray();
+                        $@"(?:{engineToken})\s*[/_]?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{{1,7}}(?=(?:\D|$))))").ToArray();
             }
 
             if (matches.Length <= 0) return result;

@@ -127,6 +127,67 @@ namespace DeviceDetectorNET.Parser
             //regexList = new List<T>();
         }
 
+        protected void RestoreUserAgentFromClientHints()
+        {
+            if (ClientHints == null)
+            {
+                return;
+            }
+            var deviceModel = ClientHints.GetModel();
+
+            if (string.Empty == deviceModel) {
+                return;
+            }
+
+            // Restore Android User Agent
+            if (HasUserAgentClientHintsFragment())
+            {
+                var osVersion = ClientHints.GetOperatingSystemVersion();
+                //SetUserAgent();
+                    //$this->setUserAgent((string) \preg_replace(
+                    //    '(Android (?:10[.\d]*; K|1[1-5]))',
+                    //    \sprintf('Android %s; %s', '' !== $osVersion ? $osVersion: '10', $deviceModel),
+                    //$this->userAgent
+                    //));
+            }
+
+            // Restore Desktop User Agent
+            if (!HasDesktopFragment())
+            {
+                return;
+            }
+
+            //$this->setUserAgent((string) \preg_replace(
+            //        '(X11; Linux x86_64)',
+            //        \sprintf('X11; Linux x86_64; %s', $deviceModel),
+            //    $this->userAgent
+            //    ));
+        }
+
+        /// <summary>
+        /// Returns if the parsed UA contains the 'Windows NT;' or 'X11; Linux x86_64' fragments
+        /// </summary>
+        /// <returns></returns>
+        protected bool HasDesktopFragment()
+        {
+            var regexExcludeDesktopFragment = string.Join("|",
+                "CE-HTML",
+                " Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser",
+                "PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)");
+
+            return IsMatchUserAgent("(?:Windows (?:NT|IoT)|X11; Linux x86_64)") &&
+                   !IsMatchUserAgent(regexExcludeDesktopFragment);
+        }
+
+        /// <summary>
+        /// Returns if the parsed UA contains the 'Android 10 K;' or Android 10 K Build/` fragment
+        /// </summary>
+        /// <returns></returns>
+        protected bool HasUserAgentClientHintsFragment()
+        {
+            return IsMatchUserAgent("~Android (?:10[.\\d]*; K(?: Build/|[;)])|1[1-5]\\)) AppleWebKit~i");
+        }
+
         /// <summary>
         /// Set how DeviceDetector should return versions
         /// </summary>

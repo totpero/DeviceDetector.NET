@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.3.2";
+        public const string VERSION = "6.4.1";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -250,7 +250,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool HasAndroidTableFragment()
         {
-            const string regex = @"Android( [\.0-9]+)?; Tablet;|Tablet(?! PC)|.*\-tablet$";
+            const string regex = @"Android( [.0-9]+)?; Tablet;|Tablet(?! PC)|.*\-tablet$";
             return IsMatchUserAgent(regex);
         }
 
@@ -260,7 +260,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool HasAndroidMobileFragment()
         {
-            const string regex = @"Android( [\.0-9]+)?; Mobile;";
+            const string regex = @"Android( [.0-9]+)?; Mobile;|.*\-mobile$";
             return IsMatchUserAgent(regex);
         }
 
@@ -270,7 +270,7 @@ namespace DeviceDetectorNET
         /// <returns></returns>
         public bool HasAndroidVRFragment()
         {
-            const string regex = @"Android( [\.0-9]+)?; Mobile VR;| VR ";
+            const string regex = @"Android( [.0-9]+)?; Mobile VR;| VR ";
             return IsMatchUserAgent(regex);
         }
 
@@ -705,7 +705,7 @@ namespace DeviceDetectorNET
             //Note: We do not check for browser (family) here, as there might be mobile apps using Chrome, that won't have
             //a detected browser, but can still be detected. So we check the useragent for Chrome instead.
             if (!device.HasValue && osFamily == "Android" 
-                                 && IsMatchUserAgent(@"Chrome/[\.0-9]*"))
+                                 && IsMatchUserAgent(@"Chrome/[.0-9]*"))
             {
                 if (IsMatchUserAgent("(?:Mobile|eliboM)"))
                 {
@@ -780,6 +780,24 @@ namespace DeviceDetectorNET
             if (!device.HasValue && (osName == "Windows RT" || (osName == "Windows" 
                 && System.Version.TryParse(osVersion, out _) 
                 && new System.Version(osVersion).CompareTo(new System.Version("8.0")) >= 0)) && IsTouchEnabled())
+            {
+                device = DeviceType.DEVICE_TYPE_TABLET;
+            }
+
+            //All devices running Puffin Secure Browser that contain letter 'D' are assumed to be desktops
+            if (!device.HasValue && IsMatchUserAgent("Puffin/(?:\\d+[.\\d]+)[LMW]D"))
+            {
+                device = DeviceType.DEVICE_TYPE_DESKTOP;
+            }
+
+            //All devices running Puffin Web Browser that contain letter 'P' are assumed to be smartphones
+            if (!device.HasValue && IsMatchUserAgent("Puffin/(?:\\d+[.\\d]+)[AIFLW]P"))
+            {
+                device = DeviceType.DEVICE_TYPE_SMARTPHONE;
+            }
+
+            //All devices running Puffin Web Browser that contain letter 'T' are assumed to be tablets
+            if (!device.HasValue && IsMatchUserAgent("Puffin/(?:\\d+[.\\d]+)[AILW]T"))
             {
                 device = DeviceType.DEVICE_TYPE_TABLET;
             }

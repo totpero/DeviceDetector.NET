@@ -15,7 +15,7 @@ namespace DeviceDetectorNET.Parser
         /// <summary>
         /// Known operating systems mapped to their internal short codes
         /// </summary>
-        protected static readonly Dictionary<string, string> OperatingSystems = new Dictionary<string, string>()
+        protected static readonly Dictionary<string, string> OperatingSystems = new Dictionary<string, string>
         {
             { "AIX", "AIX" },
             { "AND", "Android" },
@@ -89,6 +89,7 @@ namespace DeviceDetectorNET.Parser
             { "KTV", "KreaTV" },
             { "KBT", "Kubuntu" },
             { "LIN", "GNU/Linux" },
+            { "LEA", "LeafOS" },
             { "LND", "LindowsOS" },
             { "LNS", "Linspire" },
             { "LEN", "Lineage OS" },
@@ -133,6 +134,7 @@ namespace DeviceDetectorNET.Parser
             { "PSP", "PlayStation Portable" },
             { "PS3", "PlayStation" },
             { "PVE", "Proxmox VE" },
+            { "PUF", "Puffin OS" },
             { "PUR", "PureOS" },
             { "QTP", "Qtopia" },
             { "PIO", "Raspberry Pi OS" },
@@ -207,7 +209,7 @@ namespace DeviceDetectorNET.Parser
         {
             {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
                                               "ADR", "CLR", "BOS", "REV", "LEN", "SIR", "RRS", "WER", "PIC", "ARM",
-                                              "HEL", "BYI", "RIS" }},
+                                              "HEL", "BYI", "RIS", "PUF", "LEA" }},
             {"AmigaOS"              , new [] {"AMG", "MOR", "ARO"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
             {"Brew"                 , new [] {"BMP"}},
@@ -230,6 +232,7 @@ namespace DeviceDetectorNET.Parser
                                                 "TUR", "QTP", "WPO", "PAN", "VIZ", "AZU", }},
             {"Mac"                  , new [] {"MAC"}},
             {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX"}},
+            {"OpenVMS"              , new [] { "OVS"}},
             {"Real-time OS"         , new [] {"MTK", "TDX", "MRE", "JME", "REX"}},
             {"Other Mobile"         , new [] {"WOS", "POS", "SBA", "TIZ", "SMG", "MAE", "LUN", "GEO"}},
             {"Symbian"              , new [] {"SYM", "SYS", "SY3", "S60", "S40"}},
@@ -282,6 +285,7 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected internal static readonly Dictionary<string, string> LineageOsVersionMapping = new Dictionary<string, string>
         {
+            {"15"    , "22" },
             {"14"    , "21" },
             {"13"    , "20.0" },
             {"12.1"  , "19.1" },
@@ -375,12 +379,18 @@ namespace DeviceDetectorNET.Parser
                     version = osFromUserAgent.Version;
                 }
 
+                // On Windows, version 0.0.0 can be either 7, 8 or 8.1
+                if ("Windows" == name && "0.0.0" == version)
+                {
+                    version = osFromUserAgent.Version.Equals("10") ? string.Empty : osFromUserAgent.Version;
+                }
+
                 // If the OS name detected from client hints matches the OS family from user agent
                 // but the os name is another, we use the one from user agent, as it might be more detailed
                 if (GetOsFamily(osFromUserAgent.Name) == name && osFromUserAgent.Name != name)
                 {
                     name = osFromUserAgent.Name;
-                    if ("HarmonyOS" == name)
+                    if ("LeafOS" == name || "HarmonyOS" == name)
                     {
                         version = string.Empty;
                     }
@@ -389,7 +399,7 @@ namespace DeviceDetectorNET.Parser
                         version = osFromUserAgent.Version;
                     }
 
-                    if ("Fire OS" == name)
+                    if ("Fire OS" == name && !string.IsNullOrEmpty(osFromClientHints.Version))
                     {
                         var majorVersion = version.Split('.').Length > 0 ? version.Split('.')[0] : "0";
 
@@ -405,6 +415,14 @@ namespace DeviceDetectorNET.Parser
                     && osFromClientHints.Version == osFromUserAgent.Version)
                 {
                     name = osFromUserAgent.Name;
+                    @short = osFromUserAgent.ShortName;
+                }
+
+                // Chrome OS is in some cases reported as Android in client hints
+                if ("Android" == name && "Chrome OS" == osFromUserAgent.Name)
+                {
+                    name = osFromUserAgent.Name;
+                    version = string.Empty;
                     @short = osFromUserAgent.ShortName;
                 }
             }
@@ -588,18 +606,30 @@ namespace DeviceDetectorNET.Parser
 
                 if ("Windows" == name)
                 {
-                    var majorVersion = !string.IsNullOrEmpty(version) && version.Split('.').Length >0 ? int.Parse(version.Split('.')[0]) : 0;
-                    if (majorVersion > 0 && majorVersion < 11)
+                    if (!string.IsNullOrEmpty(version) && version.Split('.').Length > 0)
                     {
-                        version = "10";
+                        var majorVersion = version.Split('.').Length > 0 ? int.Parse(version.Split('.')[0]) : 0;
+                        var minorVersion = version.Split('.').Length > 1 ? int.Parse(version.Split('.')[1]) : 0;
+                        if (majorVersion == 0)
+                        {
+                            var minorVersionMapping = new Dictionary<int, string> { { 1, "7" }, { 2, "8" }, { 3, "8.1" } };
+                            if (minorVersionMapping.TryGetValue(minorVersion, out var value))
+                                version = value;
+
+                        }else if (majorVersion > 0 && majorVersion < 11)
+                        {
+                            version = "10";
+                        }
+                        else if (majorVersion > 10)
+                        {
+                            version = "11";
+                        }
                     }
-                    else if (majorVersion > 10)
-                    {
-                        version = "11";
-                    }
+                    
                 }
 
-                if (version != null && version.Equals("0"))
+                // On Windows, version 0.0.0 can be either 7, 8 or 8.1, so we return 0.0.0
+                if ("Windows" != name && version != null && !version.Equals("0.0.0") && version.Equals("0"))
                 {
                     version = string.Empty;
                 }
@@ -741,7 +771,7 @@ namespace DeviceDetectorNET.Parser
             {
                 return PlatformType.Sparc64;
             }
-            if (IsMatchUserAgent("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|amd64|x86_?64"))
+            if (IsMatchUserAgent("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|.*amd64|.*x86_?64"))
             {
                 return PlatformType.X64;
             }

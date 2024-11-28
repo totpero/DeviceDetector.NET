@@ -61,7 +61,12 @@ namespace DeviceDetectorNET.Parser.Client
             return result;
         }
 
-        public List<string> GetAvailableClients()
+        /// <summary>
+        /// Returns all names defined in the regexes
+        /// Attention: This method might not return all names of detected clients
+        /// </summary>
+        /// <returns></returns>
+        public virtual List<string> GetAvailableClients()
         {
 
             return regexList.Where(r => r.Name != "$1").Select(r => r.Name).Distinct().OrderBy(o => o).ToList();
