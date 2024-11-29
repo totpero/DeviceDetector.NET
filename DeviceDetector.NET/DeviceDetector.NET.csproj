@@ -15,12 +15,190 @@
     <SignAssembly>false</SignAssembly>
     <FileVersion>6.4.1.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>
-		### What's Changed:
+    <PackageReleaseNotes>## What's Changed
+* Drop NET 5 and 7 support, upgrade dependencies by @lahma in https://github.com/totpero/DeviceDetector.NET/pull/81
+* Add publish artifacts step to GitHub Actions workflow by @lahma in https://github.com/totpero/DeviceDetector.NET/pull/82
+* update projects to net9.0 by @totpero in https://github.com/totpero/DeviceDetector.NET/pull/86
+* Bump System.Text.Json from 6.0.5 to 6.0.10 in /DeviceDetector.NET by @dependabot in https://github.com/totpero/DeviceDetector.NET/pull/87
 
-		### V6.4.1:
-		- fix error
-	</PackageReleaseNotes>
+### V6.4.1:
+* Fix Uncaught TypeError
+* fix FormFactors condition
+* Skip recursive device parsing is UA client hints and the model name is empty
+* Improves version detection for iOS
+* Improves detection for Apple devices
+* Adds detection for various bots
+* Improves detection for frozen client hints in Linux
+* Fix client hints bug
+* Adds detection for BYJU'S, CX, ELE-GATE, G-PLUS, Humanware, KENWOOD, LongTV, Mode Mobile, M-KOPA, Okapi, RCT, Realix, Trimble brands and improves detection for existing ones
+* Adds detection for Steam Chat URL Lookup
+* Improves version detection for Chrome OS
+* Adds detection for Puffin OS, Puffin Cloud Browser, Puffin Incognito Browser and renames Puffin to Puffin Secure Browser
+* Adds detection for GlocalMe, I KALL, iFIT, Motorola Solutions brands and improves detection for existing ones
+* Improves detection for Chromium based browsers
+* Adds detection for Oh Dear and improves detection for vuhuvBot and Bravebot
+* Adds detection for Privacy Pioneer Browser, Mojeek and improves detection for various apps and browsers
+* Improves detection for Chrome OS
+* Adds detection for Bell, iHome Life, Logitech, Veidoo brands and improves detection for existing ones
+* Adds detection for Blackbox Exporter bot
+* Fix detecting device type by form factor of client hints
+
+### V6.4.0:
+* Added support Sec-CH-UA-Form-Factors header for ClientHints
+* Improves detection for Cloudflare bots
+* Detect new brands: ANBERNIC, GoldStar, MAGCH and Detect devices for exist brands
+* Add NodePing Site Monitor
+* Improves detection for generic bots
+* Detect new brand Surfans and Detect devices for exist brands
+* Improves version detection for Android, iPadOS, iOS, macOS and tvOS
+* Adds detection for KUN browser
+* Improves engine detection for DuckDuckGo Privacy Browser, Phoenix Browser and Yandex Browser
+* These chromecast uas are obviously smart speakers.
+* Detect new brands: AAUW, Aocwei, Rocket, SMUX and Detect devices for exist brands
+* Adds detection for Gmail and Spicebird
+* Improves detection for Apple bots and adds detections for DepSpid
+* Detect new brands: TYD, HMD, VALE and Detect devices for exist brands
+* Improves detection for Google Glass 1
+* Adds detection for various libraries
+* Improves detection for various bots
+* wnyc, new siriusxm app, and also alienware desktops.
+* Adds detection for various operating systems
+* Apple watches most commonly use a generic watchOS version.
+* Adds detection for Awesomium, Prism, Roccat, Swiftweasel, Wukong Browser and improves detection for 7Star
+* Detect new brands: HongTop, NETWIT and Detect devices for exist brands
+* Adds detection for iNet Browser, Motorola Internet Browser, UPhone Browser, VMS Mosaic and improves detection for Dorado, NetFront, Nokia Browser
+* Detect devices for exist brands
+* Detect new brands: Atozee, Orange Pi, Relndoo, Rhino, Scoole, VIKUSHA and Detect devices for exist brands and Detect ZTE Browser 
+* Improves detection for ARM platform
+* Detect new brands: BYYBUO, rephone, TJD and Detect devices for exist brands
+* Improves detection for Owler
+* Improves detection for DuckDuckGo Privacy Browser
+* Detect new brands: Haixu, HONKUAHG and Detect devices for exist brands
+* Improves detection for TikTok
+* Detect new brands: GOtv, Moondrop, SWOFY and Detect device for exist brands
+* Improves detection for Apple devices and iOS, iPadOS
+* Detect new brands: Vision Technology, WOZIFAN and Detect devices for exist brands
+* Adds detection for Spark, Total Browser, improves detection for Belva Browser, Phoenix and rename MIUI Browser to Mi Browser
+* Detect new brand: Weiimi and Detect devices for exist brands
+* Improves version detection for Opera and Opera Mobile and improves browser version detection for client hints
+* Adds detection for various bots
+* Detect new brands: Hanson, Newal, PIXPRO and Detect devices for exist brands
+* Adds detection for blackPanther OS
+* Adds detection for various bots
+* Adds detection for Yandex Browser Corp
+* Adds detection for ViziOS and improves detection for Vizio
+* Adds detection for Ninesky, Perk, Presearch and QtWeb browsers
+* Adds detection for Azure Linux and improves detection for Amazon Linux
+* Detect new brands: Oilsky, SMT Telecom, Tivax and Detect devices for exist brands
+* Adds detection for Obsidian and Perplexity
+* Adds detection for Glory Star and improves detection for Android
+* Detect devices for exist brands
+* Adds detection for myPhone (PL) and rename MyPhone to MyPhone (PH)
+* Adds detection for Hopeland, Laser, Mightier, OX TAB, RTK brands and improves detection for other brands
+* Adds detection for Megacable and United Group brands
+* Detect new brands: NINETOLOGY, Nordfrost and Detect devices for exist brands
+* Detect new brands: Atouch, Ringing Bells and Detect devices for exist brands
+* Adds detection for risingOS
+* Detect new brands: BYD, EGOTEK, GDL, VIVIBright, ZZB, Dykemann and Detect devices for exist brands
+* Adds detection for Azupik, Everis, LW, Portfolio, Siswoo brands and improves detection for other brands
+* Adds detection for Veera and improves detection for Mi Browser
+* Improves detection for various bots
+* Adds detection for TIM, Tencent Docs, QQ apps
+* Improves detection for Mail Master
+* Adds detection for ANCEL, Canaima, CHCNAV, FortuneShip, kidiby, VIMOQ brands and improves detection for various brands
+* Adds detection for various apps
+* Improves version detection for iOS and macOS
+* Improves version detection for Brave
+* Adds detection for various browsers
+* Detect new brands DMOAO, Hyatta, PVBox, ROCH and Detect device for exist brands
+* Improves detection for Dezor
+* Adds detection for various apps
+* Detect new brands: ATMPC, SENNA, XREAL and Detect devices for exist brands
+* Adds detection for various browsers
+* Detect new brands: Jambo, LYOTECH LABS, MESWAO, SERVO and Detect devices for exist brands
+* Adds detection for GVC Pro brand, improves detection for various brands and Blink engine
+* Adds detection for Cromite and Mises browsers
+* Improve code for version detection
+* Improves detection for macOS
+* Remove DuckDuckGo Privacy Browser from mobile only browsers
+
+### V6.3.2:
+* Detect new brands: AngelTech, Heimat and Detect devices for exist brands
+* Detect new brands: MAG, S-Color and Detect devices for exist brands
+* Improves detection for Android, GNU/Linux and tvOS
+* Improves detection for mobile devices
+* Adds detection for various bots
+* Adds detection for various apps and improves detection for QQ Browser
+* Detect new brands: HEC, W&amp;O and Detect devices for exist brands
+* Detect new brand NoviSea and Detect devices for exist brands
+* Detect overlapping detections
+* Detect new brands: Cidea, Cuiud, Daria, HiBy, mipo and Detect devices for exist brands
+* Detect new brands: Aceline, QIN, VOCAL, Wainyok, Xsmart and Detect devices for exist brands
+* Detect new brands: CADENA, inovo, Jin Tu, MBK and Detect device for exist brands
+* Adds detection for GeedoProductSearch and Elastic Synthetics
+* Improves detection for masscan
+* Detect devices for new brands: EagleSoar, KENSHI, TECHNOSAT, Lville, Whoop and Detect device for exist brands
+* Detect new brands: CEPTER, Clovertek, HOLLEBERG and Detect devices for exist brands
+* Detect new brands: GOLDBERG, Lingbo, Padpro, SoulLink, Tuvio WS and Detect devices for exist brands
+* Detect new brand FLYCOAY and Detect devices for exist brands
+* Adds detection for NOOK Browser
+* Improves detection for various mobile apps
+* Detect devices for exist brands
+* Adds detection for Red Star operating system and Naenara Browser
+* Adds detection for various bots
+* Detect new brands: Arival, Azeyou, ExtraLink, KVADRA, Neoregent, Renova, VNPT Technology, VILLAON and Detect devices for exist brands
+* Improves detection for tablets
+
+### V6.3.1:
+* Improves detection for various bots
+* Improves detection for Amazon, Blackview, ComTrade Tesla, Crosscall, Mintt, Sumvision, Toshiba devices and improves detection for Fire OS
+* Adds detection for Raspberry Pi OS, Raspbian, UOS operating systems, Raspbian Chromium browser, SPARC64 platform and improves version detection for OS/2, PICO OS
+* Adds detection for FRITZ!OS
+* Add User-Agent strings for Kiwi TCMS
+* Improves detection for Amazon, Hot Pepper, Realme and Xiaomi devices
+* Adds detection for Google Lens and improves detection for Google Search App
+* Adds detection for various bots
+* Rename 360 Browser to 360 Secure Browser and improves detection for 360 Secure Browser
+* Improves detection for Whale OS
+* Improves version detection for Ubuntu
+* Adds detection for SberBrowser, rename Norton Secure Browser to Norton Private Browser, rename Jio Browser and JioPages to JioSphere and improves version detection for Chrome Webview, JioSphere
+* Improves detection for wearable devices
+* Improves version detection for iOS
+* Improves detection for Apple devices
+* Adds detection for Foxmail and Mail Master
+* Adds detection for various browsers
+* Adds detection for Telkom, UD brands, improves detection for Hyundai, Nordmende, O2, Orange and unknown brands, adds detection for QbHttp library and TV Bro browser
+* Adds detection for various bots
+* Adds detection for various apps
+* Adds detection for various browsers and improves version detection for Ubuntu
+* Adds detection for Liri OS, Webian operating systems, Clecko engine, Columbus Browser, Classilla, Eolie, Liri Browser, SlimBoat, Vonkeror, Webian Shell, w3m, Wyzo browsers
+* Adds detection for Pacific Research Alliance, Panavox and TTfone brands, improves detection for AOC, Bush, Cat, Daewoo, Finlux, Hitachi, Linsar, Pioneer, Quantum, Ravoz, RCA Tablets, Safaricom, TAG Tech, Thomson, VEON and X-View brands, adds detection for Armadillo OS and HELIX OS, improves detection for Android TV, adds detection for Basic Web Browser, EudoraWeb, Freespoke, MaxBrowser, MixerBox AI and YouBrowser
+* Improves version detection for Clecko engine
+* Improves detection for Lineage OS
+* Regex syntax: escape literal .
+* Improves version detection for Lineage OS
+* Adds probely bot
+* Add double quotes
+* Adds detection for ASPLinux, SerenityOS, improves detection for Fire OS, improves version detection for Fire OS, Lineage OS and tvOS
+* Adds detection for System76 brand and improves detection for Apple and Meta devices
+* Detect new brand TriaPlay and Detect devices for exist brands
+* Detect new brand AirTouch and Detect devices for exist brands
+* Detect new brand Eyemoo and Detect devices for exist brands
+* NPR rename, better Android SDK detection, more podcasting user agents.
+* Adds detection for BizBrowser, Kitt, Ladybird and SkyLeap browsers, LibWeb engine, improves detection for Opera Touch, Quark, Swiftfox, adds detection for httprs, Ameba, CSDN, NAVER Dictionary, BlueMail, Yahoo! Mail
+* Adds detection for Arachne, Dark Web, Dark Web Private, Dezor, Fire Browser, Good Browser, Involta Go, Habit Browser, Keyboard Browser, Lightning Browser Plus, Owl Browser, Orbitum, Photon, Proxyium, Proxynet, Stealth Browser, TalkTo, Vuhuv and Weltweitimnetz Browser browsers, improves detection for APN Browser, Baidu Browser, Cliqz, hola! Browser, Mercury, Tor Browser and UC Browser
+* Detect new brands: Ajib, QWATT and Detect devices for exist brands
+* Detect new brand HiGrace and Detect devices for exist brands
+* Detect new brands: CCIT, PAGRAER, DIALN, AUPO and Detect devices for exist brands
+* Adds detection for ElectroBSD and improves detection for Amazon Linux, Android, Chrome OS, iPadOS, iOS, Lineage OS, macOS
+* Detect new brands: CENTEK, Globmall, GreenLion, VANWIN and Detect devices for exist brands
+* Adds detection for various bots
+* Adds detection for Alpine Linux, AOSC OS, Clear Linux OS, EulerOS, Loongnix, Rocky Linux, Scientific Linux and improves version detection for CentOS, Debian, iPadOS, macOS, Red Hat, SUSE and Windows
+* Improves detection for Arc
+* Adds detection for OpenVZ, Proxmox VE and improves detection for Wear OS, Windows by @liviuconcioiu in #7658
+
+
+**Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.3.3...v6.4.1</PackageReleaseNotes>
     <PackageIcon>logo.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
 
@@ -28,6 +206,7 @@
     <IncludeSymbols>true</IncludeSymbols>
     <DebugType>portable</DebugType>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 
   </PropertyGroup>
 
