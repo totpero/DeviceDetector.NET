@@ -234,7 +234,7 @@ public class DeviceDetectorTest
         {
             var clientHints = expected.headers.Any() ? ClientHints.Factory(expected.headers.ToDictionary()) : null;
 
-            var dd = DeviceDetector.GetInfoFromUserAgent(expected.user_agent, clientHints);
+            var dd = DeviceDetector.GetInfoFromUserAgent(expected.UserAgent, clientHints);
             dd.Success.Should().BeTrue();
                 
             dd.Match.OsFamily.Should().BeOneOf(expected.os_family, DeviceDetector.UNKNOWN_FULL);
@@ -306,7 +306,7 @@ public class DeviceDetectorTest
 
         Parallel.ForEach(fixtureData, expected =>
         {
-            var ua = expected.user_agent;
+            var ua = expected.UserAgent;
             var clientHints = expected.headers.Any() ? ClientHints.Factory(expected.headers.ToDictionary()) : null;
 
             var uaInfo = DeviceDetector.GetInfoFromUserAgent(ua, clientHints);
@@ -328,7 +328,7 @@ public class DeviceDetectorTest
 
         Parallel.ForEach(fixtureData, expected =>
         {
-            var ua = expected.user_agent;
+            var ua = expected.UserAgent;
             var clientHints = expected.headers.Any() ? ClientHints.Factory(expected.headers.ToDictionary()) : null;
 
             var uaInfo = DeviceDetector.GetInfoFromUserAgent(ua, clientHints);

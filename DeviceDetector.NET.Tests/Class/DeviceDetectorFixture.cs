@@ -5,7 +5,8 @@ namespace DeviceDetectorNET.Tests.Class
 {
     public class DeviceDetectorFixture
     {
-        public string user_agent { get; set; }
+        [YamlMember(Alias = "user_agent")]
+        public string UserAgent { get; set; }
         
         public object os { get; set; }
         public ClientDevice client { get; set; }
@@ -32,7 +33,8 @@ namespace DeviceDetectorNET.Tests.Class
         public string short_name { get; set; }
         public string version { get; set; }
         public string engine { get; set; }
-        public string engine_version { get; set; }
+        [YamlMember(Alias = "engine_version")]
+        public string EngineVersion { get; set; }
     }
 
     public class Device
