@@ -952,20 +952,11 @@ namespace DeviceDetectorNET.Parser.Client
                     client.EngineVersion = browserFromUserAgent.EngineVersion ?? string.Empty;
                 }
 
-                // https://bbs.360.cn/thread-16096544-1-1.html
-                if (GetRegexEngine().Match(client.Version, "/^15/") && GetRegexEngine().Match(browserFromUserAgent.Version, "/^114/"))
-                {
-                    client.Version = string.Empty;
-                }
-
                 // If client hints report the following browsers, we use the version from useragent
                 if (!string.IsNullOrEmpty(browserFromUserAgent.Version)
                     && !new[] { "A0", "AL", "HP", "JR", "MU", "OM", "OP", "VR" }.Contains(client.ShortName))
                 {
-                    client.Name = "360 Secure Browser";
-                    client.ShortName = "3B";
-                    client.Engine = browserFromUserAgent.Engine ?? string.Empty;
-                    client.EngineVersion = browserFromUserAgent.EngineVersion ?? string.Empty;
+                    client.Version = browserFromUserAgent.Version;
                 }
                 
                 if ("Vewd Browser" == client.Name)
