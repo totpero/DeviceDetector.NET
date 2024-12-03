@@ -672,7 +672,7 @@ namespace DeviceDetectorNET
                 osVersion = os.Match.Version;
                 if (!string.IsNullOrEmpty(osVersion))
                 {
-                    osVersion = !osVersion.Contains(".") ? osVersion + ".0" : osVersion;
+                    osVersion = !osVersion.Contains('.') ? osVersion + ".0" : osVersion;
                 }
             }
 

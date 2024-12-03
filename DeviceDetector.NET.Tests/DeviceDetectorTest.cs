@@ -10,6 +10,7 @@ using FluentAssertions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DeviceDetectorNET.Results.Client;
 using Xunit;
 
 namespace DeviceDetectorNET.Tests;
@@ -787,5 +788,40 @@ public class DeviceDetectorTest
         dd.Match.Client.Type.Should().Be("browser");
         dd.Match.OsFamily.Should().Be("Mac");
         dd.Match.DeviceType.Should().Be("desktop");
+    }
+
+    /// <summary>
+    /// Issue #88
+    /// </summary>
+    [Fact]
+    public void TestIssue88_Test1()
+    {
+        const string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
+        dd.Success.Should().BeTrue();
+        var browserMatch = dd.Match.Client as BrowserMatchResult;
+        browserMatch.Should().Be("Chrome");
+        browserMatch.Should().Be("131.0.0.0");
+        browserMatch.EngineVersion.Should().Be("Blink");
+
+    }
+    /// <summary>
+    /// Issue #88
+    /// </summary>
+    [Fact]
+    public void TestIssue88_Test2()
+    {
+        var clientHints = ClientHints.Factory(new Dictionary<string, string>
+        {
+            ["sec-ch-ua"] = "\"Google Chrome\";v=\"131\", \"Chromium\";v=\"131\", \"Not_A Brand\";v=\"24\"",
+        });
+        const string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
+        dd.Success.Should().BeTrue();
+        var browserMatch = dd.Match.Client as BrowserMatchResult;
+        browserMatch.Should().Be("360 Secure Browser");
+        browserMatch.Should().Be("131.0.0.0");
+        browserMatch.EngineVersion.Should().Be("Blink");
+
     }
 }
