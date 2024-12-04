@@ -800,11 +800,12 @@ public class DeviceDetectorTest
         var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
         dd.Success.Should().BeTrue();
         var browserMatch = dd.Match.Client as BrowserMatchResult;
-        browserMatch.Should().Be("Chrome");
-        browserMatch.Should().Be("131.0.0.0");
-        browserMatch.EngineVersion.Should().Be("Blink");
-
+        browserMatch.Name.Should().Be("Chrome");
+        browserMatch.Version.Should().Be("131.0.0.0");
+        browserMatch.Engine.Should().Be("Blink");
+        browserMatch.EngineVersion.Should().Be("131.0.0.0");
     }
+
     /// <summary>
     /// Issue #88
     /// </summary>
@@ -819,9 +820,30 @@ public class DeviceDetectorTest
         var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
         dd.Success.Should().BeTrue();
         var browserMatch = dd.Match.Client as BrowserMatchResult;
-        browserMatch.Should().Be("360 Secure Browser");
-        browserMatch.Should().Be("131.0.0.0");
-        browserMatch.EngineVersion.Should().Be("Blink");
+        browserMatch.Name.Should().Be("Chrome");
+        browserMatch.Version.Should().Be("131.0.0.0");
+        browserMatch.Engine.Should().Be("Blink");
+        browserMatch.EngineVersion.Should().Be("131.0.0.0");
+    }
 
+    /// <summary>
+    /// Issue #88
+    /// </summary>
+    [Fact]
+    public void TestIssue88_Test3()
+    {
+        var clientHints = ClientHints.Factory(new Dictionary<string, string>
+        {
+            ["sec-ch-ua"] = "\"Chromium\";v=\"15\", \"Not.A/Brand\";v=\"8\"",
+        });
+
+        const string userAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.196 Safari/537.36";
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
+        dd.Success.Should().BeTrue();
+        var browserMatch = dd.Match.Client as BrowserMatchResult;
+        browserMatch.Name.Should().Be("360 Secure Browser");
+        browserMatch.Version.Should().Be("15");
+        browserMatch.Engine.Should().Be("Blink");
+        browserMatch.EngineVersion.Should().Be("114.0.5735.196");
     }
 }
