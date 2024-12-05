@@ -823,7 +823,7 @@ public class DeviceDetectorTest
         browserMatch.Name.Should().Be("Chrome");
         browserMatch.Version.Should().Be("131.0.0.0");
         browserMatch.Engine.Should().Be("Blink");
-        browserMatch.EngineVersion.Should().Be("131.0.0.0");
+        browserMatch.EngineVersion.Should().Be("131");
     }
 
     /// <summary>
