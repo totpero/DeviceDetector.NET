@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace DeviceDetectorNET.Cache
 {
     public static class LRUCachedDeviceDetector

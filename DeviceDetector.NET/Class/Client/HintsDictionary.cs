@@ -1,7 +1,5 @@
 ﻿using DeviceDetectorNET.Results;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DeviceDetectorNET.Class.Client
 {

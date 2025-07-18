@@ -203,6 +203,7 @@ public class DeviceDetectorTest
     [InlineData("smartphone-39")]
     [InlineData("smartphone-40")]
     [InlineData("smartphone-41")]
+    [InlineData("smartphone-42")]
     [InlineData("tablet")]
     [InlineData("tablet-1")]
     [InlineData("tablet-2")]
@@ -221,6 +222,7 @@ public class DeviceDetectorTest
     [InlineData("tv-2")]
     [InlineData("tv-3")]
     [InlineData("tv-4")]
+    [InlineData("tv-5")]
     [InlineData("unknown")]
     [InlineData("wearable")]
     public void TestParse(string fileNme)

@@ -10,7 +10,7 @@ namespace DeviceDetectorNET.Cache
 
         private static readonly Lazy<ParseCache> LazyCache = new Lazy<ParseCache>(InitializeCache);
         private LiteDatabase _cacheDatabase;
-        private IJsonSerializerProvider _jsonSerializer;
+        private readonly IJsonSerializerProvider _jsonSerializer;
 
         private ParseCache()
         {
@@ -31,8 +31,7 @@ namespace DeviceDetectorNET.Cache
                 catch (Exception exception)
                 {
                     Logger?.LogWarning("Unable to create directory {0} due to {1}", dir, exception);
-                    // for now, swallow this error so we do not accidentally impact an unknown use case
-                    ;
+                    // for now, swallow this error so we do not accidentally impact an unknown use case;
                     //throw new DirectoryNotFoundException($"Directory {dir} was not found and could not create it");
                 }
             }

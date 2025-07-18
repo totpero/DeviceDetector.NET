@@ -23,7 +23,7 @@ namespace DeviceDetectorNET.Parser.Client
         /// <summary>
         /// Known browsers mapped to their internal short codes
         /// </summary>
-        protected static readonly Dictionary<string, string> AvailableBrowsers = new Dictionary<string, string>
+        protected static readonly IReadOnlyDictionary<string, string> AvailableBrowsers = new Dictionary<string, string>
         {
             { "V1", "Via" },
             { "1P", "Pure Mini Browser" },
@@ -68,6 +68,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "AL", "Aloha Browser" },
             { "AH", "Aloha Browser Lite" },
             { "A8", "ALVA" },
+            { "9A", "AltiBrowser" },
             { "AM", "Amaya" },
             { "A3", "Amaze Browser" },
             { "A5", "Amerigo" },
@@ -279,6 +280,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "HA", "Hawk Turbo Browser" },
             { "HQ", "Hawk Quick Browser" },
             { "HE", "Helio" },
+            { "HN", "Herond Browser" },
             { "HX", "Hexa Web Browser" },
             { "HI", "Hi Browser" },
             { "HO", "hola! Browser" },
@@ -369,6 +371,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "LX", "Lynx" },
             { "L2", "Lynket Browser" },
             { "MD", "Mandarin" },
+            { "MP", "Maple" },
             { "M5", "MarsLab Web Browser" },
             { "M7", "MaxBrowser" },
             { "M1", "mCent" },
@@ -470,6 +473,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "PP", "Oppo Browser" },
             { "P6", "Opus Browser" },
             { "PR", "Palm Pre" },
+            { "2E", "Pocket Internet Explorer" },
             { "7I", "Puffin Cloud Browser" },
             { "6I", "Puffin Incognito Browser" },
             { "PU", "Puffin Secure Browser" },
@@ -709,7 +713,7 @@ namespace DeviceDetectorNET.Parser.Client
         /// <summary>
         /// Browser families mapped to the short codes of the associated browsers
         /// </summary>
-        protected static readonly Dictionary<string, string[]> BrowserFamilies = new Dictionary<string, string[]>
+        protected static readonly IReadOnlyDictionary<string, string[]> BrowserFamilies = new Dictionary<string, string[]>
         {
             {"Android Browser"    , new []{ "AN" }},
             {"BlackBerry Browser" , new []{ "BB" }},
@@ -748,7 +752,7 @@ namespace DeviceDetectorNET.Parser.Client
                 "M9", "F9", "0P", "0A", "JR", "D3", "TK", "BP", "2F",
                 "2M", "K7", "1N", "8A", "H7", "X3", "T4", "X4", "5O",
                 "8C", "3M", "6I", "2P", "PU", "7I", "X5", "AL", "3P",
-                "W2", "ZB",
+                "W2", "ZB", "HN",
             }},
             {"Firefox"            , new []{
                 "FF", "BI", "BF", "BH", "BN", "C0", "CU", "EI", "F1",
@@ -758,7 +762,7 @@ namespace DeviceDetectorNET.Parser.Client
                 "FP", "AD", "2I", "P9", "KJ", "WY", "VK", "W5",
                 "7C", "N7", "W7",
             }},
-            {"Internet Explorer"  , new []{ "BZ", "CZ", "IE", "IM", "PS", "3A", "4A", "RN" }},
+            {"Internet Explorer"  , new []{ "BZ", "CZ", "IE", "IM", "PS", "3A", "4A", "RN", "2E" }},
             {"Konqueror"          , new []{ "KO" }},
             {"NetFront"           , new []{ "NF" }},
             {"NetSurf"            , new []{ "NE" }},
@@ -796,10 +800,10 @@ namespace DeviceDetectorNET.Parser.Client
             "DP", "KL", "K4", "N6", "KU", "WK", "M8", "UP", "ZT",
             "9P", "N8", "VR", "N9", "M9", "F9", "0P", "0A", "2F",
             "2M", "K7", "1N", "8A", "H7", "X3", "X4", "5O", "6I",
-            "7I", "X5", "3P",
+            "7I", "X5", "3P", "2E"
         };
 
-        public override Dictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
+        public override IReadOnlyDictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
         {
             { "Chrome", new[] { "Google Chrome" } },
             { "Chrome Webview", new[] { "Android WebView" } },
@@ -857,7 +861,7 @@ namespace DeviceDetectorNET.Parser.Client
         /// Returns list of all available browsers
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<string, string> GetAvailableBrowsers()
+        public static IReadOnlyDictionary<string, string> GetAvailableBrowsers()
         {
             return AvailableBrowsers;
         }
@@ -865,7 +869,7 @@ namespace DeviceDetectorNET.Parser.Client
         /// <summary>
         /// Returns list of all available browser families
         /// </summary>
-        public static Dictionary<string, string[]> GetAvailableBrowserFamilies()
+        public static IReadOnlyDictionary<string, string[]> GetAvailableBrowserFamilies()
         {
             return BrowserFamilies;
         }

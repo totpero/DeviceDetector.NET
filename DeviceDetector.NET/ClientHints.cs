@@ -47,7 +47,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Represents `Sec-CH-UA-Full-Version-List` header field: the full version for each brand in its brand list
         /// </summary>
-        public Dictionary<string, string> FullVersionList { get; set; }
+        public IReadOnlyDictionary<string, string> FullVersionList { get; set; }
 
         /// <summary>
         /// Represents `x-requested-with` header field: Android app id
@@ -72,8 +72,8 @@ namespace DeviceDetectorNET
         /// <param name="bitness">`Sec-CH-UA-Bitness`</param>
         /// <param name="app">`HTTP_X-REQUESTED-WITH`</param>
         /// <param name="formFactors">`Sec-CH-UA-Form-Factors` header field</param>
-        public ClientHints(string model, string platform, string platformVersion, string uaFullVersion, 
-            Dictionary<string,string> fullVersionList, bool mobile, string architecture, string bitness, string app, List<string> formFactors)
+        public ClientHints(string model, string platform, string platformVersion, string uaFullVersion,
+            IReadOnlyDictionary<string,string> fullVersionList, bool mobile, string architecture, string bitness, string app, List<string> formFactors)
         {
             Model = model;
             Platform = platform;
@@ -147,7 +147,7 @@ namespace DeviceDetectorNET
         /// Returns the Browser name
         /// </summary>
         /// <returns></returns>
-        public Dictionary<string, string> GetBrandList()
+        public IReadOnlyDictionary<string, string> GetBrandList()
         {
             if (FullVersionList.Count > 0)
             {
@@ -216,6 +216,8 @@ namespace DeviceDetectorNET
 
             foreach (var header in headers)
             {
+                if (string.IsNullOrEmpty(header.Value))
+                    continue;
                 var headerNormalized = header.Key.ToLower().Replace("_", "-");
                 switch (headerNormalized)
                 {

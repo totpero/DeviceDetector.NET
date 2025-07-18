@@ -42,7 +42,7 @@ namespace DeviceDetectorNET.Parser
         /// <summary>
         /// Contains a list of mappings from names we use to known client hint values
         /// </summary>
-        public virtual Dictionary<string, string[]> ClientHintMapping { get; }
+        public virtual IReadOnlyDictionary<string, string[]> ClientHintMapping { get; }
 
         /// <summary>
         /// Holds an array with method that should be available global

@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.4.2";
+        public const string VERSION = "6.4.6";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -638,7 +638,8 @@ namespace DeviceDetectorNET
             }
 
             //If no model could be parsed from useragent, we use the one from client hints if available
-            if (clientHints != null && string.IsNullOrEmpty(model)) {
+            if (clientHints != null && string.IsNullOrEmpty(model))
+            {
                 model = clientHints.GetModel();
             }
 
@@ -704,7 +705,7 @@ namespace DeviceDetectorNET
             //See https://developer.chrome.com/multidevice/user-agent#chrome_for_android_user_agent
             //Note: We do not check for browser (family) here, as there might be mobile apps using Chrome, that won't have
             //a detected browser, but can still be detected. So we check the useragent for Chrome instead.
-            if (!device.HasValue && osFamily == "Android" 
+            if (!device.HasValue && osFamily == "Android"
                                  && IsMatchUserAgent(@"Chrome/[.0-9]*"))
             {
                 if (IsMatchUserAgent("(?:Mobile|eliboM)"))
@@ -743,14 +744,14 @@ namespace DeviceDetectorNET
             // Devices running Android 3.X are tablets.Device type of Android 2.X and 4.X + are unknown
             if (!device.HasValue && osName == "Android" && osVersion != string.Empty)
             {
-                if (System.Version.TryParse(osVersion, out _) 
+                if (System.Version.TryParse(osVersion, out _)
                     && new System.Version(osVersion).CompareTo(new System.Version("2.0")) == -1)
                 {
                     device = DeviceType.DEVICE_TYPE_SMARTPHONE;
                 }
-                else if (System.Version.TryParse(osVersion, out _) 
-                    && new System.Version(osVersion).CompareTo(new System.Version("3.0")) >= 0 
-                    && new System.Version(osVersion).CompareTo(new System.Version("4.0")) == -1)
+                else if (System.Version.TryParse(osVersion, out _)
+                         && new System.Version(osVersion).CompareTo(new System.Version("3.0")) >= 0
+                         && new System.Version(osVersion).CompareTo(new System.Version("4.0")) == -1)
                 {
                     device = DeviceType.DEVICE_TYPE_TABLET;
                 }
@@ -762,11 +763,17 @@ namespace DeviceDetectorNET
                 device = DeviceType.DEVICE_TYPE_SMARTPHONE;
             }
 
-            //All unknown devices under running Java ME are more likely a features phones
-            if ("Java ME" == osName && !device.HasValue) {
+            //All unknown devices under running Java ME are more likely features phones
+            if ("Java ME" == osName && !device.HasValue)
+            {
                 device = DeviceType.DEVICE_TYPE_FEATURE_PHONE;
             }
 
+            //All devices running KaiOS are more likely features phones
+            if ("KaiOS" == osName)
+            {
+                device = DeviceType.DEVICE_TYPE_FEATURE_PHONE;
+            }
 
             /*According to http://msdn.microsoft.com/en-us/library/ie/hh920767(v=vs.85).aspx
              *Internet Explorer 10 introduces the "Touch" UA string token. If this token is present at the end of the
@@ -808,8 +815,23 @@ namespace DeviceDetectorNET
                 device = DeviceType.DEVICE_TYPE_TV;
             }
 
+            //All devices running Coolita OS are assumed to be a tv
+            if ("Coolita OS" == osName)
+            {
+                device = DeviceType.DEVICE_TYPE_TV;
+                brand = "coocaa";
+            }
+
             //All devices that contain Andr0id in string are assumed to be a tv
-            if (IsMatchUserAgent("Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA| TV$"))
+            var hasDeviceTvType = device.HasValue
+                                  && ! new[]
+                                  {
+                                      DeviceType.DEVICE_TYPE_TV,
+                                      DeviceType.DEVICE_TYPE_PERIPHERAL,
+                                  }.Contains(device.Value)
+                                  && IsMatchUserAgent(
+                                      "Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA|Firebolt| TV$");
+            if (hasDeviceTvType)
             {
                 device = DeviceType.DEVICE_TYPE_TV;
             }

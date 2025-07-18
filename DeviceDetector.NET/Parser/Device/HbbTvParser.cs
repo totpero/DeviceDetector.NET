@@ -7,7 +7,7 @@ namespace DeviceDetectorNET.Parser.Device
 {
     public class HbbTvParser : AbstractDeviceParser<IDictionary<string, DeviceModel>>
     {
-        const string regex = @"HbbTV/([1-9]{1}(?:\.[0-9]{1}){1,2})";
+        private const string Regex = @"(?:HbbTV|SmartTvA)/([1-9]{1}(?:\.[0-9]{1}){1,2})";
         public HbbTvParser()
         {
             FixtureFile = "regexes/device/televisions.yml";
@@ -15,17 +15,22 @@ namespace DeviceDetectorNET.Parser.Device
             regexList = GetRegexes();
         }
 
+        /// <summary>
+        /// Parses the current UA and checks whether it contains HbbTv or SmartTvA information
+        /// </summary>
+        /// <returns></returns>
         public override ParseResult<DeviceMatchResult> Parse()
         {
             var result = new ParseResult<DeviceMatchResult>();
 
-            // only parse user agents containing hbbtv fragment
+            // only parse user agents containing fragments: hbbtv or SmartTvA
             if (!IsHbbTv()) return result;
 
-            // always set device type to tv, even if no model/brand could be found
-            deviceType = DeviceType.DEVICE_TYPE_TV;
-
             result = base.Parse();
+
+            // always set device type to tv, even if no model/brand could be found
+            if (!deviceType.HasValue)
+                deviceType = DeviceType.DEVICE_TYPE_TV;
 
             if (result.Success) return result;
 
@@ -35,12 +40,12 @@ namespace DeviceDetectorNET.Parser.Device
 
         public bool IsHbbTv()
         {
-            return IsMatchUserAgent(regex);
+            return IsMatchUserAgent(Regex);
         }
 
         public string HbbTv()
         {
-            var match = MatchUserAgent(regex);
+            var match = MatchUserAgent(Regex);
             return match.Length > 1 ? match[1] : string.Empty;
         }
     }

@@ -74,7 +74,7 @@ public class BrowserTest
     public void TestGetAvailableClients()
     {
         var available = new BrowserParser().GetAvailableClients();
-        BrowserParser.GetAvailableBrowsers().Count.Should().BeGreaterOrEqualTo(available.Count);
+        BrowserParser.GetAvailableBrowsers().Count.Should().BeGreaterThanOrEqualTo(available.Count);
     }
 
     [Fact]

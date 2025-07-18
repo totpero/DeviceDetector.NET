@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Results;
@@ -48,6 +49,7 @@ namespace DeviceDetectorNET.Parser
             { "COS", "Chrome OS" },
             { "CRS", "Chromium OS" },
             { "CHN", "China OS" },
+            { "COL", "Coolita OS" },
             { "CYN", "CyanogenMod" },
             { "DEB", "Debian" },
             { "DEE", "Deepin" },
@@ -104,6 +106,7 @@ namespace DeviceDetectorNET.Parser
             { "MAG", "Mageia" },
             { "MDR", "Mandriva" },
             { "SMG", "MeeGo" },
+            { "MET", "Meta Horizon" },
             { "MCD", "MocorDroid" },
             { "MON", "moonOS" },
             { "EZX", "Motorola EZX" },
@@ -153,6 +156,7 @@ namespace DeviceDetectorNET.Parser
             { "RRS", "Resurrection Remix OS" },
             { "REX", "REX" },
             { "RZD", "RazoDroiD" },
+            { "RXT", "RTOS & Next" },
             { "SAB", "Sabayon" },
             { "SSE", "SUSE" },
             { "SAF", "Sailfish OS" },
@@ -205,11 +209,11 @@ namespace DeviceDetectorNET.Parser
         /// <summary>
         /// Operating system families mapped to the short codes of the associated operating systems
         /// </summary>
-        protected static readonly Dictionary<string, string[]> OsFamilies = new Dictionary<string, string[]>
+        protected static readonly IReadOnlyDictionary<string, string[]> OsFamilies = new Dictionary<string, string[]>
         {
             {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
                                               "ADR", "CLR", "BOS", "REV", "LEN", "SIR", "RRS", "WER", "PIC", "ARM",
-                                              "HEL", "BYI", "RIS", "PUF", "LEA" }},
+                                              "HEL", "BYI", "RIS", "PUF", "LEA", "MET" }},
             {"AmigaOS"              , new [] {"AMG", "MOR", "ARO"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
             {"Brew"                 , new [] {"BMP"}},
@@ -229,25 +233,25 @@ namespace DeviceDetectorNET.Parser
                                                 "NOV", "ROU", "ZOR", "RED", "KAL", "ORA", "VID", "TIV", "BSN", "RAS",
                                                 "UOS", "PIO", "FRI", "LIR", "WEB", "SER", "ASP", "AOS", "LOO", "EUL",
                                                 "SCI", "ALP", "CLO", "ROC", "OVZ", "PVE", "RST", "EZX", "GNS", "JOL",
-                                                "TUR", "QTP", "WPO", "PAN", "VIZ", "AZU", }},
-            {"Mac"                  , new [] {"MAC"}},
-            {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX"}},
-            {"OpenVMS"              , new [] { "OVS"}},
-            {"Real-time OS"         , new [] {"MTK", "TDX", "MRE", "JME", "REX"}},
-            {"Other Mobile"         , new [] {"WOS", "POS", "SBA", "TIZ", "SMG", "MAE", "LUN", "GEO"}},
-            {"Symbian"              , new [] {"SYM", "SYS", "SY3", "S60", "S40"}},
+                                                "TUR", "QTP", "WPO", "PAN", "VIZ", "AZU", "COL" }},
+            {"Mac"                  , new [] {"MAC" }},
+            {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX" }},
+            {"OpenVMS"              , new [] { "OVS" }},
+            {"Real-time OS"         , new [] {"MTK", "TDX", "MRE", "JME", "REX", "RXT" }},
+            {"Other Mobile"         , new [] {"WOS", "POS", "SBA", "TIZ", "SMG", "MAE", "LUN", "GEO" }},
+            {"Symbian"              , new [] {"SYM", "SYS", "SY3", "S60", "S40" }},
             {"Unix"                 , new [] {"SOS", "AIX", "HPX", "BSD", "NBS", "OBS", "DFB", "SYL", "IRI", "T64", 
-                                                "INF", "ELE", "GNX", "ULT", "NWS", "NXT", "SBL",}},
-            {"WebTV"                , new [] {"WTV"}},
-            {"Windows"              , new [] {"WIN"}},
-            {"Windows Mobile"       , new [] {"WPH", "WMO", "WCE", "WRT", "WIO", "KIN"}},
-            {"Other Smart TV"       , new [] {"WHS"}}
+                                                "INF", "ELE", "GNX", "ULT", "NWS", "NXT", "SBL", }},
+            {"WebTV"                , new [] {"WTV" }},
+            {"Windows"              , new [] {"WIN" }},
+            {"Windows Mobile"       , new [] {"WPH", "WMO", "WCE", "WRT", "WIO", "KIN" }},
+            {"Other Smart TV"       , new [] {"WHS" }}
         };
 
         /// <summary>
         /// Contains a list of mappings from OS names we use to known client hint values
         /// </summary>
-        public override Dictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
+        public override IReadOnlyDictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
         {
              {"GNU/Linux", new [] {"Linux"}},
              {"Mac"      , new [] {"MacOS"}},
@@ -258,13 +262,13 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected internal static readonly string[] DesktopOs = new[]
         {
-            "AmigaOS", "IBM", "GNU/Linux", "Mac", "Unix", "Windows", "BeOS", "Chrome OS", "Chromium OS"
+            "AmigaOS", "IBM", "GNU/Linux", "Mac", "Unix", "Windows", "BeOS", "Chrome OS"
         };
 
         /// <summary>
         /// Fire OS version mapping
         /// </summary>
-        protected internal static readonly Dictionary<string, string> FireOsVersionMapping = new Dictionary<string,string>
+        protected internal static readonly IReadOnlyDictionary<string, string> FireOsVersionMapping = new Dictionary<string,string>
         {
             {"11"    , "8" },
             {"10"    , "8" },
@@ -285,6 +289,7 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected internal static readonly Dictionary<string, string> LineageOsVersionMapping = new Dictionary<string, string>
         {
+            {"16"    , "23" },
             {"15"    , "22" },
             {"14"    , "21" },
             {"13"    , "20.0" },
@@ -313,7 +318,7 @@ namespace DeviceDetectorNET.Parser
         /// Returns all available operating systems
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<string, string> GetAvailableOperatingSystems()
+        public static IReadOnlyDictionary<string, string> GetAvailableOperatingSystems()
         {
             return OperatingSystems;
         }
@@ -322,7 +327,7 @@ namespace DeviceDetectorNET.Parser
         /// Returns all available operating system families
         /// </summary>
         /// <returns></returns>
-        public static Dictionary<string, string[]> GetAvailableOperatingSystemFamilies()
+        public static IReadOnlyDictionary<string, string[]> GetAvailableOperatingSystemFamilies()
         {
             return OsFamilies;
         }

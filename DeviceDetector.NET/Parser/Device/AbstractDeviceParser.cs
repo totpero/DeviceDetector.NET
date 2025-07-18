@@ -17,11 +17,11 @@ namespace DeviceDetectorNET.Parser.Device
         protected const string UnknownBrand = "Unknown";
 
         [Obsolete("Use Devices.DeviceTypes")]
-        public static Dictionary<string, int> DeviceTypes => Devices.DeviceTypes;
+        public static IReadOnlyDictionary<string, int> DeviceTypes => Devices.DeviceTypes;
 
 
         [Obsolete("Use Devices.DeviceBrands")]
-        public static Dictionary<string, string> DeviceBrands => Devices.DeviceBrands;
+        public static IReadOnlyDictionary<string, string> DeviceBrands => Devices.DeviceBrands;
 
         public int? GetDeviceType()
         {
