@@ -47,5 +47,14 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
 
             }
         }
+
+        [Fact]
+        public void TesDeviceDetectorIsConsole()
+        {
+            const string userAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)";
+            var dd = new DeviceDetector(userAgent);
+            dd.Parse();
+            dd.IsConsole().Should().BeTrue();
+        }
     }
 }
