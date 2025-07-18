@@ -109,7 +109,7 @@ namespace DeviceDetectorNET
             new MobileParser()
         };
 
-        protected List<IBotParserAbstract> botParsers = new List<IBotParserAbstract>
+        protected IReadOnlyList<IBotParserAbstract> botParsers = new List<IBotParserAbstract>
         {
             new BotParser()
         };
@@ -228,9 +228,22 @@ namespace DeviceDetectorNET
         public bool IsBot()
         {
             if (!IsParsed())
-                throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
+                throw new AccessViolationException("You need to call Parse method before use IsBot method.");
 
             return bot.Success;
+        }
+
+        /// <summary>
+        /// Returns if the parsed UA was identified as a Device Console
+        /// @see consoles.yml for a list of detected consoles
+        /// </summary>
+        /// <returns></returns>
+        public bool IsConsole()
+        {
+            if (!IsParsed())
+                throw new AccessViolationException("You need to call Parse method before use IsConsole method.");
+
+            return device.HasValue && device.Value == DeviceType.DEVICE_TYPE_CONSOLE;
         }
 
         /// <summary>
