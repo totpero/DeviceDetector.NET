@@ -3,149 +3,36 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462;net8.0;net9.0</TargetFrameworks>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
-    <Version>6.4.6</Version>
+    <Version>6.4.7</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
     <Description>The Universal Device Detection library for .NET that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, feed readers, media players, PIMs, ...), operating systems, brands and models. This is a port of the popular PHP device-detector library to C#. For the most part you can just follow the documentation for device-detector with no issue.</Description>
     <PackageTags>parse detection-library user-agent bot-detection mobile-detection desktop tablet mobile tv cars console standard</PackageTags>
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
-    <AssemblyVersion>6.4.6.0</AssemblyVersion>
+    <AssemblyVersion>6.4.7.0</AssemblyVersion>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
     <SignAssembly>false</SignAssembly>
-    <FileVersion>6.4.6.0</FileVersion>
+    <FileVersion>6.4.7.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
 		## What's Changed
-* Update README.md by @totpero in https://github.com/totpero/DeviceDetector.NET/pull/92
-
-### V6.4.6:
-* Detect new brand Romsat and Detect devices for exist brands
-* Adds detection for Pocket Internet Explorer browsers, smzdm, Zite apps and improves detection for Motorola Internet Browser, Safari, YouTube, YunOS
-* Improves detection for SONOS devices
-* Remove Chromium OS from desktop os families
-* Adds detection for Crestron brand, improves version detection for iOS, macOS, Windows
-* add detection for the HeartFocus app on iOS
-* Adds detection for PPDS, Star-Light and improves detection for coocaa, Funai, Philips, Sharp brands
-* Detect new brand: McLaut And Detect devices for exist brands
-* Detect new brands: Galatec, Gazal, CUD, KMC, Icone Gold, RAZZ and Detect device for exist brands
-* Detect new brand: MORTAL and Detect devices for exist brands
-* Detect new brand: JUSYEA and Detect devices for exist brands
-* Detect new brands: Caixun, Cogeco, Dawlance, Denka, EcoStar, Fision, FRESH, Nesons, Sambox, Spider, Trecfone and Detect devices for exist brands
-* Detect new brand: MULTYNET and Detect devices for exist brands
-* feat: added some new user agents
-* Detect new brands: AileTV, Bqeel, DuoTV, Indurama, HOMII, InfinityPro, Magenta, Nexar, Qupi, Sencrom and Detect devices for exist brands
-* Add Bluesky bots detection (#8050)
-* Detect new brands: ApoloSign, KGTEL, LUNNEN, NOVIS, V7, Qiuwoky and Detect devices for exist brands
-* Add OpenGraph.io bots detection
-* Detect new brands: XB, ZIOVO, KTC, Tricolor and Detect device for exist brands
-* [Wearables] addes support for Apple Watch Series 10
-* Adds detection for Apple iPhone 16e
-* Improves detection for Opera GX and adds detection for MatomoTracker
-* Improves version detection for iOS, iPadOS and macOS
-
-### V6.4.5:
-* Fix bot detection for Matomo itself
-
-### V6.4.4:
-* Detect new brand: SOWLY and Detect devices for exist brands
-* Adds detection for OpenVAS, Telegram, Webex Teams and improves detection for Semrush bots
-* Adds detection for LOGAN brand and improves detection for Aspera, Condor, Maxcom2
-* Improves detection for Android, Chrome OS, iOS and macOS, improves detection for Mobile Safari and Safari
-* Improves detection for various bots
-* Improve bot regexes
-* Adds detection for various bots
-* Detect new brand: HAVIT and Detect devices for exist brands
-* Adds detection for coocaa brand and improves detection for Metz and RCA Tablets brands
-* Adds detection for VORTEX bot
+### V6.4.7:
 * Detect devices for exist brands
-* Improves year detection for various tv brands
-* Adds detection for andersson, FINIX, HUMElab brands and improves detection for Lenco brand
-* Improves detection for various tv brands
-* Detect new brands: CONSUNG, FONTEL and Detect devices for exist brands
-* Adds detection for Coolita OS
-* Adds detection for various tv brands
-* Improves detection for ViziOS and Vizio models
+* Improves detection for ChromeOS
+* Detect new brands: G-Vill, Vitumi and Detect devices for exist brands
+* Detect new brands: Fanvace, GlobalSec, VASOUN and Detect devices for exist brands
+* Improves detection for LineageOS
+* Adds detection for KolibriOS and LibHTTP
+* Adds detection for Microsoft Power Automate
+* Adds detection for QuarkPC and Quetta browsers
+* Detect new brands: ACD, RunGee, YIKEMI and Detect devices for exist brands
+* Adds detection for WeCom
+* Add detection for Seekr iOS and Android user-agents
+* Detect new brand: CALME and Detect devices for exist brands
+* Detect new brands: Eplutus, waipu.tv, ZALA and Detect devices for exist brands
 
-### V6.4.3:
-* Adds detection for All Star, Astro (UA), astro (MY), FUJICOM, GN Electronics, TUCSON, UNITED brands and improves detection for various brands
-* Detect new brands: MEGAMAX, PLDT and Detect devices for exist brands
-* Adds detection for Herond Browser
-* Adds detection for various bots
-* Detect new brands: Dora, Elista, Everfine, Horion, MECHEN, PRISM+, SINGER, Stilevs, Viendo, Weston, ZIFFLER and Detect devices for exist brands
-* Detect new brands: Altibox, G Guard, Supermax, TV+, UnoPhone, WildRed and Detect devices for exist brands
-* Adds support for PHP 8.4 and improve phpunit.yml
-* Adds detection for allente, alpsmart, CommScope, Formovie, Grünberg, multibox brands, improves detection for BenQ, Haier, Kodak, ok., Philips, Stilevs,
-* Detect new brands: hoco, LUO and Detect devices for exist brands
-* Adds detection for Epson EF-100
-* Add missing device flag
-* Adds detection for the HeartFocus Education for iOS
-* Improves version detection for iOS and macOS
-* Adds detection for SuperTV brand
-* Adds detection for Blackphone, Geo Phone, IDC, R3Di, RED-X brands, improves detection for various brands, improves detection for feature phones
-* Adds detection for AltiBrowser, Maple (browser and engine) and improves detection for Tizen
-
-### V6.4.2:
-* Detect new brand COLORROOM And Detect devices for exist brands
-* Improves detection for Aloha Browser family
-* Detect new brand E-TACHI And Detect devices for exist brands
-* Improves detection for client hints fragment
-* Detect new brands: CPDEVICE, Korax, XPPen and Detect devices for exist brands
-* Improves detection for various bots
-* Add new zeit online mobile app
-* Adds detection for Peer39 bot
-* Detect new brands: Adreamer, Ehlel, Hemilton, Umiio and Detect devices for exist brands
-* Adds detection for LeafOS
-* Detect new brand RENSO and Detect devices for exist brands
-* Improves version detection for Windows
-* Improves engine detection for Pluma
-* Adds detection for Adobe Acrobat Reader and improves detection for various apps
-* Adds detection for TracePal and TopSecret Chat
-* Adds detection for CloudServerMarketSpider and Pandalytics
-* Improves version detection for iOS and macOS
-* Improves detection for Google bots
-* Improves version detection for Windows client hints
-* Improves detection for Chrome OS and LeafOS from client hints
-* Adds detection for Whale TV Browser, Cultraview, evvoli and Top-Tech brands, improves detection for various brands
-* Improves version detection for Fire OS from client hints
-* Improves version detection for Lineage OS
-* Improves detection for Fire TV devices
-* Improves version detection for webOS
-* Improves version detection for Blink engine
-* Detect new brand AZOM and Detect devices for exist brands
-* Improves detection for LG, ONVO and Qilive devices
-* Improves version detection for Blink engine
-* Adds detection for Singlebox and improves detection for Skye
-* Improve regexes
-* Improves detection for quic-go
-* Detect new brand DUDU AUTO and Detect devices for exist brands
-* Improves detection for Lectrus, Maxcom and Sunmax devices
-* Rename Arc to Arc Search and improves detection for Arc Search and Chrome Webview
-* Improves detection for Edenwood, Infomir, Hisense and Salora devices
-* Adds detection for Jaunt, PhantomJS and improves detection for other libraries
-* Adds detection for various apps and improves detection for TikTok
-* Remove duplicate regex
-* Detect new brands Blackton, Temigereev and Detect devices for exist brands
-* Removed GZ short code for FireFox family and Create test check shortcode comparison to browser
-* Improves version detection for Azure Linux, macOS and Windows
-* Detect new brand: Biegedy And Detect devices for exist brands
-* Remove duplicate regexes
-* Adds detection for various bots
-* Detect new brand Eudora and Detect devices for exist brands
-* Remove Java port - no longer available
-* Detect new brands: Acepad, Diofox and Detect devices for exist brands
-* Detect devices for exist brands
-* Detect devices for exist brands
-* Detect mobile apps: Klara, Edmodo
-* Adds detection for Meta Horizon
-* Improve Android regexes
-* Improves version detection for Android
-* Adds detection for Smart Tech brand and RTOS &amp; Next os, and improves detection for Hisense, MediaTek, Next &amp; NextStar
-* Ignore empty values for client hints
-* Adds test for null values in client hints
-
-
-**Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.4.2...v6.4.6
+**Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.4.6...v6.4.7
 	</PackageReleaseNotes>
     <PackageIcon>logo.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
