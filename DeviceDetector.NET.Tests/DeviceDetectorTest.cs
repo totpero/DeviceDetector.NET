@@ -829,23 +829,21 @@ public class DeviceDetectorTest
     }
 
     /// <summary>
-    /// Issue #88
+    /// Issue #97
+    /// The same result like: https://devicedetector.lw1.at/azure-logic-apps%2F1.0%20(workflow%2003e6c330959f42e6b2d98b9e3859a40b;%20version%2008584645446027273492)%20microsoft-flow%2F1.0
     /// </summary>
     [Fact]
-    public void TestIssue88_Test3()
+    public void TestIssue97()
     {
-        var clientHints = ClientHints.Factory(new Dictionary<string, string>
-        {
-            ["sec-ch-ua"] = "\"Chromium\";v=\"15\", \"Not.A/Brand\";v=\"8\"",
-        });
-
-        const string userAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5735.196 Safari/537.36";
-        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
+        const string userAgent = "azure-logic-apps/1.0 (workflow 03e6c330959f42e6b2d98b9e3859a40b; version 08584645446027273492) microsoft-flow/1.0";
+        var dd = DeviceDetector.GetInfoFromUserAgent(userAgent);
         dd.Success.Should().BeTrue();
-        var browserMatch = dd.Match.Client as BrowserMatchResult;
-        browserMatch.Name.Should().Be("360 Secure Browser");
-        browserMatch.Version.Should().Be("15");
-        browserMatch.Engine.Should().Be("Blink");
-        browserMatch.EngineVersion.Should().Be("114.0.5735.196");
+        dd.Match.IsBoot.Should().BeTrue();
+        var bot = dd.Match.Bot;
+        bot.Name.Should().Be("Microsoft Power Automate");
+        bot.Category.Should().Be("Service Agent");
+        bot.Url.Should().Be("https://www.microsoft.com/en-us/power-platform/products/power-automate");
+        bot.Producer.Name.Should().Be("Microsoft Corporation");
+        bot.Producer.Url.Should().Be("https://www.microsoft.com/");
     }
 }

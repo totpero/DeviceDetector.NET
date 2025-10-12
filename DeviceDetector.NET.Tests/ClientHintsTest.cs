@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using System.Collections.Generic;
-using System.Reflection.PortableExecutable;
 using Xunit;
 
 namespace DeviceDetectorNET.Tests
