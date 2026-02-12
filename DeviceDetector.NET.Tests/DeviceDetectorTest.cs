@@ -496,6 +496,10 @@ public class DeviceDetectorTest
                         "Site Monitor",
                         "Social Media Agent",
                         "Validator",
+                        "AI Agent",
+                        "AI Assistant",
+                        "AI Data Scraper",
+                        "AI Search Crawler",
                     };
                 categories.Should().Contain(botData.Match.Category,"Unknown category");
             }

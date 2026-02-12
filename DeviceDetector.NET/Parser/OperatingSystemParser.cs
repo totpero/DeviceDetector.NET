@@ -27,6 +27,7 @@ namespace DeviceDetectorNET.Parser
             { "ARM", "Armadillo OS" },
             { "ARO", "AROS" },
             { "ATV", "tvOS" },
+            { "ARC", "ArcaOS" },
             { "ARL", "Arch Linux" },
             { "AOS", "AOSC OS" },
             { "ASP", "ASPLinux" },
@@ -41,6 +42,7 @@ namespace DeviceDetectorNET.Parser
             { "BOS", "Bliss OS" },
             { "BMP", "Brew" },
             { "BSN", "BrightSignOS" },
+            { "BS1", "BSD" },
             { "CAI", "Caixa Mágica" },
             { "CES", "CentOS" },
             { "CST", "CentOS Stream" },
@@ -49,6 +51,7 @@ namespace DeviceDetectorNET.Parser
             { "COS", "Chrome OS" },
             { "CRS", "Chromium OS" },
             { "CHN", "China OS" },
+            { "CON", "Contiki" },
             { "COL", "Coolita OS" },
             { "CYN", "CyanogenMod" },
             { "DEB", "Debian" },
@@ -56,6 +59,7 @@ namespace DeviceDetectorNET.Parser
             { "DFB", "DragonFly" },
             { "DVK", "DVKBuntu" },
             { "ELE", "ElectroBSD" },
+            { "ELM", "elementary OS" },
             { "EUL", "EulerOS" },
             { "FED", "Fedora" },
             { "FEN", "Fenix" },
@@ -70,6 +74,7 @@ namespace DeviceDetectorNET.Parser
             { "GNT", "Gentoo" },
             { "GNX", "GENIX" },
             { "GEO", "GEOS" },
+            { "GHO", "GhostBSD" },
             { "GNS", "gNewSense" },
             { "GRI", "GridOS" },
             { "GTV", "Google TV" },
@@ -96,6 +101,7 @@ namespace DeviceDetectorNET.Parser
             { "LND", "LindowsOS" },
             { "LNS", "Linspire" },
             { "LEN", "Lineage OS" },
+            { "LPU", "Linpus" },
             { "LIR", "Liri OS" },
             { "LOO", "Loongnix" },
             { "LBT", "Lubuntu" },
@@ -108,6 +114,8 @@ namespace DeviceDetectorNET.Parser
             { "MDR", "Mandriva" },
             { "SMG", "MeeGo" },
             { "MET", "Meta Horizon" },
+            { "MNX", "MINIX" },
+            { "MOS", "Mocor OS" },
             { "MCD", "MocorDroid" },
             { "MON", "moonOS" },
             { "EZX", "Motorola EZX" },
@@ -122,8 +130,10 @@ namespace DeviceDetectorNET.Parser
             { "WII", "Nintendo" },
             { "NDS", "Nintendo Mobile" },
             { "NOV", "Nova" },
+            { "NTX", "NuttX" },
             { "OS2", "OS/2" },
             { "T64", "OSF1" },
+            { "OSS", "openSUSE" },
             { "OBS", "OpenBSD" },
             { "OHS", "OpenHarmony" },
             { "OVS", "OpenVMS" },
@@ -132,9 +142,11 @@ namespace DeviceDetectorNET.Parser
             { "OTV", "Opera TV" },
             { "ORA", "Oracle Linux" },
             { "ORD", "Ordissimo" },
+            { "ORS", "Orsay" },
             { "PAR", "Pardus" },
             { "PCL", "PCLinuxOS" },
             { "PIC", "PICO OS" },
+            { "PLN", "Plan 9" },
             { "PLA", "Plasma Mobile" },
             { "PSP", "PlayStation Portable" },
             { "PS3", "PlayStation" },
@@ -167,6 +179,7 @@ namespace DeviceDetectorNET.Parser
             { "SER", "SerenityOS" },
             { "SIR", "Sirin OS" },
             { "SLW", "Slackware" },
+            { "SMA", "Smartisan OS" },
             { "SOS", "Solaris" },
             { "SBL", "Star-Blade OS" },
             { "SYL", "Syllable" },
@@ -177,6 +190,7 @@ namespace DeviceDetectorNET.Parser
             { "SY3", "Symbian^3" },
             { "TEN", "TencentOS" },
             { "TDX", "ThreadX" },
+            { "TIT", "Titan OS" },
             { "TIZ", "Tizen" },
             { "TIV", "TiVo OS" },
             { "TOS", "TmaxOS" },
@@ -215,7 +229,7 @@ namespace DeviceDetectorNET.Parser
         {
             {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
                                               "ADR", "CLR", "BOS", "REV", "LEN", "SIR", "RRS", "WER", "PIC", "ARM",
-                                              "HEL", "BYI", "RIS", "PUF", "LEA", "MET", "OHS" }},
+                                              "HEL", "BYI", "RIS", "PUF", "LEA", "MET", "OHS", "SMA" }},
             {"AmigaOS"              , new [] {"AMG", "MOR", "ARO"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
             {"Brew"                 , new [] {"BMP"}},
@@ -235,19 +249,22 @@ namespace DeviceDetectorNET.Parser
                                                 "NOV", "ROU", "ZOR", "RED", "KAL", "ORA", "VID", "TIV", "BSN", "RAS",
                                                 "UOS", "PIO", "FRI", "LIR", "WEB", "SER", "ASP", "AOS", "LOO", "EUL",
                                                 "SCI", "ALP", "CLO", "ROC", "OVZ", "PVE", "RST", "EZX", "GNS", "JOL",
-                                                "TUR", "QTP", "WPO", "PAN", "VIZ", "AZU", "COL" }},
+                                                "TUR", "QTP", "WPO", "PAN", "VIZ", "AZU", "COL", "OSS", "ELM", "LPU"
+            }},
             {"Mac"                  , new [] {"MAC" }},
             {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX" }},
             {"OpenVMS"              , new [] { "OVS" }},
-            {"Real-time OS"         , new [] {"MTK", "TDX", "MRE", "JME", "REX", "RXT", "KOL" }},
-            {"Other Mobile"         , new [] {"WOS", "POS", "SBA", "TIZ", "SMG", "MAE", "LUN", "GEO" }},
+            {"Real-time OS"         , new [] {"MTK", "TDX", "MRE", "JME", "REX", "RXT", "KOL", "MOS", "NTX" }},
+            {"Other Mobile"         , new [] {"WOS", "POS", "SBA", "TIZ", "SMG", "MAE", "LUN", "GEO", "CON" }},
             {"Symbian"              , new [] {"SYM", "SYS", "SY3", "S60", "S40" }},
             {"Unix"                 , new [] {"SOS", "AIX", "HPX", "BSD", "NBS", "OBS", "DFB", "SYL", "IRI", "T64", 
-                                                "INF", "ELE", "GNX", "ULT", "NWS", "NXT", "SBL", }},
+                                              "INF", "ELE", "GNX", "ULT", "NWS", "NXT", "SBL", "BS1", "GHO", "PLN",
+                                              "MNX"
+            }},
             {"WebTV"                , new [] {"WTV" }},
             {"Windows"              , new [] {"WIN" }},
             {"Windows Mobile"       , new [] {"WPH", "WMO", "WCE", "WRT", "WIO", "KIN" }},
-            {"Other Smart TV"       , new [] {"WHS" }}
+            {"Other Smart TV"       , new [] {"WHS", "TIT", "ORS" }}
         };
 
         /// <summary>
@@ -264,7 +281,8 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected internal static readonly string[] DesktopOs = new[]
         {
-            "AmigaOS", "IBM", "GNU/Linux", "Mac", "Unix", "Windows", "BeOS", "Chrome OS"
+            "AmigaOS", "IBM", "GNU/Linux", "Mac", "Unix", "Windows", "BeOS", "Chrome OS",
+            "OpenVMS"
         };
 
         /// <summary>
@@ -272,6 +290,9 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected internal static readonly IReadOnlyDictionary<string, string> FireOsVersionMapping = new Dictionary<string,string>
         {
+            {"14"    , "14" },
+            {"13"    , "14" },
+            {"12"    , "14" },
             {"11"    , "8" },
             {"10"    , "8" },
             {"9"     , "7" },
@@ -478,6 +499,12 @@ namespace DeviceDetectorNET.Parser
                     @short = "FIR";
                     version = FireOsVersionMapping[version] ?? FireOsVersionMapping[majorVersion] ?? string.Empty;
                 }
+            }
+
+            if (!string.IsNullOrEmpty(name) && !OperatingSystems.ContainsValue(name))
+            {
+                // This Exception should never be thrown. If so, a defined operating system is missing in $operatingSystems
+                throw new Exception($"The operating system '{name}' should be listed in operatingSystems array. Tried to parse user agent: {UserAgent}");
             }
 
             var os = new OsMatchResult
@@ -778,7 +805,7 @@ namespace DeviceDetectorNET.Parser
             {
                 return PlatformType.Sparc64;
             }
-            if (IsMatchUserAgent("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|.*amd64|.*x86_?64"))
+            if (IsMatchUserAgent("64-?bit|WOW64|(?:Intel)?x64|WINDOWS_64|win64|IRIX;?64|.*amd64|.*x86_?64"))
             {
                 return PlatformType.X64;
             }

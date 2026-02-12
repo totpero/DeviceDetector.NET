@@ -185,7 +185,8 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected bool HasUserAgentClientHintsFragment()
         {
-            return IsMatchUserAgent("~Android (?:10[.\\d]*; K(?: Build/|[;)])|1[1-5]\\)) AppleWebKit~i");
+            const string pattern = "~Android (?:10[.\\d]*; K(?: Build/|[;)])|1[1-5]\\)) AppleWebKit~i";
+            return !UserAgent.Contains("Telegram-Android/") && IsMatchUserAgent(pattern);
         }
 
         /// <summary>

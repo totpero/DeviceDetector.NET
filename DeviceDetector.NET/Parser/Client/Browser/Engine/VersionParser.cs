@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using DeviceDetectorNET.Class.Client;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Client;
@@ -29,7 +28,7 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
             if (_engine.Equals("Gecko", StringComparison.OrdinalIgnoreCase) || _engine.Equals("Clecko", StringComparison.OrdinalIgnoreCase))
             {
                 matches = GetRegexEngine()
-                    .MatchesUniq(UserAgent, "[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko/[0-9]{8,10}").ToArray();
+                    .MatchesUniq(UserAgent, "[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko/\\d{8,10}").ToArray();
                 //todo: ....is ok?
                 if (matches.Length > 0)
                 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using YamlDotNet.Core.Tokens;
 
 namespace DeviceDetectorNET
 {
@@ -213,6 +214,9 @@ namespace DeviceDetectorNET
             var mobile = false;
             var fullVersionList = new Dictionary<string, string>();
             var formFactors = new List<string>();
+
+            // any kind of html tag is unexpected as part of those headers, so discard values that contain some.
+            //if (\is_string($value) && \strip_tags($value) !== $value) {
 
             foreach (var header in headers)
             {

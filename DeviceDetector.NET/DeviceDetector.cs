@@ -21,7 +21,7 @@ namespace DeviceDetectorNET
         /// <summary>
         /// Current version number of DeviceDetector
         /// </summary>
-        public const string VERSION = "6.4.7";
+        public const string VERSION = "6.5.0";
 
         /// <summary>
         /// Constant used as value for unknown browser / os
@@ -501,8 +501,9 @@ namespace DeviceDetectorNET
             parsed = true;
 
             // skip parsing for empty useragents or those not containing any letter (if no client hints were provided)
-            if ((string.IsNullOrEmpty(userAgent) || !GetRegexEngine().Match(userAgent, "([a-z])"))
-                && clientHints == null)
+            if (clientHints == null 
+                && (string.IsNullOrEmpty(userAgent) || !GetRegexEngine().Match(userAgent, "([a-z])"))
+                )
             {
                 return;
             }
@@ -925,6 +926,9 @@ namespace DeviceDetectorNET
                 //return;
             }
 
+            //**@var array $client */
+           
+            match.BrowserFamily = UNKNOWN_FULL;
             if (deviceDetector.IsBrowser())
             {
                 var browserMatch = deviceDetector.client.Match as BrowserMatchResult;
@@ -937,6 +941,7 @@ namespace DeviceDetectorNET
                 match.OsFamily = osFamily ?? UNKNOWN_FULL;
             }
 
+            //** @var array $os */
             match.Os = deviceDetector.os.Match;
             match.Client = deviceDetector.client.Match;
            
