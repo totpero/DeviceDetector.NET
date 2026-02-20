@@ -238,7 +238,7 @@ namespace DeviceDetectorNET.Parser
             {"Firefox OS"           , new [] {"FOS", "KOS"}},
             {"Gaming Console"       , new [] {"WII", "PS3"}},
             {"Google TV"            , new [] {"GTV"}},
-            {"IBM"                  , new [] {"OS2"}},
+            {"IBM"                  , new [] {"OS2", "ARC"}},
             {"iOS"                  , new [] {"IOS", "ATV", "WAS", "IPA"}},
             {"RISC OS"              , new [] {"ROS"}},
             {"GNU/Linux"            , new [] {"LIN", "ARL", "DEB", "KNO", "MIN", "UBT", "KBT", "XBT", "LBT", "FED",

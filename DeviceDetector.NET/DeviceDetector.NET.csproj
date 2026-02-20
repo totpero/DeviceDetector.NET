@@ -13,26 +13,13 @@
     <AssemblyVersion>6.4.7.0</AssemblyVersion>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
     <SignAssembly>false</SignAssembly>
-    <FileVersion>6.4.7.0</FileVersion>
+    <FileVersion>6.5.0.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
 		## What's Changed
-### V6.4.7:
+### V6.5.0:
 * Detect devices for exist brands
-* Improves detection for ChromeOS
-* Detect new brands: G-Vill, Vitumi and Detect devices for exist brands
-* Detect new brands: Fanvace, GlobalSec, VASOUN and Detect devices for exist brands
-* Improves detection for LineageOS
-* Adds detection for KolibriOS and LibHTTP
-* Adds detection for Microsoft Power Automate
-* Adds detection for QuarkPC and Quetta browsers
-* Detect new brands: ACD, RunGee, YIKEMI and Detect devices for exist brands
-* Adds detection for WeCom
-* Add detection for Seekr iOS and Android user-agents
-* Detect new brand: CALME and Detect devices for exist brands
-* Detect new brands: Eplutus, waipu.tv, ZALA and Detect devices for exist brands
-
-**Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.4.6...v6.4.7
+**Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.4.7...v6.5.0
 	</PackageReleaseNotes>
     <PackageIcon>logo.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
@@ -51,12 +38,12 @@
 
   <ItemGroup>
     <PackageReference Include="LiteDB" Version="5.0.21" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.3" />
     <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
 
   <ItemGroup Condition="!$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">
-    <PackageReference Include="System.Text.Json" Version="9.0.9" />
+    <PackageReference Include="System.Text.Json" Version="10.0.3" />
   </ItemGroup>
 
   <ItemGroup>

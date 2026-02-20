@@ -1,3 +1,4 @@
+using System.Linq;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class.Device;
 using DeviceDetectorNET.Parser;
@@ -9,7 +10,6 @@ using DeviceDetectorNET.Results.Client;
 using DeviceDetectorNET.Results.Device;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using LiteDB;
 using YamlDotNet.Core;
@@ -160,7 +160,10 @@ namespace DeviceDetectorNET
         /// <param name="clientHints"></param>
         public void SetClientHints(ClientHints clientHints)
         {
-            if (this.clientHints != null || this.clientHints != clientHints)
+            // Reset only when the new ClientHints instance differs from the current one.
+            // The previous condition `if (this.clientHints != null || this.clientHints != clientHints)` was
+            // incorrect and evaluated to true in many cases, causing unwanted Reset() calls and state loss.
+            if (this.clientHints != clientHints)
             {
                 Reset();
             }
@@ -314,7 +317,7 @@ namespace DeviceDetectorNET
         {
             return device == DeviceType.DEVICE_TYPE_TV;
         }
-        
+
         public bool IsWearable()
         {
             return device == DeviceType.DEVICE_TYPE_WEARABLE;
@@ -326,7 +329,8 @@ namespace DeviceDetectorNET
                 throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
 
             // Client hints indicate a mobile device
-            if (clientHints != null && clientHints.IsMobile()) {
+            if (clientHints != null && clientHints.IsMobile())
+            {
                 return true;
             }
 
@@ -501,7 +505,7 @@ namespace DeviceDetectorNET
             parsed = true;
 
             // skip parsing for empty useragents or those not containing any letter (if no client hints were provided)
-            if (clientHints == null 
+            if (clientHints == null
                 && (string.IsNullOrEmpty(userAgent) || !GetRegexEngine().Match(userAgent, "([a-z])"))
                 )
             {
@@ -512,7 +516,7 @@ namespace DeviceDetectorNET
 
             if (useCache)
             {
-                var key = $"{userAgent}_{skipBotDetection}_{discardBotInformation}_{_versionTruncation}";
+                var key = $"{userAgent}_{skipBotDetection}_{discardBotInformation}_{_version_truncation}";
 
                 if (LoadCacheData(key)) return;
 
@@ -607,7 +611,7 @@ namespace DeviceDetectorNET
         /// </summary>
         protected void ParseClient()
         {
-            //if (!clientParsers.Any( c=> c.ParserName == MobileAppParser.AppParserName))
+            //if (!client_parsers.Any( c=> c.ParserName == MobileAppParser.AppParserName))
             //{
             //    AddClientParser(new MobileAppParser(userAgent, clientHints));
             //}
@@ -798,8 +802,8 @@ namespace DeviceDetectorNET
              *As most touch enabled devices are tablets and only a smaller part are desktops / notebooks we assume that
              *all Windows 8 touch devices are tablets.
             */
-            if (!device.HasValue && (osName == "Windows RT" || (osName == "Windows" 
-                && System.Version.TryParse(osVersion, out _) 
+            if (!device.HasValue && (osName == "Windows RT" || (osName == "Windows"
+                && System.Version.TryParse(osVersion, out _)
                 && new System.Version(osVersion).CompareTo(new System.Version("8.0")) >= 0)) && IsTouchEnabled())
             {
                 device = DeviceType.DEVICE_TYPE_TABLET;
@@ -838,7 +842,7 @@ namespace DeviceDetectorNET
 
             //All devices that contain Andr0id in string are assumed to be a tv
             var hasDeviceTvType = device.HasValue
-                                  && ! new[]
+                                  && !new[]
                                   {
                                       DeviceType.DEVICE_TYPE_TV,
                                       DeviceType.DEVICE_TYPE_PERIPHERAL,
@@ -903,11 +907,6 @@ namespace DeviceDetectorNET
 
         /// <summary>
         /// Parses a useragent and returns the detected data
-        ///
-        /// ATTENTION: Use that method only for testing or very small applications
-        /// To get fast results from DeviceDetector you need to make your own implementation,
-        /// that should use one of the caching mechanisms. See README.md for more information.
-        ///
         /// </summary>
         /// <param name="ua">UserAgent to parse</param>
         /// <returns></returns>
@@ -923,11 +922,8 @@ namespace DeviceDetectorNET
             if (deviceDetector.IsBot())
             {
                 match.Bot = deviceDetector.bot.Match;
-                //return;
             }
 
-            //**@var array $client */
-           
             match.BrowserFamily = UNKNOWN_FULL;
             if (deviceDetector.IsBrowser())
             {
@@ -941,13 +937,11 @@ namespace DeviceDetectorNET
                 match.OsFamily = osFamily ?? UNKNOWN_FULL;
             }
 
-            //** @var array $os */
             match.Os = deviceDetector.os.Match;
             match.Client = deviceDetector.client.Match;
-           
+
             match.Device = new DeviceMatchResult
             {
-                //Name = deviceDetector.GetDeviceName(),
                 Type = deviceDetector.device,
                 Brand = deviceDetector.GetBrandName(),
                 Name = deviceDetector.GetModel(),
@@ -957,12 +951,6 @@ namespace DeviceDetectorNET
             match.DeviceModel = deviceDetector.GetModel();
 
             return result.Add(match);
-
-            //if (deviceDetector.client.Success &&
-            //  deviceDetector.client.ParserName.Equals(BrowserParser.DefaultParserName))
-            //{
-            //    client.Match.Family
-            //}
         }
 
         /// <summary>
@@ -1009,11 +997,11 @@ namespace DeviceDetectorNET
             return "(?:^|[^A-Z_-])(?:" + regex.Replace("/", @"\/").Replace("++", "+") + ")";
         }
 
-        private static int _versionTruncation = AbstractParser<List<Class.Bot>, ClientMatchResult>.VERSION_TRUNCATION_NONE;
+        private static int _version_truncation = AbstractParser<List<Class.Bot>, ClientMatchResult>.VERSION_TRUNCATION_NONE;
 
         public static void SetVersionTruncation(int versionTruncation)
         {
-            _versionTruncation = versionTruncation;
+            _version_truncation = versionTruncation;
             AbstractParser<List<Class.Bot>, BotMatchResult>.SetVersionTruncation(versionTruncation);
             AbstractParser<List<Class.Os>, OsMatchResult>.SetVersionTruncation(versionTruncation);
             AbstractParser<Dictionary<string, string[]>, VendorFragmentResult>.SetVersionTruncation(versionTruncation);
