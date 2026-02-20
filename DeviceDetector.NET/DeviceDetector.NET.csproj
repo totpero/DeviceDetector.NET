@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462;net8.0;net9.0;net10.0</TargetFrameworks>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
-    <Version>6.4.7</Version>
+    <Version>6.5.0</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
@@ -16,9 +16,92 @@
     <FileVersion>6.5.0.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
-		## What's Changed
+## What's Changed
 ### V6.5.0:
+
+* Adds detection for OpenHarmony
+* Discard headers that contain html tags
+* Adds detection for Ace, ArtisBrowser, Doubao, Lemur Browser, Opera Air, Power Browser, Ray and improves detection for Opera GX, Opera Mini
+* Improves version detection for Opera
+* Adds detection for various apps
+* Improves engine detection for Iron Mobile
+* Improves detection for generic bots
+* Detect new brands: G-Tab, SUAAT and Detect devices for exist brands
+* Improves detection for Chrome Mobile iOS
+* Adds detection for Hubot library
+* Adds detection for Hulu and improves version detection for Fire OS
+* Improves version detection for iOS, macOS and Nook Browser
+* Smartisan os
+* Update readme about Cache
 * Detect devices for exist brands
+* Make tests compatible with newer phpunit versions
+* Improve hasUserAgentClientHintsFragment method
+* Improves detection for Java ME
+* Adds detection for Nintendo Browser
+* Adds detection for TeraBox and improves detection for DeepSeek and Google Go
+* add Galaxy Tab S10 Lite
+* Adds detection for Titan OS
+* show 100 unittests in one line
+* Adds detection for Redline
+* Improves version detection for iOS and macOS 
+* Update OS versions detect for Pardus, RokuOS, moonOS
+* Improves engine detection for Opera and Edge on iOS
+* Adds detection for Blazer, Clario Browser, Comet and FireSend Browser
+* Improves detection for LG
+* Adds detection for various AI bots
+* Adds detection for various tv brands
+* Adds detection for various bots
+* Improves detection for Avast Secure Browser
+* add some apps
+* rename device maker Jedi to Jide
+* Improves detection for Compaq and adds detection for DEC
+* Improves version detection for Fire OS
+* Move Apache from app to bot (service agent)
+* Adds detection for ArcaOS, Contiki, elementary OS, GhostBSD, Linpus, MINIX, Mocor OS, Plan 9 and improves detection for MAUI Runtime Environment
+* Adds detection for BSD, openSUSE and improves detection for various operating systems
+* Adds detection for WebMoney Advisor
+* Remove Samsung Browser from mobile only
+* Improves detection for Avast Secure Browser
+* change model names for devices
+* Fix detection for Redmi Note 14
+* Improves detection for generic bots
+* Adds detection for ChatGPT and improves detection for iPadOS
+* Adds detection for Orsay and improves detection for Samsung
+* Adds detection for various bots
+* Add ua-extract in readme for python
+* Code changes
+
+### V6.4.8:
+* Adds detection for OpenHarmony
+* Improves detection for Chrome OS from client hints
+* Move HeyTapBrowser to browser
+* feat: add iPhone 17 support
+* Improves version detection for iPadOS, iOS, tvOS and webOS
+* Model changes
+* Adds detection for Cici and improves detection for generic apps
+* Bot corrections + Simbiat Software
+* add model names for samsung tablets
+* Adds detection for various bots
+* add 2 devices, fix devices names
+* change brand names for 2 devices
+* change model names for devices
+* fix: detect brand: Google model: Pixel 7 Pro for instagram app
+* fix: detect os android version for linkedin mobile app
+* Split Honor and Huawe to separately brands
+* Add new regex Chrome Mobile IOS browser and fix wrong detect Chrome WebView for IOS
+* Detect Harmony 360 Browser and add ArkWeb browser engine and Detect devices for exist brands
+* feat(device) detect brand apple: iPad 10 10.9" WiFi (iPad13,18), iPad 10 10.9" (iPad13,19)
+* Detect devices for exist brands
+* Detect new brands: AI+, VOIX and Detect devices for exist brands and Detect ChatGPT Atlas browser
+* Detect new bradns: BNCF, Edanix and Detect devieces for exist brands
+* Detect new brands: Genius Devices, Türksat and Detect devices for exist brands
+* Improves version detection for Android and adds detection for Superbalist
+* Improves version detection for Android
+* Fix model list Huawei and Honor brand
+* Add missing iPads detection
+* change model names for devices
+* Adds detection for various bots
+
 **Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.4.7...v6.5.0
 	</PackageReleaseNotes>
     <PackageIcon>logo.jpg</PackageIcon>
