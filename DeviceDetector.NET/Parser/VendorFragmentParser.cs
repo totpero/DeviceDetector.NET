@@ -26,8 +26,7 @@ namespace DeviceDetectorNET.Parser
                         result.Add(new VendorFragmentResult
                         {
                             Name = brands.Key,
-                            Brand = Devices.DeviceBrands
-                                .FirstOrDefault(d => d.Value.Equals(brands.Key)).Key
+                            Brand = brands.Key
                         });
                     }
                 }

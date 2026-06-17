@@ -427,7 +427,9 @@ public class DeviceDetectorTest
                 "98.0.14335.105",
                 new Dictionary<string, string>
                 {
-                    { "brand", " Not A;Brand"}
+                    { " Not A;Brand", "99.0.0.0" },
+                    { "Chromium", "98.0.14335.105" },
+                    { "Chrome", "98.0.14335.105" }
                 },
                 true,
                 "",

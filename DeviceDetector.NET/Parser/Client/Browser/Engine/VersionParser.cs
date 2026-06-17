@@ -32,7 +32,7 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
                 //todo: ....is ok?
                 if (matches.Length > 0)
                 {
-                    result.Add(new ClientMatchResult { Version = matches[0] });
+                    result.Add(new ClientMatchResult { Name = matches[0] });
                 }
             }
             else

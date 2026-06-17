@@ -112,7 +112,7 @@ namespace DeviceDetectorNET.Tests.Parser
         public void TestGetAvailableOperatingSystemFamilies()
         {
             var count = OperatingSystemParser.GetAvailableOperatingSystemFamilies().Count;
-            count.Should().Be(24);
+            count.Should().Be(25);
         }
 
         [Theory]

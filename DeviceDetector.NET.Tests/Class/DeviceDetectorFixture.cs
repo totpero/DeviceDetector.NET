@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using YamlDotNet.Serialization;
 
 namespace DeviceDetectorNET.Tests.Class
@@ -60,8 +61,7 @@ namespace DeviceDetectorNET.Tests.Class
 
     public class Headers: Dictionary<string,object>
     {
-        public List< string> brands { get; set; }
-        public List<string> fullVersionList { get; set; }
+        public Headers() : base(StringComparer.OrdinalIgnoreCase) { }
 
         public const string HttpXRequestedWithConst = "http-x-requested-with";
         public const string SecChUaFormFactorsConst = "sec-ch-ua-form-factors";
@@ -80,15 +80,15 @@ namespace DeviceDetectorNET.Tests.Class
         [YamlIgnore] public string UaFullVersion => ContainsKey(nameof(UaFullVersion)) ? this[nameof(UaFullVersion)]?.ToString() : string.Empty;
         [YamlIgnore] public string Wow64 => ContainsKey(nameof(Wow64)) ? this[nameof(Wow64)]?.ToString() : string.Empty;
         [YamlIgnore] public string Architecture => ContainsKey(nameof(Architecture)) ? this[nameof(Architecture)]?.ToString() : string.Empty;
-        [YamlIgnore] public string HttpXRequestedWith => ContainsKey(nameof(HttpXRequestedWithConst)) ? this[HttpXRequestedWithConst]?.ToString() : string.Empty;
-        [YamlIgnore] public string SecChUaFormFactors => ContainsKey(nameof(SecChUaFormFactorsConst)) ? this[SecChUaFormFactorsConst]?.ToString() : string.Empty;
-        [YamlIgnore] public string SecChUaModel => ContainsKey(nameof(SecChUaModelConst)) ? this[SecChUaModelConst]?.ToString() : string.Empty;
-        [YamlIgnore] public string SecChUa => ContainsKey(nameof(SecChUaConst)) ? this[SecChUaConst]?.ToString() : string.Empty;
-        [YamlIgnore] public string SecChUaPlatform => ContainsKey(nameof(SecChUaPlatformConst)) ? this[SecChUaPlatformConst]?.ToString() : string.Empty;
-        [YamlIgnore] public string SecChUaMobile => ContainsKey(nameof(SecChUaMobileConst)) ? this[SecChUaMobileConst]?.ToString() : string.Empty;
-        [YamlIgnore] public string SecChUaVersion => ContainsKey(nameof(SecChUaFullVersionConst)) ? this[SecChUaFullVersionConst]?.ToString() : string.Empty;
-        [YamlIgnore] public string SecChUaPlatformVersion => ContainsKey(nameof(SecChUaPlatformVersionConst)) ? this[SecChUaPlatformVersionConst]?.ToString() : string.Empty;
-        [YamlIgnore] public string SecChPrefersColorScheme => ContainsKey(nameof(SecChPrefersColorSchemeConst)) ? this[SecChPrefersColorSchemeConst]?.ToString() : string.Empty;
+        [YamlIgnore] public string HttpXRequestedWith => ContainsKey(HttpXRequestedWithConst) ? this[HttpXRequestedWithConst]?.ToString() : string.Empty;
+        [YamlIgnore] public string SecChUaFormFactors => ContainsKey(SecChUaFormFactorsConst) ? this[SecChUaFormFactorsConst]?.ToString() : string.Empty;
+        [YamlIgnore] public string SecChUaModel => ContainsKey(SecChUaModelConst) ? this[SecChUaModelConst]?.ToString() : string.Empty;
+        [YamlIgnore] public string SecChUa => ContainsKey(SecChUaConst) ? this[SecChUaConst]?.ToString() : string.Empty;
+        [YamlIgnore] public string SecChUaPlatform => ContainsKey(SecChUaPlatformConst) ? this[SecChUaPlatformConst]?.ToString() : string.Empty;
+        [YamlIgnore] public string SecChUaMobile => ContainsKey(SecChUaMobileConst) ? this[SecChUaMobileConst]?.ToString() : string.Empty;
+        [YamlIgnore] public string SecChUaVersion => ContainsKey(SecChUaFullVersionConst) ? this[SecChUaFullVersionConst]?.ToString() : string.Empty;
+        [YamlIgnore] public string SecChUaPlatformVersion => ContainsKey(SecChUaPlatformVersionConst) ? this[SecChUaPlatformVersionConst]?.ToString() : string.Empty;
+        [YamlIgnore] public string SecChPrefersColorScheme => ContainsKey(SecChPrefersColorSchemeConst) ? this[SecChPrefersColorSchemeConst]?.ToString() : string.Empty;
 
         public Dictionary<string, string> ToDictionary()
         {
@@ -101,18 +101,40 @@ namespace DeviceDetectorNET.Tests.Class
                 { nameof(UaFullVersion), UaFullVersion },
                 { nameof(Wow64), Wow64 },
                 { nameof(Architecture), Architecture },
-                { nameof(HttpXRequestedWithConst), HttpXRequestedWith },
-                { nameof(SecChUaFormFactorsConst), SecChUaFormFactors },
-                { nameof(SecChUaModelConst), SecChUaModel },
-                { nameof(SecChUaConst), SecChUa },
-                { nameof(SecChUaPlatformConst), SecChUaPlatform },
-                { nameof(SecChUaMobileConst), SecChUaMobile },
-                { nameof(SecChUaFullVersionConst), SecChUaVersion },
-                { nameof(SecChUaPlatformVersionConst), SecChUaPlatformVersion },
-                { nameof(SecChPrefersColorSchemeConst), SecChPrefersColorScheme },
+                { HttpXRequestedWithConst, HttpXRequestedWith },
+                { SecChUaFormFactorsConst, SecChUaFormFactors },
+                { SecChUaModelConst, SecChUaModel },
+                { SecChUaConst, SecChUa },
+                { SecChUaPlatformConst, SecChUaPlatform },
+                { SecChUaMobileConst, SecChUaMobile },
+                { SecChUaFullVersionConst, SecChUaVersion },
+                { SecChUaPlatformVersionConst, SecChUaPlatformVersion },
+                { SecChPrefersColorSchemeConst, SecChPrefersColorScheme },
             };
 
+            // Convert fullVersionList / brands YAML lists to Sec-CH-UA formatted string
+            var brandFormatted = FormatBrandList("fullVersionList") ?? FormatBrandList("brands");
+            if (!string.IsNullOrEmpty(brandFormatted))
+                result["sec-ch-ua-full-version-list"] = brandFormatted;
+
             return result;
+        }
+
+        private string FormatBrandList(string key)
+        {
+            if (!TryGetValue(key, out var raw) || !(raw is List<object> list) || list.Count == 0)
+                return null;
+            var parts = new List<string>();
+            foreach (var item in list)
+            {
+                if (item is Dictionary<object, object> dict
+                    && dict.TryGetValue("brand", out var brand)
+                    && dict.TryGetValue("version", out var version))
+                {
+                    parts.Add($"\"{brand}\"; v=\"{version}\"");
+                }
+            }
+            return parts.Count > 0 ? string.Join(", ", parts) : null;
         }
     }
 }

@@ -143,12 +143,13 @@ namespace DeviceDetectorNET.Parser
             if (HasUserAgentClientHintsFragment())
             {
                 var osVersion = ClientHints.GetOperatingSystemVersion();
-                //SetUserAgent();
-                    //$this->setUserAgent((string) \preg_replace(
-                    //    '(Android (?:10[.\d]*; K|1[1-5]))',
-                    //    \sprintf('Android %s; %s', '' !== $osVersion ? $osVersion: '10', $deviceModel),
-                    //$this->userAgent
-                    //));
+                var androidVersion = !string.IsNullOrEmpty(osVersion) ? osVersion : "10";
+                var restored = System.Text.RegularExpressions.Regex.Replace(
+                    UserAgent,
+                    @"Android (?:10[.\d]*; K|1[1-5])",
+                    $"Android {androidVersion}; {deviceModel}",
+                    System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                SetUserAgent(restored);
             }
 
             // Restore Desktop User Agent
@@ -157,11 +158,8 @@ namespace DeviceDetectorNET.Parser
                 return;
             }
 
-            //$this->setUserAgent((string) \preg_replace(
-            //        '(X11; Linux x86_64)',
-            //        \sprintf('X11; Linux x86_64; %s', $deviceModel),
-            //    $this->userAgent
-            //    ));
+            var restoredDesktop = UserAgent.Replace("X11; Linux x86_64", $"X11; Linux x86_64; {deviceModel}");
+            SetUserAgent(restoredDesktop);
         }
 
         /// <summary>
@@ -392,6 +390,8 @@ namespace DeviceDetectorNET.Parser
         protected bool PreMatchOverall()
         {
             var regexes = GetRegexes();
+
+            if (!regexes.Any()) return false;
 
             var cacheKey = ParserName + DeviceDetector.VERSION + "-all";
             //@todo: default none

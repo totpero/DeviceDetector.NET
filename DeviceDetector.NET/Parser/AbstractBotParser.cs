@@ -42,7 +42,8 @@ namespace DeviceDetectorNET.Parser
 
             foreach (var bot in regexList)
             {
-                if (!IsMatchUserAgent(bot.Regex)) continue;
+                var matches = MatchUserAgent(bot.Regex);
+                if (!matches.Any()) continue;
                 if (DiscardDetails)
                 {
                     result.Add(new BotMatchResult());
@@ -51,7 +52,7 @@ namespace DeviceDetectorNET.Parser
 
                 result.Add(new BotMatchResult()
                 {
-                    Name = bot.Name,
+                    Name = BuildByMatch(bot.Name, matches),
                     Category = bot.Category,
                     Url = bot.Url,
                     Producer = bot.Producer

@@ -1,10 +1,13 @@
-﻿namespace DeviceDetectorNET.Tests.Class
+﻿using System.Collections.Generic;
+
+namespace DeviceDetectorNET.Tests.Class
 {
     public class BotFixture
     {
         public string user_agent { get; set; }
         public Bot bot { get; set; }
         public string client { get; set; }
+        public Dictionary<string, string> headers { get; set; }
 
         public class Bot
         {

@@ -1571,6 +1571,9 @@ Apple:
     - regex: '(?:MDCR_|ICRU_|Apple-)?iPh(?:one)?18[C,_]4|(?:iPhone[ _]?17[ _]?Air| 17AIR)(?:[);/ ]|$)'
       model: 'iPhone Air'
       device: 'phablet'
+    - regex: '(?:MDCR_|ICRU_|Apple-)?iPh(?:one)?18[C,_]5|(?:iPhone[ _]?17e| 17e)(?:[);/ ]|$)'
+      model: 'iPhone 17e'
+      device: 'phablet'
 
     # specific tablet devices
     - regex: '(?:MDCR_|ICRU_|Apple-)?iPad1[C,_]1'
@@ -12826,6 +12829,11 @@ Huawei:
       device: 'smart display'
       model: 'BLM-00 SmartScreen'
 
+    # desktop regex
+    - regex: 'HAD-W24(?:[);/ ]|$)'
+      device: 'desktop'
+      model: 'MateBook Pro'
+
     # tv regex
     - regex: 'EC6108V(8|9)'
       device: 'tv'
@@ -15022,7 +15030,7 @@ Kumai:
 
 # KT-Tech
 KT-Tech:
-  regex: '(KM-[a-z0-9]+|EV-[a-z0-9]+)(?:[);/ ]|$)'
+  regex: '(KM-[a-z0-9]{3,}|EV-[a-z0-9]+)(?:[);/ ]|$)'
   device: 'smartphone'
   model: '$1'
 

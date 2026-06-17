@@ -173,6 +173,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "C7", "CM Mini" },
             { "CF", "Chrome Frame" },
             { "HC", "Headless Chrome" },
+            { "H0", "Headless Edge" },
             { "CH", "Chrome" },
             { "CI", "Chrome Mobile iOS" },
             { "CK", "Conkeror" },
@@ -680,6 +681,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "N0", "Nova Video Downloader Pro" },
             { "VS", "Viasat Browser" },
             { "VI", "Vivaldi" },
+            { "V7", "Vivaldi Mobile iOS" },
             { "VV", "vivo Browser" },
             { "V2", "Vivid Browser Mini" },
             { "VB", "Vision Mobile Browser" },
@@ -788,7 +790,7 @@ namespace DeviceDetectorNET.Parser.Client
                 "W2", "ZB", "HN", "Q6", "Q7", "G0", "00", "R6", "D8",
                 "PQ", "LM", "T5", "2N", "SJ", "X6", "SM", "AY", "BQ",
                 "BC", "NQ", "VQ", "9C", "KA", "YS", "D4", "PZ", "0I",
-                "3F", "Z1", "XC", "ZC",
+                "3F", "Z1", "XC", "ZC", "V7", "H0",
             }},
             {"Firefox"            , new []{
                 "FF", "BI", "BF", "BH", "BN", "C0", "CU", "EI", "F1",
@@ -838,6 +840,7 @@ namespace DeviceDetectorNET.Parser.Client
             "2M", "K7", "1N", "8A", "H7", "X3", "X4", "5O", "6I",
             "7I", "X5", "3P", "2E", "T5", "2N", "SJ", "X6", "SM",
             "AY", "BQ", "BC", "NQ", "VQ", "KA", "YS", "D4", "PZ",
+            "V7",
         };
 
         public override IReadOnlyDictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
@@ -940,10 +943,12 @@ namespace DeviceDetectorNET.Parser.Client
         /// <returns>string|null If null, "Unknown"</returns>
         public static string GetBrowserFamily(string browserLabel)
         {
-            //if (AvailableBrowsers.TryGetValue(browserLabel, out var browserName))
-            //{
-            //    browserLabel = browserName;
-            //}
+            // If it's a full browser name, convert to short code first (same as PHP's getBrowserFamily)
+            var shortCode = AvailableBrowsers.FirstOrDefault(x => x.Value == browserLabel).Key;
+            if (!string.IsNullOrEmpty(shortCode))
+            {
+                browserLabel = shortCode;
+            }
             foreach (var family in BrowserFamilies)
             {
                 if (!family.Value.Contains(browserLabel)) continue;
@@ -978,6 +983,8 @@ namespace DeviceDetectorNET.Parser.Client
                 client.Name = browserFromClientHints.Name;
                 client.Version = browserFromClientHints.Version;
                 client.ShortName = browserFromClientHints.ShortName;
+                client.Engine = string.Empty;
+                client.EngineVersion = string.Empty;
 
                 // If the version reported from the client hints is YYYY or YYYY.MM (e.g., 2022 or 2022.04),
                 // then it is the Iridium browser
@@ -998,7 +1005,7 @@ namespace DeviceDetectorNET.Parser.Client
 
                 // If client hints report the following browsers, we use the version from useragent
                 if (!string.IsNullOrEmpty(browserFromUserAgent.Version)
-                    && !new[] { "A0", "AL", "HP", "JR", "MU", "OM", "OP", "VR" }.Contains(client.ShortName))
+                    && new[] { "A0", "AL", "HP", "JR", "MU", "OM", "OP", "VR" }.Contains(client.ShortName))
                 {
                     client.Version = browserFromUserAgent.Version;
                 }

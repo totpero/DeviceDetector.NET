@@ -3,20 +3,32 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462;net8.0;net9.0;net10.0</TargetFrameworks>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
-    <Version>6.5.0</Version>
+    <Version>6.5.1</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
     <Description>The Universal Device Detection library for .NET that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, feed readers, media players, PIMs, ...), operating systems, brands and models. This is a port of the popular PHP device-detector library to C#. For the most part you can just follow the documentation for device-detector with no issue.</Description>
     <PackageTags>parse detection-library user-agent bot-detection mobile-detection desktop tablet mobile tv cars console standard</PackageTags>
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
-    <AssemblyVersion>6.4.7.0</AssemblyVersion>
+    <AssemblyVersion>6.5.1.0</AssemblyVersion>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
     <SignAssembly>false</SignAssembly>
-    <FileVersion>6.5.0.0</FileVersion>
+    <FileVersion>6.5.1.0</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
 ## What's Changed
+### V6.5.1:
+
+* Improves detection for generic bots and Yandex bots
+* Adds detection for NuttX OS and HarmonyOS NEXT
+* Detect new brands: Jckkcfug, LAGENIO and detect devices for existing brands
+* Adds detection for Headless Edge and Vivaldi Mobile iOS browsers
+* Improves version detection for iOS, macOS, iPadOS, Android, RouterOS
+* Brands renaming (Cloud Mobile, Dream Multimedia, Hotel TV Company, StreamSystem, etc.)
+* Fix case when regexes can be an empty array
+* Fix client hints type handling
+* Add legacyShortNames for backwards compatibility
+
 ### V6.5.0:
 
 * Adds detection for OpenHarmony

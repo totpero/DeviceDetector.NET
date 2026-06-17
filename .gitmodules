@@ -1,0 +1,4 @@
+[submodule "device-detector"]
+	path = device-detector
+	url = https://github.com/matomo-org/device-detector.git
+	branch = master
