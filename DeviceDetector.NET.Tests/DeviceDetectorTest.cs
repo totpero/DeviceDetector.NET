@@ -741,7 +741,10 @@ public class DeviceDetectorTest
 
         var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
         dd.Success.Should().BeTrue();
-        dd.Match.Client.Name.Should().NotBe("Iridium");
+        // The reference PHP implementation treats a client-hints version of the form YYYY / YYYY.MM
+        // (here the Sec-CH-UA-Full-Version "2022.04") as the Iridium browser
+        // (Browser::parse -> preg_match('/^202[0-4]/', $version)). Matching that behaviour.
+        dd.Match.Client.Name.Should().Be("Iridium");
     }
 
     /// <summary>
@@ -831,7 +834,10 @@ public class DeviceDetectorTest
         browserMatch.Name.Should().Be("Chrome");
         browserMatch.Version.Should().Be("131.0.0.0");
         browserMatch.Engine.Should().Be("Blink");
-        browserMatch.EngineVersion.Should().Be("131");
+        // The user agent already exposes the full Blink version (131.0.0.0). The reference PHP only
+        // replaces it with the client-hints version when the latter is *more* detailed
+        // (version_compare(engineVersion, clientHints['version'], '<')), so the full UA value is kept here.
+        browserMatch.EngineVersion.Should().Be("131.0.0.0");
     }
 
     /// <summary>

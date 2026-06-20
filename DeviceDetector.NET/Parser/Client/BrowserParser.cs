@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Class.Client;
 using DeviceDetectorNET.Parser.Client.Browser;
 using DeviceDetectorNET.Parser.Client.Browser.Engine;
@@ -989,13 +990,13 @@ namespace DeviceDetectorNET.Parser.Client
                 // If the version reported from the client hints is YYYY or YYYY.MM (e.g., 2022 or 2022.04),
                 // then it is the Iridium browser
                 // https://iridiumbrowser.de/news/
-                if (GetRegexEngine().Match(client.Version, "/^202[0-4]/")){
+                if (GetRegexEngine().Match(client.Version, "^202[0-4]")){
                     client.Name = "Iridium";
                     client.ShortName = "I1";
                 }
 
                 // https://bbs.360.cn/thread-16096544-1-1.html
-                if (GetRegexEngine().Match(client.Version, "/^15/") && GetRegexEngine().Match(browserFromUserAgent.Version, "/^114/"))
+                if (GetRegexEngine().Match(client.Version, "^15") && GetRegexEngine().Match(browserFromUserAgent.Version, "^114"))
                 {
                     client.Name = "360 Secure Browser";
                     client.ShortName = "3B";
@@ -1051,8 +1052,8 @@ namespace DeviceDetectorNET.Parser.Client
 
                 // In case the user agent reports a more detailed version, we try to use this instead
                 if (!string.IsNullOrEmpty(browserFromUserAgent.Version)
-                    && 0 == browserFromUserAgent.Version?.IndexOf(client.Version)
-                    //&& \version_compare($version, $browserFromUserAgent['version'], '<') //@todo
+                    && 0 == browserFromUserAgent.Version?.IndexOf(client.Version, StringComparison.Ordinal)
+                    && VersionComparer.Compare(client.Version, browserFromUserAgent.Version) < 0
                    )
                 {
                     client.Version = browserFromUserAgent.Version;
@@ -1065,7 +1066,7 @@ namespace DeviceDetectorNET.Parser.Client
 
                 // In case client hints report a more detailed engine version, we try to use this instead
                 if ("Blink" == client.Engine && "Iridium" != client.Name
-                    //&& \version_compare($engineVersion, $browserFromClientHints['version'], '<') //@todo
+                    && VersionComparer.Compare(client.EngineVersion, browserFromClientHints.Version) < 0
                     )
                 {
                     client.EngineVersion = browserFromClientHints.Version;

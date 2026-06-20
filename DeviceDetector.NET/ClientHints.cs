@@ -329,10 +329,9 @@ namespace DeviceDetectorNET
                                     var substr = match.Groups[0].Value;
                                     var brand = match.Groups[1].Value;
                                     var version = match.Groups[2].Value;
-                                    if (!list.ContainsKey(brand))
-                                    {
-                                        list.Add(brand, version);
-                                    }
+                                    // Mirror PHP's array_combine(brands, versions): when a brand is repeated,
+                                    // the last occurrence wins (the value is overwritten, key position kept).
+                                    list[brand] = version;
                                     value = value.Substring(substr.Length);
                                     match = match.NextMatch();
                                 }

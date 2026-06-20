@@ -38,7 +38,9 @@ namespace DeviceDetectorNET.Tests.Parser
                 var result = vendorFragmentParser.Parse();
                 result.Success.Should().BeTrue("Match should be with success");
 
-                DeviceDetectorNET.Parser.Device.Devices.GetFullName(result.Match.Brand).Should()
+                // The vendor fragment parser returns the full brand name directly (the YAML key),
+                // matching the PHP reference implementation (VendorFragment::parse returns ['brand' => $brand]).
+                result.Match.Brand.Should()
                                  .BeEquivalentTo(fixture.vendor, "Brands should be equal");
             }
         }

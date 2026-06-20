@@ -387,10 +387,33 @@ namespace DeviceDetectorNET.Parser
             regexList = GetRegexes();
         }
 
+        /// <summary>
+        /// Safe lookup that mirrors PHP's "$mapping[$version] ?? $mapping[$majorVersion] ?? ''".
+        /// A C# dictionary indexer throws on a missing key, so we must use TryGetValue here.
+        /// </summary>
+        private static string MapOsVersion(IReadOnlyDictionary<string, string> mapping, string version, string majorVersion)
+        {
+            if (!string.IsNullOrEmpty(version) && mapping.TryGetValue(version, out var mapped))
+            {
+                return mapped;
+            }
+
+            if (!string.IsNullOrEmpty(majorVersion) && mapping.TryGetValue(majorVersion, out var mappedMajor))
+            {
+                return mappedMajor;
+            }
+
+            return string.Empty;
+        }
+
         public override ParseResult<OsMatchResult> Parse()
         {
             var result = new ParseResult<OsMatchResult>();
             //Os localOs = null;
+
+            // Restore the user agent from client hints (e.g. the redacted "Android 10; K" fragment or the
+            // generic "X11; Linux x86_64" desktop fragment) before matching, mirroring the PHP reference.
+            RestoreUserAgentFromClientHints();
 
             var osFromClientHints = this.ParseOsFromClientHints();
             var osFromUserAgent = this.ParseOsFromUserAgent();
@@ -433,7 +456,7 @@ namespace DeviceDetectorNET.Parser
                     {
                         var majorVersion = version.Split('.').Length > 0 ? version.Split('.')[0] : "0";
 
-                        version = FireOsVersionMapping[version] ?? FireOsVersionMapping[majorVersion] ?? string.Empty;
+                        version = MapOsVersion(FireOsVersionMapping, version, majorVersion);
                     }
                 }
 
@@ -453,6 +476,13 @@ namespace DeviceDetectorNET.Parser
                 {
                     name = osFromUserAgent.Name;
                     version = string.Empty;
+                    @short = osFromUserAgent.ShortName;
+                }
+
+                // Meta Horizon is reported as Linux in client hints
+                if ("GNU/Linux" == name && "Meta Horizon" == osFromUserAgent.Name)
+                {
+                    name = osFromUserAgent.Name;
                     @short = osFromUserAgent.ShortName;
                 }
             }
@@ -489,7 +519,7 @@ namespace DeviceDetectorNET.Parser
                     name = "Lineage OS";
                     family = "Android";
                     @short = "LEN";
-                    version = LineageOsVersionMapping[version] ?? LineageOsVersionMapping[majorVersion] ?? string.Empty;
+                    version = MapOsVersion(LineageOsVersionMapping, version, majorVersion);
                 }
 
                 if ("org.mozilla.tv.firefox" == ClientHints.GetApp() && "Fire OS" != name)
@@ -499,7 +529,7 @@ namespace DeviceDetectorNET.Parser
                     name = "Fire OS";
                     family = "Android";
                     @short = "FIR";
-                    version = FireOsVersionMapping[version] ?? FireOsVersionMapping[majorVersion] ?? string.Empty;
+                    version = MapOsVersion(FireOsVersionMapping, version, majorVersion);
                 }
             }
 

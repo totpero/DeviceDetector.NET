@@ -80,7 +80,11 @@ namespace DeviceDetectorNET.Tests.Class
         [YamlIgnore] public string UaFullVersion => ContainsKey(nameof(UaFullVersion)) ? this[nameof(UaFullVersion)]?.ToString() : string.Empty;
         [YamlIgnore] public string Wow64 => ContainsKey(nameof(Wow64)) ? this[nameof(Wow64)]?.ToString() : string.Empty;
         [YamlIgnore] public string Architecture => ContainsKey(nameof(Architecture)) ? this[nameof(Architecture)]?.ToString() : string.Empty;
-        [YamlIgnore] public string HttpXRequestedWith => ContainsKey(HttpXRequestedWithConst) ? this[HttpXRequestedWithConst]?.ToString() : string.Empty;
+        public const string XRequestedWithConst = "x-requested-with";
+        [YamlIgnore] public string HttpXRequestedWith =>
+            ContainsKey(HttpXRequestedWithConst) ? this[HttpXRequestedWithConst]?.ToString()
+            : ContainsKey(XRequestedWithConst) ? this[XRequestedWithConst]?.ToString()
+            : string.Empty;
         [YamlIgnore] public string SecChUaFormFactors => ContainsKey(SecChUaFormFactorsConst) ? this[SecChUaFormFactorsConst]?.ToString() : string.Empty;
         [YamlIgnore] public string SecChUaModel => ContainsKey(SecChUaModelConst) ? this[SecChUaModelConst]?.ToString() : string.Empty;
         [YamlIgnore] public string SecChUa => ContainsKey(SecChUaConst) ? this[SecChUaConst]?.ToString() : string.Empty;

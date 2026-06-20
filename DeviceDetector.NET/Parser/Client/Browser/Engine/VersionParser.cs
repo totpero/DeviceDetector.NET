@@ -23,48 +23,45 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
                 return result;
             }
 
-            string[] matches;
-
+            // Gecko/Clecko expose the engine version through the "rv:" token only when accompanied by an
+            // 8-10 digit Gecko build number. If that specific pattern matches we use it, otherwise we fall
+            // through to the generic engine-token matching (mirroring the PHP reference implementation).
             if (_engine.Equals("Gecko", StringComparison.OrdinalIgnoreCase) || _engine.Equals("Clecko", StringComparison.OrdinalIgnoreCase))
             {
-                matches = GetRegexEngine()
+                var geckoMatches = GetRegexEngine()
                     .MatchesUniq(UserAgent, "[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko/\\d{8,10}").ToArray();
-                //todo: ....is ok?
-                if (matches.Length > 0)
+                if (geckoMatches.Length > 0)
                 {
-                    result.Add(new ClientMatchResult { Name = matches[0] });
+                    result.Add(new ClientMatchResult { Name = geckoMatches.First() });
+                    return result;
                 }
             }
-            else
+
+            var engineToken = _engine;
+
+            if (_engine.Equals("Blink", StringComparison.OrdinalIgnoreCase))
             {
-                var engineToken = _engine;
-
-                if (_engine.Equals("Blink", StringComparison.OrdinalIgnoreCase))
-                {
-                    engineToken = "Chr[o0]me|Chromium|Cronet";
-                }
-                
-                if (_engine.Equals("Arachne", StringComparison.OrdinalIgnoreCase))
-                {
-                    engineToken = "Arachne\\/5\\.";
-                }
-                
-                if (_engine.Equals("LibWeb", StringComparison.OrdinalIgnoreCase))
-                {
-                    engineToken = "LibWeb\\+LibJs";
-                }
-
-                matches = GetRegexEngine()
-                    .MatchesUniq(UserAgent,
-                        $@"(?:{engineToken})\s*[/_]?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{{1,7}}(?=(?:\D|$))))").ToArray();
+                engineToken = "Chr[o0]me|Chromium|Cronet";
             }
+
+            if (_engine.Equals("Arachne", StringComparison.OrdinalIgnoreCase))
+            {
+                engineToken = "Arachne\\/5\\.";
+            }
+
+            if (_engine.Equals("LibWeb", StringComparison.OrdinalIgnoreCase))
+            {
+                engineToken = "LibWeb\\+LibJs";
+            }
+
+            var matches = GetRegexEngine()
+                .MatchesUniq(UserAgent,
+                    $@"(?:{engineToken})\s*[/_]?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{{1,7}}(?=(?:\D|$))))").ToArray();
 
             if (matches.Length <= 0) return result;
 
-            foreach (var match in matches)
-            {
-                result.Add(new ClientMatchResult { Name = match });
-            }
+            // PHP uses preg_match (first occurrence) and array_pop (the single captured group).
+            result.Add(new ClientMatchResult { Name = matches.First() });
             return result;
         }
     }

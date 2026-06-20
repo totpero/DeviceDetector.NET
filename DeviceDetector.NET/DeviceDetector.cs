@@ -861,10 +861,13 @@ namespace DeviceDetectorNET
             }
 
             //Devices running those clients are assumed to be a TV
-            if (!device.HasValue && new[]
+            // NB: PHP applies this unconditionally (no "device is null" guard), so a TV browser overrides
+            // an earlier smartphone/tablet assumption (e.g. Chrome on Android "Mobile").
+            if (new[]
                 {
                     "Kylo", "Espial TV Browser", "LUJO TV Browser", "LogicUI TV Browser", "Open TV Browser", "Seraphic Sraf",
-                    "Opera Devices", "Crow Browser", "Vewd Browser", "TiviMate", "Quick Search TV","QJY TV Browser", "TV Bro"
+                    "Opera Devices", "Crow Browser", "Vewd Browser", "TiviMate", "Quick Search TV","QJY TV Browser", "TV Bro",
+                    "Redline"
                 }.Contains(clientName))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
@@ -877,7 +880,7 @@ namespace DeviceDetectorNET
             }
 
             // Set device type desktop if string ua contains desktop
-            if (device != DeviceType.DEVICE_TYPE_DESKTOP && !string.IsNullOrEmpty(userAgent) && !userAgent.Contains("Desktop") && HasDesktopFragment())
+            if (device != DeviceType.DEVICE_TYPE_DESKTOP && !string.IsNullOrEmpty(userAgent) && userAgent.Contains("Desktop") && HasDesktopFragment())
             {
                 device = DeviceType.DEVICE_TYPE_DESKTOP;
             }
