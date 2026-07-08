@@ -290,13 +290,14 @@ namespace DeviceDetectorNET
             return IsMatchUserAgent(regex);
         }
 
-        /// <summary> 
-        /// Returns if the parsed UA contains the 'Desktop;', 'Desktop x32;', 'Desktop x64;' or 'Desktop WOW64;' fragment
+        /// <summary>
+        /// Returns if the parsed UA contains the 'Desktop;', 'Desktop x32;', 'Desktop x64;', 'Desktop WOW64;'
+        /// or 'PC;' fragment
         /// </summary>
         /// <returns>True if contains fragment</returns>
         protected bool HasDesktopFragment()
         {
-            const string regex = "Desktop(?: (x(?:32|64)|WOW64))?;";
+            const string regex = "(?:Desktop|PC)(?: (x(?:32|64)|WOW64))?;";
             return IsMatchUserAgent(regex);
         }
 
@@ -308,9 +309,39 @@ namespace DeviceDetectorNET
                    BrowserParser.IsMobileOnlyBrowser(((BrowserMatchResult)match).ShortName);
         }
 
+        public bool IsSmartphone()
+        {
+            return device == DeviceType.DEVICE_TYPE_SMARTPHONE;
+        }
+
+        public bool IsFeaturePhone()
+        {
+            return device == DeviceType.DEVICE_TYPE_FEATURE_PHONE;
+        }
+
         public bool IsTablet()
         {
             return device == DeviceType.DEVICE_TYPE_TABLET;
+        }
+
+        public bool IsPhablet()
+        {
+            return device == DeviceType.DEVICE_TYPE_PHABLET;
+        }
+
+        public bool IsCarBrowser()
+        {
+            return device == DeviceType.DEVICE_TYPE_CAR_BROWSER;
+        }
+
+        public bool IsCamera()
+        {
+            return device == DeviceType.DEVICE_TYPE_CAMERA;
+        }
+
+        public bool IsPortableMediaPlayer()
+        {
+            return device == DeviceType.DEVICE_TYPE_PORTABLE_MEDIA_PAYER;
         }
 
         public bool IsTv()
@@ -318,9 +349,24 @@ namespace DeviceDetectorNET
             return device == DeviceType.DEVICE_TYPE_TV;
         }
 
+        public bool IsSmartDisplay()
+        {
+            return device == DeviceType.DEVICE_TYPE_SMART_DISPLAY;
+        }
+
+        public bool IsSmartSpeaker()
+        {
+            return device == DeviceType.DEVICE_TYPE_SMART_SPEAKER;
+        }
+
         public bool IsWearable()
         {
             return device == DeviceType.DEVICE_TYPE_WEARABLE;
+        }
+
+        public bool IsPeripheral()
+        {
+            return device == DeviceType.DEVICE_TYPE_PERIPHERAL;
         }
 
         public bool IsMobile()
@@ -418,6 +464,16 @@ namespace DeviceDetectorNET
 
         /// <summary>
         /// Returns the device type extracted from the parsed UA
+        /// <see cref="Devices.DeviceTypes"/> for available device types
+        /// </summary>
+        /// <returns></returns>
+        public int? GetDevice()
+        {
+            return device;
+        }
+
+        /// <summary>
+        /// Returns the device type name extracted from the parsed UA
         ///  <see cref="Devices.DeviceTypes"/> for available device types
         /// </summary>
         /// <returns></returns>
@@ -455,6 +511,24 @@ namespace DeviceDetectorNET
         public string GetModel()
         {
             return model ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Returns the user agent that is set to be parsed
+        /// </summary>
+        /// <returns></returns>
+        public string GetUserAgent()
+        {
+            return userAgent;
+        }
+
+        /// <summary>
+        /// Returns the client hints that are set to be parsed
+        /// </summary>
+        /// <returns></returns>
+        public ClientHints GetClientHints()
+        {
+            return clientHints;
         }
 
         /// <summary>
@@ -712,6 +786,12 @@ namespace DeviceDetectorNET
                 brand = "Apple";
             }
 
+            //Assume all devices running ThinOS are from Dell
+            if (string.IsNullOrEmpty(brand) && "ThinOS" == osName)
+            {
+                brand = "Dell";
+            }
+
             //All devices containing VR fragment are assumed to be a wearable
             if (!device.HasValue && HasAndroidVRFragment())
             {
@@ -840,13 +920,20 @@ namespace DeviceDetectorNET
                 brand = "coocaa";
             }
 
+            //All devices running VIDAA are assumed to be a tv
+            if ("VIDAA" == osName)
+            {
+                device = DeviceType.DEVICE_TYPE_TV;
+            }
+
             //All devices that contain Andr0id in string are assumed to be a tv
-            var hasDeviceTvType = device.HasValue
-                                  && !new[]
+            var hasDeviceTvType = (!device.HasValue
+                                  || !new[]
                                   {
                                       DeviceType.DEVICE_TYPE_TV,
+                                      DeviceType.DEVICE_TYPE_WEARABLE,
                                       DeviceType.DEVICE_TYPE_PERIPHERAL,
-                                  }.Contains(device.Value)
+                                  }.Contains(device.Value))
                                   && IsMatchUserAgent(
                                       "Andr0id|(?:Android(?: UHD)?|Google) TV|\\(lite\\) TV|BRAVIA|Firebolt| TV$");
             if (hasDeviceTvType)
@@ -861,13 +948,11 @@ namespace DeviceDetectorNET
             }
 
             //Devices running those clients are assumed to be a TV
-            // NB: PHP applies this unconditionally (no "device is null" guard), so a TV browser overrides
-            // an earlier smartphone/tablet assumption (e.g. Chrome on Android "Mobile").
             if (new[]
                 {
                     "Kylo", "Espial TV Browser", "LUJO TV Browser", "LogicUI TV Browser", "Open TV Browser", "Seraphic Sraf",
                     "Opera Devices", "Crow Browser", "Vewd Browser", "TiviMate", "Quick Search TV","QJY TV Browser", "TV Bro",
-                    "Redline"
+                    "Redline", "Odin"
                 }.Contains(clientName))
             {
                 device = DeviceType.DEVICE_TYPE_TV;
@@ -880,7 +965,7 @@ namespace DeviceDetectorNET
             }
 
             // Set device type desktop if string ua contains desktop
-            if (device != DeviceType.DEVICE_TYPE_DESKTOP && !string.IsNullOrEmpty(userAgent) && userAgent.Contains("Desktop") && HasDesktopFragment())
+            if (device != DeviceType.DEVICE_TYPE_DESKTOP && HasDesktopFragment())
             {
                 device = DeviceType.DEVICE_TYPE_DESKTOP;
             }
@@ -906,6 +991,31 @@ namespace DeviceDetectorNET
         public bool IsBrowser()
         {
             return client.Success && client.Match is BrowserMatchResult; // && deviceName == BrowserParser.DefaultParserName;
+        }
+
+        public bool IsFeedReader()
+        {
+            return client.Success && client.Match.Type == ClientType.FeedReader.Name;
+        }
+
+        public bool IsMobileApp()
+        {
+            return client.Success && client.Match.Type == ClientType.MobileApp.Name;
+        }
+
+        public bool IsPIM()
+        {
+            return client.Success && client.Match.Type == ClientType.PIM.Name;
+        }
+
+        public bool IsLibrary()
+        {
+            return client.Success && client.Match.Type == ClientType.Library.Name;
+        }
+
+        public bool IsMediaPlayer()
+        {
+            return client.Success && client.Match.Type == ClientType.MediaPlayer.Name;
         }
 
         /// <summary>

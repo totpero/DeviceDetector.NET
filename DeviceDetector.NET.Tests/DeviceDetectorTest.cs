@@ -2,6 +2,7 @@ using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Parser;
 using DeviceDetectorNET.Parser.Client;
+using DeviceDetectorNET.Parser.Device;
 using DeviceDetectorNET.Results;
 using DeviceDetectorNET.Results.Device;
 using DeviceDetectorNET.Tests.Class;
@@ -204,6 +205,7 @@ public class DeviceDetectorTest
     [InlineData("smartphone-40")]
     [InlineData("smartphone-41")]
     [InlineData("smartphone-42")]
+    [InlineData("smartphone-43")]
     [InlineData("tablet")]
     [InlineData("tablet-1")]
     [InlineData("tablet-2")]
@@ -239,9 +241,17 @@ public class DeviceDetectorTest
 
             var dd = DeviceDetector.GetInfoFromUserAgent(expected.UserAgent, clientHints);
             dd.Success.Should().BeTrue();
-                
-            dd.Match.OsFamily.Should().BeOneOf(expected.os_family, DeviceDetector.UNKNOWN_FULL);
-            dd.Match.BrowserFamily.Should().BeOneOf(expected.browser_family, DeviceDetector.UNKNOWN_FULL);
+
+            // Bot fixtures only contain the bot data (like the PHP getInfoFromUserAgent result)
+            if (expected.bot != null)
+            {
+                dd.Match.Bot.Should().NotBeNull("a bot should be detected (UA: {0})", expected.UserAgent);
+                dd.Match.Bot.Name.Should().BeEquivalentTo(expected.bot.name, "Bot.Name should be equal (UA: {0})", expected.UserAgent);
+                return;
+            }
+
+            dd.Match.OsFamily.Should().BeEquivalentTo(expected.os_family, "OsFamily should be equal (UA: {0})", expected.UserAgent);
+            dd.Match.BrowserFamily.Should().BeEquivalentTo(expected.browser_family, "BrowserFamily should be equal (UA: {0})", expected.UserAgent);
 
             if (expected.os != null)
             {
@@ -251,50 +261,53 @@ public class DeviceDetectorTest
                     {
                         if (dicOs.TryGetValue("name", out var osName))
                         {
-                            dd.Match.Os.Name.Should().BeEquivalentTo(osName.ToString());
+                            dd.Match.Os.Name.Should().BeEquivalentTo(osName.ToString(), "Os.Name should be equal (UA: {0})", expected.UserAgent);
                         }
                         if (dicOs.TryGetValue("version", out var osVersion))
                         {
-                            dd.Match.Os.Version.Should().BeEquivalentTo(osVersion.ToString());
+                            dd.Match.Os.Version.Should().BeEquivalentTo(osVersion.ToString(), "Os.Version should be equal (UA: {0})", expected.UserAgent);
                         }
                         if (dicOs.TryGetValue("platform", out var osPlatform))
                         {
-                            dd.Match.Os.Platform.Should().BeOneOf(osPlatform?.ToString(), null, string.Empty);
+                            (dd.Match.Os.Platform ?? string.Empty).Should().BeEquivalentTo(osPlatform?.ToString() ?? string.Empty, "Os.Platform should be equal (UA: {0})", expected.UserAgent);
                         }
                         if (dicOs.TryGetValue("short_name", out var osShortName))
                         {
-                            dd.Match.Os.ShortName.Should().BeEquivalentTo(osShortName.ToString());
+                            dd.Match.Os.ShortName.Should().BeEquivalentTo(osShortName.ToString(), "Os.ShortName should be equal (UA: {0})", expected.UserAgent);
                         }
                         if (dicOs.TryGetValue("family", out var osfamily))
                         {
-                            dd.Match.Os.Family.Should().BeEquivalentTo(osfamily.ToString());
+                            dd.Match.Os.Family.Should().BeEquivalentTo(osfamily.ToString(), "Os.Family should be equal (UA: {0})", expected.UserAgent);
                         }
                         break;
                     }
                     case List<object> { Count: > 0 }:
                         throw new Exception("ExpectedOS is a list rather than a dictionary.");
-                    //var osName = dicOs["name"];
-                    //dd.Match.Os.Name.Should().BeEquivalentTo(osName.ToString());
                 }
             }
 
             if (expected.client != null)
             {
-                dd.Match.Client.Type.Should().BeEquivalentTo(expected.client.type);
-                dd.Match.Client.Name.Should().BeEquivalentTo(expected.client.name);
-                dd.Match.Client.Version.Should().BeOneOf(expected.client.version, null, string.Empty, "$1"); // todo: not ok $1
-                //dd.Match.Client.Engine.Should().BeEquivalentTo(expected.client.engine);
-                //dd.Match.Client.EngineVersion.Should().BeEquivalentTo(expected.client.engine_version);
+                dd.Match.Client.Type.Should().BeEquivalentTo(expected.client.type, "Client.Type should be equal (UA: {0})", expected.UserAgent);
+                dd.Match.Client.Name.Should().BeEquivalentTo(expected.client.name, "Client.Name should be equal (UA: {0})", expected.UserAgent);
+                (dd.Match.Client.Version ?? string.Empty).Should().BeEquivalentTo(expected.client.version ?? string.Empty, "Client.Version should be equal (UA: {0})", expected.UserAgent);
+
+                if (dd.Match.Client is BrowserMatchResult browserMatch)
+                {
+                    (browserMatch.Engine ?? string.Empty).Should().BeEquivalentTo(expected.client.engine ?? string.Empty, "Client.Engine should be equal (UA: {0})", expected.UserAgent);
+                    (browserMatch.EngineVersion ?? string.Empty).Should().BeEquivalentTo(expected.client.EngineVersion ?? string.Empty, "Client.EngineVersion should be equal (UA: {0})", expected.UserAgent);
+                }
             }
 
             if (expected.device == null) return;
 
-            dd.Match.DeviceType?.Should().BeEquivalentTo(expected.device.type);
-            dd.Match.DeviceBrand.Should().BeOneOf(expected.device.brand, null, string.Empty);
-            dd.Match.DeviceModel?.Should().BeOneOf(expected.device.model, null, string.Empty);
+            (dd.Match.DeviceType ?? string.Empty).Should().BeEquivalentTo(expected.device.type ?? string.Empty, "DeviceType should be equal (UA: {0})", expected.UserAgent);
+            (dd.Match.DeviceBrand ?? string.Empty).Should().BeEquivalentTo(expected.device.brand ?? string.Empty, "DeviceBrand should be equal (UA: {0})", expected.UserAgent);
+            (dd.Match.DeviceModel ?? string.Empty).Should().BeEquivalentTo(expected.device.model ?? string.Empty, "DeviceModel should be equal (UA: {0})", expected.UserAgent);
         });
     }
 
+    [Theory]
     [InlineData("browser")]
     [InlineData("feed_reader")]
     [InlineData("library")]
@@ -314,19 +327,28 @@ public class DeviceDetectorTest
 
             var uaInfo = DeviceDetector.GetInfoFromUserAgent(ua, clientHints);
             uaInfo.Success.Should().BeTrue();
-            uaInfo.Match.IsBoot.Should().BeFalse();
-            uaInfo.Match.Client.Name.Should().BeEquivalentTo(expected.client.name);
+            uaInfo.Match.IsBoot.Should().BeFalse("no bot should be detected (UA: {0})", ua);
+            uaInfo.Match.Client.Type.Should().BeEquivalentTo(expected.client.type, "Client.Type should be equal (UA: {0})", ua);
+            uaInfo.Match.Client.Name.Should().BeEquivalentTo(expected.client.name, "Client.Name should be equal (UA: {0})", ua);
+            (uaInfo.Match.Client.Version ?? string.Empty).Should().BeEquivalentTo(expected.client.version ?? string.Empty, "Client.Version should be equal (UA: {0})", ua);
+
+            if (uaInfo.Match.Client is BrowserMatchResult browserMatch)
+            {
+                (browserMatch.Engine ?? string.Empty).Should().BeEquivalentTo(expected.client.engine ?? string.Empty, "Client.Engine should be equal (UA: {0})", ua);
+                (browserMatch.EngineVersion ?? string.Empty).Should().BeEquivalentTo(expected.client.EngineVersion ?? string.Empty, "Client.EngineVersion should be equal (UA: {0})", ua);
+            }
         });
     }
 
-     [InlineData("camera")]
-     [InlineData("car_browser")]
-     [InlineData("console")]
-     [InlineData("notebook")]
+    [Theory]
+    [InlineData("camera")]
+    [InlineData("car_browser")]
+    [InlineData("console")]
+    [InlineData("notebook")]
     public void TestParseDevice(string fileNme)
     {
         var parser = new YamlParser<List<DeviceDetectorFixture>>();
-        var fixtureData = parser.ParseFile($@"{Utils.CurrentDirectory()}\Parser\Device\fixtures\{fileNme}.yml");
+        var fixtureData = parser.ParseFile($@"{Utils.CurrentDirectory()}\Parser\Devices\fixtures\{fileNme}.yml");
         DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
 
         Parallel.ForEach(fixtureData, expected =>
@@ -336,8 +358,10 @@ public class DeviceDetectorTest
 
             var uaInfo = DeviceDetector.GetInfoFromUserAgent(ua, clientHints);
             uaInfo.Success.Should().BeTrue();
-            uaInfo.Match.IsBoot.Should().BeFalse();
-            uaInfo.Match.Device.Name.Should().BeEquivalentTo(expected.device.model);
+            uaInfo.Match.IsBoot.Should().BeFalse("no bot should be detected (UA: {0})", ua);
+            (uaInfo.Match.DeviceType ?? string.Empty).Should().BeEquivalentTo(expected.device.type ?? string.Empty, "DeviceType should be equal (UA: {0})", ua);
+            (uaInfo.Match.DeviceBrand ?? string.Empty).Should().BeEquivalentTo(expected.device.brand ?? string.Empty, "DeviceBrand should be equal (UA: {0})", ua);
+            (uaInfo.Match.DeviceModel ?? string.Empty).Should().BeEquivalentTo(expected.device.model ?? string.Empty, "DeviceModel should be equal (UA: {0})", ua);
         });
     }
 
@@ -579,6 +603,80 @@ public class DeviceDetectorTest
             dd.IsWearable().Should().Be(item.check[5]);
         }
     }
+
+    /// <summary>
+    /// Device type check methods, equivalent to the PHP magic methods
+    /// (isSmartphone(), isFeaturePhone(), isPhablet(), ...)
+    /// </summary>
+    [Theory]
+    [InlineData("Mozilla/5.0 (Linux; Android 4.4.2; Nexus 4 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.136 Mobile Safari/537.36", DeviceType.DEVICE_TYPE_SMARTPHONE)]
+    [InlineData("AIRNESS-AIR99/REV 2.2.1/Teleca Q03B1", DeviceType.DEVICE_TYPE_FEATURE_PHONE)]
+    [InlineData("Mozilla/5.0 (Linux; Android 6.0; GI-626 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.124 Mobile Safari/537.36", DeviceType.DEVICE_TYPE_PHABLET)]
+    [InlineData("Mozilla/5.0 (Linux; U; Android 2.3.3; ja-jp; COOLPIX S800c Build/CP01_WW) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1", DeviceType.DEVICE_TYPE_CAMERA)]
+    [InlineData("Mozilla/5.0 (iPod; U; CPU iPhone OS 4_2_1 like Mac OS X; ja-jp) AppleWebKit/533.17.9 (KHTML, like Gecko) Mobile/8C148", DeviceType.DEVICE_TYPE_PORTABLE_MEDIA_PAYER)]
+    [InlineData("Mozilla/5.0 (Linux; U; Android 4.0.4; fr-be; DA220HQL Build/IMM76D) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 Safari/534.30", DeviceType.DEVICE_TYPE_SMART_DISPLAY)]
+    [InlineData("AppleCoreMedia/1.0.0.15F80 (HomePod; U; CPU OS 11_4 like Mac OS X; fr_fr)", DeviceType.DEVICE_TYPE_SMART_SPEAKER)]
+    [InlineData("Mozilla/5.0 (Linux; Android 7.0; SHTRIH-SMARTPOS-F2 Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/51.0.2704.91 Mobile Safari/537.36", DeviceType.DEVICE_TYPE_PERIPHERAL)]
+    [InlineData("Mozilla/5.0 (Linux; Android 4.4.2; CarPad-II-P Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/30.0.0.0 Safari/537.36", DeviceType.DEVICE_TYPE_CAR_BROWSER)]
+    public void TestDeviceTypeCheckMethods(string userAgent, int expectedDeviceType)
+    {
+        var dd = new DeviceDetector(userAgent);
+        dd.Parse();
+
+        dd.GetDevice().Should().Be(expectedDeviceType);
+        dd.IsSmartphone().Should().Be(DeviceType.DEVICE_TYPE_SMARTPHONE == expectedDeviceType);
+        dd.IsFeaturePhone().Should().Be(DeviceType.DEVICE_TYPE_FEATURE_PHONE == expectedDeviceType);
+        dd.IsTablet().Should().Be(DeviceType.DEVICE_TYPE_TABLET == expectedDeviceType);
+        dd.IsPhablet().Should().Be(DeviceType.DEVICE_TYPE_PHABLET == expectedDeviceType);
+        dd.IsConsole().Should().Be(DeviceType.DEVICE_TYPE_CONSOLE == expectedDeviceType);
+        dd.IsTv().Should().Be(DeviceType.DEVICE_TYPE_TV == expectedDeviceType);
+        dd.IsCarBrowser().Should().Be(DeviceType.DEVICE_TYPE_CAR_BROWSER == expectedDeviceType);
+        dd.IsSmartDisplay().Should().Be(DeviceType.DEVICE_TYPE_SMART_DISPLAY == expectedDeviceType);
+        dd.IsCamera().Should().Be(DeviceType.DEVICE_TYPE_CAMERA == expectedDeviceType);
+        dd.IsPortableMediaPlayer().Should().Be(DeviceType.DEVICE_TYPE_PORTABLE_MEDIA_PAYER == expectedDeviceType);
+        dd.IsSmartSpeaker().Should().Be(DeviceType.DEVICE_TYPE_SMART_SPEAKER == expectedDeviceType);
+        dd.IsWearable().Should().Be(DeviceType.DEVICE_TYPE_WEARABLE == expectedDeviceType);
+        dd.IsPeripheral().Should().Be(DeviceType.DEVICE_TYPE_PERIPHERAL == expectedDeviceType);
+    }
+
+    /// <summary>
+    /// Client type check methods, equivalent to the PHP magic methods
+    /// (isBrowser(), isFeedReader(), isMobileApp(), isPIM(), isLibrary(), isMediaPlayer())
+    /// </summary>
+    [Theory]
+    [InlineData("Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)", "browser")]
+    [InlineData("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.21 (KHTML, like Gecko) akregator/4.11.5 Safari/537.21", "feed reader")]
+    [InlineData("Pulse/4.0.5 (iPhone; iOS 7.0.6; Scale/2.00)", "mobile app")]
+    [InlineData("Outlook-Express/7.0 (MSIE 7.0; Windows NT 6.1; WOW64; Trident/6.0; SLCC2; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729; Media Center PC 6.0; .NET4.0C; AskTbORJ/5.15.9.29495; .NET4.0E; TmstmpExt)", "pim")]
+    [InlineData("Wget/1.10+devel", "library")]
+    [InlineData("Audacious/3.6.2 neon/0.30.1", "mediaplayer")]
+    public void TestClientTypeCheckMethods(string userAgent, string expectedClientType)
+    {
+        var dd = new DeviceDetector(userAgent);
+        dd.Parse();
+
+        dd.IsBrowser().Should().Be("browser" == expectedClientType);
+        dd.IsFeedReader().Should().Be("feed reader" == expectedClientType);
+        dd.IsMobileApp().Should().Be("mobile app" == expectedClientType);
+        dd.IsPIM().Should().Be("pim" == expectedClientType);
+        dd.IsLibrary().Should().Be("library" == expectedClientType);
+        dd.IsMediaPlayer().Should().Be("mediaplayer" == expectedClientType);
+    }
+
+    [Fact]
+    public void TestGetUserAgentAndClientHints()
+    {
+        const string userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36";
+        var clientHints = ClientHints.Factory(new Dictionary<string, string>
+        {
+            ["sec-ch-ua-platform"] = "Windows",
+        });
+        var dd = new DeviceDetector(userAgent, clientHints);
+
+        dd.GetUserAgent().Should().Be(userAgent);
+        dd.GetClientHints().Should().BeSameAs(clientHints);
+    }
+
     [Fact]
     public void TestLruCache()
     {
@@ -741,9 +839,8 @@ public class DeviceDetectorTest
 
         var dd = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
         dd.Success.Should().BeTrue();
-        // The reference PHP implementation treats a client-hints version of the form YYYY / YYYY.MM
-        // (here the Sec-CH-UA-Full-Version "2022.04") as the Iridium browser
-        // (Browser::parse -> preg_match('/^202[0-4]/', $version)). Matching that behaviour.
+        // Upstream device-detector maps Chromium client hints with a YYYY(.MM) version to Iridium
+        // (see upstream Tests/Parser/Client/fixtures/browser.yml fixtures with "Chromium";v="2022").
         dd.Match.Client.Name.Should().Be("Iridium");
     }
 
@@ -834,9 +931,6 @@ public class DeviceDetectorTest
         browserMatch.Name.Should().Be("Chrome");
         browserMatch.Version.Should().Be("131.0.0.0");
         browserMatch.Engine.Should().Be("Blink");
-        // The user agent already exposes the full Blink version (131.0.0.0). The reference PHP only
-        // replaces it with the client-hints version when the latter is *more* detailed
-        // (version_compare(engineVersion, clientHints['version'], '<')), so the full UA value is kept here.
         browserMatch.EngineVersion.Should().Be("131.0.0.0");
     }
 

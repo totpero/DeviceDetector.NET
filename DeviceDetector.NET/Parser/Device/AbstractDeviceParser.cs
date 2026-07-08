@@ -108,6 +108,15 @@ namespace DeviceDetectorNET.Parser.Device
 
             if (localMatches == null)
             {
+                // No regex matched: fall back to the client hints result (model + device type
+                // derived from form factors), like the PHP parser does.
+                if (!string.IsNullOrEmpty(deviceModel))
+                {
+                    deviceType = resultClientHint.Type;
+                    model = resultClientHint.Name;
+                    brand = string.Empty;
+                    result.Add(GetResult());
+                }
                 return result;
             }
 

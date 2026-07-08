@@ -36,6 +36,7 @@ namespace DeviceDetectorNET.Tests.Class
         public string engine { get; set; }
         [YamlMember(Alias = "engine_version")]
         public string EngineVersion { get; set; }
+        public string family { get; set; }
     }
 
     public class Device
@@ -96,25 +97,17 @@ namespace DeviceDetectorNET.Tests.Class
 
         public Dictionary<string, string> ToDictionary()
         {
-            var result = new Dictionary<string, string>
+            // Pass all raw header entries through, like PHP's ClientHints::factory receives them.
+            var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var kv in this)
             {
-                { nameof(Mobile), Mobile },
-                { nameof(Model), Model },
-                { nameof(Platform), Platform },
-                { nameof(PlatformVersion), PlatformVersion },
-                { nameof(UaFullVersion), UaFullVersion },
-                { nameof(Wow64), Wow64 },
-                { nameof(Architecture), Architecture },
-                { HttpXRequestedWithConst, HttpXRequestedWith },
-                { SecChUaFormFactorsConst, SecChUaFormFactors },
-                { SecChUaModelConst, SecChUaModel },
-                { SecChUaConst, SecChUa },
-                { SecChUaPlatformConst, SecChUaPlatform },
-                { SecChUaMobileConst, SecChUaMobile },
-                { SecChUaFullVersionConst, SecChUaVersion },
-                { SecChUaPlatformVersionConst, SecChUaPlatformVersion },
-                { SecChPrefersColorSchemeConst, SecChPrefersColorScheme },
-            };
+                if (kv.Value is List<object>) continue; // brand lists handled below
+
+                var value = kv.Value is bool b
+                    ? (b ? "1" : "0")
+                    : kv.Value?.ToString() ?? string.Empty;
+                result[kv.Key] = value;
+            }
 
             // Convert fullVersionList / brands YAML lists to Sec-CH-UA formatted string
             var brandFormatted = FormatBrandList("fullVersionList") ?? FormatBrandList("brands");

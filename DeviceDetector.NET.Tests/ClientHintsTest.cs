@@ -45,7 +45,7 @@ namespace DeviceDetectorNET.Tests
                     { "HTTP_SEC_CH_UA_PLATFORM"         , "Ubuntu"},
                     { "HTTP_SEC_CH_UA_PLATFORM_VERSION" , "3.7"},
                     { "HTTP_SEC_CH_UA_FULL_VERSION"    , "98.0.14335.105"},
-                    { "HTTP_SEC_CH_UA_FORM_FACTORS"    , "Desktop"}
+                    { "HTTP_SEC_CH_UA_FORM_FACTORS"    , "\"Desktop\""}
                 };
 
             var ch = ClientHints.Factory(headers);
@@ -61,7 +61,7 @@ namespace DeviceDetectorNET.Tests
                     }
                 );
             ch.GetModel().Should().Be("DN2103");
-            ch.GetFormFactors().Should().Contain("Desktop");
+            ch.GetFormFactors().Should().Equal("desktop");
         }
 
         [Fact]
@@ -95,7 +95,7 @@ namespace DeviceDetectorNET.Tests
             //    );
 
             ch.GetModel().Should().Be("");
-            ch.FormFactors.Should().Contain("Desktop");
+            ch.FormFactors.Should().Equal("desktop");
 
         }
 

@@ -329,8 +329,6 @@ namespace DeviceDetectorNET
                                     var substr = match.Groups[0].Value;
                                     var brand = match.Groups[1].Value;
                                     var version = match.Groups[2].Value;
-                                    // Mirror PHP's array_combine(brands, versions): when a brand is repeated,
-                                    // the last occurrence wins (the value is overwritten, key position kept).
                                     list[brand] = version;
                                     value = value.Substring(substr.Length);
                                     match = match.NextMatch();
@@ -358,22 +356,20 @@ namespace DeviceDetectorNET
                     case "http-sec-ch-ua-form-factors":
                     case "sec-ch-ua-form-factors":
                     {
-                        if (header.Key.Length > 1)
+                        // PHP extracts the quoted tokens from the (lowercased) header value;
+                        // plain values (JavaScript API style) are used as-is, lowercased.
+                        var formFactorValue = header.Value.ToLowerInvariant();
+                        var formFactorMatches = new Regex("\"([a-z]+)\"").Matches(formFactorValue);
+                        if (formFactorMatches.Count > 0)
                         {
-                            formFactors.Add(header.Value);
+                            foreach (Match match in formFactorMatches)
+                            {
+                                formFactors.Add(match.Groups[1].Value);
+                            }
                         }
                         else
                         {
-                            const string reg_frm = "~\"([a-z]+)\"~i";
-                            var r = new Regex(reg_frm, RegexOptions.IgnoreCase);
-                            var matchs = r.Matches(header.Value);
-                            if (matchs.Count > 0)
-                            {
-                                foreach (Match match in matchs)
-                                {
-                                    formFactors.Add(match.Value);
-                                }
-                            }
+                            formFactors.Add(formFactorValue);
                         }
                         break;
                     }
