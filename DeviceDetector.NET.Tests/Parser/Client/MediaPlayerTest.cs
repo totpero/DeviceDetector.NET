@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System.Collections.Generic;
 using System.Linq;
 using DeviceDetectorNET.Parser.Client;
@@ -36,11 +36,11 @@ namespace DeviceDetectorNET.Tests.Parser.Client
             {
                 mediaPlayerParser.SetUserAgent(fixture.user_agent);
                 var result = mediaPlayerParser.Parse();
-                result.Success.Should().BeTrue("Match should be with success");
+                result.Success.ShouldBeTrue("Match should be with success");
 
-                result.Match.Name.Should().BeEquivalentTo(fixture.client.name,"Names should be equal");
-                result.Match.Type.Should().BeEquivalentTo(fixture.client.type, "Types should be equal");
-                result.Match.Version.Should().BeEquivalentTo(fixture.client.version, "Versions should be equal");
+                result.Match.Name.ShouldBeIgnoringCase(fixture.client.name, "Names should be equal");
+                result.Match.Type.ShouldBeIgnoringCase(fixture.client.type, "Types should be equal");
+                result.Match.Version.ShouldBeIgnoringCase(fixture.client.version, "Versions should be equal");
             }
 
         }

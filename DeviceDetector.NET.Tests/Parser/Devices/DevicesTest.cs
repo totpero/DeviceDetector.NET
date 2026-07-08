@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using Xunit;
 
 namespace DeviceDetectorNET.Tests.Parser.Devices
@@ -12,8 +12,7 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
             DeviceDetectorNET.Parser.Device.Devices
                              .DeviceTypes
                              .Count
-                             .Should()
-                             .Be(14);
+                             .ShouldBe(14);
         }
 
         [Fact]
@@ -22,8 +21,7 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
             DeviceDetectorNET.Parser.Device.Devices
                              .DeviceBrands
                              .Count
-                             .Should()
-                             .Be(2138);
+                             .ShouldBe(2138);
         }
     }
 }

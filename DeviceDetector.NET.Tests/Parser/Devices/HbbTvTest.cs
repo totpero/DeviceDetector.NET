@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using DeviceDetectorNET.Parser.Device;
 using Xunit;
 
@@ -13,8 +13,8 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
         {
             var hbbTvParser = new HbbTvParser();
             hbbTvParser.SetUserAgent("Opera/9.80 (Linux mips ; U; HbbTV/1.1.1 (; Philips; ; ; ; ) CE-HTML/1.0 NETTV/3.2.1; en) Presto/2.6.33 Version/10.70");
-            hbbTvParser.IsHbbTv().Should().BeTrue();
-            hbbTvParser.HbbTv().Should().BeEquivalentTo("1.1.1");
+            hbbTvParser.IsHbbTv().ShouldBeTrue();
+            hbbTvParser.HbbTv().ShouldBeIgnoringCase("1.1.1");
         }
     }
 }

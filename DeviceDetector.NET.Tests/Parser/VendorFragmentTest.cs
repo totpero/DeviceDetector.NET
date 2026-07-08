@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
+using Shouldly;
 using DeviceDetectorNET.Parser;
 using DeviceDetectorNET.Tests.Class.Client;
 using DeviceDetectorNET.Yaml;
@@ -36,10 +36,9 @@ namespace DeviceDetectorNET.Tests.Parser
             {
                 vendorFragmentParser.SetUserAgent(fixture.useragent);
                 var result = vendorFragmentParser.Parse();
-                result.Success.Should().BeTrue("Match should be with success");
+                result.Success.ShouldBeTrue("Match should be with success");
 
-                result.Match.Brand.Should()
-                                 .BeEquivalentTo(fixture.vendor, "Brands should be equal");
+                result.Match.Brand.ShouldBeIgnoringCase(fixture.vendor, "Brands should be equal");
             }
         }
     }

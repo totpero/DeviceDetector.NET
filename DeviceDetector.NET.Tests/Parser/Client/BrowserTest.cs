@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 using DeviceDetectorNET.Parser.Client;
 using DeviceDetectorNET.Tests.Class.Client;
@@ -35,7 +35,7 @@ public class BrowserTest
     [Fact]
     public void TestGetAvailableBrowserFamilies()
     {
-        BrowserParser.GetAvailableBrowserFamilies().Count.Should().BeGreaterThan(5);
+        BrowserParser.GetAvailableBrowserFamilies().Count.ShouldBeGreaterThan(5);
     }
 
     [Fact]
@@ -53,20 +53,18 @@ public class BrowserTest
             }
             var result = browsers.Parse();
 
-            result.Success.Should().BeTrue("Match should be with success");
+            result.Success.ShouldBeTrue("Match should be with success");
             var browserResult = result.Match as BrowserMatchResult;
 
-            browserResult.Should().NotBeNull("Match should be of type BrowserMatchResult");
+            browserResult.ShouldNotBeNull("Match should be of type BrowserMatchResult");
 
             if (browserResult == null) return;
 
-            browserResult.Engine.Should()
-                .BeEquivalentTo(fixture.client.engine, "Engine should be equal " + fixture.user_agent);
-            browserResult.EngineVersion.Should().BeEquivalentTo(fixture.client.engine_version.ToString(),
-                "EngineVersion should be equal");
-            browserResult.Name.Should().BeEquivalentTo(fixture.client.name, "Names should be equal");
-            browserResult.Type.Should().BeEquivalentTo(fixture.client.type, "Type should be equal");
-            browserResult.Version.Should().BeEquivalentTo(fixture.client.version, "Version should be equal");
+            browserResult.Engine.ShouldBeIgnoringCase(fixture.client.engine, "Engine should be equal " + fixture.user_agent);
+            browserResult.EngineVersion.ShouldBeIgnoringCase(fixture.client.engine_version.ToString(), "EngineVersion should be equal");
+            browserResult.Name.ShouldBeIgnoringCase(fixture.client.name, "Names should be equal");
+            browserResult.Type.ShouldBeIgnoringCase(fixture.client.type, "Type should be equal");
+            browserResult.Version.ShouldBeIgnoringCase(fixture.client.version, "Version should be equal");
         });
     }
 
@@ -74,7 +72,7 @@ public class BrowserTest
     public void TestGetAvailableClients()
     {
         var available = new BrowserParser().GetAvailableClients();
-        BrowserParser.GetAvailableBrowsers().Count.Should().BeGreaterThanOrEqualTo(available.Count);
+        BrowserParser.GetAvailableBrowsers().Count.ShouldBeGreaterThanOrEqualTo(available.Count);
     }
 
     [Fact]
@@ -87,7 +85,7 @@ public class BrowserTest
             .Distinct()
             .ToList();
 
-        missing.Should().BeEmpty("these shortcodes do not match the list of browsers");
+        missing.ShouldBeEmpty("these shortcodes do not match the list of browsers");
     }
 
     [Fact]
@@ -95,17 +93,17 @@ public class BrowserTest
     {
         var assembly = typeof(BrowserParser).Assembly;
         using var resource = assembly.GetManifestResourceStream("DeviceDetectorNET.regexes.client.browsers.yml");
-        resource.Should().NotBeNull();
+        resource.ShouldNotBeNull();
 
         var parser = new YamlParser<List<DeviceDetectorNET.Class.Client.Browser>>();
         var items = parser.ParseStream(resource);
 
-        items.Should().NotBeEmpty();
+        items.ShouldNotBeEmpty();
         foreach (var item in items)
         {
-            item.Regex.Should().NotBeNull("key \"regex\" must exist on every browsers.yml entry");
-            item.Name.Should().NotBeNull("key \"name\" must exist on every browsers.yml entry");
-            item.Version.Should().NotBeNull("key \"version\" must exist on every browsers.yml entry (regex: {0})", item.Regex);
+            item.Regex.ShouldNotBeNull("key \"regex\" must exist on every browsers.yml entry");
+            item.Name.ShouldNotBeNull("key \"name\" must exist on every browsers.yml entry");
+            item.Version.ShouldNotBeNull(string.Format("key \"version\" must exist on every browsers.yml entry (regex: {0})", item.Regex));
         }
     }
 
@@ -120,7 +118,7 @@ public class BrowserTest
                 .Select(group => group.Key)
                 .ToList();
 
-            duplicates.Should().BeEmpty("family {0} contains duplicate shortcodes", family.Key);
+            duplicates.ShouldBeEmpty(string.Format("family {0} contains duplicate shortcodes", family.Key));
         }
     }
 
@@ -131,11 +129,10 @@ public class BrowserTest
         var regexListField = GetRegexListField(browserHints.GetType());
         var hints = (Dictionary<string, string>)regexListField.GetValue(browserHints);
 
-        hints.Should().NotBeEmpty();
+        hints.ShouldNotBeEmpty();
         foreach (var name in hints.Values)
         {
-            BrowserParser.GetBrowserShortName(name).Should().NotBeNullOrEmpty(
-                "browser name \"{0}\" from hints must be present in AvailableBrowsers", name);
+            BrowserParser.GetBrowserShortName(name).ShouldNotBeNullOrEmpty(string.Format("browser name \"{0}\" from hints must be present in AvailableBrowsers", name));
         }
     }
 
@@ -168,7 +165,7 @@ public class BrowserTest
         var result = browsers.Parse();
         var browserResult = result.Match as BrowserMatchResult;
 
-        browserResult.Name.Should().NotBeEmpty();
+        browserResult.Name.ShouldNotBeEmpty();
 
     }
 
@@ -181,11 +178,11 @@ public class BrowserTest
 
         var result = browsers.Parse();
 
-        result.Success.Should().BeTrue("Match should be with success");
+        result.Success.ShouldBeTrue("Match should be with success");
 
         if (result.Match is not BrowserMatchResult browserResult) return;
 
-        browserResult.Name.Should().NotBeEmpty();
-        browserResult.Version.Should().BeEmpty("Version should be empty when the regex captures nothing");
+        browserResult.Name.ShouldNotBeEmpty();
+        browserResult.Version.ShouldBeEmpty("Version should be empty when the regex captures nothing");
     }
 }

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using DeviceDetectorNET.Cache;
 using Xunit;
 
@@ -19,7 +19,7 @@ namespace DeviceDetectorNET.Tests.Cache
         {
             var cache = new DictionaryCache();
             var result = cache.Fetch("NotExistingKey");
-            result.Should().BeNull();
+            result.ShouldBeNull();
         }
 
         [Fact]
@@ -28,22 +28,22 @@ namespace DeviceDetectorNET.Tests.Cache
             var cache = new DictionaryCache();
             // add entry
             cache.Save("key", "value");
-            cache.Fetch("key").Should().BeEquivalentTo("value");
+            cache.Fetch("key").ShouldBe("value");
 
             // change entry
             cache.Save("key", "value2");
-            cache.Fetch("key").Should().BeEquivalentTo("value2");
+            cache.Fetch("key").ShouldBe("value2");
 
             // remove entry
             cache.Delete("key");
-            cache.Fetch("key").Should().BeNull();
+            cache.Fetch("key").ShouldBeNull();
 
             // flush all entries
             cache.Save("key", "value2");
             cache.Save("key3", "value2");
             cache.FlushAll();
-            cache.Fetch("key").Should().BeNull();
-            cache.Fetch("key3").Should().BeNull();
+            cache.Fetch("key").ShouldBeNull();
+            cache.Fetch("key3").ShouldBeNull();
 
         }
     }

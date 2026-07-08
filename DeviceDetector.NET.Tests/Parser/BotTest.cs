@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using Xunit;
 using DeviceDetectorNET.Class;
 using DeviceDetectorNET.Parser;
@@ -27,7 +27,11 @@ namespace DeviceDetectorNET.Tests.Parser
             var botParser = new BotParser {DiscardDetails = false};
             botParser.SetUserAgent("Googlebot/2.1 (http://www.googlebot.com/bot.html)");
             var result = botParser.Parse();
-            result.Match.Should().BeEquivalentTo(expected, config=>config.ExcludingMissingMembers());
+            result.Match.Name.ShouldBe(expected.Name);
+            result.Match.Category.ShouldBe(expected.Category);
+            result.Match.Url.ShouldBe(expected.Url);
+            result.Match.Producer.Name.ShouldBe(expected.Producer.Name);
+            result.Match.Producer.Url.ShouldBe(expected.Producer.Url);
         }
 
         [Fact]
@@ -37,7 +41,7 @@ namespace DeviceDetectorNET.Tests.Parser
             botParser.SetUserAgent("Googlebot/2.1 (http://www.googlebot.com/bot.html)");
             var result = botParser.Parse();
 
-            result.Success.Should().BeTrue();
+            result.Success.ShouldBeTrue();
         }
 
         [Fact]
@@ -47,7 +51,7 @@ namespace DeviceDetectorNET.Tests.Parser
             botParser.SetUserAgent("Mozilla/4.0 (compatible; MSIE 9.0; Windows NT 6.1; SV1; SE 2.x)");
             var result = botParser.Parse();
 
-            result.Success.Should().BeFalse();
+            result.Success.ShouldBeFalse();
         }
     }
 }

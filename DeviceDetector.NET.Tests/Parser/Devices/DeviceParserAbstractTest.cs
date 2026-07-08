@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using Xunit;
 
 namespace DeviceDetectorNET.Tests.Parser.Devices
@@ -11,24 +11,24 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
         public void testGetAvailableDeviceTypes()
         {
             var available = DeviceDetectorNET.Parser.Device.Devices.DeviceTypes;
-            available.Count.Should().BeGreaterThan(5);
-            available.Should().ContainKey("desktop");
+            available.Count.ShouldBeGreaterThan(5);
+            available.ShouldContainKey("desktop");
         }
         
         [Fact]
         public void testGetAvailableDeviceTypeNames()
         {
             var available = DeviceDetectorNET.Parser.Device.Devices.GetAvailableDeviceTypeNames();
-            available.Count.Should().BeGreaterThan(5);
-            available.Should().Contain("desktop");
+            available.Count.ShouldBeGreaterThan(5);
+            available.ShouldContain("desktop");
         }
         
         [Fact]
         public void testGetFullName()
         {
-            DeviceDetectorNET.Parser.Device.Devices.GetFullName("Invalid").Should().BeEmpty();
-            DeviceDetectorNET.Parser.Device.Devices.GetFullName("AU").Should().Be("Asus");
-            DeviceDetectorNET.Parser.Device.Devices.GetFullName("GO").Should().Be("Google");
+            DeviceDetectorNET.Parser.Device.Devices.GetFullName("Invalid").ShouldBeEmpty();
+            DeviceDetectorNET.Parser.Device.Devices.GetFullName("AU").ShouldBe("Asus");
+            DeviceDetectorNET.Parser.Device.Devices.GetFullName("GO").ShouldBe("Google");
 
         }
 
@@ -55,10 +55,10 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
             parser.SetUserAgent(userAgent);
 
             var method = FindMethod(parser.GetType(), "HasUserAgentClientHintsFragment");
-            method.Should().NotBeNull();
+            method.ShouldNotBeNull();
 
             var result = (bool)method.Invoke(parser, System.Array.Empty<object>());
-            result.Should().Be(expectedResult, "useragent: {0}", userAgent);
+            result.ShouldBe(expectedResult, string.Format("useragent: {0}", userAgent));
         }
 
         private static System.Reflection.MethodInfo FindMethod(System.Type type, string name)
