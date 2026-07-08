@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using Shouldly;
 using System.Collections.Generic;
 using Xunit;
 
@@ -20,17 +20,15 @@ namespace DeviceDetectorNET.Tests
             };
 
             var ch = ClientHints.Factory(headers);
-            ch.IsMobile().Should().BeFalse();
+            ch.IsMobile().ShouldBeFalse();
 
-            ch.GetOperatingSystem().Should().Be("Windows");
-            ch.GetOperatingSystemVersion().Should().Be("14.0.0");
-            ch.GetBrandList().Should().Equal(
-                new Dictionary<string, string>{ 
+            ch.GetOperatingSystem().ShouldBe("Windows");
+            ch.GetOperatingSystemVersion().ShouldBe("14.0.0");
+            ch.GetBrandList().ShouldBe(new Dictionary<string, string>{
                         { "Opera", "83" },
                         { " Not;A Brand", "99" },
                         { "Chromium", "98" },
-                    }
-                );
+                    });
         }
 
         [Fact]
@@ -49,19 +47,17 @@ namespace DeviceDetectorNET.Tests
                 };
 
             var ch = ClientHints.Factory(headers);
-            ch.IsMobile().Should().BeTrue();
-            ch.GetOperatingSystem().Should().Be("Ubuntu");
-            ch.GetOperatingSystemVersion().Should().Be("3.7");
+            ch.IsMobile().ShouldBeTrue();
+            ch.GetOperatingSystem().ShouldBe("Ubuntu");
+            ch.GetOperatingSystemVersion().ShouldBe("3.7");
 
-            ch.GetBrandList().Should().Equal(
-                new Dictionary<string, string>{
+            ch.GetBrandList().ShouldBe(new Dictionary<string, string>{
                         { " Not A;Brand", "99.0.0.0" },
                         { "Chromium", "98.0.4758.82" },
                         { "Opera", "98.0.4758.82" },
-                    }
-                );
-            ch.GetModel().Should().Be("DN2103");
-            ch.GetFormFactors().Should().Equal("desktop");
+                    });
+            ch.GetModel().ShouldBe("DN2103");
+            ch.GetFormFactors().ShouldBe(new[] { "desktop" });
         }
 
         [Fact]
@@ -82,20 +78,19 @@ namespace DeviceDetectorNET.Tests
             };
 
             var ch = ClientHints.Factory(headers);
-            ch.IsMobile().Should().BeFalse();
-            ch.GetOperatingSystem().Should().Be("Windows");
-            ch.GetOperatingSystemVersion().Should().Be("10.0.0");
+            ch.IsMobile().ShouldBeFalse();
+            ch.GetOperatingSystem().ShouldBe("Windows");
+            ch.GetOperatingSystemVersion().ShouldBe("10.0.0");
 
-            //ch.GetBrandList().Should().Equal(
-            //    new Dictionary<string, string>{
+            //ch.GetBrandList().ShouldBe(new[] { //    new Dictionary<string, string>{
             //            { " Not A;Brand", "99.0.0.0" },
             //            { "Chromium", "99.0.4844.51" },
             //            { "Google Chrome", "99.0.4844.51" },
             //        }
-            //    );
+            // });
 
-            ch.GetModel().Should().Be("");
-            ch.FormFactors.Should().Equal("desktop");
+            ch.GetModel().ShouldBe("");
+            ch.FormFactors.ShouldBe(new[] { "desktop" });
 
         }
 
@@ -116,19 +111,18 @@ namespace DeviceDetectorNET.Tests
             };
 
             var ch = ClientHints.Factory(headers);
-            ch.IsMobile().Should().BeFalse();
-            ch.GetOperatingSystem().Should().Be("Windows");
-            ch.GetOperatingSystemVersion().Should().Be("10.0.0");
+            ch.IsMobile().ShouldBeFalse();
+            ch.GetOperatingSystem().ShouldBe("Windows");
+            ch.GetOperatingSystemVersion().ShouldBe("10.0.0");
 
-            //ch.GetBrandList().Should().Equal(
-            //    new Dictionary<string, string>{
+            //ch.GetBrandList().ShouldBe(new[] { //    new Dictionary<string, string>{
             //            { " Not A;Brand", "99.0.0.0" },
             //            { "Chromium", "99.0.4844.51" },
             //            { "Google Chrome", "99.0.4844.51" },
             //        }
-            //    );
+            // });
 
-            ch.GetModel().Should().Be("");
+            ch.GetModel().ShouldBe("");
 
         }
     }

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
+using Shouldly;
 using DeviceDetectorNET.Parser;
 using DeviceDetectorNET.Tests.Class.Client;
 using DeviceDetectorNET.Yaml;
@@ -43,11 +43,11 @@ namespace DeviceDetectorNET.Tests.Parser
                     operatingSystemParser.SetClientHints(clientHints);
                 }
                 var result = operatingSystemParser.Parse();
-                result.Success.Should().BeTrue("Match should be with success");
+                result.Success.ShouldBeTrue("Match should be with success");
 
-                result.Match.Name.Should().BeEquivalentTo(fixture.os.name, "Names should be equal");
-                result.Match.ShortName.Should().BeEquivalentTo(fixture.os.short_name, "short_names should be equal");
-                result.Match.Version.Should().BeEquivalentTo(fixture.os.version, "Versions should be equal");
+                result.Match.Name.ShouldBeIgnoringCase(fixture.os.name, "Names should be equal");
+                result.Match.ShortName.ShouldBeIgnoringCase(fixture.os.short_name, "short_names should be equal");
+                result.Match.Version.ShouldBeIgnoringCase(fixture.os.version, "Versions should be equal");
             });
         }
 
@@ -59,8 +59,8 @@ namespace DeviceDetectorNET.Tests.Parser
             var clientHints = ClientHints.Factory(new(){ { "http-x-requested-with", "org.lineageos.jelly" } });
             os.SetClientHints(clientHints);
             var r = os.Parse();
-            r.Should().NotBeNull();
-            r.Match.Name.Should().Be("Lineage OS");
+            r.ShouldNotBeNull();
+            r.Match.Name.ShouldBe("Lineage OS");
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace DeviceDetectorNET.Tests.Parser
                     contains = true;
                     break;
                 }
-                contains.Should().BeTrue();
+                contains.ShouldBeTrue();
             }
         }
         
@@ -97,7 +97,7 @@ namespace DeviceDetectorNET.Tests.Parser
                     contains = true;
                     break;
                 }                
-                contains.Should().BeTrue();
+                contains.ShouldBeTrue();
             }
         }
 
@@ -105,14 +105,14 @@ namespace DeviceDetectorNET.Tests.Parser
         public void TestGetAvailableOperatingSystems()
         {
             var count = OperatingSystemParser.GetAvailableOperatingSystems().Count;
-            count.Should().BeGreaterThan(70);
+            count.ShouldBeGreaterThan(70);
         }
         
         [Fact]
         public void TestGetAvailableOperatingSystemFamilies()
         {
             var count = OperatingSystemParser.GetAvailableOperatingSystemFamilies().Count;
-            count.Should().Be(25);
+            count.ShouldBe(25);
         }
 
         [Theory]
@@ -123,7 +123,7 @@ namespace DeviceDetectorNET.Tests.Parser
         public void TestGetNameFromId(string os, string version, string expected)
         {
             var result = OperatingSystemParser.GetNameFromId(os, version);
-            result.Should().BeEquivalentTo(expected);
+            result.ShouldBeIgnoringCase(expected);
         }
     }
 }

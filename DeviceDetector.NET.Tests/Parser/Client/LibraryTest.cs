@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FluentAssertions;
+using Shouldly;
 using Xunit;
 using DeviceDetectorNET.Parser.Client;
 using DeviceDetectorNET.Tests.Class.Client;
@@ -36,11 +36,11 @@ namespace DeviceDetectorNET.Tests.Parser.Client
             {
                 libraryParser.SetUserAgent(fixture.user_agent);
                 var result = libraryParser.Parse();
-                result.Success.Should().BeTrue("Match should be with success");
+                result.Success.ShouldBeTrue("Match should be with success");
 
-                result.Match.Name.Should().BeEquivalentTo(fixture.client.name,"Names should be equal");
-                result.Match.Type.Should().BeEquivalentTo(fixture.client.type, "Types should be equal");
-                result.Match.Version.Should().BeOneOf(fixture.client.version, string.Empty, "$1", "Versions should be equal"); //todo: not ok $1
+                result.Match.Name.ShouldBeIgnoringCase(fixture.client.name, "Names should be equal");
+                result.Match.Type.ShouldBeIgnoringCase(fixture.client.type, "Types should be equal");
+                result.Match.Version.ShouldBeOneOf(fixture.client.version, string.Empty, "$1", "Versions should be equal"); //todo: not ok $1
             }
 
         }

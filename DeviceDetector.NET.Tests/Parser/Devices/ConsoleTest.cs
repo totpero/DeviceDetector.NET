@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using FluentAssertions;
+using Shouldly;
 using DeviceDetectorNET.Parser.Device;
 using DeviceDetectorNET.Tests.Class.Client.Device;
 using DeviceDetectorNET.Yaml;
@@ -37,13 +37,12 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
             {
                 consoleParser.SetUserAgent(fixture.user_agent);
                 var result = consoleParser.Parse();
-                result.Success.Should().BeTrue("Match should be with success to " + fixture.device.model);
+                result.Success.ShouldBeTrue("Match should be with success to " + fixture.device.model);
 
-                result.Match.Type.Should().Be(DeviceDetectorNET.Parser.Device.Devices.DeviceTypes[fixture.device.type],
-                    "Types should be equal");
+                result.Match.Type.ShouldBe(DeviceDetectorNET.Parser.Device.Devices.DeviceTypes[fixture.device.type], "Types should be equal");
 
-                result.Match.Brand.Should().BeEquivalentTo(fixture.device.brand, "Brand should be equal");
-                result.Match.Model.Should().BeEquivalentTo(fixture.device.model, "Model should be equal");
+                result.Match.Brand.ShouldBeIgnoringCase(fixture.device.brand, "Brand should be equal");
+                result.Match.Model.ShouldBeIgnoringCase(fixture.device.model, "Model should be equal");
 
             }
         }
@@ -54,7 +53,7 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
             const string userAgent = "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; Trident/5.0; Xbox)";
             var dd = new DeviceDetector(userAgent);
             dd.Parse();
-            dd.IsConsole().Should().BeTrue();
+            dd.IsConsole().ShouldBeTrue();
         }
     }
 }

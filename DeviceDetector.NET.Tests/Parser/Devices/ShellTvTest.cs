@@ -1,4 +1,4 @@
-﻿        using FluentAssertions;
+﻿        using Shouldly;
 using DeviceDetectorNET.Parser.Device;
 using Xunit;
 
@@ -13,9 +13,9 @@ namespace DeviceDetectorNET.Tests.Parser.Devices
         {
             var shellTvParser = new ShellTvParser();
             shellTvParser.SetUserAgent("Leff Shell LC390TA2A");
-            shellTvParser.IsShellTv().Should().BeTrue();
+            shellTvParser.IsShellTv().ShouldBeTrue();
             shellTvParser.SetUserAgent("Leff Shell");
-            shellTvParser.IsShellTv().Should().BeFalse();
+            shellTvParser.IsShellTv().ShouldBeFalse();
         }
     }
 }
