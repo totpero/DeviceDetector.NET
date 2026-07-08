@@ -80,7 +80,75 @@ public class BrowserTest
     [Fact]
     public void TestShortCodesComparisonWithBrowsers()
     {
-        //@todo
+        var availableBrowsers = BrowserParser.GetAvailableBrowsers();
+        var missing = BrowserParser.GetAvailableBrowserFamilies()
+            .SelectMany(family => family.Value)
+            .Where(shortCode => !availableBrowsers.ContainsKey(shortCode))
+            .Distinct()
+            .ToList();
+
+        missing.Should().BeEmpty("these shortcodes do not match the list of browsers");
+    }
+
+    [Fact]
+    public void TestStructureBrowsersYml()
+    {
+        var assembly = typeof(BrowserParser).Assembly;
+        using var resource = assembly.GetManifestResourceStream("DeviceDetectorNET.regexes.client.browsers.yml");
+        resource.Should().NotBeNull();
+
+        var parser = new YamlParser<List<DeviceDetectorNET.Class.Client.Browser>>();
+        var items = parser.ParseStream(resource);
+
+        items.Should().NotBeEmpty();
+        foreach (var item in items)
+        {
+            item.Regex.Should().NotBeNull("key \"regex\" must exist on every browsers.yml entry");
+            item.Name.Should().NotBeNull("key \"name\" must exist on every browsers.yml entry");
+            item.Version.Should().NotBeNull("key \"version\" must exist on every browsers.yml entry (regex: {0})", item.Regex);
+        }
+    }
+
+    [Fact]
+    public void TestBrowserFamiliesNoDuplicates()
+    {
+        foreach (var family in BrowserParser.GetAvailableBrowserFamilies())
+        {
+            var duplicates = family.Value
+                .GroupBy(shortCode => shortCode)
+                .Where(group => group.Count() > 1)
+                .Select(group => group.Key)
+                .ToList();
+
+            duplicates.Should().BeEmpty("family {0} contains duplicate shortcodes", family.Key);
+        }
+    }
+
+    [Fact]
+    public void TestBrowserHintsForAvailableBrowsers()
+    {
+        var browserHints = new DeviceDetectorNET.Parser.Client.Hints.BrowserHints(string.Empty);
+        var regexListField = GetRegexListField(browserHints.GetType());
+        var hints = (Dictionary<string, string>)regexListField.GetValue(browserHints);
+
+        hints.Should().NotBeEmpty();
+        foreach (var name in hints.Values)
+        {
+            BrowserParser.GetBrowserShortName(name).Should().NotBeNullOrEmpty(
+                "browser name \"{0}\" from hints must be present in AvailableBrowsers", name);
+        }
+    }
+
+    private static System.Reflection.FieldInfo GetRegexListField(System.Type type)
+    {
+        while (type != null)
+        {
+            var field = type.GetField("regexList",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            if (field != null) return field;
+            type = type.BaseType;
+        }
+        return null;
     }
 
     [Fact]
@@ -118,6 +186,6 @@ public class BrowserTest
         if (result.Match is not BrowserMatchResult browserResult) return;
 
         browserResult.Name.Should().NotBeEmpty();
-        browserResult.Version.Should().BeOneOf(string.Empty, "$1", "Version should be equal"); // todo: not ok $1
+        browserResult.Version.Should().BeEmpty("Version should be empty when the regex captures nothing");
     }
 }

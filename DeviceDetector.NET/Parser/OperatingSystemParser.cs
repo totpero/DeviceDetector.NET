@@ -20,6 +20,7 @@ namespace DeviceDetectorNET.Parser
         {
             { "AIX", "AIX" },
             { "AND", "Android" },
+            { "AGO", "Android Go" },
             { "ADR", "Android TV" },
             { "ALP", "Alpine Linux" },
             { "AMZ", "Amazon Linux" },
@@ -93,6 +94,7 @@ namespace DeviceDetectorNET.Parser
             { "KAL", "Kali" },
             { "KAN", "Kanotix" },
             { "KIN", "KIN OS" },
+            { "KOB", "KoboOS" },
             { "KOL", "KolibriOS" },
             { "KNO", "Knoppix" },
             { "KTV", "KreaTV" },
@@ -190,6 +192,7 @@ namespace DeviceDetectorNET.Parser
             { "S60", "Symbian OS Series 60" },
             { "SY3", "Symbian^3" },
             { "TEN", "TencentOS" },
+            { "THN", "ThinOS" },
             { "TDX", "ThreadX" },
             { "TIT", "Titan OS" },
             { "TIZ", "Tizen" },
@@ -199,6 +202,7 @@ namespace DeviceDetectorNET.Parser
             { "UBT", "Ubuntu" },
             { "ULT", "ULTRIX" },
             { "UOS", "UOS" },
+            { "VEG", "Vega OS" },
             { "VID", "VIDAA" },
             { "VIZ", "ViziOS" },
             { "WAS", "watchOS" },
@@ -230,7 +234,7 @@ namespace DeviceDetectorNET.Parser
         {
             {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
                                               "ADR", "CLR", "BOS", "REV", "LEN", "SIR", "RRS", "WER", "PIC", "ARM",
-                                              "HEL", "BYI", "RIS", "PUF", "LEA", "MET", "SMA" }},
+                                              "HEL", "BYI", "RIS", "PUF", "LEA", "MET", "SMA", "AGO" }},
             {"AmigaOS"              , new [] {"AMG", "MOR", "ARO"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
             {"Brew"                 , new [] {"BMP"}},
@@ -250,7 +254,8 @@ namespace DeviceDetectorNET.Parser
                                                 "NOV", "ROU", "ZOR", "RED", "KAL", "ORA", "VID", "TIV", "BSN", "RAS",
                                                 "UOS", "PIO", "FRI", "LIR", "WEB", "SER", "ASP", "AOS", "LOO", "EUL",
                                                 "SCI", "ALP", "CLO", "ROC", "OVZ", "PVE", "RST", "EZX", "GNS", "JOL",
-                                                "TUR", "QTP", "WPO", "PAN", "VIZ", "AZU", "COL", "OSS", "ELM", "LPU"
+                                                "TUR", "QTP", "WPO", "PAN", "VIZ", "AZU", "COL", "OSS", "ELM", "LPU",
+                                                "KOB"
             }},
             {"Mac"                  , new [] {"MAC" }},
             {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX" }},
@@ -261,12 +266,12 @@ namespace DeviceDetectorNET.Parser
             {"Symbian"              , new [] {"SYM", "SYS", "SY3", "S60", "S40" }},
             {"Unix"                 , new [] {"SOS", "AIX", "HPX", "BSD", "NBS", "OBS", "DFB", "SYL", "IRI", "T64", 
                                               "INF", "ELE", "GNX", "ULT", "NWS", "NXT", "SBL", "BS1", "GHO", "PLN",
-                                              "MNX"
+                                              "MNX", "THN"
             }},
             {"WebTV"                , new [] {"WTV" }},
             {"Windows"              , new [] {"WIN" }},
             {"Windows Mobile"       , new [] {"WPH", "WMO", "WCE", "WRT", "WIO", "KIN" }},
-            {"Other Smart TV"       , new [] {"WHS", "TIT", "ORS" }}
+            {"Other Smart TV"       , new [] {"WHS", "TIT", "ORS", "VEG" }}
         };
 
         /// <summary>
@@ -292,6 +297,8 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected internal static readonly IReadOnlyDictionary<string, string> FireOsVersionMapping = new Dictionary<string,string>
         {
+            {"16"    , "16" },
+            {"15"    , "16" },
             {"14"    , "14" },
             {"13"    , "14" },
             {"12"    , "14" },
@@ -411,8 +418,6 @@ namespace DeviceDetectorNET.Parser
             var result = new ParseResult<OsMatchResult>();
             //Os localOs = null;
 
-            // Restore the user agent from client hints (e.g. the redacted "Android 10; K" fragment or the
-            // generic "X11; Linux x86_64" desktop fragment) before matching, mirroring the PHP reference.
             RestoreUserAgentFromClientHints();
 
             var osFromClientHints = this.ParseOsFromClientHints();
@@ -456,7 +461,11 @@ namespace DeviceDetectorNET.Parser
                     {
                         var majorVersion = version.Split('.').Length > 0 ? version.Split('.')[0] : "0";
 
-                        version = MapOsVersion(FireOsVersionMapping, version, majorVersion);
+                        version = FireOsVersionMapping.TryGetValue(version, out var fireOsVersion)
+                            ? fireOsVersion
+                            : FireOsVersionMapping.TryGetValue(majorVersion, out var fireOsMajorVersion)
+                                ? fireOsMajorVersion
+                                : string.Empty;
                     }
                 }
 
@@ -519,7 +528,11 @@ namespace DeviceDetectorNET.Parser
                     name = "Lineage OS";
                     family = "Android";
                     @short = "LEN";
-                    version = MapOsVersion(LineageOsVersionMapping, version, majorVersion);
+                    version = LineageOsVersionMapping.TryGetValue(version, out var lineageOsVersion)
+                        ? lineageOsVersion
+                        : LineageOsVersionMapping.TryGetValue(majorVersion, out var lineageOsMajorVersion)
+                            ? lineageOsMajorVersion
+                            : string.Empty;
                 }
 
                 if ("org.mozilla.tv.firefox" == ClientHints.GetApp() && "Fire OS" != name)
@@ -529,7 +542,11 @@ namespace DeviceDetectorNET.Parser
                     name = "Fire OS";
                     family = "Android";
                     @short = "FIR";
-                    version = MapOsVersion(FireOsVersionMapping, version, majorVersion);
+                    version = FireOsVersionMapping.TryGetValue(version, out var fireOsVersion)
+                        ? fireOsVersion
+                        : FireOsVersionMapping.TryGetValue(majorVersion, out var fireOsMajorVersion)
+                            ? fireOsMajorVersion
+                            : string.Empty;
                 }
             }
 

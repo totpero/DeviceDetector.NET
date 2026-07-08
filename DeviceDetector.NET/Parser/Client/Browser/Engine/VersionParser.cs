@@ -30,9 +30,9 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
             {
                 var geckoMatches = GetRegexEngine()
                     .MatchesUniq(UserAgent, "[ ](?:rv[: ]([0-9.]+)).*(?:g|cl)ecko/\\d{8,10}").ToArray();
-                if (geckoMatches.Length > 0)
+                if (matches.Length > 0)
                 {
-                    result.Add(new ClientMatchResult { Name = geckoMatches.First() });
+                    result.Add(new ClientMatchResult { Name = matches[0] });
                     return result;
                 }
             }
@@ -54,7 +54,7 @@ namespace DeviceDetectorNET.Parser.Client.Browser.Engine
                 engineToken = "LibWeb\\+LibJs";
             }
 
-            var matches = GetRegexEngine()
+            matches = GetRegexEngine()
                 .MatchesUniq(UserAgent,
                     $@"(?:{engineToken})\s*[/_]?\s*((?(?=\d+\.\d)\d+[.\d]*|\d{{1,7}}(?=(?:\D|$))))").ToArray();
 

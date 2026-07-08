@@ -146,7 +146,7 @@ namespace DeviceDetectorNET.Parser
                 var androidVersion = !string.IsNullOrEmpty(osVersion) ? osVersion : "10";
                 var restored = System.Text.RegularExpressions.Regex.Replace(
                     UserAgent,
-                    @"Android (?:10[.\d]*; K|1[1-5])",
+                    @"Android (?:10[.\d]*; K|1[1-7])",
                     $"Android {androidVersion}; {deviceModel}",
                     System.Text.RegularExpressions.RegexOptions.IgnoreCase);
                 SetUserAgent(restored);
@@ -158,7 +158,9 @@ namespace DeviceDetectorNET.Parser
                 return;
             }
 
-            var restoredDesktop = UserAgent.Replace("X11; Linux x86_64", $"X11; Linux x86_64; {deviceModel}");
+            var restoredDesktop = UserAgent
+                .Replace("X11; Linux x86_64", $"X11; Linux x86_64; {deviceModel}")
+                .Replace("Windows NT 10.0; Win64; x64", $"Windows NT 10.0; Win64; x64; {deviceModel}");
             SetUserAgent(restoredDesktop);
         }
 
@@ -183,11 +185,13 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected bool HasUserAgentClientHintsFragment()
         {
-            // Mirrors PHP's hasUserAgentClientHintsFragment which uses a raw preg_match (no delimiters and
-            // no leading boundary wrapping like matchUserAgent applies), case-insensitive.
-            const string pattern = @"Android (?:1[0-6][.\d]*; K(?: Build/|[;)])|1[0-6]\)) AppleWebKit";
-            return UserAgent.IndexOf("Telegram-Android/", StringComparison.OrdinalIgnoreCase) < 0
-                   && GetRegexEngine().Match(UserAgent, pattern);
+            const string pattern = @"Android (?:1[0-7][.\d]*; K(?: Build/|[;)])|1[0-7]\)) AppleWebKit";
+            if (System.Text.RegularExpressions.Regex.IsMatch(UserAgent, pattern,
+                    System.Text.RegularExpressions.RegexOptions.IgnoreCase))
+            {
+                return UserAgent.IndexOf("Telegram-Android/", StringComparison.OrdinalIgnoreCase) < 0;
+            }
+            return false;
         }
 
         /// <summary>
@@ -344,8 +348,6 @@ namespace DeviceDetectorNET.Parser
 
         protected string BuildByMatch(string item, string[] matches)
         {
-            // Mirrors PHP's buildByMatch: always try $1..$3 and replace with the captured group when it
-            // exists, otherwise with an empty string (so an unmatched "$1" placeholder becomes "").
             for (var nb = 1; nb <= 3; nb++)
             {
                 if (!item.Contains("$" + nb))
@@ -353,10 +355,10 @@ namespace DeviceDetectorNET.Parser
                     continue;
                 }
 
-                var replace = nb < matches.Length ? (matches[nb] ?? string.Empty) : string.Empty;
-                item = item.Replace("$" + nb, replace).Trim();
+                var replace = nb < matches.Length ? matches[nb] ?? string.Empty : string.Empty;
+                item = item.Replace("$" + nb, replace);
             }
-            return item;
+            return item.Trim();
         }
 
         /// <summary>

@@ -316,6 +316,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "I6", "iDesktop PC Browser" },
             { "IC", "iCab" },
             { "I2", "iCab Mobile" },
+            { "I0", "iTop Private Browser" },
             { "0I", "Ifbrowser" },
             { "4I", "iNet Browser" },
             { "I1", "Iridium" },
@@ -338,6 +339,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "IG", "Involta Go" },
             { "IM", "IE Mobile" },
             { "IR", "Iron" },
+            { "IL", "Island" },
             { "JB", "Japan Browser" },
             { "JS", "Jasmine" },
             { "JA", "JavaFX" },
@@ -418,6 +420,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "MM", "Mmx Browser" },
             { "NM", "MxNitro" },
             { "MY", "Mypal" },
+            { "M0", "MySudo" },
             { "MR", "Monument Browser" },
             { "MW", "MAUI WAP Browser" },
             { "N7", "Naenara Browser" },
@@ -528,6 +531,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "P4", "Privacy Explorer Fast Safe" },
             { "X5", "Cloak Private Browser" },
             { "P3", "Private Internet Browser" },
+            { "PG", "PrivateBrowsing" },
             { "P5", "Proxy Browser" },
             { "7P", "Proxyium" },
             { "6P", "Proxynet" },
@@ -543,6 +547,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "QI", "Qiyu" },
             { "QJ", "QJY TV Browser" },
             { "Q3", "Qmamu" },
+            { "Q8", "Quiche Browser" },
             { "Q4", "Quick Search TV" },
             { "Q2", "QQ Browser Lite" },
             { "Q1", "QQ Browser Mini" },
@@ -579,6 +584,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "SF", "Safari" },
             { "PV", "Safari Technology Preview" },
             { "S5", "Safe Exam Browser" },
+            { "D5", "SafeBrowser" },
             { "SW", "SalamWeb" },
             { "VN", "Savannah Browser" },
             { "SD", "SavySoda" },
@@ -791,7 +797,7 @@ namespace DeviceDetectorNET.Parser.Client
                 "W2", "ZB", "HN", "Q6", "Q7", "G0", "00", "R6", "D8",
                 "PQ", "LM", "T5", "2N", "SJ", "X6", "SM", "AY", "BQ",
                 "BC", "NQ", "VQ", "9C", "KA", "YS", "D4", "PZ", "0I",
-                "3F", "Z1", "XC", "ZC", "V7", "H0",
+                "3F", "Z1", "XC", "ZC", "V7", "H0", "IL", "PG", "I0",
             }},
             {"Firefox"            , new []{
                 "FF", "BI", "BF", "BH", "BN", "C0", "CU", "EI", "F1",
@@ -841,7 +847,7 @@ namespace DeviceDetectorNET.Parser.Client
             "2M", "K7", "1N", "8A", "H7", "X3", "X4", "5O", "6I",
             "7I", "X5", "3P", "2E", "T5", "2N", "SJ", "X6", "SM",
             "AY", "BQ", "BC", "NQ", "VQ", "KA", "YS", "D4", "PZ",
-            "V7",
+            "V7", "D5", "M0", "Q8",
         };
 
         public override IReadOnlyDictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
@@ -984,8 +990,8 @@ namespace DeviceDetectorNET.Parser.Client
                 client.Name = browserFromClientHints.Name;
                 client.Version = browserFromClientHints.Version;
                 client.ShortName = browserFromClientHints.ShortName;
-                client.Engine = string.Empty;
-                client.EngineVersion = string.Empty;
+                client.Engine = browserFromClientHints.Engine ?? string.Empty;
+                client.EngineVersion = browserFromClientHints.EngineVersion ?? string.Empty;
 
                 // If the version reported from the client hints is YYYY or YYYY.MM (e.g., 2022 or 2022.04),
                 // then it is the Iridium browser
@@ -1017,6 +1023,12 @@ namespace DeviceDetectorNET.Parser.Client
                     client.EngineVersion = browserFromUserAgent.EngineVersion ?? string.Empty;
                 }
 
+                if ("Blink" == client.Engine && "Iridium" != client.Name
+                    && PhpVersionCompare(browserFromUserAgent.EngineVersion, client.EngineVersion) > 0)
+                {
+                    client.EngineVersion = browserFromUserAgent.EngineVersion;
+                }
+
                 // If client hints report Chromium, but user agent detects a chromium based browser, we favor this instead
                 if (("Chromium" == client.Name || "Chrome Webview" == client.Name)
                     && !string.IsNullOrEmpty(browserFromUserAgent.Name)
@@ -1025,7 +1037,12 @@ namespace DeviceDetectorNET.Parser.Client
                 {
                     client.Name = browserFromUserAgent.Name;
                     client.ShortName = browserFromUserAgent.ShortName;
-                    client.Version = browserFromUserAgent.Version;
+
+                    if (GetMajorVersion(browserFromUserAgent.Version) != GetMajorVersion(client.Version)
+                        || PhpVersionCompare(client.Version, browserFromUserAgent.Version) <= 0)
+                    {
+                        client.Version = browserFromUserAgent.Version;
+                    }
                 }
 
                 // Fix mobile browser names e.g. Chrome => Chrome Mobile
@@ -1052,8 +1069,8 @@ namespace DeviceDetectorNET.Parser.Client
 
                 // In case the user agent reports a more detailed version, we try to use this instead
                 if (!string.IsNullOrEmpty(browserFromUserAgent.Version)
-                    && 0 == browserFromUserAgent.Version?.IndexOf(client.Version, StringComparison.Ordinal)
-                    && VersionComparer.Compare(client.Version, browserFromUserAgent.Version) < 0
+                    && 0 == browserFromUserAgent.Version?.IndexOf(client.Version)
+                    && PhpVersionCompare(client.Version, browserFromUserAgent.Version) < 0
                    )
                 {
                     client.Version = browserFromUserAgent.Version;
@@ -1066,10 +1083,17 @@ namespace DeviceDetectorNET.Parser.Client
 
                 // In case client hints report a more detailed engine version, we try to use this instead
                 if ("Blink" == client.Engine && "Iridium" != client.Name
-                    && VersionComparer.Compare(client.EngineVersion, browserFromClientHints.Version) < 0
+                    && PhpVersionCompare(client.EngineVersion, browserFromClientHints.Version) < 0
                     )
                 {
                     client.EngineVersion = browserFromClientHints.Version;
+                }
+
+                if ("Blink" == client.Engine && "Iridium" != client.Name
+                    && PhpVersionCompare(browserFromUserAgent.EngineVersion, browserFromClientHints.EngineVersion) < 0
+                    )
+                {
+                    client.EngineVersion = browserFromClientHints.EngineVersion;
                 }
 
             }
@@ -1103,7 +1127,7 @@ namespace DeviceDetectorNET.Parser.Client
                 }
             }
 
-            if (string.IsNullOrEmpty(client.Name) || IsMatchUserAgent("/Cypress|PhantomJS/"))
+            if (string.IsNullOrEmpty(client.Name) || IsMatchUserAgent("Cypress|PhantomJS"))
                 return result;
 
             // exclude Blink engine version for browsers
@@ -1127,12 +1151,12 @@ namespace DeviceDetectorNET.Parser.Client
                 client.EngineVersion = string.Empty;
             }
 
-            if ("Wolvic" == client.Name && "Blink" == client.Engine)
+            if (new[] { "Yaani Browser", "Wolvic" }.Contains(client.Name) && "Blink" == client.Engine)
             {
                 client.Family = "Chrome";
             }
 
-            if ("Wolvic" == client.Name && "Gecko" == client.Engine)
+            if (new[] { "Yaani Browser", "Wolvic" }.Contains(client.Name) && "Gecko" == client.Engine)
             {
                 client.Family = "Firefox";
             }
@@ -1150,11 +1174,24 @@ namespace DeviceDetectorNET.Parser.Client
             var name = string.Empty;
             var version = string.Empty;
             var @short = string.Empty;
+            var engine = string.Empty;
+            var engineVersion = string.Empty;
             if (ClientHints != null)
             {
                var brands = ClientHints.GetBrandList();
                 if (brands.Any())
                 {
+                    var engineBrands = new[] { "Android WebView", "Chromium" };
+                    foreach (var engineBrand in engineBrands)
+                    {
+                        if (brands.TryGetValue(engineBrand, out var engineBrandVersion))
+                        {
+                            engine = "Blink";
+                            engineVersion = engineBrandVersion;
+                            break;
+                        }
+                    }
+
                     foreach (var brand in brands)
                     {
                         var brandName = ApplyClientHintMapping(brand.Key);
@@ -1178,15 +1215,70 @@ namespace DeviceDetectorNET.Parser.Client
                         }
                     }
                 }
-                version = ClientHints.GetBrandVersion() ?? version;
+                var brandVersion = ClientHints.GetBrandVersion();
+                version = !string.IsNullOrEmpty(brandVersion) ? brandVersion : version;
             }
 
             return new BrowserMatchResult
             {
-                Name = name, 
+                Name = name,
                 ShortName = @short,
-                Version = BuildVersion(version,Array.Empty<string>()) 
+                Version = BuildVersion(version,Array.Empty<string>()),
+                Engine = engine,
+                EngineVersion = engineVersion
             };
+        }
+
+        /// <summary>
+        /// Compares two version strings similar to PHP's version_compare (numeric dotted versions).
+        /// Returns -1, 0 or 1. Null/empty versions are considered lower than non-empty ones.
+        /// </summary>
+        private static int PhpVersionCompare(string version1, string version2)
+        {
+            version1 = version1 ?? string.Empty;
+            version2 = version2 ?? string.Empty;
+
+            if (version1 == version2) return 0;
+            if (version1.Length == 0) return -1;
+            if (version2.Length == 0) return 1;
+
+            var parts1 = version1.Split('.');
+            var parts2 = version2.Split('.');
+            var count = Math.Max(parts1.Length, parts2.Length);
+
+            for (var i = 0; i < count; i++)
+            {
+                if (i >= parts1.Length) return -1;
+                if (i >= parts2.Length) return 1;
+
+                var isNum1 = long.TryParse(parts1[i], out var num1);
+                var isNum2 = long.TryParse(parts2[i], out var num2);
+
+                int cmp;
+                if (isNum1 && isNum2)
+                {
+                    cmp = num1.CompareTo(num2);
+                }
+                else
+                {
+                    cmp = string.CompareOrdinal(parts1[i], parts2[i]);
+                }
+
+                if (cmp != 0) return cmp < 0 ? -1 : 1;
+            }
+
+            return 0;
+        }
+
+        /// <summary>
+        /// Returns the leading integer part of a version string, like PHP's (int) cast.
+        /// </summary>
+        private static int GetMajorVersion(string version)
+        {
+            if (string.IsNullOrEmpty(version)) return 0;
+            var i = 0;
+            while (i < version.Length && char.IsDigit(version[i])) i++;
+            return i > 0 && int.TryParse(version.Substring(0, i), out var major) ? major : 0;
         }
 
         /// <summary>

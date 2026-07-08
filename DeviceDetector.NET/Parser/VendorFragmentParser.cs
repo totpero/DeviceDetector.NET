@@ -28,6 +28,7 @@ namespace DeviceDetectorNET.Parser
                             Name = brands.Key,
                             Brand = brands.Key
                         });
+                        return result;
                     }
                 }
             }
