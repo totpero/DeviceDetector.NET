@@ -1,0 +1,35 @@
+version: 2.0.{build}
+
+image: Visual Studio 2022
+
+environment:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+# keep the assembly/package version patching previously configured in the AppVeyor UI
+dotnet_csproj:
+  patch: true
+  file: DeviceDetector.NET\DeviceDetector.NET.csproj
+  version: '{version}'
+  assembly_version: '{version}'
+  file_version: '{version}'
+
+install:
+  # the projects target net10.0, which is newer than the SDKs preinstalled on the image
+  - ps: Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile "$env:TEMP\dotnet-install.ps1"
+  - ps: '& "$env:TEMP\dotnet-install.ps1" -Channel 10.0 -InstallDir "C:\dotnet10"'
+  - ps: Set-AppveyorBuildVariable -Name PATH -Value "C:\dotnet10;$env:PATH"
+  - dotnet --info
+
+build_script:
+  - dotnet restore DeviceDetector.NET.sln
+  - dotnet build DeviceDetector.NET.sln -c Release --no-restore
+
+test_script:
+  - dotnet test DeviceDetector.NET.Tests\DeviceDetector.NET.Tests.csproj -c Release --no-build
+
+after_build:
+  - dotnet pack DeviceDetector.NET\DeviceDetector.NET.csproj -c Release --no-build -o artifacts
+
+artifacts:
+  - path: artifacts\*.nupkg
