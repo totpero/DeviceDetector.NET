@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using DeviceDetectorNET;
+﻿using DeviceDetectorNET;
 using DeviceDetectorNET.Parser;
 using Microsoft.AspNetCore.Http;
 using Serilog.Core;
@@ -23,28 +22,25 @@ public class DeviceDetectorEnricher(IHttpContextAccessor httpContextAccessor) : 
 
     public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory)
     {
-        HttpContext httpContext = httpContextAccessor!.HttpContext;
+        var httpContext = httpContextAccessor.HttpContext;
         if (httpContext == null) return;
 
-        //if (httpContext.Items.TryGetValue(DeviceDetectorItemKey, out object value) &&
-        //    value is LogEventProperty logEventProperty)
-        //{
+        if (httpContext.Items.TryGetValue(DeviceDetectorItemKey, out var cached) &&
+            cached is LogEventProperty cachedProperty)
+        {
+            logEvent.AddPropertyIfAbsent(cachedProperty);
+            return;
+        }
 
-        //}
-        //else
-        //{
-
-        //}
-
-        if (httpContext.Request!.Headers!.TryGetValue("User-Agent", out var userAgent))
+        if (httpContext.Request.Headers.TryGetValue("User-Agent", out var userAgent))
         {
             DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
-            var headers = httpContext.Request!.Headers.ToDictionary(a => a.Key, a => a.Value.ToArray().FirstOrDefault());
+            var headers = httpContext.Request.Headers.ToDictionary(a => a.Key, a => a.Value.ToArray().FirstOrDefault());
             var clientHints = ClientHints.Factory(headers);  // client hints are optional
             var result = DeviceDetector.GetInfoFromUserAgent(userAgent, clientHints);
 
             var deviceDetectorProperty = propertyFactory.CreateProperty(DeviceDetectorPropertyName, result, destructureObjects: true);
-            httpContext.Items.TryAdd(DeviceDetectorItemKey, deviceDetectorProperty);
+            httpContext.Items[DeviceDetectorItemKey] = deviceDetectorProperty;
             logEvent.AddPropertyIfAbsent(deviceDetectorProperty);
         }
     }
