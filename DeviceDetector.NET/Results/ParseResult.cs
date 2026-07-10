@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace DeviceDetectorNET.Results
 {
@@ -27,6 +28,7 @@ namespace DeviceDetectorNET.Results
         public string ParserName { get; set; }
 
         [DataMember]
+        [JsonInclude]
         public bool Success { get; private set; }
         public TMatch Match => Success ? Matches.FirstOrDefault() : null;
         [DataMember] 
