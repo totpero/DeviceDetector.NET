@@ -12,7 +12,16 @@ using DeviceDetectorNET.Cache;
 dd.SetCache(new DictionaryCache());
 ```
 
-- **`DictionaryCache`** — the built-in default. Backed by a `ConcurrentDictionary<string, object>` shared statically across all `DeviceDetector` instances in the process (equivalent to PHP's static array cache). Good for a single process/app instance; not shared across machines or app restarts.
+- **`DictionaryCache`** — the built-in default. Backed by a `ConcurrentDictionary<string, object>` shared statically across all `DeviceDetector` instances in the process (equivalent to PHP's static array cache). Good for a single process/app instance; not shared across machines or app restarts. It never evicts entries on its own, so unbounded UA cardinality means unbounded memory growth.
+- **`BitFasterConcurrentLruCache`** — provided by the separate [`DeviceDetector.NET.Cache.BitFaster`](https://github.com/totpero/DeviceDetector.NET/tree/master/DeviceDetector.NET.Cache.BitFaster) project, backed by [BitFaster.Caching](https://github.com/bitfaster/BitFaster.Caching)'s `ConcurrentLru`. Use it instead of `DictionaryCache` when you want a bounded fragment cache that evicts least-recently-used entries once a capacity is reached, rather than growing forever:
+
+  ```csharp
+  using DeviceDetectorNET.Cache.BitFaster;
+
+  dd.SetCache(new BitFasterConcurrentLruCache(capacity: 10_000));
+  ```
+
+  Like the [PCRE regex engine](Regex-Engines#pcreregexengine-optional-better-upstream-fidelity), this lives in its own project so the core package doesn't force the `BitFaster.Caching` dependency on consumers who don't need it.
 - Implement `DeviceDetectorNET.Cache.ICache` (`Fetch`, `Contains`, `Save`, `Delete`, `FlushAll`) to plug in your own store (e.g. a distributed cache) if you need cross-process sharing — there is no built-in Redis/Memcached bridge as there is for the PHP PSR-6/PSR-16 bridges, so you provide the adapter.
 
 ## 2. Persistent parse-result cache (`ParseCache`)
