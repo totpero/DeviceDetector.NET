@@ -1,17 +1,42 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
 		<RootNamespace>Serilog</RootNamespace>
+		<Version>1.0.0</Version>
+		<Authors>totpero</Authors>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<Copyright>Copyright © www.totpe.ro</Copyright>
+		<Description>A Serilog enricher that adds DeviceDetector.NET device, client, OS, brand and model information parsed from the current ASP.NET Core request's User-Agent header to log events.</Description>
+		<PackageTags>serilog serilog-enricher aspnetcore device-detector user-agent logging</PackageTags>
+		<PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<AssemblyVersion>1.0.0.0</AssemblyVersion>
+		<FileVersion>1.0.0.0</FileVersion>
+		<SignAssembly>false</SignAssembly>
+		<PackageIcon>logo.jpg</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<DebugType>portable</DebugType>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
 		<PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
 		<PackageReference Include="Serilog" Version="4.3.1" />
 	</ItemGroup>
-	
+
 	<ItemGroup>
 	  <ProjectReference Include="..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="True" PackagePath="" />
+		<None Include="..\LICENSE" Pack="True" PackagePath="" />
+		<None Include="..\logo.jpg" Pack="True" PackagePath="" />
 	</ItemGroup>
 
 </Project>
