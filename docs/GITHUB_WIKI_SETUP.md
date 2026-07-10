@@ -59,15 +59,40 @@ Fișierele din [`wiki/`](../wiki) nu ajung automat pe `github.com/totpero/Device
   2. Clonează `https://github.com/totpero/DeviceDetector.NET.wiki.git` folosind token-ul implicit `GITHUB_TOKEN` al workflow-ului (are nevoie de permisiunea `contents: write`, deja setată în fișier).
   3. Sincronizează conținutul (`rsync --delete`) — paginile șterse din `wiki/` sunt șterse și din wiki-ul live.
   4. Comite (autor `totpero <www.totpe.ro@gmail.com>`, pentru consecvență cu restul istoricului) și face push, doar dacă există diferențe reale.
+## 4. Publicarea conținutului din `wiki/` pe wiki-ul GitHub
 
 **Cerință de activare (o singură dată)**: Wiki-ul trebuie să existe deja ca repo — activează-l din **Settings → Features** (pasul 1) și creează manual o primă pagină din UI, altfel `git clone` din workflow eșuează cu "repository not found". După acel pas unic, totul e automat.
+Fișierele din [`wiki/`](../wiki) nu ajung automat pe `github.com/totpero/DeviceDetector.NET/wiki` — wiki-ul e un repo Git separat, deci trebuie copiate și împinse acolo o singură dată (apoi la fiecare actualizare):
 
 **Dacă `GITHUB_TOKEN` nu are suficiente drepturi** (poate varia în funcție de politicile organizației/repo-ului): înlocuiește `secrets.GITHUB_TOKEN` din workflow cu un [Personal Access Token](https://github.com/settings/tokens) dedicat, salvat ca secret (ex. `WIKI_SYNC_TOKEN`) cu scope `repo`.
+1. Activează Wiki-ul din **Settings → Features** (pasul 1) și creează manual o primă pagină din UI (altfel repo-ul de wiki nu există încă și `git clone` dă eroare).
+2. Clonează repo-ul de wiki alături de acest repo:
+   ```bash
+   cd ..
+   git clone https://github.com/totpero/DeviceDetector.NET.wiki.git
+   ```
+3. Copiază fișierele generate:
+   ```bash
+   cp DeviceDetector.NET/wiki/*.md DeviceDetector.NET.wiki/
+   ```
+4. Commit + push:
+   ```bash
+   cd DeviceDetector.NET.wiki
+   git add .
+   git commit -m "Publish generated documentation"
+   git push
+   ```
+5. Verifică pe `https://github.com/totpero/DeviceDetector.NET/wiki`.
 
 Pentru actualizări: editează pur și simplu fișierele din `wiki/` în acest repo și fă push pe `master` — workflow-ul le publică automat. Editarea directă din browser-ul wiki-ului rămâne posibilă pentru modificări ad-hoc, dar **va fi suprascrisă** la următorul push pe `master` cu modificări în `wiki/` (sincronizarea e unidirecțională, dinspre repo către wiki).
+Pentru actualizări viitoare: editează fișierele din `wiki/` în acest repo (ca sursă de adevăr, versionată alături de cod), apoi repetă pașii 3–4 pentru a le republica. Editarea directă din browser-ul wiki-ului rămâne utilă pentru modificări mici ad-hoc, dar riscă să diverge de conținutul din `wiki/` dacă nu e adusă înapoi în acest repo.
 
 ## 5. Sincronizare opțională README ↔ Wiki
 
+Dacă vrei ca anumite secțiuni din [README.md](../README.md) (ex. lista metodelor `IsX()`) să nu diverge de conținutul wiki-ului, două opțiuni:
+
+- **Manual**: la fiecare update relevant din README, actualizezi manual pagina corespunzătoare din wiki. Suficient pentru un proiect de mărimea asta.
+- **Automatizat**: un GitHub Action care, la push pe `master` cu modificări în README, copiază/generează pagini în `DeviceDetector.NET.wiki` repo (necesită un token cu drept de scriere pe wiki, ex. `GITHUB_TOKEN` cu `contents: write` nu e suficient — wiki-ul e alt repo, deci ai nevoie de un PAT sau deploy key dedicat). Recomandat doar dacă README-ul se schimbă frecvent; altfel e complexitate inutilă.
 Dacă vrei ca anumite secțiuni din [README.md](../README.md) (ex. lista metodelor `IsX()`) să nu diverge de conținutul wiki-ului, actualizezi manual pagina corespunzătoare din `wiki/` la fiecare update relevant din README — suficient pentru un proiect de mărimea asta; automatizarea acestei sincronizări specifice ar fi complexitate inutilă.
 
 ## 6. Bune practici
