@@ -1,10 +1,14 @@
 using System;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace DeviceDetectorNET.Results.Client
 {
     [Serializable]
     [DataContract]
+    [JsonPolymorphic(TypeDiscriminatorPropertyName = "$clientResultType", UnknownDerivedTypeHandling = JsonUnknownDerivedTypeHandling.FallBackToBaseType)]
+    [JsonDerivedType(typeof(ClientMatchResult), typeDiscriminator: "client")]
+    [JsonDerivedType(typeof(BrowserMatchResult), typeDiscriminator: "browser")]
     public class ClientMatchResult:IClientMatchResult
     {
         [DataMember]
