@@ -152,8 +152,9 @@ There are already a few ports of this tool to other languages:
 If you are looking for icons to use alongside Device Detector, these repositories can be of use:
 - Official [Matomo](https://github.com/matomo-org/matomo-icons/) pack
 - Unofficial [Simbiat](https://github.com/Simbiat/DeviceDetectorIcons) pack
-- 
-.....
+
+If you're using .NET, [`DeviceDetector.NET.Icons`](DeviceDetector.NET.Icons/README.md) resolves icon
+file paths for detection results from any of the packs above (it does not bundle icon assets itself).
 
 
 The lists below are auto generated and updated from time to time. Some of them might not be complete.
