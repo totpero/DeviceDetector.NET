@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"D:\\\\Workspaces\\\\Github\\\\DeviceDetector.NET\" -Force)",
+      "Bash(Select-Object Name, FullName)",
+      "Bash(Get-ChildItem -Path \"D:\\\\Workspaces\\\\Github\\\\DeviceDetector.NET\" -Directory)",
+      "Bash(Select-Object Name)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "WebFetch(domain:github.com)",
+      "Bash(git -C \"D:\\\\Workspaces\\\\Github\\\\DeviceDetector.NET\" log --oneline -20)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git -C \"D:\\\\Workspaces\\\\Github\\\\DeviceDetector.NET\" log --oneline --all)",
+      "Bash(gh release *)",
+      "Bash(gh api *)",
+      "Bash(xargs curl -s -o \"D:/Workspaces/Github/DeviceDetector.NET/DeviceDetector.NET/regexes/bots.yml\")",
+      "Bash(xargs curl -s -o \"D:/Workspaces/Github/DeviceDetector.NET/DeviceDetector.NET/regexes/client/browsers.yml\")",
+      "Bash(xargs curl -s -o \"D:/Workspaces/Github/DeviceDetector.NET/DeviceDetector.NET/regexes/client/hints/apps.yml\")",
+      "Bash(xargs curl -s -o \"D:/Workspaces/Github/DeviceDetector.NET/DeviceDetector.NET/regexes/device/televisions.yml\")",
+      "Bash(xargs curl -s -o \"D:/Workspaces/Github/DeviceDetector.NET/DeviceDetector.NET/regexes/oss.yml\")",
+      "Bash(dotnet build *)",
+      "Bash(dotnet test *)",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Workspaces\\\\Github\\\\DeviceDetector.NET\\\\DeviceDetector.NET.Tests\" -Recurse -Exclude \"bin\" | Where-Object { $_.Extension -eq \".cs\" } | Select-Object FullName | Sort-Object FullName)",
+      "PowerShell(Get-ChildItem -Path \"D:\\\\Workspaces\\\\Github\\\\DeviceDetector.NET\\\\DeviceDetector.NET.Tests\" -Recurse -Exclude \"bin\", \"obj\" | Where-Object { $_.Extension -eq \".yml\" -or $_.Extension -eq \".yaml\" } | Select-Object FullName | Sort-Object FullName)",
+      "Bash(git stash *)",
+      "Bash(git submodule *)",
+      "Bash(git -C device-detector tag --sort=-creatordate)",
+      "Bash(Select-String -Pattern \"\\(FAIL|Failed|Error Message\\)\")",
+      "Bash(Select-Object -First 80)",
+      "Bash(Select-String -Path \"DeviceDetector.NET/regexes/bots.yml\" -Pattern \"360Spider\" -Context 0,5)",
+      "Bash(Select-Object -First 3)",
+      "Bash(Select-String -Path \"DeviceDetector.NET.Tests/fixtures/unknown.yml\" -Pattern \"iOS|iphone|iPhone\" -Context 2,2)",
+      "Bash(Select-Object -First 5)",
+      "Bash(git -C device-detector diff 6.5.0..6.5.1 -- Tests/fixtures/unknown.yml)",
+      "Bash(git -C device-detector diff 6.5.0..6.5.1 -- Tests/fixtures/smartphone-38.yml)",
+      "Bash(git -C device-detector diff 6.5.0..6.5.1 -- Tests/fixtures/phablet-1.yml)",
+      "Bash(git -C device-detector diff 6.5.0..6.5.1 -- Tests/fixtures/tablet.yml)",
+      "Bash(git -C device-detector diff 6.5.0..6.5.1 -- Tests/fixtures/smartphone-41.yml)",
+      "Bash(grep -rn \"Gecko\\\\|rv:\" \"D:\\\\Workspaces\\\\Github\\\\DeviceDetector.NET\\\\DeviceDetector.NET\\\\Parser\\\\\" --include=\"*.cs\" | grep -v \"//\\\\|regexes\\\\|Blink\" | head -10)",
+      "Bash(grep -v \"//\")"
+    ]
+  }
+}

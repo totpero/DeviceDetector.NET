@@ -1,0 +1,161 @@
+name: Release & Publish NuGet
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'DeviceDetector.NET/DeviceDetector.NET.csproj'
+      - 'Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj'
+
+jobs:
+  check-version:
+    name: Check version changes
+    runs-on: ubuntu-latest
+    outputs:
+      core-version: ${{ steps.core.outputs.version }}
+      core-changed: ${{ steps.core.outputs.changed }}
+      serilog-version: ${{ steps.serilog.outputs.version }}
+      serilog-changed: ${{ steps.serilog.outputs.changed }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Check DeviceDetector.NET version
+        id: core
+        run: |
+          FILE=DeviceDetector.NET/DeviceDetector.NET.csproj
+          VERSION=$(grep -oP '<Version>\K[^<]+' "$FILE")
+          PREV=$(git show HEAD~1:"$FILE" 2>/dev/null | grep -oP '<Version>\K[^<]+' || echo "")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          if [ "$VERSION" != "$PREV" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "DeviceDetector.NET version changed: $PREV -> $VERSION"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "DeviceDetector.NET version unchanged ($VERSION)"
+          fi
+
+      - name: Check Serilog enricher version
+        id: serilog
+        run: |
+          FILE=Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj
+          VERSION=$(grep -oP '<Version>\K[^<]+' "$FILE")
+          PREV=$(git show HEAD~1:"$FILE" 2>/dev/null | grep -oP '<Version>\K[^<]+' || echo "")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          if [ "$VERSION" != "$PREV" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Serilog enricher version changed: $PREV -> $VERSION"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "Serilog enricher version unchanged ($VERSION)"
+          fi
+
+  release-core:
+    name: Release DeviceDetector.NET
+    needs: check-version
+    if: needs.check-version.outputs.core-changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            9.0
+
+      - uses: actions/checkout@v4
+
+      - name: Restore
+        run: dotnet restore DeviceDetector.NET/DeviceDetector.NET.csproj
+
+      - name: Build
+        run: dotnet build DeviceDetector.NET/DeviceDetector.NET.csproj --configuration Release --no-restore /property:ContinuousIntegrationBuild=True
+
+      - name: Pack
+        run: dotnet pack DeviceDetector.NET/DeviceDetector.NET.csproj --configuration Release --no-build -o nupkgs
+
+      - name: Publish to NuGet.org
+        run: |
+          dotnet nuget push "nupkgs/DeviceDetector.NET.${{ needs.check-version.outputs.core-version }}.nupkg" \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+          dotnet nuget push "nupkgs/DeviceDetector.NET.${{ needs.check-version.outputs.core-version }}.snupkg" \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.check-version.outputs.core-version }}
+          name: v${{ needs.check-version.outputs.core-version }}
+          body: |
+            ## DeviceDetector.NET v${{ needs.check-version.outputs.core-version }}
+
+            ### Install
+            ```bash
+            dotnet add package DeviceDetector.NET --version ${{ needs.check-version.outputs.core-version }}
+            ```
+
+            [NuGet package](https://www.nuget.org/packages/DeviceDetector.NET/${{ needs.check-version.outputs.core-version }})
+          files: |
+            nupkgs/DeviceDetector.NET.${{ needs.check-version.outputs.core-version }}.nupkg
+          generate_release_notes: true
+
+  release-serilog:
+    name: Release Serilog.Enrichers.AspNetCore.DeviceDetector
+    needs: check-version
+    if: needs.check-version.outputs.serilog-changed == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            9.0
+
+      - uses: actions/checkout@v4
+
+      - name: Restore
+        run: dotnet restore Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj
+
+      - name: Build
+        run: dotnet build Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj --configuration Release --no-restore /property:ContinuousIntegrationBuild=True
+
+      - name: Pack
+        run: dotnet pack Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj --configuration Release --no-build -o nupkgs
+
+      - name: Publish to NuGet.org
+        run: |
+          dotnet nuget push "nupkgs/Serilog.Enrichers.AspNetCore.DeviceDetector.${{ needs.check-version.outputs.serilog-version }}.nupkg" \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+          dotnet nuget push "nupkgs/Serilog.Enrichers.AspNetCore.DeviceDetector.${{ needs.check-version.outputs.serilog-version }}.snupkg" \
+            --api-key ${{ secrets.NUGET_API_KEY }} \
+            --source https://api.nuget.org/v3/index.json \
+            --skip-duplicate
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: serilog-v${{ needs.check-version.outputs.serilog-version }}
+          name: Serilog.Enrichers.AspNetCore.DeviceDetector v${{ needs.check-version.outputs.serilog-version }}
+          body: |
+            ## Serilog.Enrichers.AspNetCore.DeviceDetector v${{ needs.check-version.outputs.serilog-version }}
+
+            ### Install
+            ```bash
+            dotnet add package Serilog.Enrichers.AspNetCore.DeviceDetector --version ${{ needs.check-version.outputs.serilog-version }}
+            ```
+
+            [NuGet package](https://www.nuget.org/packages/Serilog.Enrichers.AspNetCore.DeviceDetector/${{ needs.check-version.outputs.serilog-version }})
+          files: |
+            nupkgs/Serilog.Enrichers.AspNetCore.DeviceDetector.${{ needs.check-version.outputs.serilog-version }}.nupkg
+          generate_release_notes: true
