@@ -17,9 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DeviceDetector.NET.RegexEngine.PCRE\DeviceDetector.NET.RegexEngine.PCRE.csproj" />
-    <ProjectReference Include="..\DeviceDetector.NET.Cache.BitFaster\DeviceDetector.NET.Cache.BitFaster.csproj" />
-    <ProjectReference Include="..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
+    <ProjectReference Include="..\..\src\DeviceDetector.NET.RegexEngine.PCRE\DeviceDetector.NET.RegexEngine.PCRE.csproj" />
+    <ProjectReference Include="..\..\src\Cache\DeviceDetector.NET.Cache.BitFaster\DeviceDetector.NET.Cache.BitFaster.csproj" />
+    <ProjectReference Include="..\..\src\DeviceDetector.NET\DeviceDetector.NET.csproj" />
   </ItemGroup>
 
   <ItemGroup>

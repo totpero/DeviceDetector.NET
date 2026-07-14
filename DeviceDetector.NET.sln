@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.0.11109.219
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET", "DeviceDetector.NET\DeviceDetector.NET.csproj", "{9D04EA3B-96FC-4B15-AA5E-8F6E6AD31E9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET", "src\DeviceDetector.NET\DeviceDetector.NET.csproj", "{9D04EA3B-96FC-4B15-AA5E-8F6E6AD31E9C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.Tests", "DeviceDetector.NET.Tests\DeviceDetector.NET.Tests.csproj", "{24AF45AC-9BF3-46FB-85A3-2FA3C6EDB44A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.Tests", "tests\DeviceDetector.NET.Tests\DeviceDetector.NET.Tests.csproj", "{24AF45AC-9BF3-46FB-85A3-2FA3C6EDB44A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{999E1778-7E91-4F62-AD53-6BE530E59B7C}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,13 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.RegexEngine.PCRE", "DeviceDetector.NET.RegexEngine.PCRE\DeviceDetector.NET.RegexEngine.PCRE.csproj", "{94B4F635-61AC-40E4-87CC-DDA4217A0999}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.RegexEngine.PCRE", "src\DeviceDetector.NET.RegexEngine.PCRE\DeviceDetector.NET.RegexEngine.PCRE.csproj", "{94B4F635-61AC-40E4-87CC-DDA4217A0999}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.CacheBuilder", "DeviceDetector.NET.CacheBuilder\DeviceDetector.NET.CacheBuilder.csproj", "{E4DA874C-7C29-4D34-9C0E-103073AEE043}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.CacheBuilder", "tools\Cache\DeviceDetector.NET.CacheBuilder\DeviceDetector.NET.CacheBuilder.csproj", "{E4DA874C-7C29-4D34-9C0E-103073AEE043}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.Cache.BitFaster", "DeviceDetector.NET.Cache.BitFaster\DeviceDetector.NET.Cache.BitFaster.csproj", "{2C6A9F5E-3B3D-4B0A-9E3F-9B4C5D6E7F80}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeviceDetector.NET.Cache.BitFaster", "src\Cache\DeviceDetector.NET.Cache.BitFaster\DeviceDetector.NET.Cache.BitFaster.csproj", "{2C6A9F5E-3B3D-4B0A-9E3F-9B4C5D6E7F80}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Web", "DeviceDetector.NET.Web\DeviceDetector.NET.Web.csproj", "{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Web", "tools\DeviceDetector.NET.Web\DeviceDetector.NET.Web.csproj", "{04D3C595-50EF-4E7B-8DF6-D5F997F4446D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{9D4D2F68-CCD7-49C1-B117-4C642CC6F678}"
 EndProject
@@ -30,15 +30,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Enrichers.AspNetCore.DeviceDetector", "Serilog.Enrichers.AspNetCore.DeviceDetector\Serilog.Enrichers.AspNetCore.DeviceDetector.csproj", "{F88615DF-0E16-460A-814E-A288889DE179}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serilog.Enrichers.AspNetCore.DeviceDetector", "src\Serilog.Enrichers.AspNetCore.DeviceDetector\Serilog.Enrichers.AspNetCore.DeviceDetector.csproj", "{F88615DF-0E16-460A-814E-A288889DE179}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Enrichers.AspNetCore.DeviceDetector.Tests", "Serilog.Enrichers.AspNetCore.DeviceDetector.Tests\Serilog.Enrichers.AspNetCore.DeviceDetector.Tests.csproj", "{6871B4FE-BC7F-4B63-9BE0-31489F685C70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Enrichers.AspNetCore.DeviceDetector.Tests", "tests\Serilog.Enrichers.AspNetCore.DeviceDetector.Tests\Serilog.Enrichers.AspNetCore.DeviceDetector.Tests.csproj", "{6871B4FE-BC7F-4B63-9BE0-31489F685C70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Cli", "DeviceDetector.NET.Cli\DeviceDetector.NET.Cli.csproj", "{2215DEE2-1589-4E3B-A29F-A65A804119EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Cli", "tools\DeviceDetector.NET.Cli\DeviceDetector.NET.Cli.csproj", "{2215DEE2-1589-4E3B-A29F-A65A804119EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Icons", "DeviceDetector.NET.Icons\DeviceDetector.NET.Icons.csproj", "{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Icons", "src\Icons\DeviceDetector.NET.Icons\DeviceDetector.NET.Icons.csproj", "{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Icons.Tests", "DeviceDetector.NET.Icons.Tests\DeviceDetector.NET.Icons.Tests.csproj", "{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Icons.Tests", "tests\Icons\DeviceDetector.NET.Icons.Tests\DeviceDetector.NET.Icons.Tests.csproj", "{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A1B2C3D4-1111-4A2B-9C3D-000000000001}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{A1B2C3D4-2222-4A2B-9C3D-000000000002}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A1B2C3D4-3333-4A2B-9C3D-000000000003}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cache", "Cache", "{A1B2C3D4-4444-4A2B-9C3D-000000000004}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Cache", "Cache", "{A1B2C3D4-5555-4A2B-9C3D-000000000005}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Icons", "Icons", "{A1B2C3D4-6666-4A2B-9C3D-000000000006}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Icons", "Icons", "{A1B2C3D4-7777-4A2B-9C3D-000000000007}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -189,6 +203,21 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{9D4D2F68-CCD7-49C1-B117-4C642CC6F678} = {999E1778-7E91-4F62-AD53-6BE530E59B7C}
 		{69FF52A1-6576-413A-9FBB-30F911261511} = {9D4D2F68-CCD7-49C1-B117-4C642CC6F678}
+		{9D04EA3B-96FC-4B15-AA5E-8F6E6AD31E9C} = {A1B2C3D4-1111-4A2B-9C3D-000000000001}
+		{94B4F635-61AC-40E4-87CC-DDA4217A0999} = {A1B2C3D4-1111-4A2B-9C3D-000000000001}
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C} = {A1B2C3D4-6666-4A2B-9C3D-000000000006}
+		{F88615DF-0E16-460A-814E-A288889DE179} = {A1B2C3D4-1111-4A2B-9C3D-000000000001}
+		{2C6A9F5E-3B3D-4B0A-9E3F-9B4C5D6E7F80} = {A1B2C3D4-4444-4A2B-9C3D-000000000004}
+		{E4DA874C-7C29-4D34-9C0E-103073AEE043} = {A1B2C3D4-5555-4A2B-9C3D-000000000005}
+		{2215DEE2-1589-4E3B-A29F-A65A804119EB} = {A1B2C3D4-2222-4A2B-9C3D-000000000002}
+		{04D3C595-50EF-4E7B-8DF6-D5F997F4446D} = {A1B2C3D4-2222-4A2B-9C3D-000000000002}
+		{24AF45AC-9BF3-46FB-85A3-2FA3C6EDB44A} = {A1B2C3D4-3333-4A2B-9C3D-000000000003}
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3} = {A1B2C3D4-7777-4A2B-9C3D-000000000007}
+		{6871B4FE-BC7F-4B63-9BE0-31489F685C70} = {A1B2C3D4-3333-4A2B-9C3D-000000000003}
+		{A1B2C3D4-4444-4A2B-9C3D-000000000004} = {A1B2C3D4-1111-4A2B-9C3D-000000000001}
+		{A1B2C3D4-5555-4A2B-9C3D-000000000005} = {A1B2C3D4-2222-4A2B-9C3D-000000000002}
+		{A1B2C3D4-6666-4A2B-9C3D-000000000006} = {A1B2C3D4-1111-4A2B-9C3D-000000000001}
+		{A1B2C3D4-7777-4A2B-9C3D-000000000007} = {A1B2C3D4-3333-4A2B-9C3D-000000000003}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88D253CD-9A5E-42A6-BBBA-3362F7D47DF2}

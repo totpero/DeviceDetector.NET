@@ -3,12 +3,13 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <IsPackable>false</IsPackable>
-    <RootNamespace>Serilog.Enrichers.AspNetCore.DeviceDetector.Tests</RootNamespace>
+    <RootNamespace>DeviceDetectorNET.Icons.Tests</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Shouldly" Version="4.3.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.7.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">
       <PrivateAssets>all</PrivateAssets>
@@ -17,7 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Serilog.Enrichers.AspNetCore.DeviceDetector\Serilog.Enrichers.AspNetCore.DeviceDetector.csproj" />
+    <ProjectReference Include="..\..\..\src\DeviceDetector.NET\DeviceDetector.NET.csproj" />
+    <ProjectReference Include="..\..\..\src\Icons\DeviceDetector.NET.Icons\DeviceDetector.NET.Icons.csproj" />
   </ItemGroup>
 
 </Project>

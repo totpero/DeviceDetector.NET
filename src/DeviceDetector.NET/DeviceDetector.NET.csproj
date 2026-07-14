@@ -142,9 +142,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\LICENSE" Pack="True" PackagePath="" />
-    <None Include="..\logo.jpg" Pack="True" PackagePath="" />
-    <None Include="..\README.md" Pack="True" PackagePath="" />
+    <None Include="..\..\LICENSE" Pack="True" PackagePath="" />
+    <None Include="..\..\logo.jpg" Pack="True" PackagePath="" />
+    <None Include="..\..\README.md" Pack="True" PackagePath="" />
   </ItemGroup>
 
 </Project>

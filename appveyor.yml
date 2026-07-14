@@ -9,7 +9,7 @@ environment:
 # keep the assembly/package version patching previously configured in the AppVeyor UI
 dotnet_csproj:
   patch: true
-  file: DeviceDetector.NET\DeviceDetector.NET.csproj
+  file: src\DeviceDetector.NET\DeviceDetector.NET.csproj
   version: '{version}'
   assembly_version: '{version}'
   file_version: '{version}'
@@ -26,12 +26,12 @@ build_script:
   - dotnet build DeviceDetector.NET.sln -c Release --no-restore
 
 test_script:
-  - dotnet test DeviceDetector.NET.Tests\DeviceDetector.NET.Tests.csproj -c Release --no-build
-  - dotnet test Serilog.Enrichers.AspNetCore.DeviceDetector.Tests\Serilog.Enrichers.AspNetCore.DeviceDetector.Tests.csproj -c Release --no-build
+  - dotnet test tests\DeviceDetector.NET.Tests\DeviceDetector.NET.Tests.csproj -c Release --no-build
+  - dotnet test tests\Serilog.Enrichers.AspNetCore.DeviceDetector.Tests\Serilog.Enrichers.AspNetCore.DeviceDetector.Tests.csproj -c Release --no-build
 
 after_build:
-  - dotnet pack DeviceDetector.NET\DeviceDetector.NET.csproj -c Release --no-build -o artifacts
-  - dotnet pack Serilog.Enrichers.AspNetCore.DeviceDetector\Serilog.Enrichers.AspNetCore.DeviceDetector.csproj -c Release --no-build -o artifacts
+  - dotnet pack src\DeviceDetector.NET\DeviceDetector.NET.csproj -c Release --no-build -o artifacts
+  - dotnet pack src\Serilog.Enrichers.AspNetCore.DeviceDetector\Serilog.Enrichers.AspNetCore.DeviceDetector.csproj -c Release --no-build -o artifacts
 
 artifacts:
   - path: artifacts\*.nupkg

@@ -11,7 +11,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
+		<ProjectReference Include="..\..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
 	</ItemGroup>
 
 </Project>

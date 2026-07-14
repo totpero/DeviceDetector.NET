@@ -9,8 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
-    <ProjectReference Include="..\Serilog.Enrichers.AspNetCore.DeviceDetector\Serilog.Enrichers.AspNetCore.DeviceDetector.csproj" />
+    <ProjectReference Include="..\..\src\DeviceDetector.NET\DeviceDetector.NET.csproj" />
+    <ProjectReference Include="..\..\src\Serilog.Enrichers.AspNetCore.DeviceDetector\Serilog.Enrichers.AspNetCore.DeviceDetector.csproj" />
   </ItemGroup>
 
 </Project>

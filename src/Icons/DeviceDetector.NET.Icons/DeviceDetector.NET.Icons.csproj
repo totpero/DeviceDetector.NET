@@ -29,13 +29,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
+    <ProjectReference Include="..\..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="README.md" Pack="True" PackagePath="" />
-    <None Include="..\LICENSE" Pack="True" PackagePath="" />
-    <None Include="..\logo.jpg" Pack="True" PackagePath="" />
+    <None Include="..\..\..\LICENSE" Pack="True" PackagePath="" />
+    <None Include="..\..\..\logo.jpg" Pack="True" PackagePath="" />
   </ItemGroup>
 
 </Project>
