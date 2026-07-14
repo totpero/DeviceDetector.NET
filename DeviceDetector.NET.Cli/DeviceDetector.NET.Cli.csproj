@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>DeviceDetector.Net.Cli</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>ddetect</ToolCommandName>
+    <PackageId>DeviceDetector.NET.Cli</PackageId>
+    <Version>6.5.1</Version>
+    <Authors>totpero</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Description>Command-line tool for parsing User-Agent strings with DeviceDetector.NET - detects device, brand, model, OS, client and bots from the terminal.</Description>
+    <PackageTags>parse detection-library user-agent bot-detection cli tool device-detector</PackageTags>
+    <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Spectre.Console" Version="0.57.2" />
+    <PackageReference Include="Spectre.Console.Cli" Version="0.55.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="True" PackagePath="" Condition="Exists('README.md')" />
+  </ItemGroup>
+
+</Project>
