@@ -287,3 +287,4 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 /docs/superpowers
+.claude/settings.local.json

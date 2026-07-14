@@ -36,6 +36,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serilog.Enrichers.AspNetCor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Cli", "DeviceDetector.NET.Cli\DeviceDetector.NET.Cli.csproj", "{2215DEE2-1589-4E3B-A29F-A65A804119EB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Icons", "DeviceDetector.NET.Icons\DeviceDetector.NET.Icons.csproj", "{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceDetector.NET.Icons.Tests", "DeviceDetector.NET.Icons.Tests\DeviceDetector.NET.Icons.Tests.csproj", "{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,6 +158,30 @@ Global
 		{2215DEE2-1589-4E3B-A29F-A65A804119EB}.Release|x64.Build.0 = Release|Any CPU
 		{2215DEE2-1589-4E3B-A29F-A65A804119EB}.Release|x86.ActiveCfg = Release|Any CPU
 		{2215DEE2-1589-4E3B-A29F-A65A804119EB}.Release|x86.Build.0 = Release|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Debug|x64.Build.0 = Debug|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Debug|x86.Build.0 = Debug|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Release|x64.ActiveCfg = Release|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Release|x64.Build.0 = Release|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Release|x86.ActiveCfg = Release|Any CPU
+		{DF4201EA-0991-4A3B-AE89-DB2E6ABB8E9C}.Release|x86.Build.0 = Release|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Debug|x64.Build.0 = Debug|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Debug|x86.Build.0 = Debug|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Release|x64.ActiveCfg = Release|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Release|x64.Build.0 = Release|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Release|x86.ActiveCfg = Release|Any CPU
+		{FF6F8F1A-735D-42C7-A41C-53FCA8C552A3}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
