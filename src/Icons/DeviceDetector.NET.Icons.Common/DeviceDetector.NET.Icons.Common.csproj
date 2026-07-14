@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net462;net8.0;net9.0;net10.0</TargetFrameworks>
+    <RootNamespace>DeviceDetectorNET.Icons.Common</RootNamespace>
+    <Version>1.0.0</Version>
+    <Authors>totpero</Authors>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Copyright>Copyright © www.totpe.ro</Copyright>
+    <Description>Shared icon-path-resolution primitives (extension-priority probing, name sanitization, options validation) used by DeviceDetector.NET.Icons and DeviceDetector.NET.Icons.Matomo. Not meant to be referenced directly by application code.</Description>
+    <PackageTags>device-detector icons user-agent bot-detection</PackageTags>
+    <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <SignAssembly>false</SignAssembly>
+    <PackageIcon>logo.jpg</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <IncludeSymbols>true</IncludeSymbols>
+    <DebugType>portable</DebugType>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="True" PackagePath="" />
+    <None Include="..\..\..\LICENSE" Pack="True" PackagePath="" />
+    <None Include="..\..\..\logo.jpg" Pack="True" PackagePath="" />
+  </ItemGroup>
+
+</Project>
