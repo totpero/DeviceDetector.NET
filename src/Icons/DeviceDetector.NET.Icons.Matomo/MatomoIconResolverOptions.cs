@@ -21,7 +21,36 @@ namespace DeviceDetectorNET.Icons.Matomo
                 ["car browser"] = "car_browser",
                 ["smart display"] = "smart_display",
                 ["portable media player"] = "portable_media_player",
-                ["smart speaker"] = "smart_speaker"
+                ["smart speaker"] = "smart_speaker",
+
+                // matomo-icons' brand/ folder itself isn't fully consistent — these ~25 brands use
+                // underscores/altered characters in their real filename despite DeviceMatchResult.Brand
+                // giving the name with spaces or special characters.
+                ["Azumi Mobile"] = "Azumi_Mobile",
+                ["Barnes & Noble"] = "Barnes_Noble",
+                ["Cherry Mobile"] = "Cherry_Mobile",
+                ["ComTrade Tesla"] = "ComTrade_Tesla",
+                ["Crius Mea"] = "Crius_Mea",
+                ["Echo Mobiles"] = "Echo_Mobiles",
+                ["Eks Mobility"] = "Eks_Mobility",
+                ["General Mobile"] = "General_Mobile",
+                ["IMO Mobile"] = "IMO_Mobile",
+                ["Kempler & Strauss"] = "Kempler_Strauss",
+                ["Krüger&Matz"] = "Kr_ger_Matz",
+                ["Land Rover"] = "Land_Rover",
+                ["Le Pan"] = "Le_Pan",
+                ["Manta Multimedia"] = "Manta_Multimedia",
+                ["NUU Mobile"] = "NUU_Mobile",
+                ["NYX Mobile"] = "NYX_Mobile",
+                ["O+"] = "O_",
+                ["PCD Argentina"] = "PCD_Argentina",
+                ["RT Project"] = "RT_Project",
+                ["Silent Circle"] = "Silent_Circle",
+                ["Sony Ericsson"] = "Sony_Ericsson",
+                ["Tecno Mobile"] = "Tecno_Mobile",
+                ["Tunisie Telecom"] = "Tunisie_Telecom",
+                ["U.S. Cellular"] = "U_S_Cellular",
+                ["öwn"] = "_wn"
             };
         }
 
@@ -53,7 +82,10 @@ namespace DeviceDetectorNET.Icons.Matomo
         /// Filesystem-unsafe or naming-convention substitutions applied before probing for a file.
         /// Defaults to bridging <see cref="DeviceDetectorNET.Parser.Device.Devices.GetDeviceName(int)"/>'s
         /// space-separated multi-word device-type names (e.g. <c>"car browser"</c>) to matomo-icons'
-        /// snake_case <c>devices/</c> file names (e.g. <c>car_browser.svg</c>).
+        /// snake_case <c>devices/</c> file names (e.g. <c>car_browser.svg</c>), plus ~25 individual
+        /// <c>brand/</c> entries whose real filenames use underscores or altered characters instead of the
+        /// full brand name that <c>DeviceMatchResult.Brand</c> supplies (e.g. <c>"Sony Ericsson"</c> to
+        /// <c>Sony_Ericsson.png</c>).
         /// </summary>
         public IDictionary<string, string> NameReplacements { get; set; }
 

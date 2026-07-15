@@ -60,6 +60,17 @@ namespace DeviceDetectorNET.Icons.Matomo.Tests
         }
 
         [Fact]
+        public void GetBrandAppliesUnderscoreNameReplacementForKnownUpstreamMismatches()
+        {
+            using var dir = new TempIconDirectory();
+            dir.CreateFile("brand/Sony_Ericsson.png");
+
+            var resolver = new MatomoIconResolver(new MatomoIconResolverOptions { PhysicalRootPath = dir.RootPath });
+
+            resolver.GetBrand("Sony Ericsson").ShouldBe("/assets/images/devicedetector/brand/Sony_Ericsson.png");
+        }
+
+        [Fact]
         public void GetBrandFallsStraightToGlobalFallbackWhenBrandMissing()
         {
             using var dir = new TempIconDirectory();
