@@ -9,7 +9,9 @@ This package does **not** bundle icon image assets. Point it at your own copy of
 - Unofficial [Simbiat/DeviceDetectorIcons](https://github.com/Simbiat/DeviceDetectorIcons) pack (the
   resolution algorithm below is a C# port of this project's `DDCIcons.php`, MIT licensed,
   © 2021 Dmitrii Kustov — see [Attribution](#attribution))
-- Official [Matomo icons](https://github.com/matomo-org/matomo-icons/) pack
+- Official [Matomo icons](https://github.com/matomo-org/matomo-icons/) pack — use
+  [`DeviceDetector.NET.Icons.Matomo`](../DeviceDetector.NET.Icons.Matomo/README.md) instead, since this
+  package's resolution algorithm is specific to Simbiat's folder/naming convention.
 
 ## Install
 
