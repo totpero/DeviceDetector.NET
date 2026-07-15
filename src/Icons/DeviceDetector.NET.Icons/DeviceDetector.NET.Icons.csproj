@@ -30,6 +30,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
+    <ProjectReference Include="..\DeviceDetector.NET.Icons.Common\DeviceDetector.NET.Icons.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>
