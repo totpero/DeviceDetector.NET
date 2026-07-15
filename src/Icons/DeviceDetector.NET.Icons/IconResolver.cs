@@ -21,7 +21,6 @@ namespace DeviceDetectorNET.Icons
         private const string BrandPath = "/device/brand";
         private const string DeviceTypePath = "/device/type";
 
-        private readonly IconResolverOptions _options;
         private readonly IconPathProber _prober;
 
         public IconResolver(IconResolverOptions options)
@@ -33,7 +32,6 @@ namespace DeviceDetectorNET.Icons
 
             IconResolverOptionsValidation.Validate(options.PhysicalRootPath, options.FileExists, options.ExtensionPriority);
 
-            _options = options;
             var fileExists = options.FileExists ?? IconResolverOptionsValidation.DefaultFileExists(options.PhysicalRootPath);
             _prober = new IconPathProber(options, fileExists);
         }
