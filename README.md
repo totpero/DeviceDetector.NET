@@ -167,7 +167,7 @@ If you're using .NET:
 - [`DeviceDetector.NET.Icons.Matomo`](src/Icons/DeviceDetector.NET.Icons.Matomo/README.md) resolves icon
   file paths for the official Matomo pack's flat, short-code-keyed layout.
 
-Neither package bundles icon image assets themselves.
+Neither package bundles icon image assets on its own.
 
 
 The lists below are auto generated and updated from time to time. Some of them might not be complete.
