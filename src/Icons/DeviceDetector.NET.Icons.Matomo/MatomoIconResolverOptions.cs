@@ -32,12 +32,29 @@ namespace DeviceDetectorNET.Icons.Matomo
         /// </summary>
         public string PhysicalRootPath { get; set; }
 
+        /// <summary>
+        /// Prefix prepended to every path returned by <see cref="MatomoIconResolver"/>.
+        /// </summary>
         public string UrlBasePath { get; set; }
 
+        /// <summary>
+        /// Path (with <see cref="UrlBasePath"/> prefix) returned when a lookup doesn't resolve.
+        /// </summary>
         public string FallbackIconPath { get; set; }
 
+        /// <summary>
+        /// File extensions to probe, in priority order. Defaults to <c>png</c> first since matomo-icons'
+        /// <c>dist/</c> folder is currently PNG-only end to end; the other entries are headroom for a
+        /// future upstream change, not evidence of current use.
+        /// </summary>
         public IList<string> ExtensionPriority { get; set; }
 
+        /// <summary>
+        /// Filesystem-unsafe or naming-convention substitutions applied before probing for a file.
+        /// Defaults to bridging <see cref="DeviceDetectorNET.Parser.Device.Devices.GetDeviceName(int)"/>'s
+        /// space-separated multi-word device-type names (e.g. <c>"car browser"</c>) to matomo-icons'
+        /// snake_case <c>devices/</c> file names (e.g. <c>car_browser.svg</c>).
+        /// </summary>
         public IDictionary<string, string> NameReplacements { get; set; }
 
         /// <summary>
