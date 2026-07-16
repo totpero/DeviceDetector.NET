@@ -24,6 +24,7 @@ It is a faithful port of the popular PHP library [matomo-org/device-detector](ht
 | Use a PCRE-compatible regex engine for better upstream YAML compatibility | [Regex Engines](Regex-Engines) |
 | Detect bots without paying for full parsing | [Bot Detection](Bot-Detection) |
 | Use it in ASP.NET Core app logic (DI, `IsMobile()` per request) | [ASP.NET Core Integration](ASP.NET-Core-Integration) |
+| Render an icon (browser/OS/brand/device) next to a detection result | [Icon Packs](Icon-Packs) |
 | Enrich ASP.NET Core logs with device info | [Serilog.Enrichers.AspNetCore.DeviceDetector](Serilog.Enrichers.AspNetCore.DeviceDetector) |
 | Pre-warm a cache database for known User-Agents | [CacheBuilder Tool](CacheBuilder-Tool) |
 | Update the bundled detection rules from the PHP project | [Updating Device Detector Data](Updating-Device-Detector-Data) |
@@ -36,6 +37,7 @@ It is a faithful port of the popular PHP library [matomo-org/device-detector](ht
 - [`DeviceDetector.NET.RegexEngine.PCRE`](https://github.com/totpero/DeviceDetector.NET/tree/master/DeviceDetector.NET.RegexEngine.PCRE) — optional PCRE.NET-backed regex engine
 - [`DeviceDetector.NET.CacheBuilder`](https://github.com/totpero/DeviceDetector.NET/tree/master/DeviceDetector.NET.CacheBuilder) — CLI tool to pre-build a parse-result cache
 - [`DeviceDetector.NET.Web`](https://github.com/totpero/DeviceDetector.NET/tree/master/DeviceDetector.NET.Web) — minimal ASP.NET Core demo API
+- [`src/Icons`](https://github.com/totpero/DeviceDetector.NET/tree/master/src/Icons) — icon-path resolver packages: `DeviceDetector.NET.Icons` (Simbiat pack convention), `DeviceDetector.NET.Icons.Matomo` (official matomo-icons convention), `DeviceDetector.NET.Icons.Common` (shared primitives) — see [Icon Packs](Icon-Packs)
 - [`Serilog.Enrichers.AspNetCore.DeviceDetector`](https://github.com/totpero/DeviceDetector.NET/tree/master/Serilog.Enrichers.AspNetCore.DeviceDetector) — Serilog enricher that attaches device info to log events, with its own [`...Tests`](https://github.com/totpero/DeviceDetector.NET/tree/master/Serilog.Enrichers.AspNetCore.DeviceDetector.Tests) project
 - [`DeviceDetector.NET.Tests`](https://github.com/totpero/DeviceDetector.NET/tree/master/DeviceDetector.NET.Tests) — xUnit + Shouldly test suite, mirrors upstream PHP fixtures
 - [`device-detector`](https://github.com/totpero/DeviceDetector.NET/tree/master/device-detector) — git submodule pointing at the upstream PHP project (source of truth for YAML regex rules)

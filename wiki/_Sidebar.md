@@ -8,6 +8,7 @@
 - [Regex Engines](Regex-Engines)
 - [Bot Detection](Bot-Detection)
 - [ASP.NET Core Integration](ASP.NET-Core-Integration)
+- [Icon Packs](Icon-Packs)
 - [Serilog Enricher](Serilog.Enrichers.AspNetCore.DeviceDetector)
 - [CacheBuilder Tool](CacheBuilder-Tool)
 - [Updating Device Detector Data](Updating-Device-Detector-Data)
