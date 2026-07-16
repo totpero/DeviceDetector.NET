@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
+using DeviceDetectorNET.Icons.Common;
 
 namespace DeviceDetectorNET.Icons
 {
     /// <summary>
     /// Configuration for <see cref="IconResolver"/>.
     /// </summary>
-    public class IconResolverOptions
+    public class IconResolverOptions : IIconProbeOptions
     {
         public IconResolverOptions()
         {

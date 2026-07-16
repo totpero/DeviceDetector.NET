@@ -2,13 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462;net8.0;net9.0;net10.0</TargetFrameworks>
-    <RootNamespace>DeviceDetectorNET.Icons</RootNamespace>
+    <RootNamespace>DeviceDetectorNET.Icons.Matomo</RootNamespace>
     <Version>1.0.0</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
-    <Description>Resolves icon file paths for DeviceDetector.NET detection results (bots, browsers, operating systems, clients and device brands/types), with filesystem-existence-based extension fallback. The resolution algorithm is ported from Simbiat/DeviceDetectorIcons (MIT licensed). This package does not bundle icon image assets; consumers supply their own icon files.</Description>
-    <PackageTags>device-detector icons user-agent bot-detection</PackageTags>
+    <Description>Resolves icon file paths for DeviceDetector.NET detection results against the official Matomo icons pack's (matomo-org/matomo-icons) folder/naming convention: flat browsers/os/brand/devices folders, short-code keyed for browsers and OS. This package does not bundle icon image assets; consumers supply their own copy of matomo-icons.</Description>
+    <PackageTags>device-detector icons user-agent bot-detection matomo</PackageTags>
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
     <RepositoryType>git</RepositoryType>

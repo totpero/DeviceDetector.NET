@@ -2,3 +2,9 @@
 	path = device-detector
 	url = https://github.com/matomo-org/device-detector.git
 	branch = master
+[submodule "icon-packs/matomo-icons"]
+	path = icon-packs/matomo-icons
+	url = https://github.com/matomo-org/matomo-icons.git
+[submodule "icon-packs/device-detector-icons"]
+	path = icon-packs/device-detector-icons
+	url = https://github.com/Simbiat/DeviceDetectorIcons.git

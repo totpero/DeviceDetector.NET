@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462;net8.0;net9.0;net10.0</TargetFrameworks>
-    <RootNamespace>DeviceDetectorNET.Icons</RootNamespace>
+    <RootNamespace>DeviceDetectorNET.Icons.Common</RootNamespace>
     <Version>1.0.0</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
-    <Description>Resolves icon file paths for DeviceDetector.NET detection results (bots, browsers, operating systems, clients and device brands/types), with filesystem-existence-based extension fallback. The resolution algorithm is ported from Simbiat/DeviceDetectorIcons (MIT licensed). This package does not bundle icon image assets; consumers supply their own icon files.</Description>
+    <Description>Shared icon-path-resolution primitives (extension-priority probing, name sanitization, options validation) used by DeviceDetector.NET.Icons and DeviceDetector.NET.Icons.Matomo. Not meant to be referenced directly by application code.</Description>
     <PackageTags>device-detector icons user-agent bot-detection</PackageTags>
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
@@ -23,15 +23,6 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\DeviceDetector.NET\DeviceDetector.NET.csproj" />
-    <ProjectReference Include="..\DeviceDetector.NET.Icons.Common\DeviceDetector.NET.Icons.Common.csproj" />
-  </ItemGroup>
 
   <ItemGroup>
     <None Include="README.md" Pack="True" PackagePath="" />

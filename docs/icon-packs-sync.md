@@ -1,0 +1,60 @@
+# Icon packs: verify/update workflow
+
+`DeviceDetector.NET.Icons` (Simbiat convention) and `DeviceDetector.NET.Icons.Matomo` (Matomo convention)
+never vendor icon image assets — see both projects' READMEs. The `icon-packs/matomo-icons` and
+`icon-packs/device-detector-icons` git submodules exist only as read-only references for the maintainer, to
+re-verify the folder/naming assumptions each resolver hardcodes as the upstream packs evolve. Nothing under
+`icon-packs/` is ever copied into a shipped package.
+
+**These two submodules are optional and large** (`icon-packs/matomo-icons` is ~32 MB of `.git` history plus
+~23 MB checked out; `icon-packs/device-detector-icons` is ~179 MB of `.git` history plus ~76 MB checked
+out — ~211 MB combined). Building or testing this repo does not require them. If you only need the
+`device-detector` submodule (used for the regex/fixture sync workflow), skip the bulk recursive clone and
+init just that one:
+
+```bash
+git clone https://github.com/totpero/DeviceDetector.NET.git
+git -C DeviceDetector.NET submodule update --init device-detector
+```
+
+Leave `icon-packs/*` uninitialized until you actually need to do an icon-pack sync (see below).
+
+## Bumping a pin
+
+```bash
+git -C icon-packs/matomo-icons fetch
+git -C icon-packs/matomo-icons checkout <tag-or-commit>
+git add icon-packs/matomo-icons
+git commit -m "Bump matomo-icons submodule to <tag>"
+```
+
+Same commands for `icon-packs/device-detector-icons`.
+
+## What to re-verify after a bump
+
+1. **Folder set unchanged.**
+   - Matomo (`MatomoIconResolver`): `browsers/`, `os/`, `brand/`, `devices/` under `dist/` still exist and
+     are still the only ones relevant (unrelated ones — `flags/`, `plugins/`, `searchEngines/`, `SEO/`,
+     `socials/`, `aiAssistants/` — stay out of scope).
+   - Simbiat (`IconResolver`): `bot/`, `bot/category/`, `client/type/`, `client/browser/`,
+     `client/browser/family/`, `client/browser/engine/`, `client/os/`, `client/os/family/`,
+     `device/brand/`, `device/type/` still exist.
+2. **Key scheme per folder unchanged**, e.g. `ls icon-packs/matomo-icons/dist/browsers | head` should still
+   show two/three-letter short codes (`FF.png`), not full names; `ls icon-packs/matomo-icons/dist/brand |
+   head` should still show full brand names (`Acer.png`), not short codes.
+3. **New `DeviceType`/`Devices` members.** If `src/DeviceDetector.NET/Parser/Device/Devices.cs` gained new
+   `DeviceTypes` or `DeviceBrands` entries since the last bump (from a PHP `device-detector` submodule sync),
+   check whether the icon pack has matching new files before assuming coverage — the resolvers only return
+   the configured `FallbackIconPath` for anything not covered.
+4. **Extension set.** If a probe with `ls icon-packs/matomo-icons/dist/browsers | sed 's/.*\.//' | sort -u`
+   shows extensions outside `MatomoIconResolverOptions`'s default `ExtensionPriority`
+   (`png, svg, jpg, gif, ico`), update the default. As of this writing, `find icon-packs/matomo-icons/dist
+   -type f | sed 's/.*\.//' | sort -u` returns only `png` (plus one unrelated top-level `json` metadata
+   file) — `dist/` is currently PNG-only end-to-end. The resolver's default `ExtensionPriority` is
+   deliberately broader than what's actually present today (no `svg`/`jpg`/`gif`/`ico` files exist yet), so
+   don't read the wider list as evidence those formats are in active use — it's headroom for a future
+   upstream change, not a reflection of the current pack.
+5. **`Devices.GetDeviceName()` spelling.** `MatomoIconResolverOptions`'s default `NameReplacements` maps the
+   five multi-word device-type names (`"car browser"`, `"feature phone"`, `"smart display"`,
+   `"portable media player"`, `"smart speaker"`) to their snake_case matomo-icons file names. If
+   `Devices.cs`'s `DeviceTypes` dictionary keys change wording, update this map too.
