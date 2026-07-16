@@ -4,8 +4,8 @@ on:
   push:
     branches: [master]
     paths:
-      - 'DeviceDetector.NET/DeviceDetector.NET.csproj'
-      - 'Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj'
+      - 'src/DeviceDetector.NET/DeviceDetector.NET.csproj'
+      - 'src/Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj'
 
 jobs:
   check-version:
@@ -25,7 +25,7 @@ jobs:
       - name: Check DeviceDetector.NET version
         id: core
         run: |
-          FILE=DeviceDetector.NET/DeviceDetector.NET.csproj
+          FILE=src/DeviceDetector.NET/DeviceDetector.NET.csproj
           VERSION=$(grep -oP '<Version>\K[^<]+' "$FILE")
           PREV=$(git show HEAD~1:"$FILE" 2>/dev/null | grep -oP '<Version>\K[^<]+' || echo "")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
@@ -40,7 +40,7 @@ jobs:
       - name: Check Serilog enricher version
         id: serilog
         run: |
-          FILE=Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj
+          FILE=src/Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj
           VERSION=$(grep -oP '<Version>\K[^<]+' "$FILE")
           PREV=$(git show HEAD~1:"$FILE" 2>/dev/null | grep -oP '<Version>\K[^<]+' || echo "")
           echo "version=$VERSION" >> $GITHUB_OUTPUT
@@ -69,13 +69,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Restore
-        run: dotnet restore DeviceDetector.NET/DeviceDetector.NET.csproj
+        run: dotnet restore src/DeviceDetector.NET/DeviceDetector.NET.csproj
 
       - name: Build
-        run: dotnet build DeviceDetector.NET/DeviceDetector.NET.csproj --configuration Release --no-restore /property:ContinuousIntegrationBuild=True
+        run: dotnet build src/DeviceDetector.NET/DeviceDetector.NET.csproj --configuration Release --no-restore /property:ContinuousIntegrationBuild=True
 
       - name: Pack
-        run: dotnet pack DeviceDetector.NET/DeviceDetector.NET.csproj --configuration Release --no-build -o nupkgs
+        run: dotnet pack src/DeviceDetector.NET/DeviceDetector.NET.csproj --configuration Release --no-build -o nupkgs
 
       - name: Publish to NuGet.org
         run: |
@@ -123,13 +123,13 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Restore
-        run: dotnet restore Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj
+        run: dotnet restore src/Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj
 
       - name: Build
-        run: dotnet build Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj --configuration Release --no-restore /property:ContinuousIntegrationBuild=True
+        run: dotnet build src/Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj --configuration Release --no-restore /property:ContinuousIntegrationBuild=True
 
       - name: Pack
-        run: dotnet pack Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj --configuration Release --no-build -o nupkgs
+        run: dotnet pack src/Serilog.Enrichers.AspNetCore.DeviceDetector/Serilog.Enrichers.AspNetCore.DeviceDetector.csproj --configuration Release --no-build -o nupkgs
 
       - name: Publish to NuGet.org
         run: |
