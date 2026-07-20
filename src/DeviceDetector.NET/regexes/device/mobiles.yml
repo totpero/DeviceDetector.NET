@@ -4656,6 +4656,12 @@ Brondi:
       model: 'SURFING TAB $1'
       device: 'tablet'
 
+# VG (https://www.vgdigi.com/)
+VG:
+  regex: 'VG[;,)]'
+  device: 'tv'
+  model: ''
+
 # VGO TEL (vgotel.com)
 VGO TEL:
   regex: 'VGOTEL|(?:Flex 2|Venture V(?:[278]|12)|VentureV10|Ocean[_ ][689]|Ocean9L|NEW (?:1[01256]|2[02456]|[57])|V TAB 2|i_Smart)(?:[);/ ]|$)'
@@ -18298,6 +18304,12 @@ Mio:
       device: 'tablet'
       model: 'TouchPad 7 Quad Core'
 
+# MIRAL
+MIRAL:
+  regex: 'MIRAL[;,)]'
+  device: 'tv'
+  model: ''
+
 # Miray
 Miray:
   regex: 'MIRAY[;,]|MIDM[_-]|MPM[_-]|TPM4G_WT8'
@@ -19655,6 +19667,12 @@ Nobby:
   regex: 'Nobby[ ](S500|X800(?: Pro)?|S300(?: Pro)?)(?:[);/ ]|$)'
   device: 'smartphone'
   model: '$1'
+
+# Nobel (https://nobel.ae/)
+Nobel:
+  regex: 'NOBEL[;,)]'
+  device: 'tv'
+  model: ''
 
 # NoviSea
 NoviSea:
@@ -31478,6 +31496,12 @@ MLS:
     - regex: 'iQF ?200(?:[);/ ]|$)'
       model: 'iQF200'
 
+# FLEXY (https://www.facebook.com/flexygermany)
+FLEXY:
+  regex: 'FLEXY_HK[;,)]'
+  device: 'tv'
+  model: ''
+
 # FLYCAT
 FLYCAT:
   regex: 'FLYCAT'
@@ -32792,7 +32816,7 @@ ZALA:
 
 # MTC (MTS)
 MTC:
-  regex: 'MTC[ _](968|97[82]|970|982[OT]?|1078)|(?:MTC[_ ])?SMART[ _]?(?:Race[2]?|Sprint|Run|Turbo|Surf[2]?)[ _]4G|MTC975|Smart Bit|Smart_(?:LINE|Light)|(?:MTC[ _])?SMART[ _](?:Run|Start[_ ][23])|Redbox Mini 5\(MTS\)|MTS TV|DV8235|DV9135|DV9157-C|DV8304-C|Osmartphona'
+  regex: 'MTC[;,)]|MTC[ _](968|97[82]|970|982[OT]?|1078)|(?:MTC[_ ])?SMART[ _]?(?:Race[2]?|Sprint|Run|Turbo|Surf[2]?)[ _]4G|MTC975|Smart Bit|Smart_(?:LINE|Light)|(?:MTC[ _])?SMART[ _](?:Run|Start[_ ][23])|Redbox Mini 5\(MTS\)|MTS TV|DV8235|DV9135|DV9157-C|DV8304-C|Osmartphona|MTC([a-z0-9-]+)'
   device: 'smartphone'
   models:
     - regex: 'Osmartphona'
@@ -32834,6 +32858,9 @@ MTC:
       device: 'tv'
       model: 'SuperWave DV8304-C'
     - regex: '(DV8235|DV9135|DV9157)'
+      device: 'tv'
+      model: '$1'
+    - regex: 'LGE; ([a-z0-9-]+);'
       device: 'tv'
       model: '$1'
 
@@ -32954,6 +32981,12 @@ Starway:
   regex: 'Andromeda[ _]S(707|84[05]|850|8)(?:[);/ ]|$)'
   device: 'tablet'
   model: 'Andromeda S$1'
+
+# Starway (SA) (https://www.facebook.com/StarwayHomeAppliances/)
+Starway (SA):
+  regex: 'Starway[;,)]'
+  device: 'tv'
+  model: ''
 
 # Savio
 Savio:
@@ -33925,6 +33958,12 @@ National:
   regex: '(NX-32THS100)(?:[);/ ]|$)'
   device: 'tv'
   model: '$1'
+
+# National PRO (http://nationalpro.me/)
+National PRO:
+  regex: 'NATIONAL PRO[;,)]'
+  device: 'tv'
+  model: ''
 
 # Shift Phones
 Shift Phones:
@@ -35637,6 +35676,12 @@ Ziox:
     - regex: 'Duo(tel|pix)[ _](\w\d{1,2})(?:[);/ ]|$)'
       model: 'Duo$1 $2'
 
+# iDEA
+iDEA:
+  regex: 'IDEA[;,)]'
+  device: 'tv'
+  model: ''
+
 # iDroid
 iDroid:
   regex: '(?:APACHE G6|iDroid Royal V5|BALR_?X7(?:_PAK)?)(?:[);/ ]|$)'
@@ -36572,6 +36617,12 @@ NorthTech:
   regex: '(NT-TP10)(?:[);/ ]|$)'
   device: 'tablet'
   model: 'TouchPad 10.0"'
+
+# NORTHWAY
+NORTHWAY:
+  regex: 'NORTHWAY[;,)]'
+  device: 'tv'
+  model: ''
 
 # UNIWA
 UNIWA:
@@ -40567,9 +40618,14 @@ Obabox:
 
 # iKon (ikonhome.com)
 iKon:
-  regex: '(IK-102[58]|IK-1106|IK-7108|IK-787)(?:[);/ ]|$)'
+  regex: 'IKON[;,)]|(?:IK-102[58]|IK-1106|IK-7108|IK-787)(?:[);/ ]|$)'
   device: 'tablet'
-  model: '$1'
+  models:
+    - regex: '(IK-102[58]|IK-1106|IK-7108|IK-787)'
+      model: '$1'
+    - regex: 'IKON[;,)]'
+      device: 'tv'
+      model: ''
 
 # iKonia
 iKonia:
@@ -40997,6 +41053,12 @@ ROADMAX:
     - regex: 'Fortius Quad 7'
       model: 'Fortius Quad 7'
 
+# Roadstar (https://www.roadstar.com/)
+Roadstar:
+  regex: 'ROADSTAR[;,)]'
+  device: 'tv'
+  model: ''
+
 # BDsharing
 BDsharing:
   regex: 'BDS2 Plus'
@@ -41043,6 +41105,12 @@ TENPLUS:
   regex: 'TENPLUS[_ ]([^/;)]+)(?: Build|[);])'
   device: 'tablet'
   model: '$1'
+
+# HAAM
+HAAM:
+  regex: 'HAAM[;,)]'
+  device: 'tv'
+  model: ''
 
 # HAOVM
 HAOVM:
@@ -42185,6 +42253,12 @@ Ollee:
   regex: 'Ollee008twoa(?:[);/ ]|$)'
   device: 'tablet'
   model: '008 TwoA'
+
+# ollz (https://www.ollz.com/)
+ollz:
+  regex: 'OLLZ[;,)]'
+  device: 'tv'
+  model: ''
 
 # Dtac
 Dtac:
@@ -43524,11 +43598,22 @@ WAF:
   device: 'tablet'
   model: '$1'
 
-# Geant
+# Geant (https://www.geant-dz.com/)
 Geant:
-  regex: 'GEANT[_ ](T\d)(?:[);/ ]|$)'
+  regex: 'GEANT[;,)_ ]'
   device: 'smartphone'
-  model: '$1'
+  models:
+    - regex: 'GEANT[_ ](T\d)(?:[);/ ]|$)'
+      model: '$1'
+    - regex: 'GEANT[;,)]'
+      device: 'tv'
+      model: ''
+
+# GEEPAS (https://uae.geepas.com/)
+GEEPAS:
+  regex: 'GEEPAS[;,)]'
+  device: 'tv'
+  model: ''
 
 # Galactic
 Galactic:
@@ -44721,6 +44806,12 @@ Renova:
   device: 'tv'
   model: '$1'
 
+# GoldSky (https://www.facebook.com/GoldSky.JO/)
+GoldSky:
+  regex: 'Goldsky[;,)]'
+  device: 'tv'
+  model: ''
+
 # GoldStar
 GoldStar:
   regex: '(LT-55U900)(?:[);/ ]|$)'
@@ -45230,7 +45321,7 @@ ZIFFLER:
 
 # Dora
 Dora:
-  regex: '(65DYW60)(?:[);/ ]|$)'
+  regex: 'DORA_jpe[;,)]|(65DYW60)(?:[);/ ]|$)'
   device: 'tv'
   model: '$1'
 
@@ -45342,7 +45433,7 @@ Romsat:
 
 # Icone Gold
 Icone Gold:
-  regex: '(SWU-6522)(?:[);/ ]|$)'
+  regex: 'ICONEGOLD[;,)]|(SWU-6522)(?:[);/ ]|$)'
   device: 'tv'
   model: '$1'
 
