@@ -1,1 +1,4 @@
 theme: jekyll-theme-cayman
+exclude:
+  - icon-packs
+  - device-detector
