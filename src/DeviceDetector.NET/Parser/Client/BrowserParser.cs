@@ -376,6 +376,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "LF", "LieBaoFast" },
             { "LG", "LG Browser" },
             { "LH", "Light" },
+            { "LP", "Lightpanda" },
             { "L4", "Lightning Browser Plus" },
             { "L1", "Lilo" },
             { "LI", "Links" },
@@ -861,6 +862,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "Norton Private Browser", new[] { "Norton Secure Browser" } },
             { "Opera GX", new[] { "Opera GX Android" } },
             { "Opera Mini", new[] { "Opera Mini Android" } },
+            { "Puffin Cloud Browser", new[] { "Puffin" } },
             { "Vewd Browser", new[] { "Vewd Core" } },
             { "Yandex Browser", new[] { "YaSearchBrowser" } }
         };
@@ -1197,11 +1199,16 @@ namespace DeviceDetectorNET.Parser.Client
                         var brandName = ApplyClientHintMapping(brand.Key);
                         foreach (var availableBrowser in AvailableBrowsers)
                         {
-                            if (FuzzyCompare(brandName, availableBrowser.Value) 
+                            if (FuzzyCompare(brandName, availableBrowser.Value)
                                 || FuzzyCompare(brandName + " Browser", availableBrowser.Value)
                                 || FuzzyCompare(brandName, availableBrowser.Value + " Browser")
                                 )
                             {
+                                if ("Chrome" == name && "Chromium" == availableBrowser.Value)
+                                {
+                                    break;
+                                }
+
                                 name = availableBrowser.Value;
                                 @short   = availableBrowser.Key;
                                 version = brand.Value;
@@ -1209,8 +1216,8 @@ namespace DeviceDetectorNET.Parser.Client
                                 break;
                             }
                         }
-                        // If we detected a brand, that is not Chromium, we will use it, otherwise we will look further
-                        if (!string.IsNullOrEmpty(name) && "Chromium" != name && "Microsoft Edge" != name) {
+                        // If we detected a brand, that is not in the array, we will use it, otherwise we will look further
+                        if (!string.IsNullOrEmpty(name) && "Chrome" != name && "Chromium" != name && "Microsoft Edge" != name) {
                             break;
                         }
                     }

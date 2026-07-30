@@ -281,6 +281,7 @@ namespace DeviceDetectorNET.Parser
         {
              {"GNU/Linux", new [] {"Linux"}},
              {"Mac"      , new [] {"MacOS"}},
+             {"Puffin OS", new [] {"Cloud Phone 2.4"}},
         };
 
         /// <summary>
@@ -441,6 +442,11 @@ namespace DeviceDetectorNET.Parser
                 if ("Windows" == name && "0.0.0" == version)
                 {
                     version = osFromUserAgent.Version.Equals("10") ? string.Empty : osFromUserAgent.Version;
+                }
+
+                if ("Puffin OS" == name)
+                {
+                    version = osFromUserAgent.Version;
                 }
 
                 // If the OS name detected from client hints matches the OS family from user agent

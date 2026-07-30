@@ -19,11 +19,40 @@
 ## What's Changed
 ### V6.5.1:
 
+* Adds detection for Lightpanda and improves detection for UC Browser
+* Adds detection for various bots
+* Improves regexes
+* Adds detection for Grok, QuickBooks, Yandex AI
+* Improves version detection for iOS, iPadOS and macOS
+* Improves detection for Nokia, Puffin OS and Puffin Cloud Browser
+* Detect Google-GeminiNotebook and retain Google-NotebookLM
+* Fix MAUI / MRE Regexes
+* Adds detection for various TV brands
+* Detect devices for existing brands
+* Improves detection for VIDAA and Hisense
+* Detect new brands: Bulsatcom, Yutmart, Rokid Station and detect devices for existing brands
+* Improves detection for Lineage OS, Nintendo and Apple devices
+* Detect devices for existing brands Tecno Mobile, Vivo, OMIX
+* Improves version and engine version detection from client hints
+* Improves detection for AfriOne and Huawei
+* Improves version detection for Android
+* Adds detection for ThinOS and Citrix apps and improves detection for Dell
+* Adds detection for KoboOS and Kobo brand
+* Adds detection for Quiche Browser
+* Adds detection for Arrow, Clikon, Coles, ELCO, ioplee and improves detection for Akai, AWOX, Dyon, Edenwood, Essentielb, Hisense
+* Adds detection for iTop Private Browser, Island, MySudo, PrivateBrowsing and SafeBrowser browsers
+* Improves version detection for webOS, Windows, Playstation and Fire OS
+* Improves detection of Surface Pro, Mi 10T Pro 5G, VALE V10E LTE and adds device detection for Samsung, Blackview, HMD, Google, Lenovo, Xiaomi, OnePlus, Meizu, Biegedy
+* Adds detection for Microsoft Surface Pro 7
+* Adds detection for Vega OS
+* Adds detection for Android Go
+* Adds detection for Amazon Prime Video and improves detection for Facebook
+* Improves detection for Avast Secure Browser
+* Improves detection for iPadOS
 * Improves detection for generic bots and Yandex bots
 * Adds detection for NuttX OS and HarmonyOS NEXT
 * Detect new brands: Jckkcfug, LAGENIO and detect devices for existing brands
 * Adds detection for Headless Edge and Vivaldi Mobile iOS browsers
-* Improves version detection for iOS, macOS, iPadOS, Android, RouterOS
 * Brands renaming (Cloud Mobile, Dream Multimedia, Hotel TV Company, StreamSystem, etc.)
 * Fix case when regexes can be an empty array
 * Fix client hints type handling
@@ -114,7 +143,7 @@
 * change model names for devices
 * Adds detection for various bots
 
-**Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.4.7...v6.5.0
+**Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.5.0...v6.5.1
 	</PackageReleaseNotes>
     <PackageIcon>logo.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
