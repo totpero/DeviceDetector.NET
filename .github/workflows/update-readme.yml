@@ -1,0 +1,39 @@
+name: Update README detection lists
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-readme:
+    name: Regenerate detection lists
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch' || !startsWith(github.event.release.tag_name, 'serilog-v')
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            10.0.x
+
+      - name: Regenerate README.md detection lists
+        run: dotnet run --project tools/DeviceDetector.NET.ReadmeGen -c Release
+
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "Update README.md detection lists"
+          title: "Update README.md detection lists"
+          body: |
+            Automated regeneration of the "What Device Detector is able to detect" lists in README.md,
+            triggered by ${{ github.event_name == 'release' && format('release {0}', github.event.release.tag_name) || 'a manual run' }}.
+          branch: update-readme-lists
+          delete-branch: true
+          add-paths: README.md

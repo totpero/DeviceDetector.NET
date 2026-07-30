@@ -31,7 +31,8 @@ namespace DeviceDetectorNET.Parser.Client.Browser
             "EkiohFlow",
             "Arachne",
             "LibWeb",
-            "Maple"
+            "Maple",
+            "ArkWeb"
         };
 
         public EngineParser()
