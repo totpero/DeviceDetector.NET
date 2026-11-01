@@ -22,8 +22,9 @@ namespace DeviceDetectorNET.RegexEngine
         {
             if (string.IsNullOrEmpty(input))
                 return false;
-            var match = Regex.Match(input, pattern, RegexOptions.IgnoreCase);
-            return match.Success;
+            if (pattern == null)
+                throw new ArgumentNullException(nameof(pattern));
+            return GetRegex(pattern).IsMatch(input);
         }
 
         public IEnumerable<string> Matches(string input, string pattern)
