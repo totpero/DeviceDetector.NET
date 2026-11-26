@@ -15,10 +15,12 @@ dotnet_csproj:
   file_version: '{version}'
 
 install:
-  # the projects target net10.0, which is newer than the SDKs preinstalled on the image
+  # the projects target net10.0 and net11.0, which are newer than the SDKs preinstalled on the image
+  # (the 10.0 SDK brings the runtimes needed to run the net10.0 tests)
   - ps: Invoke-WebRequest https://dot.net/v1/dotnet-install.ps1 -OutFile "$env:TEMP\dotnet-install.ps1"
-  - ps: '& "$env:TEMP\dotnet-install.ps1" -Channel 10.0 -InstallDir "C:\dotnet10"'
-  - ps: Set-AppveyorBuildVariable -Name PATH -Value "C:\dotnet10;$env:PATH"
+  - ps: '& "$env:TEMP\dotnet-install.ps1" -Channel 10.0 -InstallDir "C:\dotnet-sdks"'
+  - ps: '& "$env:TEMP\dotnet-install.ps1" -Channel 11.0 -InstallDir "C:\dotnet-sdks"'
+  - ps: Set-AppveyorBuildVariable -Name PATH -Value "C:\dotnet-sdks;$env:PATH"
   - dotnet --info
 
 build_script:

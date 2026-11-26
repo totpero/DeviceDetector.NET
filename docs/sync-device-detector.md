@@ -22,10 +22,11 @@ browsers, operating systems, ...) matched the previous pin and the test suite pa
 - [x] Verify the rules and the chunked matching, run the tests of the whole solution
 - [x] Update the README detection lists and the wiki
 - [x] Commit and open a pull request (branch `sync-device-detector-6.5.2`)
-- [ ] Review and merge the pull request, then delete the branch
+- [x] Review and merge the pull request ([#108](https://github.com/totpero/DeviceDetector.NET/pull/108), `0bf91aa`)
+- [ ] Delete the local branch
 - [ ] Decide the package version and release notes
 
-Where to continue: the pull request of the branch above, then the open points at the end of this file.
+Where to continue: the open points at the end of this file.
 
 ## Ported behaviour changes
 

@@ -15,15 +15,17 @@ Contributions and feedback are welcome — pull requests, bug reports, and detec
 ```bash
 git clone --recurse-submodules https://github.com/totpero/DeviceDetector.NET.git
 cd DeviceDetector.NET
-dotnet build DeviceDetector.NET.sln
+dotnet build DeviceDetector.NET.slnx
 ```
+
+You need the .NET 11 SDK, plus the .NET 10 runtime to run the tests on `net10.0`. The repository has both `DeviceDetector.NET.slnx` and `DeviceDetector.NET.sln`, so `dotnet` commands run in the root need one of them (or a project file) as an argument. Keep both in sync when you add or remove a project.
 
 The `--recurse-submodules` flag matters — the [`device-detector`](https://github.com/totpero/DeviceDetector.NET/tree/master/device-detector) PHP submodule is used as the reference for rule/fixture sync (see [Updating Device Detector Data](Updating-Device-Detector-Data)); without it that directory stays empty.
 
 ## Running the tests
 
 ```bash
-dotnet test DeviceDetector.NET.Tests/DeviceDetector.NET.Tests.csproj -c Release --nologo
+dotnet test tests/DeviceDetector.NET.Tests/DeviceDetector.NET.Tests.csproj -c Release --nologo
 ```
 
 The test project uses **xUnit** with **Shouldly** assertions, and mirrors upstream PHP fixtures under `DeviceDetector.NET.Tests/fixtures/`. Tests run in parallel across fixtures — a failure surfaces as an `AggregateException`; expand it to see every individual mismatch, not just the first.

@@ -8,7 +8,7 @@ A [Serilog](https://serilog.net/) enricher that attaches device, client, operati
 dotnet add package Serilog.Enrichers.AspNetCore.DeviceDetector
 ```
 
-Targets `net8.0`, `net9.0` and `net10.0`. Depends on `Serilog`, `Serilog.AspNetCore`, and (via project reference) `DeviceDetector.NET` itself.
+Targets `net8.0`, `net9.0`, `net10.0` and `net11.0`. Depends on `Serilog`, `Serilog.AspNetCore` (10.x on `net8.0` and `net9.0`, 11.x on newer frameworks), and (via project reference) `DeviceDetector.NET` itself.
 
 ## Setup
 
