@@ -20,9 +20,31 @@ After the NuGet updates the build failed in Visual Studio 2026 (18.13) and with 
 - [x] Update the CI configuration, README and wiki
 - [x] Verify
 - [x] Commit and pull request (branch `net11-support`)
-- [ ] Review and merge the pull request, then delete the branch
+- [x] Review and merge the pull request ([#110](https://github.com/totpero/DeviceDetector.NET/pull/110),
+      `1fc445c`), branch deleted
+- [x] Replace AppVeyor with a GitHub Actions test job ([issue #111](https://github.com/totpero/DeviceDetector.NET/issues/111),
+      branch `ci-github-actions`)
+- [x] Commit and pull request (branch `ci-github-actions`)
+- [ ] The test job passes on the pull request, merge and delete the branch
+- [ ] Delete the AppVeyor project and its webhook (repository owner)
 
-Where to continue: the pull request of the branch above, then the open points at the end of this file.
+Where to continue: the pull request of the branch above ([issue #111](https://github.com/totpero/DeviceDetector.NET/issues/111)),
+then the open points at the end of this file.
+
+## CI: AppVeyor replaced by GitHub Actions
+
+The AppVeyor builds failed with `NETSDK1045` since November (first at `f04d54a`, before this work):
+AppVeyor no longer applied `appveyor.yml` and built with its UI settings (Visual Studio 2019, .NET 5
+SDK). Most likely it lost access to the GitHub API, as it also stopped posting commit statuses.
+Re-authorizing GitHub on 2026-11-26 did not help (build 2.0.290), so AppVeyor is removed.
+
+`dotnetcore.yml` has two jobs:
+
+- `build` (Linux): restore, build and pack of the `.slnx`, as before.
+- `test` (Windows): `dotnet test` of the `.sln` on `net10.0` and `net11.0`. It runs on Windows because the
+  tests build the paths of their fixtures with Windows separators. All the test projects run (AppVeyor ran
+  only the library and Serilog ones). No submodule is needed: the one test that uses the real Matomo icons
+  passes without them.
 
 ## Decisions
 
@@ -36,9 +58,9 @@ Where to continue: the pull request of the branch above, then the open points at
 - On `net11.0` the logging and dependency injection abstractions are part of the framework, so NuGet
   leaves them out of the `net11.0` dependencies of the packages.
 - **Both solution files are kept.** With two of them in the root, `dotnet` commands without an argument
-  fail (`MSB1011`), so GitHub Actions builds `DeviceDetector.NET.slnx` and AppVeyor builds
-  `DeviceDetector.NET.sln`; this also checks that both stay valid. Add or remove projects in both.
-- The workflows and AppVeyor use the .NET 11 SDK (plus the .NET 10 one where `net10.0` code runs).
+  fail (`MSB1011`), so the CI names them: it builds `DeviceDetector.NET.slnx` and tests
+  `DeviceDetector.NET.sln`, which also checks that both stay valid. Add or remove projects in both.
+- The workflows use the .NET 11 SDK (plus the .NET 10 one where `net10.0` code runs).
 
 ## Verification
 
@@ -47,6 +69,8 @@ Where to continue: the pull request of the branch above, then the open points at
 - The CI steps (restore, build, pack of the `.slnx`) pass. The packages have the expected frameworks and
   dependencies, and the CLI tool contains `net10.0` and `net11.0`.
 - An app using the local packages runs on .NET 8, 9, 10 and 11, including the Serilog enricher.
+- The command of the new `test` job, on a clean clone without submodules: 326 passed on `net10.0` and 326
+  on `net11.0`. The job itself has not run on GitHub yet.
 
 ## Open points
 

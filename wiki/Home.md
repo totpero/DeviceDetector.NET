@@ -1,6 +1,6 @@
 # DeviceDetector.NET
 
-[![Build status](https://ci.appveyor.com/api/projects/status/baf9r5iqnp4flwkm?svg=true)](https://ci.appveyor.com/project/totpero/devicedetector-net)
+[![CI](https://github.com/totpero/DeviceDetector.NET/actions/workflows/dotnetcore.yml/badge.svg)](https://github.com/totpero/DeviceDetector.NET/actions/workflows/dotnetcore.yml)
 [![NuGet](https://img.shields.io/nuget/v/DeviceDetector.NET.svg?style=flat-square)](https://www.nuget.org/packages/DeviceDetector.NET)
 
 **DeviceDetector.NET** is the universal device detection library for .NET. It parses HTTP `User-Agent` strings (and, optionally, [User-Agent Client Hints](https://developer.mozilla.org/en-US/docs/Web/HTTP/Client_hints)) to detect:
