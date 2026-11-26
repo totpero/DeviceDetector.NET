@@ -20,8 +20,10 @@ jobs:
 
       - uses: actions/setup-dotnet@v4
         with:
+          # the library targets net11.0, ReadmeGen runs on net10.0
           dotnet-version: |
             10.0.x
+            11.0.x
 
       - name: Regenerate README.md detection lists
         run: dotnet run --project tools/DeviceDetector.NET.ReadmeGen -c Release

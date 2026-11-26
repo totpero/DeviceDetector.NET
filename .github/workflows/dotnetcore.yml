@@ -18,21 +18,22 @@ jobs:
     - uses: actions/setup-dotnet@v4
       with:
         dotnet-version: |
-          9.0
+          11.0.x
 
     - uses: actions/checkout@v4
 
+    # The solution has to be named, as the .sln and the .slnx live side by side
     - name: Restore
-      run: dotnet restore
+      run: dotnet restore DeviceDetector.NET.slnx
 
     - name: Build
-      run: dotnet build --configuration Release --no-restore /property:ContinuousIntegrationBuild=True
+      run: dotnet build DeviceDetector.NET.slnx --configuration Release --no-restore /property:ContinuousIntegrationBuild=True
 
 #    - name: Test
-#      run: dotnet test --configuration Release --no-restore --no-build
+#      run: dotnet test DeviceDetector.NET.slnx --configuration Release --no-restore --no-build
 
     - name: Pack
-      run: dotnet pack --configuration Release --no-restore --no-build -o artifacts
+      run: dotnet pack DeviceDetector.NET.slnx --configuration Release --no-restore --no-build -o artifacts
 
     - name: Publish
       uses: actions/upload-artifact@v4

@@ -7,7 +7,7 @@
 [![NuGet](https://img.shields.io/nuget/v/DeviceDetector.NET.svg?style=flat-square)](https://www.nuget.org/packages/DeviceDetector.NET)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/DeviceDetector.NET.svg?style=flat-square)](https://www.nuget.org/packages/DeviceDetector.NET)
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache%202.0-blue.svg?style=flat-square)](https://github.com/totpero/DeviceDetector.NET/blob/master/LICENSE)
-[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net462%20%7C%208.0%20%7C%209.0%20%7C%2010.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/download)
+[![.NET](https://img.shields.io/badge/.NET-netstandard2.0%20%7C%20net462%20%7C%208.0%20%7C%209.0%20%7C%2010.0%20%7C%2011.0-512BD4?style=flat-square&logo=dotnet)](https://dotnet.microsoft.com/download)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-brightgreen?style=flat-square)](https://totpero.github.io/DeviceDetector.NET/)
 [![GitHub release](https://img.shields.io/github/v/release/totpero/DeviceDetector.NET?style=flat-square)](https://github.com/totpero/DeviceDetector.NET/releases)
 [![GitHub last commit](https://img.shields.io/github/last-commit/totpero/DeviceDetector.NET?style=flat-square)](https://github.com/totpero/DeviceDetector.NET/commits/master)

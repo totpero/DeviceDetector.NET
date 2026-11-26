@@ -38,7 +38,7 @@ dd.Parse();
 
 `DeviceDetector.SetRegexEngine(IRegexEngine)` (and the equivalent method on individual parsers, `AbstractParser.SetRegexEngine`) swaps the engine used for all subsequent matching; `GetRegexEngine()` lazily defaults to `MSRegexCompiledEngine` if none was set.
 
-This package targets `net10.0` only (it depends on native PCRE bindings), so it's not available to classic .NET Framework or older TFMs — those consumers stay on the default `System.Text.RegularExpressions`-based engine.
+This package targets `net10.0` and `net11.0` only (it depends on native PCRE bindings), so it's not available to classic .NET Framework or older TFMs — those consumers stay on the default `System.Text.RegularExpressions`-based engine.
 
 ## When does this matter?
 

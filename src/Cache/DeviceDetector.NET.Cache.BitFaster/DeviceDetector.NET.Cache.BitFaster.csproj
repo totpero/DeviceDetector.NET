@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net10.0</TargetFramework>
+		<TargetFrameworks>net10.0;net11.0</TargetFrameworks>
 		<RootNamespace>DeviceDetectorNET.Cache.BitFaster</RootNamespace>
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="BitFaster.Caching" Version="2.6.0" />
+		<PackageReference Include="BitFaster.Caching" Version="2.6.1" />
 	</ItemGroup>
 
 	<ItemGroup>

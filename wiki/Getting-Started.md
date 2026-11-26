@@ -8,7 +8,7 @@ Add the [`DeviceDetector.NET`](https://www.nuget.org/packages/DeviceDetector.NET
 dotnet add package DeviceDetector.NET
 ```
 
-The core package targets `netstandard2.0`, `net462`, `net8.0`, `net9.0` and `net10.0`, so it works from classic .NET Framework projects up to the latest .NET.
+The core package targets `netstandard2.0`, `net462`, `net8.0`, `net9.0`, `net10.0` and `net11.0`, so it works from classic .NET Framework projects up to the latest .NET.
 
 ## Basic usage
 

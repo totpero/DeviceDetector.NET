@@ -14,7 +14,7 @@ namespace DeviceDetector.Net.Cli.Commands
 {
     public class ParseCommand : Command<ParseCommandSettings>
     {
-        protected override int Execute(CommandContext context, ParseCommandSettings settings, CancellationToken cancellationToken)
+        public override int Execute(CommandContext context, ParseCommandSettings settings, CancellationToken cancellationToken)
         {
             if (settings.NoColor)
             {
