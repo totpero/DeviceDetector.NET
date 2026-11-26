@@ -29,9 +29,6 @@ jobs:
     - name: Build
       run: dotnet build DeviceDetector.NET.slnx --configuration Release --no-restore /property:ContinuousIntegrationBuild=True
 
-#    - name: Test
-#      run: dotnet test DeviceDetector.NET.slnx --configuration Release --no-restore --no-build
-
     - name: Pack
       run: dotnet pack DeviceDetector.NET.slnx --configuration Release --no-restore --no-build -o artifacts
 
@@ -40,3 +37,23 @@ jobs:
       with:
         name: packages
         path: 'artifacts/*.*nupkg'
+
+  test:
+
+    # The tests build the paths of their fixtures with Windows separators
+    runs-on: windows-latest
+
+    steps:
+
+    # The tests run on net10.0 and net11.0, so both runtimes are needed
+    - uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          10.0.x
+          11.0.x
+
+    - uses: actions/checkout@v4
+
+    # Testing the .sln keeps it checked too, next to the .slnx of the build job
+    - name: Test
+      run: dotnet test DeviceDetector.NET.sln --configuration Release

@@ -35,7 +35,7 @@ The test project uses **xUnit** with **Shouldly** assertions, and mirrors upstre
 - Keep changes scoped: a rules/fixture sync PR shouldn't also refactor unrelated parser code, and vice versa — it makes review and any necessary revert much easier.
 - If you touch YAML files under `DeviceDetector.NET/regexes/`, remember they are **embedded resources** — rebuild before testing, a stale build will silently keep using old rules.
 - Run the full test suite before submitting; if a test fails that you believe was already broken before your change, say so explicitly in the PR description rather than leaving it unexplained.
-- For CI status, see the [AppVeyor build](https://ci.appveyor.com/project/totpero/devicedetector-net) — configuration lives in [`appveyor.yml`](https://github.com/totpero/DeviceDetector.NET/blob/master/appveyor.yml).
+- CI runs on [GitHub Actions](https://github.com/totpero/DeviceDetector.NET/actions/workflows/dotnetcore.yml): it builds and packs the `.slnx` on Linux and tests the `.sln` on Windows. The configuration lives in [`dotnetcore.yml`](https://github.com/totpero/DeviceDetector.NET/blob/master/.github/workflows/dotnetcore.yml).
 
 ## Community
 

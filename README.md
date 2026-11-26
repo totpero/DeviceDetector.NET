@@ -2,7 +2,6 @@
 ==============
 
 [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/quozd/awesome-dotnet#misc) 
-[![Build status](https://ci.appveyor.com/api/projects/status/baf9r5iqnp4flwkm?svg=true)](https://ci.appveyor.com/project/totpero/devicedetector-net)
 [![CI](https://github.com/totpero/DeviceDetector.NET/actions/workflows/dotnetcore.yml/badge.svg)](https://github.com/totpero/DeviceDetector.NET/actions/workflows/dotnetcore.yml)
 [![NuGet](https://img.shields.io/nuget/v/DeviceDetector.NET.svg?style=flat-square)](https://www.nuget.org/packages/DeviceDetector.NET)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/DeviceDetector.NET.svg?style=flat-square)](https://www.nuget.org/packages/DeviceDetector.NET)
