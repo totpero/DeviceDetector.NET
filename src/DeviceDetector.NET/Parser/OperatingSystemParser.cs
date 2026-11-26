@@ -67,6 +67,7 @@ namespace DeviceDetectorNET.Parser
             { "FOS", "Firefox OS" },
             { "FIR", "Fire OS" },
             { "FOR", "Foresight Linux" },
+            { "FRT", "FortiOS" },
             { "FRE", "Freebox" },
             { "BSD", "FreeBSD" },
             { "FRI", "FRITZ!OS" },
@@ -86,6 +87,7 @@ namespace DeviceDetectorNET.Parser
             { "HNX", "HarmonyOS NEXT" },
             { "HAS", "HasCodingOS" },
             { "HEL", "HELIX OS" },
+            { "HYP", "HyperOS" },
             { "IRI", "IRIX" },
             { "INF", "Inferno" },
             { "JME", "Java ME" },
@@ -125,6 +127,7 @@ namespace DeviceDetectorNET.Parser
             { "MIN", "Mint" },
             { "MLD", "MildWild" },
             { "MOR", "MorphOS" },
+            { "MYO", "MyOS" },
             { "NBS", "NetBSD" },
             { "MTK", "MTK / Nucleus" },
             { "MRE", "MRE" },
@@ -185,6 +188,7 @@ namespace DeviceDetectorNET.Parser
             { "SMA", "Smartisan OS" },
             { "SOS", "Solaris" },
             { "SBL", "Star-Blade OS" },
+            { "STM", "SteamOS" },
             { "SYL", "Syllable" },
             { "SYM", "Symbian" },
             { "SYS", "Symbian OS" },
@@ -218,6 +222,8 @@ namespace DeviceDetectorNET.Parser
             { "WPO", "WoPhone" },
             { "XBX", "Xbox" },
             { "XBT", "Xubuntu" },
+            { "YAS", "YaOS" },
+            { "YOD", "YodaOS-Master" },
             { "YNS", "YunOS" },
             { "ZEN", "Zenwalk" },
             { "ZOR", "ZorinOS" },
@@ -234,7 +240,8 @@ namespace DeviceDetectorNET.Parser
         {
             {"Android"              , new [] {"AND", "CYN", "FIR", "REM", "RZD", "MLD", "MCD", "YNS", "GRI", "HAR",
                                               "ADR", "CLR", "BOS", "REV", "LEN", "SIR", "RRS", "WER", "PIC", "ARM",
-                                              "HEL", "BYI", "RIS", "PUF", "LEA", "MET", "SMA", "AGO" }},
+                                              "HEL", "BYI", "RIS", "PUF", "LEA", "MET", "SMA", "AGO", "HYP", "MYO",
+                                              "YOD", "YAS" }},
             {"AmigaOS"              , new [] {"AMG", "MOR", "ARO"}},
             {"BlackBerry"           , new [] {"BLB", "QNX"}},
             {"Brew"                 , new [] {"BMP"}},
@@ -255,10 +262,10 @@ namespace DeviceDetectorNET.Parser
                                                 "UOS", "PIO", "FRI", "LIR", "WEB", "SER", "ASP", "AOS", "LOO", "EUL",
                                                 "SCI", "ALP", "CLO", "ROC", "OVZ", "PVE", "RST", "EZX", "GNS", "JOL",
                                                 "TUR", "QTP", "WPO", "PAN", "VIZ", "AZU", "COL", "OSS", "ELM", "LPU",
-                                                "KOB"
+                                                "KOB", "FRT"
             }},
             {"Mac"                  , new [] {"MAC" }},
-            {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX" }},
+            {"Mobile Gaming Console", new [] {"PSP", "NDS", "XBX", "STM" }},
             {"OpenHarmony"          , new [] {"OHS", "HNX" }},
             {"OpenVMS"              , new [] { "OVS" }},
             {"Real-time OS"         , new [] {"MTK", "TDX", "MRE", "JME", "REX", "RXT", "KOL", "MOS", "NTX" }},
@@ -280,8 +287,9 @@ namespace DeviceDetectorNET.Parser
         public override IReadOnlyDictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
         {
              {"GNU/Linux", new [] {"Linux"}},
-             {"Mac"      , new [] {"MacOS"}},
+             {"Mac"      , new [] {"MacOS", "Mac OS X", "MacIntel"}},
              {"Puffin OS", new [] {"Cloud Phone 2.4"}},
+             {"Windows"  , new [] {"Win32"}},
         };
 
         /// <summary>
@@ -322,6 +330,7 @@ namespace DeviceDetectorNET.Parser
         /// </summary>
         protected internal static readonly Dictionary<string, string> LineageOsVersionMapping = new Dictionary<string, string>
         {
+            {"17"    , "24" },
             {"16"    , "23" },
             {"15"    , "22" },
             {"14"    , "21" },
@@ -523,7 +532,7 @@ namespace DeviceDetectorNET.Parser
                 {
                     name = "Android";
                     family = "Android";
-                    @short = "ADR";
+                    @short = "AND";
                     version = string.Empty;
                 }
 
@@ -744,7 +753,7 @@ namespace DeviceDetectorNET.Parser
             string[] localMatches = null;
             Os localOs = null;
 
-            foreach (var os in regexList)
+            foreach (var os in GetRegexesForUserAgent<Os>(item => item.Regex))
             {
                 var matches = MatchUserAgent(os.Regex);
                 if (matches.Length > 0)

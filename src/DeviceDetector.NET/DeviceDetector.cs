@@ -11,6 +11,8 @@ using DeviceDetectorNET.Results.Device;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using DeviceDetectorNET.Class;
 using LiteDB;
 using YamlDotNet.Core;
 
@@ -116,6 +118,9 @@ namespace DeviceDetectorNET
 
         protected bool parsed;
 
+        private static readonly Regex FacebookAppRegex =
+            new Regex("FBAB/([a-z0-9.]+)", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
+
         /// <summary>
         ///
         /// </summary>
@@ -160,6 +165,20 @@ namespace DeviceDetectorNET
         /// <param name="clientHints"></param>
         public void SetClientHints(ClientHints clientHints)
         {
+            // Build client hints from user agent if Facebook in-app browser detected
+            if ((clientHints == null || string.IsNullOrEmpty(clientHints.GetApp()))
+                && !string.IsNullOrEmpty(userAgent))
+            {
+                var facebookAppMatch = FacebookAppRegex.Match(userAgent);
+                if (facebookAppMatch.Success)
+                {
+                    clientHints = ClientHints.Factory(new Dictionary<string, string>
+                    {
+                        { "x-requested-with", facebookAppMatch.Groups[1].Value }
+                    });
+                }
+            }
+
             // Reset only when the new ClientHints instance differs from the current one.
             // The previous condition `if (this.clientHints != null || this.clientHints != clientHints)` was
             // incorrect and evaluated to true in many cases, causing unwanted Reset() calls and state loss.
@@ -374,6 +393,12 @@ namespace DeviceDetectorNET
             if (!IsParsed())
                 throw new AccessViolationException("You need to call Parse method before use IsMobile method.");
 
+            // Bots can also use client hints, so we return early
+            if (IsBot())
+            {
+                return false;
+            }
+
             // Client hints indicate a mobile device
             if (clientHints != null && clientHints.IsMobile())
             {
@@ -404,7 +429,7 @@ namespace DeviceDetectorNET
                 return false;
             }
 
-            return !IsBot() && !IsDesktop();
+            return !IsDesktop();
         }
 
         /// <summary>
@@ -926,6 +951,18 @@ namespace DeviceDetectorNET
                 device = DeviceType.DEVICE_TYPE_TV;
             }
 
+            //All devices running iOS >= 13.0 are assumed to be a iPhone phablet
+            if (!device.HasValue && "iOS" == osName
+                && VersionComparer.Compare(os.Match.Version, "13.0") >= 0)
+            {
+                device = DeviceType.DEVICE_TYPE_PHABLET;
+
+                if (string.IsNullOrEmpty(model))
+                {
+                    model = "iPhone";
+                }
+            }
+
             //All devices that contain Andr0id in string are assumed to be a tv
             var hasDeviceTvType = (!device.HasValue
                                   || !new[]
@@ -1026,7 +1063,10 @@ namespace DeviceDetectorNET
         public static ParseResult<DeviceDetectorResult> GetInfoFromUserAgent(string ua, ClientHints clientHints = null)
         {
             var result = new ParseResult<DeviceDetectorResult>();
-            var deviceDetector = new DeviceDetector(ua, clientHints); //@todo:singleton
+            var deviceDetector = new DeviceDetector(ua); //@todo:singleton
+
+            // Always set the client hints (even if null), so they can be built from the user agent
+            deviceDetector.SetClientHints(clientHints);
 
             deviceDetector.Parse();
 
@@ -1107,7 +1147,7 @@ namespace DeviceDetectorNET
 
         private static string FixUserAgentRegEx(string regex)
         {
-            return "(?:^|[^A-Z_-])(?:" + regex.Replace("/", @"\/").Replace("++", "+") + ")";
+            return "(?:^|[^A-Z_-])(?:" + regex.Replace("++", "+") + ")";
         }
 
         private static int _version_truncation = AbstractParser<List<Class.Bot>, ClientMatchResult>.VERSION_TRUNCATION_NONE;

@@ -55,6 +55,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "1M", "1DM+ Browser" },
             { "2B", "2345 Browser" },
             { "3B", "360 Secure Browser" },
+            { "37", "360 Speed Browser" },
             { "36", "360 Phone Browser" },
             { "7B", "7654 Browser" },
             { "AA", "Avant Browser" },
@@ -419,6 +420,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "MA", "Maelstrom" },
             { "3M", "Mises" },
             { "MM", "Mmx Browser" },
+            { "4M", "Mullvad Browser" },
             { "NM", "MxNitro" },
             { "MY", "Mypal" },
             { "M0", "MySudo" },
@@ -434,6 +436,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "NB", "Nokia Browser" },
             { "NO", "Nokia OSS Browser" },
             { "NV", "Nokia Ovi Browser" },
+            { "4N", "Norton Neo" },
             { "N2", "Norton Private Browser" },
             { "NX", "Nox Browser" },
             { "N1", "NOMone VR Browser" },
@@ -631,7 +634,9 @@ namespace DeviceDetectorNET.Parser.Client
             { "S3", "surf" },
             { "4S", "Surf Browser" },
             { "RY", "Surfy Browser" },
+            { "38", "Stadium" },
             { "SG", "Stargon" },
+            { "T6", "Startpage" },
             { "S0", "START Internet Browser" },
             { "YS", "Stay Browser" },
             { "5A", "Stealth Browser" },
@@ -650,6 +655,7 @@ namespace DeviceDetectorNET.Parser.Client
             { "T2", "tararia" },
             { "TH", "Thor" },
             { "1T", "Tor Browser" },
+            { "T7", "Teak Browser" },
             { "TF", "TenFourFox" },
             { "TB", "Tenta Browser" },
             { "TE", "Tesla Browser" },
@@ -799,6 +805,7 @@ namespace DeviceDetectorNET.Parser.Client
                 "PQ", "LM", "T5", "2N", "SJ", "X6", "SM", "AY", "BQ",
                 "BC", "NQ", "VQ", "9C", "KA", "YS", "D4", "PZ", "0I",
                 "3F", "Z1", "XC", "ZC", "V7", "H0", "IL", "PG", "I0",
+                "T6", "37", "FI", "4N",
             }},
             {"Firefox"            , new []{
                 "FF", "BI", "BF", "BH", "BN", "C0", "CU", "EI", "F1",
@@ -806,7 +813,7 @@ namespace DeviceDetectorNET.Parser.Client
                 "IW", "LH", "LY", "MB", "MN", "MO", "MY", "OA", "OS",
                 "PI", "PX", "QA", "S5", "SX", "TF", "TO", "WF", "ZV",
                 "FP", "AD", "2I", "P9", "KJ", "WY", "VK", "W5",
-                "7C", "N7", "W7",
+                "7C", "N7", "W7", "4M",
             }},
             {"Internet Explorer"  , new []{ "BZ", "CZ", "IE", "IM", "PS", "3A", "4A", "RN", "2E" }},
             {"Konqueror"          , new []{ "KO" }},
@@ -848,7 +855,7 @@ namespace DeviceDetectorNET.Parser.Client
             "2M", "K7", "1N", "8A", "H7", "X3", "X4", "5O", "6I",
             "7I", "X5", "3P", "2E", "T5", "2N", "SJ", "X6", "SM",
             "AY", "BQ", "BC", "NQ", "VQ", "KA", "YS", "D4", "PZ",
-            "V7", "D5", "M0", "Q8",
+            "V7", "D5", "M0", "Q8", "T6", "37", "38", "FI",
         };
 
         public override IReadOnlyDictionary<string, string[]> ClientHintMapping => new Dictionary<string, string[]>
@@ -858,7 +865,8 @@ namespace DeviceDetectorNET.Parser.Client
             { "DuckDuckGo Privacy Browser", new[] { "DuckDuckGo" } },
             { "Mi Browser", new[] { "Miui Browser", "XiaoMiBrowser" } },
             { "Edge WebView", new[] { "Microsoft Edge WebView2" } },
-            { "Microsoft Edge", new[] { "Edge" } },
+            { "Microsoft Edge", new[] { "Edge", "Copilot" } },
+            { "Norton Neo", new[] { "Neo" } },
             { "Norton Private Browser", new[] { "Norton Secure Browser" } },
             { "Opera GX", new[] { "Opera GX Android" } },
             { "Opera Mini", new[] { "Opera Mini Android" } },
@@ -1026,6 +1034,7 @@ namespace DeviceDetectorNET.Parser.Client
                 }
 
                 if ("Blink" == client.Engine && "Iridium" != client.Name
+                    && browserFromUserAgent.Engine == client.Engine
                     && PhpVersionCompare(browserFromUserAgent.EngineVersion, client.EngineVersion) > 0)
                 {
                     client.EngineVersion = browserFromUserAgent.EngineVersion;
@@ -1298,7 +1307,7 @@ namespace DeviceDetectorNET.Parser.Client
 
             Class.Client.Browser localBrowser = null;
             string[] localMatches = null;
-            foreach (var browser in regexList)
+            foreach (var browser in GetRegexesForUserAgent<Class.Client.Browser>(item => item.Regex))
             {
                 var matches = MatchUserAgent(browser.Regex);
                 if (matches.Length > 0)

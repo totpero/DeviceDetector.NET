@@ -40,7 +40,7 @@ namespace DeviceDetectorNET.Parser
             var result = new ParseResult<BotMatchResult>();
             if (!PreMatchOverall()) return result;
 
-            foreach (var bot in regexList)
+            foreach (var bot in GetRegexesForUserAgent<Bot>(item => item.Regex))
             {
                 var matches = MatchUserAgent(bot.Regex);
                 if (!matches.Any()) continue;
