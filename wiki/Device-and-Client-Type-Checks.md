@@ -27,6 +27,8 @@ dd.IsMobile();   // smartphone, feature phone, tablet, phablet, car browser, cam
 dd.IsDesktop();  // desktop devices (device type unknown/not mobile and OS is a desktop OS)
 ```
 
+`IsMobile()` is always `false` for bots, even when their client hints say mobile.
+
 ## Client type checks
 
 ```csharp

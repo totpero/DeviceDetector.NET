@@ -33,6 +33,8 @@ namespace DeviceDetectorNET.Tests.Parser
         [Fact]
         public void OsTestParse()
         {
+            OperatingSystemParser.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
+
             Parallel.ForEach(_fixtureData, fixture =>
             {
                 var operatingSystemParser = new OperatingSystemParser();

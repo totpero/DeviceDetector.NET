@@ -61,4 +61,5 @@ clientHints.GetFormFactors();   // List<string>
 ## Notes
 
 - `ClientHints` is a straightforward C# port of the PHP `DeviceDetector\ClientHints` class — behavior (including which header wins when several convey the same information) matches upstream.
+- The Facebook in-app browser reports its app id in the User-Agent (`FBAB/com.facebook.katana`). If you pass no client hints, or client hints without an app id, `SetClientHints` builds them from that token (they then contain only the app id). `GetInfoFromUserAgent` always does this; with the constructor and `Parse()`, call `dd.SetClientHints(clientHints)` yourself (also with `null`) to get the same result.
 - If no relevant headers are present, `ClientHints.Factory` still returns a valid (empty) instance — pass it in unconditionally, there's no need to branch on whether the client sent hints.

@@ -83,19 +83,12 @@ namespace DeviceDetectorNET.Parser.Device
 
             RestoreUserAgentFromClientHints();
 
-            if (string.IsNullOrEmpty(deviceModel) && HasUserAgentClientHintsFragment())
+            if (string.IsNullOrEmpty(deviceModel) && (HasUserAgentClientHintsFragment() || HasDesktopFragment()))
                 return result;
-
-            if (string.IsNullOrEmpty(deviceModel) && HasDesktopFragment())
-                return result;
-
-            var regexes = regexList.ToList();
-
-            if (!regexes.Any()) return result;
 
             KeyValuePair<string, DeviceModel> localDevice = new KeyValuePair<string, DeviceModel>(null,null);
             string[] localMatches = null;
-            foreach (var regex in regexes)
+            foreach (var regex in GetRegexesForUserAgent<KeyValuePair<string, DeviceModel>>(device => device.Value.Regex))
             {
                 var matches = MatchUserAgent(regex.Value.Regex);
                 if (matches.Length > 0)
@@ -138,9 +131,11 @@ namespace DeviceDetectorNET.Parser.Device
 
             model = string.Empty;
 
-            if (!string.IsNullOrEmpty(localDevice.Value.Name))
+            if (localDevice.Value.Name != null)
             {
                 model = BuildModel(localDevice.Value.Name, localMatches);
+                result.Add(GetResult());
+                return result;
             }
 
             if (localDevice.Value.Models != null)

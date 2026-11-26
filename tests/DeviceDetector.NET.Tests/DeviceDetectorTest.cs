@@ -225,6 +225,7 @@ public class DeviceDetectorTest
     [InlineData("tv-3")]
     [InlineData("tv-4")]
     [InlineData("tv-5")]
+    [InlineData("tv-6")]
     [InlineData("unknown")]
     [InlineData("wearable")]
     public void TestParse(string fileNme)
@@ -761,6 +762,83 @@ public class DeviceDetectorTest
         dd.IsMobile().ShouldBeTrue();
         dd.IsBot().ShouldBeFalse();
 
+    }
+
+    [Fact]
+    public void TestParseBotWithClientHints()
+    {
+        const string userAgent = "Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.7204.183 Mobile Safari/537.36 (compatible; GoogleOther)";
+        var clientHints = ClientHints.Factory(new Dictionary<string, string>
+        {
+            { "Sec-CH-UA", "\"Not)A;Brand\";v=\"99\", \"Google Chrome\";v=\"138\", \"Chromium\";v=\"138\"" },
+            { "Sec-CH-UA-Platform", "Android" },
+            { "Sec-CH-UA-Mobile", "?1" }
+        });
+
+        var dd = new DeviceDetector(userAgent);
+        dd.SetClientHints(clientHints);
+        dd.Parse();
+
+        dd.IsBot().ShouldBeTrue();
+        dd.GetClientHints().IsMobile().ShouldBeTrue();
+        dd.IsMobile().ShouldBeFalse();
+    }
+
+    [Fact]
+    public void TestClientHintsBuiltFromFacebookInAppUserAgent()
+    {
+        const string userAgent = "Mozilla/5.0 (Linux; Android 12; SM-A525F Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0.0.0 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/445.0.0.34.118;FBAB/com.facebook.katana;]";
+
+        var dd = new DeviceDetector(userAgent);
+        dd.GetClientHints().ShouldBeNull();
+
+        // without client hints, they are built from the FBAB token of the user agent
+        dd.SetClientHints(null);
+        dd.GetClientHints().GetApp().ShouldBe("com.facebook.katana");
+
+        // client hints without an app are replaced as well
+        dd.SetClientHints(ClientHints.Factory(new Dictionary<string, string> { { "Sec-CH-UA-Model", "SM-A525F" } }));
+        dd.GetClientHints().GetApp().ShouldBe("com.facebook.katana");
+
+        // client hints that already contain an app are kept
+        var clientHints = ClientHints.Factory(new Dictionary<string, string> { { "x-requested-with", "com.example.app" } });
+        dd.SetClientHints(clientHints);
+        dd.GetClientHints().ShouldBeSameAs(clientHints);
+    }
+
+    [Fact]
+    public void TestReusedInstanceDoesNotKeepClientHints()
+    {
+        const string facebookUserAgent = "Mozilla/5.0 (Linux; Android 12; SM-A525F Build/SP1A.210812.016; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/120.0.0.0 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/445.0.0.34.118;FBAB/com.facebook.katana;]";
+        const string chromeUserAgent = "Mozilla/5.0 (Linux; Android 12; SM-A525F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36";
+
+        var dd = new DeviceDetector(facebookUserAgent);
+        dd.SetClientHints(null);
+        dd.Parse();
+        dd.GetClient().Match.Name.ShouldBe("Facebook");
+
+        dd.SetUserAgent(chromeUserAgent);
+        dd.SetClientHints(null);
+        dd.Parse();
+        dd.GetClientHints().ShouldBeNull();
+        dd.GetClient().Match.Name.ShouldBe("Chrome Mobile");
+    }
+
+    [Theory]
+    [InlineData("13.0", true)]
+    [InlineData("26.1", true)]
+    [InlineData("12.4", false)]
+    public void TestUnknownDeviceRunningNewIosIsPhablet(string iosVersion, bool isPhablet)
+    {
+        var userAgent = $"ExampleApp/1.0 (iOS {iosVersion})";
+
+        var dd = new DeviceDetector(userAgent);
+        dd.Parse();
+
+        dd.GetOs().Match.Name.ShouldBe("iOS");
+        dd.GetOs().Match.Version.ShouldBe(iosVersion);
+        dd.IsPhablet().ShouldBe(isPhablet);
+        dd.GetModel().ShouldBe(isPhablet ? "iPhone" : string.Empty);
     }
 
     [Fact]

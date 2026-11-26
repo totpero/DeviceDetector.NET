@@ -60,10 +60,28 @@ namespace DeviceDetectorNET.Parser
         //protected List<T> overAllMatch;
 
         /// <summary>
+        /// Number of regexes combined into one chunk by <see cref="GetRegexesForUserAgent{TItem}"/>.
+        /// A value lower than 1 disables the chunked pre-matching.
+        /// PHP uses 100, but the .NET regex engine gets much slower with such large alternations
+        /// (especially for the mobile device brands), so smaller chunks are used.
+        /// </summary>
+        protected int regexChunkSize = 10;
+
+        /// <summary>
+        /// Holds the concatenated regexes for each chunk of the regex list
+        /// </summary>
+        private string[] chunkMatches;
+
+        /// <summary>
         /// Indicates how deep versioning will be detected
         /// if $maxMinorParts is 0 only the major version will be returned
         /// </summary>
         protected static int maxMinorParts = -1;
+
+        private static readonly System.Text.RegularExpressions.Regex CacheKeyInvalidCharacters =
+            new System.Text.RegularExpressions.Regex("[^a-z0-9_-]+",
+                System.Text.RegularExpressions.RegexOptions.IgnoreCase |
+                System.Text.RegularExpressions.RegexOptions.CultureInvariant);
 
         /// <summary>
         /// Versioning constant used to set max versioning to major version only
@@ -165,7 +183,8 @@ namespace DeviceDetectorNET.Parser
         }
 
         /// <summary>
-        /// Returns if the parsed UA contains the 'Windows NT;' or 'X11; Linux x86_64' fragments
+        /// Returns if the parsed UA contains the 'Windows NT;', 'X11; Linux x86_64'
+        /// or 'Macintosh; Intel Mac OS X' fragments
         /// </summary>
         /// <returns></returns>
         protected bool HasDesktopFragment()
@@ -173,9 +192,10 @@ namespace DeviceDetectorNET.Parser
             var regexExcludeDesktopFragment = string.Join("|",
                 "CE-HTML",
                 " Mozilla/|Andr[o0]id|Tablet|Mobile|iPhone|Windows Phone|ricoh|OculusBrowser",
-                "PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)");
+                "PicoBrowser|Lenovo|compatible; MSIE|Trident/|Tesla/|XBOX|FBMD/|ARM; ?([^)]+)",
+                "Steam");
 
-            return IsMatchUserAgent("(?:Windows (?:NT|IoT)|X11; Linux x86_64)") &&
+            return IsMatchUserAgent("(?:Windows (?:NT|IoT)|X11; (?:Linux|CrOS) x86_64|Macintosh; Intel Mac OS X)") &&
                    !IsMatchUserAgent(regexExcludeDesktopFragment);
         }
 
@@ -185,7 +205,7 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected bool HasUserAgentClientHintsFragment()
         {
-            const string pattern = @"Android (?:1[0-7][.\d]*; K(?: Build/|[;)])|1[0-7]\)) AppleWebKit";
+            const string pattern = @"Android (?:1[0-7][.\d]*; (?:K(?: Build/|[;)])|[A-Za-z0-9]{10}; U;.+)|1[0-7]\)) AppleWebKit";
             if (System.Text.RegularExpressions.Regex.IsMatch(UserAgent, pattern,
                     System.Text.RegularExpressions.RegexOptions.IgnoreCase))
             {
@@ -230,10 +250,7 @@ namespace DeviceDetectorNET.Parser
         /// <exception cref="ArgumentNullException"></exception>
         public virtual void SetClientHints(ClientHints clientHints)
         {
-            if (clientHints != null)
-            {
-                ClientHints = clientHints;
-            }
+            ClientHints = clientHints;
         }
 
         /// <summary>
@@ -252,9 +269,7 @@ namespace DeviceDetectorNET.Parser
         protected T GetRegexes()
         {
             if (regexList.Any()) return regexList;
-            var cacheKey = "DeviceDetector-" + DeviceDetector.VERSION + "regexes-" + GetName();
-            //@todo:option none
-            cacheKey = GetRegexEngine().Replace(cacheKey, "/([^a-z0-9_-]+)/i", string.Empty);
+            var cacheKey = BuildCacheKey("regexes");
             var regexListCache = GetCache().Fetch(cacheKey);
             if (regexListCache != null)
             {
@@ -287,6 +302,19 @@ namespace DeviceDetectorNET.Parser
         }
 
         /// <summary>
+        /// Builds the cache key for this parser and the given type of cached data.
+        /// Removes all characters that are not allowed by all cache implementations.
+        /// </summary>
+        /// <param name="type">Type of cached data (e.g. regexes)</param>
+        /// <returns></returns>
+        protected string BuildCacheKey(string type)
+        {
+            var cacheKey = $"DeviceDetector-{DeviceDetector.VERSION}-{type}-{GetName()}";
+
+            return CacheKeyInvalidCharacters.Replace(cacheKey, string.Empty);
+        }
+
+        /// <summary>
         /// Returns the provided name after applying client hint mappings.
         /// This is used to map names provided in client hints to the names we use.
         /// </summary>
@@ -294,13 +322,11 @@ namespace DeviceDetectorNET.Parser
         /// <returns></returns>
         protected string ApplyClientHintMapping(string name)
         {
-            name = name.ToLower();
-
             foreach (var clientHints in ClientHintMapping)
             {
                 foreach (var clientHint in clientHints.Value)
                 {
-                    if (name == clientHint.ToLower())
+                    if (string.Equals(name, clientHint, StringComparison.OrdinalIgnoreCase))
                     {
                         return clientHints.Key;
                     }
@@ -340,7 +366,7 @@ namespace DeviceDetectorNET.Parser
 
         private string FixUserAgentRegEx(string regex)
         {
-            var cleanedRegex = regex.Replace("/", @"\/").Replace("++", "+").Replace(@"\_", "_").Replace(@"\_", @"\\_");
+            var cleanedRegex = regex.Replace("++", "+").Replace(@"\_", "_").Replace(@"\_", @"\\_");
             // only match if useragent begins with given regex or there is no letter before it
             var result = $@"(?:^|[^A-Z0-9_-]|[^A-Z0-9-]_|sprd-|MZ-)(?:{cleanedRegex})";
             return result;
@@ -399,9 +425,7 @@ namespace DeviceDetectorNET.Parser
 
             if (!regexes.Any()) return false;
 
-            var cacheKey = ParserName + DeviceDetector.VERSION + "-all";
-            //@todo: default none
-            cacheKey = GetRegexEngine().Replace(cacheKey, "/([^a-z0-9_-]+)/i", string.Empty);
+            var cacheKey = BuildCacheKey("all");
 
             var regexListCache = GetCache().Fetch(cacheKey);
             string overAllMatch = regexListCache?.ToString() ?? string.Empty;
@@ -433,6 +457,91 @@ namespace DeviceDetectorNET.Parser
                 GetCache().Save(cacheKey, overAllMatch);
             }
             return IsMatchUserAgent(overAllMatch);
+        }
+
+        /// <summary>
+        /// Returns the part of the regex list that may contain the first regex matching the user agent
+        ///
+        /// The regex list is split into chunks and the regexes of each chunk are concatenated with '|'.
+        /// All chunks before the first chunk whose combined regex matches the user agent are skipped, as they
+        /// cannot contain a matching regex. The remaining regexes are returned starting with that chunk, so
+        /// callers scanning for the first match still find it even if the combined regex matched although
+        /// no single regex of the chunk does. This replaces up to one match call per regex with one
+        /// call per chunk and some calls within the matching chunk.
+        /// </summary>
+        /// <typeparam name="TItem">Type of the items in the regex list</typeparam>
+        /// <param name="getRegex">Returns the regex of an item</param>
+        /// <returns></returns>
+        protected IEnumerable<TItem> GetRegexesForUserAgent<TItem>(Func<TItem, string> getRegex)
+        {
+            var regexes = (IEnumerable<TItem>)GetRegexes();
+
+            if (regexChunkSize < 1 || regexes.Count() <= regexChunkSize)
+            {
+                return regexes;
+            }
+
+            var chunks = GetChunkMatches(regexes, getRegex);
+            var candidates = Enumerable.Empty<TItem>();
+
+            for (var index = 0; index < chunks.Length; index++)
+            {
+                try
+                {
+                    if (IsMatchUserAgent(chunks[index]))
+                    {
+                        return candidates.Concat(regexes.Skip(index * regexChunkSize));
+                    }
+                }
+                catch (Exception)
+                {
+                    // The combined regex could not be evaluated (e.g. a match timeout or limit, each regex
+                    // engine reports it with its own exception type), so check the regexes of this chunk
+                    // individually and continue with the next chunks.
+                    candidates = candidates.Concat(regexes.Skip(index * regexChunkSize).Take(regexChunkSize));
+                }
+            }
+
+            return candidates;
+        }
+
+        private string[] GetChunkMatches<TItem>(IEnumerable<TItem> regexes, Func<TItem, string> getRegex)
+        {
+            if (chunkMatches != null)
+            {
+                return chunkMatches;
+            }
+
+            var cacheKey = BuildCacheKey("chunks" + regexChunkSize);
+
+            if (GetCache().Fetch(cacheKey) is string[] cachedChunkMatches)
+            {
+                return chunkMatches = cachedChunkMatches;
+            }
+
+            var chunks = new List<string>();
+            var chunk = new List<string>(regexChunkSize);
+
+            foreach (var item in regexes)
+            {
+                chunk.Add(getRegex(item));
+
+                if (chunk.Count == regexChunkSize)
+                {
+                    chunks.Add(string.Join("|", chunk));
+                    chunk.Clear();
+                }
+            }
+
+            if (chunk.Count > 0)
+            {
+                chunks.Add(string.Join("|", chunk));
+            }
+
+            chunkMatches = chunks.ToArray();
+            GetCache().Save(cacheKey, chunkMatches);
+
+            return chunkMatches;
         }
 
         /// <summary>
