@@ -1,7 +1,7 @@
 # Web tool: JSON at the root and a page with the detected icons
 
 Working notes for [issue #113](https://github.com/totpero/DeviceDetector.NET/issues/113). Branch:
-`web-tool-icon-page`.
+`web-tool-icon-page`, pull request [#114](https://github.com/totpero/DeviceDetector.NET/pull/114).
 
 ## Problem
 
@@ -25,9 +25,10 @@ Running `tools/DeviceDetector.NET.Web` from Visual Studio opens the root address
 - [x] Serve the icons from `dist`, with an existing file as fallback
 - [x] Check the pages in the browser and build
 - [x] Commit (branch `web-tool-icon-page`)
-- [ ] Push, pull request and merge (only when asked)
+- [x] Push and pull request ([#114](https://github.com/totpero/DeviceDetector.NET/pull/114))
+- [ ] Merge (only when asked) and delete the branch
 
-Where to continue: push the branch and open the pull request.
+Where to continue: review and merge the pull request, then delete the branch.
 
 ## Decisions
 
@@ -45,12 +46,13 @@ Where to continue: push the branch and open the pull request.
 ## Verification
 
 - `dotnet build DeviceDetector.NET.slnx`: 0 errors, 0 warnings.
-- `/` returns the JSON result, `/Home/Icon` the icon page. The requests below ran while `Get` also
-  answered on `/Home`. After that route was removed, only the build was checked.
-- Icon page with Chrome on Windows (browser), a Samsung phone and an iPhone: every image is served.
-  Googlebot and an unknown client show "Unknown" cards. A request without a user agent works.
+- `/` returns the JSON result, `/Home/Icon` the icon page and `/Home` 404.
+- Icon page with a Samsung phone and an iPhone: every image is served. Googlebot and an unknown client show
+  "Unknown" cards. A request without a user agent works.
 - HTML in the user agent is encoded on the page.
-- Without the icon pack (another content root) the app starts, logs a warning and both pages answer.
+- Checked while `Get` also answered on `/Home`, not repeated since: the page in a browser with Chrome on
+  Windows, and the start without the icon pack (another content root), where the app logs a warning and
+  both pages answer.
 - Not run from Visual Studio itself: checked with `dotnet run`, with the same content root, over HTTP.
 
 ## Open points
