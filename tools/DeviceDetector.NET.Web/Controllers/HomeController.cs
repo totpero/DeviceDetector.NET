@@ -1,5 +1,8 @@
 using DeviceDetectorNET;
+using DeviceDetectorNET.Icons.Matomo;
 using DeviceDetectorNET.Parser;
+using DeviceDetectorNET.Results;
+using DeviceDetectorNet.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DeviceDetectorNet.Web.Controllers
@@ -7,10 +10,37 @@ namespace DeviceDetectorNet.Web.Controllers
     [ApiController]
 
     [Route("[controller]")]
-    public class HomeController(ILogger<HomeController> logger) : ControllerBase
+    public class HomeController(ILogger<HomeController> logger, MatomoIconResolver iconResolver) : Controller
     {
-        [HttpGet]
+        [HttpGet("/")]
         public object Get()
+        {
+            return Detect();
+        }
+
+        [HttpGet("Icon")]
+        public IActionResult Icon()
+        {
+            var match = Detect().Match;
+            var paths = iconResolver.GetIcons(match);
+
+            var icons = new List<DetectedIcon>
+            {
+                new("Operating system", Describe(match.Os?.Name, match.Os?.Version), paths.OsIcon),
+                new("Client", Describe(match.Client?.Name, match.Client?.Version), paths.ClientIcon),
+                new("Brand", Describe(match.DeviceBrand), paths.BrandIcon),
+                new("Device type", Describe(match.DeviceType), paths.DeviceTypeIcon)
+            };
+
+            if (match.IsBoot)
+            {
+                icons.Insert(0, new("Bot", Describe(match.Bot.Name), paths.BotIcon));
+            }
+
+            return View(new IconPageModel(match.UserAgent, icons));
+        }
+
+        private ParseResult<DeviceDetectorResult> Detect()
         {
             DeviceDetector.SetVersionTruncation(VersionTruncation.VERSION_TRUNCATION_NONE);
 
@@ -24,6 +54,12 @@ namespace DeviceDetectorNet.Web.Controllers
             logger.LogDebug(output);
 
             return result;
+        }
+
+        private static string Describe(params string?[] parts)
+        {
+            var text = string.Join(" ", parts.Where(part => !string.IsNullOrWhiteSpace(part)));
+            return text.Length > 0 ? text : "Unknown";
         }
     }
 }
