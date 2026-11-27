@@ -1,0 +1,34 @@
+@model DeviceDetectorNet.Web.Models.IconPageModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Detected icons</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 48rem; margin: 2rem auto; padding: 0 1rem; color: #1f2328; background: #fff; }
+        .user-agent { font-family: ui-monospace, monospace; font-size: .85rem; color: #59636e; overflow-wrap: anywhere; }
+        .icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr)); gap: 1rem; padding: 0; list-style: none; }
+        .icons li { display: flex; flex-direction: column; align-items: center; gap: .5rem; padding: 1.25rem 1rem; border: 1px solid #d1d9e0; border-radius: .5rem; text-align: center; }
+        .icons img { width: 48px; height: 48px; object-fit: contain; }
+        .category { font-size: .75rem; text-transform: uppercase; color: #59636e; }
+    </style>
+</head>
+<body>
+    <h1>Detected icons</h1>
+    <p class="user-agent">@Model.UserAgent</p>
+
+    <ul class="icons">
+        @foreach (var icon in Model.Icons)
+        {
+            <li>
+                <img src="@icon.Url" alt="@icon.Name" title="@icon.Url" width="48" height="48" />
+                <span class="category">@icon.Category</span>
+                <strong>@icon.Name</strong>
+            </li>
+        }
+    </ul>
+
+    <p><a href="/">JSON result</a></p>
+</body>
+</html>
