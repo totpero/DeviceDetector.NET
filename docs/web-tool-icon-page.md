@@ -26,9 +26,11 @@ Running `tools/DeviceDetector.NET.Web` from Visual Studio opens the root address
 - [x] Check the pages in the browser and build
 - [x] Commit (branch `web-tool-icon-page`)
 - [x] Push and pull request ([#114](https://github.com/totpero/DeviceDetector.NET/pull/114))
-- [ ] Merge (only when asked) and delete the branch
+- [x] Merge into `master` (`da9f6f0`)
+- [ ] Bring these notes up to date on `master`: their last changes were pushed after the merge
+- [ ] Delete the branch `web-tool-icon-page`
 
-Where to continue: review and merge the pull request, then delete the branch.
+Where to continue: a pull request with these notes, then delete the branch.
 
 ## Decisions
 
