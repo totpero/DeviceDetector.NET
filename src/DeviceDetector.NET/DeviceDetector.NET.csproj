@@ -3,147 +3,116 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net462;net8.0;net9.0;net10.0;net11.0</TargetFrameworks>
     <RootNamespace>DeviceDetectorNET</RootNamespace>
-    <Version>6.5.2</Version>
+    <Version>6.5.2.1</Version>
     <Authors>totpero</Authors>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <Copyright>Copyright © www.totpe.ro</Copyright>
     <Description>The Universal Device Detection library for .NET that parses User Agents and detects devices (desktop, tablet, mobile, tv, cars, console, etc.), clients (browsers, feed readers, media players, PIMs, ...), operating systems, brands and models. This is a port of the popular PHP device-detector library to C#. For the most part you can just follow the documentation for device-detector with no issue.</Description>
     <PackageTags>parse detection-library user-agent bot-detection mobile-detection desktop tablet mobile tv cars console standard</PackageTags>
     <PackageProjectUrl>https://github.com/totpero/DeviceDetector.NET</PackageProjectUrl>
-    <AssemblyVersion>6.5.2.0</AssemblyVersion>
+    <AssemblyVersion>6.5.2.1</AssemblyVersion>
     <RepositoryUrl>https://github.com/totpero/DeviceDetector.NET</RepositoryUrl>
     <SignAssembly>false</SignAssembly>
-    <FileVersion>6.5.2.0</FileVersion>
+    <FileVersion>6.5.2.1</FileVersion>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>
 ## What's Changed
-### V6.5.2:
+### V6.5.2.1:
 
-* Adds detection for Lightpanda and improves detection for UC Browser
-* Adds detection for various bots
-* Improves regexes
-* Adds detection for Grok, QuickBooks, Yandex AI
-* Improves version detection for iOS, iPadOS and macOS
-* Improves detection for Nokia, Puffin OS and Puffin Cloud Browser
-* Detect Google-GeminiNotebook and retain Google-NotebookLM
-* Fix MAUI / MRE Regexes
-* Adds detection for various TV brands
-* Detect devices for existing brands
-* Improves detection for VIDAA and Hisense
-* Detect new brands: Bulsatcom, Yutmart, Rokid Station and detect devices for existing brands
-* Improves detection for Lineage OS, Nintendo and Apple devices
-* Detect devices for existing brands Tecno Mobile, Vivo, OMIX
-* Improves version and engine version detection from client hints
-* Improves detection for AfriOne and Huawei
-* Improves version detection for Android
-* Adds detection for ThinOS and Citrix apps and improves detection for Dell
-* Adds detection for KoboOS and Kobo brand
-* Adds detection for Quiche Browser
-* Adds detection for Arrow, Clikon, Coles, ELCO, ioplee and improves detection for Akai, AWOX, Dyon, Edenwood, Essentielb, Hisense
-* Adds detection for iTop Private Browser, Island, MySudo, PrivateBrowsing and SafeBrowser browsers
-* Improves version detection for webOS, Windows, Playstation and Fire OS
-* Improves detection of Surface Pro, Mi 10T Pro 5G, VALE V10E LTE and adds device detection for Samsung, Blackview, HMD, Google, Lenovo, Xiaomi, OnePlus, Meizu, Biegedy
-* Adds detection for Microsoft Surface Pro 7
-* Adds detection for Vega OS
-* Adds detection for Android Go
-* Adds detection for Amazon Prime Video and improves detection for Facebook
-* Improves detection for Avast Secure Browser
+* Regenerate README detection lists and automate future updates by @totpero in https://github.com/totpero/DeviceDetector.NET/pull/104
+* fix: reuse the compiled regex cache for Match by @patrikwlund in https://github.com/totpero/DeviceDetector.NET/pull/105
+* Sync with upstream PHP device-detector master (6.5.2-42) by @totpero in https://github.com/totpero/DeviceDetector.NET/pull/108
+* Fix the build after the NuGet updates, add .NET 11 and a .slnx solution by @totpero in https://github.com/totpero/DeviceDetector.NET/pull/110
+* Run the tests in GitHub Actions and remove AppVeyor by @totpero in https://github.com/totpero/DeviceDetector.NET/pull/112
+* Fix the web tool root page and add a page with the detected icons by @totpero in https://github.com/totpero/DeviceDetector.NET/pull/114
+
+## Improves detection:
 * Improves detection for iPadOS
-* Improves detection for generic bots and Yandex bots
-* Adds detection for NuttX OS and HarmonyOS NEXT
-* Detect new brands: Jckkcfug, LAGENIO and detect devices for existing brands
-* Adds detection for Headless Edge and Vivaldi Mobile iOS browsers
-* Brands renaming (Cloud Mobile, Dream Multimedia, Hotel TV Company, StreamSystem, etc.)
-* Fix case when regexes can be an empty array
-* Fix client hints type handling
-* Add legacyShortNames for backwards compatibility
-
-### V6.5.0:
-
-* Adds detection for OpenHarmony
-* Discard headers that contain html tags
-* Adds detection for Ace, ArtisBrowser, Doubao, Lemur Browser, Opera Air, Power Browser, Ray and improves detection for Opera GX, Opera Mini
-* Improves version detection for Opera
-* Adds detection for various apps
-* Improves engine detection for Iron Mobile
-* Improves detection for generic bots
-* Detect new brands: G-Tab, SUAAT and Detect devices for exist brands
-* Improves detection for Chrome Mobile iOS
-* Adds detection for Hubot library
-* Adds detection for Hulu and improves version detection for Fire OS
-* Improves version detection for iOS, macOS and Nook Browser
-* Smartisan os
-* Update readme about Cache
-* Detect devices for exist brands
-* Make tests compatible with newer phpunit versions
-* Improve hasUserAgentClientHintsFragment method
-* Improves detection for Java ME
-* Adds detection for Nintendo Browser
-* Adds detection for TeraBox and improves detection for DeepSeek and Google Go
-* add Galaxy Tab S10 Lite
-* Adds detection for Titan OS
-* show 100 unittests in one line
-* Adds detection for Redline
-* Improves version detection for iOS and macOS 
-* Update OS versions detect for Pardus, RokuOS, moonOS
-* Improves engine detection for Opera and Edge on iOS
-* Adds detection for Blazer, Clario Browser, Comet and FireSend Browser
-* Improves detection for LG
-* Adds detection for various AI bots
-* Adds detection for various tv brands
-* Adds detection for various bots
 * Improves detection for Avast Secure Browser
-* add some apps
-* rename device maker Jedi to Jide
-* Improves detection for Compaq and adds detection for DEC
+* Adds detection for Amazon Prime Video and improves detection for Facebook
+* Adds detection for Android Go
+* Improves version detection for iOS, iPadOS, macOS and tvOS
+* Adds detection for Vega OS
 * Improves version detection for Fire OS
-* Move Apache from app to bot (service agent)
-* Adds detection for ArcaOS, Contiki, elementary OS, GhostBSD, Linpus, MINIX, Mocor OS, Plan 9 and improves detection for MAUI Runtime Environment
-* Adds detection for BSD, openSUSE and improves detection for various operating systems
-* Adds detection for WebMoney Advisor
-* Remove Samsung Browser from mobile only
-* Improves detection for Avast Secure Browser
-* change model names for devices
-* Fix detection for Redmi Note 14
-* Improves detection for generic bots
-* Adds detection for ChatGPT and improves detection for iPadOS
-* Adds detection for Orsay and improves detection for Samsung
-* Adds detection for various bots
-* Add ua-extract in readme for python
-* Code changes
-
-### V6.4.8:
-* Adds detection for OpenHarmony
-* Improves detection for Chrome OS from client hints
-* Move HeyTapBrowser to browser
-* feat: add iPhone 17 support
-* Improves version detection for iPadOS, iOS, tvOS and webOS
-* Model changes
-* Adds detection for Cici and improves detection for generic apps
-* Bot corrections + Simbiat Software
-* add model names for samsung tablets
-* Adds detection for various bots
-* add 2 devices, fix devices names
-* change brand names for 2 devices
-* change model names for devices
-* fix: detect brand: Google model: Pixel 7 Pro for instagram app
-* fix: detect os android version for linkedin mobile app
-* Split Honor and Huawe to separately brands
-* Add new regex Chrome Mobile IOS browser and fix wrong detect Chrome WebView for IOS
-* Detect Harmony 360 Browser and add ArkWeb browser engine and Detect devices for exist brands
-* feat(device) detect brand apple: iPad 10 10.9" WiFi (iPad13,18), iPad 10 10.9" (iPad13,19)
-* Detect devices for exist brands
-* Detect new brands: AI+, VOIX and Detect devices for exist brands and Detect ChatGPT Atlas browser
-* Detect new bradns: BNCF, Edanix and Detect devieces for exist brands
-* Detect new brands: Genius Devices, Türksat and Detect devices for exist brands
-* Improves version detection for Android and adds detection for Superbalist
+* Adds detection for Microsoft Surface Pro 7
+* Improves version detection for PlayStation
+* improve detection of Surface Pro, Mi 10T Pro 5G, VALE V10E LTE, add detection for devices of brands Samsung, Blackview, HMD, Google, Lenovo, Xiaomi, OnePlus, Meizu and Biegedy
+* Improves version detection for Windows
+* Improves version detection for webOS
+* Adds detection for iTop Private Browser, Island. MySudo, PrivateBrowsing and SafeBrowser browsers
+* Adds detection for Arrow, Clikon, Coles, ELCO, ioplee and improves detection for Akai, AWOX, Dyon, Edenwood, Essentielb, Hisense
 * Improves version detection for Android
-* Fix model list Huawei and Honor brand
-* Add missing iPads detection
-* change model names for devices
+* Adds detection for Quiche Browser
+* Adds detection for KoboOS and Kobo brand
+* Adds detection for ThinOS and Citrix apps and improves detection for Dell
+* Improves version detection for Android
+* Improves detection for AfriOne and Huawei
 * Adds detection for various bots
+* Improves version and engine version detection from client hints
+* Detect exist brands Tecno Mobile and Vivo
+* Improves detection for Apple devices
+* Improves detection for Lineage OS and Nintendo
+* Detect new brand Rokid: Station (RES102)
+* Detect new brands: Bulsatcom, Yutmart and Detect devices for exists brands
+* Adds detection for various tv brands
+* Improves detection for Hisense
+* Improves detection for VIDAA
+* Adds detection for various tv brands
+* Detect devices for exists brands
+* Adds detection for various tv brands
+* Fix MAUI / MRE Regexe
+* Detect Google-GeminiNotebook and retain Google-NotebookLM
+* Improves detection for Nokia, Puffin OS and Puffin Cloud Browser
+* Improves version detection for iOS, iPadOS and macOS
+* Adds detection for Grok, QuickBooks, Yandex AI
+* Improves regexes
+* Adds detection for various bots
+* Adds detection for Lightpanda and Improves detection for UC Browser
+* Tighten up an iOS regex introduced in #8263, add test fixtures
+* Detect new brand Hoobart and Detect devices for exists brands
+* Improves detection for Honor devices
+* Adds detection for Sun King, Telstra and improves detection for Honor, M-KOPA, Nubia, POCO, Realme, Vivo, Xiaomi, ZTE devices
+* Improves detection for os client hints mapping
+* Improves detection for NIKAI, ONVO and simfer
+* Improves detection for Chrome Webview, HONOR, Startpage and Yandex browsers
+* Adds detection for HyperOS and improves version detection for GO Browser
+* Improves detection for Lineage OS, Mocor OS and Nintendo
+* Add link Go port
+* Adds detection for various apps
+* Add client hints tests for platforms
+* Adds detection for boohee, JOKERBET apps
+* Adds detection for Honor X7e
+* Adds detection for MyOS
+* Improves detection for ChatGPT Atlas, Norton Private Browser and adds detection for nscurl
+* Adds detection for 360 Speed Browser, Mullvad Browser, Stadium, Teak Browser and improves detection for various browsers
+* Improves version detection for iOS and macOS
+* Adds detection for FortiOS
+* Improves detection for Alcatel, Dany, Realme, TCL and ZTE
+* Adds detection for various bots
+* Adds detection for SteamOS, Valve Corporation and improves detection for Steam In-Game Overlay
+* Improves detection for LG QNED televisions
+* Improves brand/model detection from client hints for devices using Avast Secure Browser
+* Improves detection for Apple Watch
+* Adds detection for various brands and improves detection for existing ones
+* Add Google xrawler detection as Search bot
+* Detect devices for exitst brands
+* Improves detection for Apple and macOS
+* Detect devices for exist brands
+* Fixed false-positive Mobile Safari detection for AppleCoreMedia/1.0.0…
+* Adds detection for YaOS and YodaOS-Master
+* Fixed false-positive SerenityOS detection for Ladybird browser
+* Adds eight webOS television brands to the mobile parser
+* Adds brand detection for eight webOS televisions
+* Add The Podcast App (Magnolia) mobile app detection
+* Add ocaml-cohttp library detection
+* add detection of Roboform on Android
+* add additional Regex for Dogtorance App
+* Adds detection for various apps
+* Adds detection for Kaicom and improves detection for other brands
+* add Swisscows Private Search
+* Improve regexes
 
-**Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.5.0...v6.5.2
+		**Full Changelog**: https://github.com/totpero/DeviceDetector.NET/compare/v6.5.2...v6.5.2.1
 	</PackageReleaseNotes>
     <PackageIcon>logo.jpg</PackageIcon>
     <RepositoryType>git</RepositoryType>
